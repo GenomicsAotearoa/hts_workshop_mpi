@@ -9,7 +9,7 @@ This is the opening page for the HTS workshop. Content is divided into four leve
 1. Level 1 - Shell genomics
    * [Background](#level-1---shell-genomics)
    * [Common terms and references](common_terms.md)
-   * Materials
+   * [Materials](level1/01-introduction.md)
 
 ---
 
