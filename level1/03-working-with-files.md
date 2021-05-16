@@ -435,3 +435,7 @@ This will delete not only the directory, but all files within the directory. If 
 > -r--r--r-- 1 dcuser dcuser 43332 Nov 15 23:06 SRR098026-backup.fastq
 > ```
 > </.details>
+
+---
+
+[Next lesson](04-redirection.md)
