@@ -438,3 +438,7 @@ $ for filename in *.txt
 > > done
 > ```
 > </details>
+
+---
+
+[Next lesson](05-writing-scripts.md)
