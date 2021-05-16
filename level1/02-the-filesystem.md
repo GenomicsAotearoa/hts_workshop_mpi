@@ -217,3 +217,7 @@ In many cases, including when working on NeSI, trying to run commands in root di
 Dealing with the home directory is very common. The tilde character, `~`, is a shortcut for your home directory. On a Linux operating system the root directory is **two** levels above our home directory, so `cd` or `cd ~` will take you to `/home/username/` and `cd /` will take you to `/`.
 
 ~~The commands `cd`, and `cd ~` are very useful for quickly navigating back to your home directory. We will be using the `~` character in later lessons to specify our home directory.~~
+
+---
+
+[Next lesson](03-working-with-files.md)
