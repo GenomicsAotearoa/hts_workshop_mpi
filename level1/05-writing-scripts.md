@@ -233,3 +233,7 @@ Alternatively, you can use the `WinSCP` tool to transfer files directly from you
 ### Uploading data with `scp`
 
 If you really have a large amount of data to transfer, our server can transfer data to NeSI via the `scp` command. Logging into the AHL and PHEL servers requires a separate user profile so will not be covered in this workshop. However, if you find that the two options covered here are not sufficient for the transfers you wish to make, access to the servers can be organised.
+
+---
+
+[Next lesson](06-organisation.md)
