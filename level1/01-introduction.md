@@ -294,4 +294,6 @@ We now know how to move around our file system using the command line. This give
 
 In the next few exercises, we'll be expanding on these skills and seeing how using the command line shell enables us to make our workflow more efficient and reproducible.
 
+---
+
 [Next lesson](02-the-filesystem.md)
