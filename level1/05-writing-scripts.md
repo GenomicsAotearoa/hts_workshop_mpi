@@ -37,7 +37,7 @@ This is good practice when working in bioinformatics. We can create a file calle
 Let's change our working directory to `untrimmed_fastq/` using `cd`, then run `nano` to create a file called `README.txt`:
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/shell_data/untrimmed_fastq
+$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq
 $ nano README.txt
 ```
 
@@ -212,7 +212,7 @@ or
 $ curl -O ftp://ftp.ensemblgenomes.org/pub/release-37/bacteria/species_EnsemblBacteria.txt
 ```
 
-It's important to note that both `curl` and `wget` download to the computer that the command line belongs to. So, if you are logged into NeSI on the command line and execute either of the commands above, the file will be downloaded to your current working directory on NeSI, not your local computer.
+It's important to note that both `curl` and `wget` download to the computer that the command line belongs to. If you are logged into NeSI on the command line and execute either of the commands above, the file will be downloaded to your current working directory on NeSI, not your local computer.
 
 >**NOTE:** There are many other ways to download data from service providers. In some cases, particular vendors such as [GeneWiz](https://www.genewiz.com/) have their own custom tools which must be used for downloading data. Other institutions may prefer the [Globus](https://www.globus.org/) service. These are all possible on NeSI, but need to be established on a case-by-case basis.
 
