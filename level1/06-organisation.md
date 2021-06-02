@@ -40,7 +40,7 @@ In this exercise we will setup a file system for the project we will be working 
 We will start by creating a directory that we can use for the rest of the workshop. First navigate to your `nesi03181` directory, then confirm that you are in the correct directory using the `pwd` command.
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/
+$ cd /nesi/project/nesi03181/phel/USERNAME/
 $ pwd
 ```
 
@@ -113,7 +113,7 @@ The history likely contains many more commands than you have used for the curren
 View the last 10 lines of your `history` by redirecting the output of `history` into the `tail` command.
 
 ```bash   
-$ history | tail -n 7
+$ history | tail -n 10
 ```
 
 > ### Exercise
@@ -150,6 +150,8 @@ From the `nano` screen, you can use your cursor to navigate, type, and delete an
 > | <kbd>Alt</kbd>-<kbd>Space</kbd> OR <kbd>Esc</kbd>-<kbd>Space</kbd> OR <kbd>Ctrl</kbd>-<kbd>←</kbd> | Move back one word |
 > | <kbd>Ctrl</kbd>-<kbd>A</kbd> | Move to the beginning of the current line |
 > | <kbd>Ctrl</kbd>-<kbd>E</kbd> | Move to the end of the current line |
+> | <kbd>Ctrl</kbd>-<kbd>K</kbd> | Cut (remove) the current line |
+> | <kbd>Ctrl</kbd>-<kbd>U</kbd> | Paste (un-cut) a line removed with cut |
 > | <kbd>Ctrl</kbd>-<kbd>W</kbd> | Search |
 
 Add a date line and comment to the line where you have created the directory. Recall that any text on a line after a `#` is ignored by bash when evaluating the text as code. For example:   
