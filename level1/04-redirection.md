@@ -423,7 +423,7 @@ $ for filename in *.txt
 
 > ### Exercise
 >
-> Remove `_2019` from all of the `.txt` files. 
+> Remove `_2021` from all of the `.txt` files. 
 >
 > <details>
 > <summary>Solution</summary>
