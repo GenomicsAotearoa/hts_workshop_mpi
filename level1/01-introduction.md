@@ -147,26 +147,31 @@ You will see a return line of text, which looks something like the following:
 This is your home directory. It is private to you, and has limited file storage space. When working on NeSI we typically want to leave our home directory and navigate to a project directory. We will use the `cd` ("change directory") command to swtich our current working directory to a new location in the NeSI file system.
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/
+$ cd /nesi/project/nesi03181/phel/
 ```
 
-From this location, let's now look at how our file system is organised. We can see what files and subdirectories are in this directory by running `ls`,
+We are now inside a particular folder on the NeSI system, similar to how you navigate folders in the Windows Explorer program on your desktop. Let's now look at how our file system is organised. We can see what files and subdirectories are in this directory by running `ls`,
 which stands for "listing":
 
 ```bash
 $ ls
-R  r_data  shell_data
 ```
 
-`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. We'll be working within the `shell_data` subdirectory, and creating new subdirectories, throughout this workshop.  
+`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command. Once inside, use the `ls` command again to view the contents.
+
+```bash
+$ cd USERNAME/
+$ ls
+shell_data
+```
+
+We will be working within the `shell_data` subdirectory, and creating new subdirectories, throughout this workshop.  
 
 If we want to now navigate into the `shell_data` folder we must once again call the `cd` command:
 
 ```bash
 $ cd shell_data/
 ```
-
->**NOTE:** This time, the command is much shorter as it makes use of a **relative path**. The different kinds of pathing are discussed in the next exercise, so do not worry too much about this right now.
 
 >**NOTE:** It's easy to get lost in a text-based file system. If you ever get stuck, and do not know how to get out of your current location, calling either of:
 > ```bash
@@ -243,7 +248,7 @@ Typing out file or directory names can waste a lot of time and it's easy to make
 Return to your working directory:
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/
+$ cd /nesi/nobackup/nesi03181/phel/USERNAME/
 ```
 
 Then enter:
@@ -276,7 +281,7 @@ $ ls SRR09<tab><tab>
 SRR097977.fastq  SRR098026.fastq
 ```
 
-Tab completion can also fill in the names of programs, which can be useful if you remember the beginning of a program name.
+Tab completion can also fill in the names of programs, which can be useful if you remember only part  of a program name.
 
 ```bash
 $ pw<tab><tab>
