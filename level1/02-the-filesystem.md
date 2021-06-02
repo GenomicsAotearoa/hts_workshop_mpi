@@ -1,7 +1,7 @@
 # Navigating Files and Directories
 
 * Teaching: 30 minutes
-* Exercises: 20
+* Exercises: 20 minutes
 
 #### Objectives
 
