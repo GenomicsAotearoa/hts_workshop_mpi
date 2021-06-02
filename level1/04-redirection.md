@@ -43,7 +43,7 @@ As we are probably all aware, the four nucleotides that appear in DNA are abbrev
 We'll search for strings inside of our fastq files. Let's first make sure we are in the correct directory:
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/shell_data/untrimmed_fastq/
+$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq/
 ```
 
 Suppose we want to see how many reads in our file have really bad segments containing 10 consecutive unknown nucleotides (Ns).
@@ -322,14 +322,10 @@ $ echo foo is ${foo}EFG
 foo is abcEFG
 ```
 
-Let's write a for loop to show us the first two lines of the fastq files we downloaded earlier. You will notice the shell prompt changes from `$` to `>` and back again as we were typing in our loop. The second prompt, `>`, is different to remind us that we haven’t finished typing a complete command yet. Due to this, when writing a loop you will not be able to return to previous lines once you have pressed `Enter` to create the first line. Remember that we can cancel the current command using
-
-- <kbd>Ctrl</kbd>+<kbd>C</kbd>
-
-If you notice a mistake that is going to prevent your loop for executing correctly.
+Let's write a for loop to show us the first two lines of the fastq files we downloaded earlier. You will notice the shell prompt changes from `$` to `>` and back again as we were typing in our loop. The second prompt, `>`, is different to remind us that we haven’t finished typing a complete command yet. Due to this, when writing a loop you will not be able to return to previous lines once you have pressed `Enter` to create the first line. We can cancel the current command using <kbd>Ctrl</kbd>+<kbd>C</kbd> if you get stuck, or notice an obvious error in a previous line which is going to prevent your loop for executing correctly.
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/shell_data/untrimmed_fastq/
+$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq/
 ```
 
 ```bash
@@ -361,6 +357,8 @@ $ for filename in *.fastq
 > head -n 2 ${filename} >> seq_info.txt # This comment does nothing!
 > done
 ```
+
+Commenting is extremely useful when we are storing pieces of code for later use, as hey can be written as reminders of either a) what the urrent code is doing, and b) why we might be creating a particular output. Like a lot of documentation, it's not necessarily valuable in the moment but when you revisit your work weeks later it can be crucial to quickly understand what was being done at the time.
 
 ---
 
