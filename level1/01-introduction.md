@@ -248,7 +248,7 @@ Typing out file or directory names can waste a lot of time and it's easy to make
 Return to your working directory:
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/phel/USERNAME/
+$ cd /nesi/project/nesi03181/phel/USERNAME/
 ```
 
 Then enter:
