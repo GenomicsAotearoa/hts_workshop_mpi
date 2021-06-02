@@ -36,7 +36,7 @@ Now that we know how to navigate around our directory structure, let's start exx
 Navigate to your `untrimmed_fastq` directory:
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/shell_data/untrimmed_fastq/
+$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq/
 ```
 
 We are interested in looking at the FASTQ files in this directory. We can list all files with the .fastq extension using the command:
@@ -152,7 +152,7 @@ This will print out all of the contents of the `SRR098026.fastq` to the screen.
 > ### Exercise
 > 
 > 1. Print out the contents of the `shell_data/untrimmed_fastq/SRR097977.fastq` file. What is the last line of the file? 
-> 2.  From your home directory, and without changing directories, use one short command to print the contents of all of the files in the `shell_data/untrimmed_fastq` directory.
+> 2. From your home directory, and without changing directories, write a command which would print the contents of all of the files in the `shell_data/untrimmed_fastq` directory.
 > 
 > <details>
 > <summary>Solution</summary>
@@ -195,7 +195,7 @@ For instance, let's search forward for the sequence `TTTTT` in our file. You can
 > `CAC`
 > </details>
 
-Remember, the `man` program actually uses `less` internally and therefore uses the same commands, so you can search documentation using `/` as well.
+It is helpful to note that the `man` program actually uses `less` internally and therefore uses the same commands, so you can search documentation using `/` as well and any `less` shortcuts you know.
 
 There's another way that we can look at files, and in this case, just look at part of them. This can be particularly useful if we just want to see the beginning or end of the file, or see how it's formatted.
 
