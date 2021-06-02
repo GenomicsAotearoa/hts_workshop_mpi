@@ -39,7 +39,7 @@ Use the commands we've learned so far to navigate to the `shell_data/untrimmed_f
 > <summary>Solution</summary>
 > 
 > ```bash
-> $ cd /nesi/nobackup/nesi03181/username/shell_data/untrimmed_fastq/
+> $ cd /nesi/nobackup/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq/
 > ```
 
 What if we want to move back up and out of this directory and to our top level  directory? Can we type `cd shell_data/`? Try it and see what happens.
@@ -61,7 +61,7 @@ Now we can use `pwd` to make sure that we are in the directory we intended to na
 
 ```bash
 $ pwd
-/nesi/nobackup/nesi03181/username/shell_data
+/nesi/project/nesi03181/phel/USERNAME/shell_data
 ```
 
 ```bash
@@ -75,7 +75,7 @@ From this output, we can see that `..` did indeed take us back one level in our 
 $ ls ../../
 ```
 
-Prints the contents of `/nesi/nobackup/nesi03181/`.
+Prints the contents of `/nesi/project/nesi03181/phel/`.
 
 ---
 
@@ -128,14 +128,14 @@ $ cd ~
 Then enter the command:
 
 ```bash
-$ ls /nesi/nobackup/nesi03181/username/shell_data/
+$ ls /nesi/project/nesi03181/phel/USERNAME/shell_data/
 sra_metadata  untrimmed_fastq
 ```
 
 This will list the contents of the `shell_data/` directory without you needing to navigate there. You might have already spotted that the `cd` command works in a similar way.
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/shell_data/untrimmed_fastq/
+$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq/
 ```
 
 ---
@@ -146,7 +146,7 @@ The `cd` command takes an argument which is a directory name. Directories can be
 
 ```bash
 $ pwd
-/nesi/nobackup/nesi03181/username/
+/nesi/project/nesi03181/phel/USERNAME/
 ```
 
 or
@@ -156,12 +156,12 @@ $ pwd
 /home/username/
 ```
 
-This is the full name of your current directory. Assuming you saw the first output, this tells you that you are in a directory called `username/`, which sits inside a directory called `nesi03181/` which in turn sits inside a directory `nobackup/`. At the very top of the hierarchy is a directory called `/` which is usually referred to as the **root directory**.
+This is the full name of your current directory. Assuming you saw the first output, this tells you that you are in a directory called `username/`, which sits inside a directory called `phel/`, which in turn sits inside a directory `nesi03181/`. At the very top of the hierarchy is a directory called `/` which is usually referred to as the **root directory**.
 
 Return to your home directory, then navigate to the `.hidden/` folder using the following command:
 
 ```bash
-$ cd /nesi/nobackup/nesi03181/username/shell_data/.hidden/
+$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/.hidden/
 ```
 
 Now return to your home directory again, and navigate back to the `.hidden/` folder using the following commands:
@@ -169,9 +169,10 @@ Now return to your home directory again, and navigate back to the `.hidden/` fol
 ```bash
 $ cd /
 $ cd nesi/
-$ cd nobackup/
+$ cd project/
 $ cd nesi03181/
-$ cd username/
+$ cd phel/
+$ cd USERNAME/
 $ cd shell_data/
 $ cd .hidden/
 ```
@@ -215,8 +216,6 @@ The root directory is the highest level directory in your file system and contai
 In many cases, including when working on NeSI, trying to run commands in root directories will require special permissions which are not available to you as a regualar user.
 
 Dealing with the home directory is very common. The tilde character, `~`, is a shortcut for your home directory. On a Linux operating system the root directory is **two** levels above our home directory, so `cd` or `cd ~` will take you to `/home/username/` and `cd /` will take you to `/`.
-
-~~The commands `cd`, and `cd ~` are very useful for quickly navigating back to your home directory. We will be using the `~` character in later lessons to specify our home directory.~~
 
 ---
 
