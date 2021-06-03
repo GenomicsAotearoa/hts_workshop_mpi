@@ -1,4 +1,4 @@
-# Working with Files and Directories
+# Working with files and directories
 
 * Teaching: 30 minutes
 * Exercises: 15 minutes
