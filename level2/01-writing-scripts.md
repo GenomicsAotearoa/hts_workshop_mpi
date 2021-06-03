@@ -1,4 +1,4 @@
-# Writing Scripts and Working with Data
+# Writing Scripts and transferring data
 
 * Teaching: 20 minutes
 * Exercises: 10 minutes
