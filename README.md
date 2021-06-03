@@ -10,6 +10,9 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Background](#level-1---shell-genomics)
    * [Common terms and references](common_terms.md)
    * [Materials](level1/01-introduction.md)
+   * [Homework](level1/05-homework.md)
+1. Level 2 - Working with scripts
+   * [Materials](level2/01-writing-scripts.md)
 
 ---
 
