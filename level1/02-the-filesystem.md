@@ -1,4 +1,4 @@
-# Navigating Files and Directories
+# Navigating files and directories
 
 * Teaching: 30 minutes
 * Exercises: 20 minutes
