@@ -32,7 +32,7 @@ In the folder you discovered in **Exercise 1** the file contains information reg
 >```bash
 >$ grep --help
 >```
->To see the options for `grep.
+>To see the options for `grep`.
 
 ---
 
@@ -44,7 +44,7 @@ Some details to consider:
 
 1. Each sequence in a fastq file spans 4 lines.
 2. You will need to run the `head` and `tail` commands as separate commands in the `for` loop. Make sure you use the correct redirection command to prevent the `tail` command overwriting the results of the `head` command.
-3. Each iteration of the loop should write output to a different file. It is your choice what to call the output file, but if you choose to use the `basename` command to generate an output name, the syntax for the command that we used in the workshop was `o=$(basename ${i} .fastq)`, where `i` was the variable containing the input file name.
+3. Each iteration of the loop should write output to a different file. It is your choice what to call the output file, but if you choose to use the `basename` command to generate an output name, the command that we used in the workshop was `o=$(basename ${i} .fastq)`, where `i` was the variable containing the input file name.
 
 ---
 
