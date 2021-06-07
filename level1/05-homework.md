@@ -50,6 +50,6 @@ Some details to consider:
 
 ## Exercise 5 - Creating backups and changing file permissions
 
-We now want to hide the outputs of **Exercise 4**. Create a new *hidden* directory with a name of your choice, then copy the files created in **Exercise 4** to this location. Once the files have been moved, restrict access to them by removing **write** and **execute** permissions from the files.
+We now want to hide the outputs of **Exercise 4**. Create a new *hidden* directory with a name of your choice, then copy the files created in **Exercise 4** to this location. Once the files have been copied, restrict access to the versions inside the hidden directory by removing **write** and **execute** permissions from the files.
 
 ---
