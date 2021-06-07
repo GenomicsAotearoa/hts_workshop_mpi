@@ -59,9 +59,9 @@ We now want to create a backup of the outputs from **Exercise 4**. Create a new 
 When you have completed all 5 exercises create a log of the remaining exercises, perform the following commands:
 
 ```bash
-cd /nesi/project/nesi03181/phel/USERNAME/shell_data/
+$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/
 
-history > module_1.2.homework.txt
+$ history > module_1.2.homework.txt
 ```
 
 Once this is complete, email the trainers telling them your answers to **Exercise 1** and to let them know that the homework log file is ready to be checked.
