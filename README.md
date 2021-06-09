@@ -12,7 +12,8 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Materials](level1/01-introduction.md)
    * [Homework](level1/05-homework.md)
 1. Level 2 - Working with scripts
-   * [Materials](level2/01-writing-scripts.md)
+   * [Background](#level-2---slurm-and-quality-filtering)
+   * * [Materials](level2/01-writing-scripts.md)
 
 ---
 
@@ -46,3 +47,13 @@ Erin Alison Becker, Anita Schürch, Tracy Teal, Sheldon John McKay, Jessica Eliz
 
 ---
 
+## Level-2 - `slurm` and quality filtering
+
+This workshop provides a basic introduction to working with the `slurm` scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is from a real study - available at the [NCBI website](https://www.ncbi.nlm.nih.gov/) under `BioProject` number [PRJEB38523](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38523).
+
+In particular, we are working with the following data samples:
+
+1. [Run ERR4179765](https://www.ncbi.nlm.nih.gov/sra/ERX4143189[accn]) - MinION sequences from *Mycoplasma bovis* strains, obtained using the `guppy` basecalling software
+1. [Run ERR4179828](https://www.ncbi.nlm.nih.gov/sra/ERX4143252[accn]) - Illumina MiSeq sequences from the same strains
+
+Additional teaching materials were sourced from the [Genomics Aoteoroa Metagenomic Summer School workshop](https://github.com/GenomicsAotearoa/metagenomics_summer_school).
