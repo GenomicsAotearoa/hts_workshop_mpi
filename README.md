@@ -13,7 +13,7 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Homework](level1/05-homework.md)
 1. Level 2 - Working with scripts
    * [Background](#level-2---slurm-and-quality-filtering)
-   * * [Materials](level2/01-writing-scripts.md)
+   * [Materials](level2/01-writing-scripts.md)
 
 ---
 
