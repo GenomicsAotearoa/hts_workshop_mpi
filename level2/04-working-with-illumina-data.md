@@ -18,6 +18,7 @@
 ## Contents
 
 1. [Assessing sequence quality](#assessing-sequence-quality)
+1. [Trimming poor quality sequence and adapters](#trimming-poor-quality-sequence-and-adapters)
 
 ---
 
@@ -137,8 +138,22 @@ Take a look at the adapater content view for the `Mb1_1` library. Are there any 
 
 It appears that any Illumina sequencing adapters that were used in the library preparation has already been removed from the start of the sequences, but there are Nextera transposase sequences present in the tail end of some sequences.
 
+> ### Exercise
+>
+> Considering what you know about the Illumina sequencing platform, how do you think it is possible to get adapters or sequencing constructs on the tail end (far end) of a sequence?
+> 
+> <details>
+> <summary>Solution</summary>
+>
+> This is a phenomenon known as read-through. When the DNA fragment being sequenced is shorter than the read length. For example, in these data the read length is 150 bp. If a fragment of only 80 nucleotides in length is sequenced, the sequencing machine does not know that there are only 80 positions to read and it will not terminate after those 80 nucleotides are processed. Instead, the sequencer will continue to read the seuqence it can find at the 5' end of the 80 nucleotides, which will be the reverse adapter.
+> 
+> </details>
 
+---
 
+## Trimming poor quality sequence and adapters
+
+# TO DO...
 
 ---
 
