@@ -86,6 +86,7 @@ Lists every file in `/usr/bin` that ends in the characters `.sh`.
 > 2. `ls /usr/bin/*a*`
 > 3. `ls /usr/bin/*o`  
 > Bonus: `ls /usr/bin/*[ac]*`
+> </details>
 
 ---
 
