@@ -201,3 +201,7 @@ The workflow used here doesn't have to be the exact same as what is used in your
 
 1. [Noble WS (2009) A Quick Guide to Organizing Computational Biology Projects. PLoS Comput Biol 5(7): e1000424.](https://doi.org/10.1371/journal.pcbi.1000424)
 1. [Sandve GK, Nekrutenko A, Taylor J, Hovig E (2013) Ten Simple Rules for Reproducible Computational Research. PLoS Comput Biol 9(10): e1003285.](https://doi.org/10.1371/journal.pcbi.1003285)
+
+---
+
+[Next lesson](03-intro-to-nesi.md)
