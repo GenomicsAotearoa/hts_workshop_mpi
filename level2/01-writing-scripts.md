@@ -142,10 +142,10 @@ First, let's look at the current permissions.
 
 ```bash
 $ ls -l bad-reads-script.sh
--rw-rw-r-- 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh
+-rw-rw----+ 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh
 ```
 
-We see that it says `-rw-r--r--`. This shows that the file can be read by any user and written to by the file owner (you). We want to change these permissions so that the file can be executed as a program. We use the command `chmod` like we did earlier when we removed write permissions. Here we are adding (`+`) executable permissions (`+x`).
+We see that it says `-rw-rw----+`. This shows that the file can be read by any user and written to by the file owner (you). We want to change these permissions so that the file can be executed as a program. We use the command `chmod` like we did earlier when we removed write permissions. Here we are adding (`+`) executable permissions (`+x`).
 
 ```bash
 $ chmod +x bad-reads-script.sh
