@@ -23,7 +23,7 @@
 
 ## Introduction to NeSI HPC Platforms
 
-This section will be delivered through the a presentation. The slides are available [here]().
+This section will be delivered through the a presentation. The slides are available [here](Introduction_to_NeSI_HPCplatforms.pdf).
 
 ---
 
