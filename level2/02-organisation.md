@@ -11,7 +11,7 @@
 
 #### Keypoints
 
-* Spend the time to organize your file system when you start a new project. Your future self will thank you!
+* Spend the time to organise your file system when you start a new project. Your future self will thank you!
 * Always save a write-protected copy of your raw data.
 
 ---
@@ -27,7 +27,7 @@
 
 ## Getting your project started
 
-Project organization is one of the most important parts of a sequencing project, and yet is often overlooked amidst the excitement of getting a first look at new data. Of course, while it's best to get yourself organized before you even begin your analyses, it's never too late to start, either.  
+Project organisation is one of the most important parts of a sequencing project, and yet is often overlooked amidst the excitement of getting a first look at new data. Of course, while it's best to get yourself organised before you even begin your analyses, it's never too late to start, either.  
 
 You should approach any bioinformatics analysis similarly to how you do a diagnostic sample, and this ideally begins with experimental design. For all of the laboratory steps (collecting specimens, extracting DNA, preparing your samples) you have kept records of what methods, solutions, and reagent batches were used at each step. Documentation doesn't stop just because we're out of the lab.
 
