@@ -1,7 +1,7 @@
 # Project organisation
 
 * Teaching: 15 minutes
-* Exercises: 5 minutes
+* Exercises: 15 minutes
 
 #### Objectives
 
