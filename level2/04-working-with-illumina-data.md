@@ -11,7 +11,9 @@
 
 #### Keypoints
 
-* ...
+* Raw sequencing data is usually not appropriate for immediate analysis
+* `FastQC` is a powerful tool for quickly generating visual reports to summarise key aspects of Illumina data
+* Sequences can be filtered to remove low quality sequences and sequencing artefacts using `fastp`
 
 ---
 
@@ -44,10 +46,8 @@ $ module load FastQC/0.11.7
 We can run `FastQC` from the command line, either one file at a time, or by passing a list of files using the wildcard (`*`) operator:
 
 ```bash
-$ cd /nesi/project/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq/
-$ mkdir -p fastq_output/
-
-$ fastqc -o fastq_output/ SRR097977.fastq SRR098026.fastq
+$ cd /nesi/project/nesi03181/phel/USERNAME/fastq_processing
+$ fastqc -o results/ data/*.fastq
 ```
 
 `FastQC` generates output reports in `.html` files and a `.zip` file that contains the main display resources. These can be viewed in a standard web browser. Since we are connection to NeSI using the JupyterHub system, we can view these directly:
@@ -55,7 +55,7 @@ $ fastqc -o fastq_output/ SRR097977.fastq SRR098026.fastq
 >**NOTE:** `FastQC` does not load the forward and reverse pairs of a library in the same window, as it works on individual fastq files and is not aware of any read pairing in your library. You need to be mindful of how your samples relate to each other and in which order you have opened them if you are trying to compar the forward and reverse complement of a sequencing library.
 
 1. Click on the folder icon in the top left to open the folder navigator pane (if not already open).
-1. Use the file browsing system to navigate through to `/nesi/project/nesi03181/phel/USERNAME/shell_data/untrimmed_fastq/fastq_output/`
+1. Use the file browsing system to navigate through to `/nesi/project/nesi03181/phel/USERNAME/fastq_processing/results/`
 1. Double click on the output `.fastqc.html` files to open them in the a new tab
 
 Let's now look at some of the outputs, starting with the summary for sample `SRR097977`.
@@ -86,14 +86,13 @@ This is not the case in the `SRR097977` data which we were looking at, but we al
 
 > ### Exercise
 >
-> Alongside the `shell_data/` folder, there is also a folder called `ncbi_data/`. Navigate into this folder, and run `FastQC` on the `Mb1` sequences.
+> In a previous exercise you copied some *M. bovis* MiSeq data into the `data/` folder along with the `SRR097977` and `SRR098026` files. These files were compressed and so end with a `.gz` file extension and were not included in the previous `FastQC` summary. Run `FastQC` again, this time on the `Mb1` sequences.
 > 
 > <details>
 > <summary>Solution</summary>
 >
 > ```bash
-> $ cd ../../ncbi_data/
-> $ fastqc Mb1_1.fastq.gz Mb1_2.fastq.gz
+> $ fastqc -o results/ data/Mb1_1.fastq.gz data/Mb1_2.fastq.gz
 > ```
 > </details>
 
