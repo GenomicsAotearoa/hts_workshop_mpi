@@ -409,5 +409,32 @@ Although it's nearly the last feature we will address in this exercise, quality 
 
 The later of these is definitely the better option, as a sequence with quite high average quality can still have large spans of low-quality sequence which will interfere with out analysis. The second option is usually refered to as 'sliding window' evaluation and consists of the sequence being read from one end to the other, reading a small number of bases (the window) and assessing the average quality over these nucleotides. The window progresses (slides) along the sequence, and at the first instance of average quality dropping below the threshold, the sequence is cut and the remainder discarded.
 
+In this kind of analysis, the default threshold is a Q-score of 20, and the window size is 4. These are fairly standard values, but can be changed if desired. This method is enabled by the `--cut_right` parameter in `fastp`, as the sliding window moves from the left-hand side (start) or the sequence to the right-hand side (end), and everything discarded after the cut point is therefore the right half of the sequence.
+
+`fastp` does have two other ways of trimming low quality regions, in which is begins from the start or end of the sequence and removes nucleotides below the quality threshold until a high quality base is encountered. When working with Illumina data this method is probably not very valuable, as sequence quality usually starts off quite high with Illumina data and tends to degrade ove time. However, there are some sequencing platforms that can yield poor quality at the start of a sequence, so it is worth knowing that this behaviour is possible.
+
+> ### Exercise
+>
+> Inspect the help options for `fastp` and formulate a command to perform sliding window filtering with a window length of 8 nucleotides, and a quality threshold of 15.
+>
+> <details>
+> <summary>Solution</summary>
+>
+> ```bash
+> $ fastp --cut_right --cut_window_size 8 --cut_mean_quality 15 \
+          -i ... -I ... -o ... -O ... --unpaired1 ...
+> ```
+> </details>
+
+#### Other features
+
+There are just a few more features of `fastp` which can be useful to know.
+
+1. `--thread`: Increase the number of computer processes (threads) used to process the sequences. Using more threads typically makes the job faster to complete. The default value is 2.
+1. `--html`/`--json`: Change the names of the report files generated during a run. This is very useful when processing many samples, as the default output names (`fastp.html` and `fastp.json`) are recycled on each use and successive runs of `fastp` overwrite the output of previous runs.
+1. `--length_required`: Discard sequences shorter than the specified length (after trimming) regardless of their quality.
+1. `--n_base_limit`: Discard sequences with more than the specified limit of `N` characters, regardless of the sequence quality.
 
 ---
+
+[Next lesson]()
