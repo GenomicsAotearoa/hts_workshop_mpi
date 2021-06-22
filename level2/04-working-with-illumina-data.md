@@ -111,7 +111,7 @@ This is true for *most* of the sequence, but at the starting nucleotides somethi
 
 #### Adapter content
 
-As you will know from previous training workshops, when sequencing is peformed we must add adapter sequences to our extracted DNA (or cDNA) to facilitate sequencing. Because these adapter constructs become part of the DNA sequence, they are also read by the seqencing machine and reported as observed sequence. It is *generally* good practice for a sequencing facility to scrub these adapter sequences from your data before returning it to you, and if you are using a multiplexed (barcoded) method of sequencing this almost certainly must be performed before your sequence is made available.
+As you will know from previous training workshops, when sequencing is peformed we must add adapter sequences to our extracted DNA (or cDNA) to facilitate sequencing. Because these adapter constructs become part of the DNA sequence, they are also read by the sequencing machine and reported as observed sequence. It is *generally* good practice for a sequencing facility to scrub these adapter sequences from your data before returning it to you, and if you are using a multiplexed (barcoded) method of sequencing this almost certainly must be performed before your sequence is made available.
 
 However, this is never guaranteed and it is always good practice to confirm that there are no adapters or barcodes in your library before you attempt to analyse the data. Since adapters are attached to the start of the DNA fragment being sequenced, they will always appear in the starting positions of your reads if not removed.
 
@@ -119,7 +119,7 @@ However, this is never guaranteed and it is always good practice to confirm that
 >
 > Think about what the per base sequence content of a library that has not had adapters removed would look like. How could you go about detecting whether or not adapters your present at the start of your sequences if;
 > 
-> 1. You know what adapaters were used in your sequencing experiment? (i.e. the sequencing centre has told you what preparation method was used)
+> 1. You know what adapters were used in your sequencing experiment? (i.e. the sequencing centre has told you what preparation method was used)
 > 2. You *do not* know what adapters were used in your sequencing experiment? (i.e. you know that some preparation was performed, but the sequencing centre has not revealed the information to you)
 > 
 > Try to formulate your answers in terms only of tools used in this workshop, or the previous Level 1 training.
@@ -136,7 +136,7 @@ However, this is never guaranteed and it is always good practice to confirm that
 
 It is important to think carefully about the expected attributes of your sequence data as you work with it. Although there are plenty of tools (`FastQC` included) which can automatically detect the common library adapters, 'common' is a relative term and depends on how frequently updated the tool is compared with the latest sequencing technologies.
 
-Take a look at the adapater content view for the `Mb1_1` library. Are there any adapter or preparation sequences detected in these data? Are they where you would expect them?
+Take a look at the adapter content view for the `Mb1_1` library. Are there any adapter or preparation sequences detected in these data? Are they where you would expect them?
 
 ![](../img/02_fastqc_adapters.png)
 
@@ -157,7 +157,7 @@ It appears that any Illumina sequencing adapters that were used in the library p
 
 ## Trimming paired data and preserving read order
 
-Once we have visualised our sequence quality, we need to make some decisions regarding whether we perform quality filering or not, how severely the data must be trimmed, and whether or not we need to remove adapater sequences.
+Once we have visualised our sequence quality, we need to make some decisions regarding whether we perform quality filering or not, how severely the data must be trimmed, and whether or not we need to remove adapter sequences.
 
 There are many tools available for trimming sequence data, and today we are only going to work with one - [fastp](https://github.com/OpenGene/fastp). This tool was selected for its speed and performance, as well as having a good suite of quality-of-life features, but it there are many alternate tools out there which can perform the same job.
 
@@ -325,16 +325,16 @@ out.unpaired.fq.gz
 > 2) Run `fastp` and write unpaired sequences to individual outputs:
 > ```bash
 > $ fastp -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
-          -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz \
-          --unpaired1 results/fastp_test.R1.unpaired.fastq.gz \
-          --unpaired2 results/fastp_test.R2.unpaired.fastq.gz
+>         -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz \
+>         --unpaired1 results/fastp_test.R1.unpaired.fastq.gz \
+>         --unpaired2 results/fastp_test.R2.unpaired.fastq.gz
 > ```
 >
 > 3) Run `fastp` ignoring unpaired sequences:
 > ```bash
 > $ fastp -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
-          -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz \
-          --unpaired1 results/fastp_test.unpaired.fastq.gz
+>         -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz \
+>         --unpaired1 results/fastp_test.unpaired.fastq.gz
 > ```
 > </details>
 
@@ -356,24 +356,24 @@ There are quite a few options we can modify here, and we are going to ignore mos
 Traditionally, sequencing trimming tools require you to provide a list of the adapters in your data set via a fasta file. The sequences of this file are then matched against the start and end of each fastq sequence read by the tool and trimming occurs when there is a match. `fastp` does provide this option, via the `--adapter_fasta` parameter, i.e.:
 
 ```bash
-$ fastp --adapter_fasta my_adapater_list.fasta -i ... -o ...
+$ fastp --adapter_fasta my_adapter_list.fasta -i ... -o ...
 ```
 
-But it introduces two quality of life improvements that are often easier to work with. Since there should only be a single adapater in your data, rather than create a file of adapter sequences, the sequences can be passed directly to the program, saving the effort of creating the file and also making your work more transparent when viewing `history` logs:
+But it introduces two quality of life improvements that are often easier to work with. Since there should only be a single adapter in your data, rather than create a file of adapter sequences, the sequences can be passed directly to the program, saving the effort of creating the file and also making your work more transparent when viewing `history` logs:
 
 ```bash
 $ fastp --adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA \
         --adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT \
         -i ... -o ...
-```bash
+```
 
-In this example, the Illuma TruSeq adapters are provided to be removed from the sequences.
+In this example, the Illumina TruSeq adapters are provided to be removed from the sequences.
 
-If even that is too much effort, or we do not know what adapters were used, `fastp` also has the ability to auto-detect adapters in the sequences. When running in this way, `fastp` will read the first 1,000,000 sequences in the file and search for common nucleotide patterns in the read. The sequences that `fastp` identifies as the adapater are reported as part of the console output, and can then be compared against known lists of sequencing adapters to confirm they are correct.
+If even that is too much effort, or we do not know what adapters were used, `fastp` also has the ability to auto-detect adapters in the sequences. When running in this way, `fastp` will read the first 1,000,000 sequences in the file and search for common nucleotide patterns in the read. The sequences that `fastp` identifies as the adapter are reported as part of the console output, and can then be compared against known lists of sequencing adapters to confirm they are correct.
 
 ```bash
 $ fastp --detect_adapter_for_pe -i ... -o ...
-```bash
+```
 
 This is a very helpful feature, but be warned that if your library has already been trimmed of adapters and you force `fastp` to find them, results can be quite weird.
 
@@ -389,13 +389,13 @@ This is a very helpful feature, but be warned that if your library has already b
 > $ FastQC results/fastp_test.R1.fastq.gz results/fastp_test.R2.fastq.gz
 >
 > $ fastp --disable_adapter_trimming \
-          -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
-          -o results/fastp_test.no_removal.R1.fastq.gz -O results/fastp_test.no_removal.R2.fastq.gz
+>         -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
+>         -o results/fastp_test.no_removal.R1.fastq.gz -O results/fastp_test.no_removal.R2.fastq.gz
 > $ FastQC results/fastp_test.no_removal.R1.fastq.gz results/fastp_test.no_removal.R2.fastq.gz
 >
 > $ fastp --detect_adapter_for_pe \
-          -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
-          -o results/fastp_test.auto_removal.R1.fastq.gz -O results/fastp_test.auto_removal.R2.fastq.gz
+>         -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
+>         -o results/fastp_test.auto_removal.R1.fastq.gz -O results/fastp_test.auto_removal.R2.fastq.gz
 > $ FastQC results/fastp_test.auto_removal.R1.fastq.gz results/fastp_test.auto_removal.R2.fastq.gz
 > ```
 > </details>
@@ -422,7 +422,7 @@ In this kind of analysis, the default threshold is a Q-score of 20, and the wind
 >
 > ```bash
 > $ fastp --cut_right --cut_window_size 8 --cut_mean_quality 15 \
-          -i ... -I ... -o ... -O ... --unpaired1 ...
+>         -i ... -I ... -o ... -O ... --unpaired1 ...
 > ```
 > </details>
 
