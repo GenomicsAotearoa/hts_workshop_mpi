@@ -37,7 +37,7 @@ When performing base calling in `guppy` there are several prediction models that
 
 >**Note:** With the release of `guppy` version 5 there are also 'super accurate' models which provide higher quality translations than the high-accuracy model. These models can only be used when running `guppy` throug the command line.
 
-If we choose to not perform the base calling in real time, we will need to perform the manually call the electronic signal files on the raw output files. These are stored in the `fast5` format. In order to do this, we can work with `guppy` in the command line in NeSI or the computers which PHEL use to run the MinION devices. We are not going to do this in the present workshop, as we normally request minKNOW to perform basecalling in real time.
+If we choose to not perform the base calling in real time, we will need to perform the manually call the electronic signal files on the raw output files. These are stored in the `fast5` format. In order to do this, we can work with `guppy` in the command line in NeSI or the computers which PHEL use to run the MinION devices. We are not going to do this in the present workshop, as we normally request `MinKNOW` to perform basecalling in real time.
 
 When performing base calling during the sequencing run, we also have the option to quality filter the sequences straight away, saving us the need to perform this task afterwards. When using this tool, the output fastq files are split into folders of sequences that passed and failed to pass the required Q threshold so we do not *lose* the low quality sequences.
 
@@ -64,7 +64,7 @@ An increasing number of tools are available for sequence data assessment, with d
 >
 > ```bash
 > $ cd /nesi/project/nesi03181/phel/module_2/
->  $ cp -r nanopore_data/ ../USERNAME/fastq_processing/data/
+> $ cp -r nanopore_data/ ../USERNAME/fastq_processing/data/
 > ```
 > </details>
 
@@ -84,9 +84,74 @@ $ pycoQC -f data/nanopore_data/sequencing_summary.txt -o results/pycoQC_report.h
 
 `pycoQC`  generates output reports as html files, which we can open the same way as we did for `FastQC`.
 
+> ### Exercise
+>
+> Inspect the different plots and statistics.
+> 
+> 1. How many reads do you have in total?
+> 1. What is the median, minimum, and maximum read length?
+> 1. What do the mean quality and the quality distribution of the run look like? (Remember, Q10 means an error rate of 10%)
+> 
+> <details>
+> <summary>Solution</summary>
+>
+> 1. ~270k reads in total (see the Basecall summary of `pycoQC`'s output page)
+> ![](../img/02_pycoqc_basecall_summary.png)
+> 1. The median read length can also be found in the same place. The median length is 3,890 bp for all reads, or 4,070 for those that passed `MinKNOW`'s quality filtering. To find the minimum and maximum read lengths look at the 'Basecalled read lengths' plot. If you hover over the start and the end of the plotted length distribution you will see the length followed by the number of reads. The minimum read length for the passed reads is about 200 bp, the maximum length ~130,000 bp.
+> ![](../img/02_pycoqc_basecall_read_lengths.png)
+> 1. The median quality of the reads can be found in the basecall summary, and the distribution in the 'Basecalled reads PHRED quality plot'. The majority of the reads has a Q-score below 10, i.e., an error rate of >10%. These results can be considered normal although it is possible to obtain better quality.
+> ![](../img/02_pycoqc_basecall_phred.png)
+> </details>
+
+In addition to read statistics, `pycoQC` also gives a lot of information about the sequencing run and the flowcell itself such as sequencing run, yield over time, number of active pores, etc. One of the strengths of `pycoQC` is that it is interactive and highly customisable. Plots can be cropped, you can zoom in and out, sub-select areas and export figures. For detailed usage and examples see the `pycoQC` documentation: [https://a-slide.github.io/pycoQC/](https://a-slide.github.io/pycoQC/).
 
 ---
 
 ## Removing short and low quality reads
 
-xxx
+Removing short reads and eliminating low quality data can improve your downstream analysis. For example, it can be beneficial to remove short reads for whole genome sequencing projects. `Nanofilt` is a tool that can filter reads by quality score and length. It is also capable of cropping a specified number of bases from the start or the end of a read, which can be useful sometimes.
+
+In the directory `/nesi/project/nesi03181/phel/USERNAME/fastq_processing/data/nanopore_data/` we should have a Nanopore sequence file `Mb1.fastq`. We will use this file to practice with `Nanofilt`.
+
+```bash
+$ module purge
+$ module load nanofilt
+$ NanoFilt -q 15 -l 500 --headcrop 50 < Mb1.fastq > Mb1_nanofiltered.fastq
+```
+
+>**Note:** You will be familiar with using the `>` character to redirect the *standard output* of a command into a new file, but here we are using a new redirection command `<` as well. This is a a command that reads the file into the *standard input* channel of the tool. In is the equivalent of the following command:
+>```bash
+> $ cat Mb1.fastq | NanoFilt -q 15 -l 500 --headcrop 50 > Mb1_nanofiltered.fastq
+> ```
+
+In this example we are:
+
+* Removing all reads with quality scores under 8 (`-q`)
+* Removing all reads shorter than 500 bp (`-l`)
+* Trimming the first 50 nucleotides off all reads (`–headcrop`)
+
+Let's check what happened to our reads using `FastQC`. We need to use `FastQC` for this purpose because `pycoQC` only works with the `sequencing_summary.txt` file.
+
+```bash
+$ module purge
+$ module load FastQC
+$ cd /nesi/project/nesi03181/phel/USERNAME/fastq_processing/
+$ fastqc -o results/ data/nanopore_data/*.fastq
+```
+
+Since `FastQC` can be a bit slow on these large Nanopore datasets so we will use pre-computed results for the next exercise.
+
+> ### Exercise
+>
+> In `/nesi/project/nesi03181/phel/USERNAME/fastq_processing/data/nanopore_data/` there is a hidden folder named `.FastQC_results/` with a `FastQC` report for each of the 2 Nanopore datasets `Mb1.fastq` and `Mb1_nanofiltered.fastq`.
+> Open both html reports and compare the results. What are the main differences between the raw dataset and the filtered dataset? 
+> 
+> <details>
+> <summary>Solution</summary>
+>
+> There are two main points to note:
+> 1. We can see that the total number of reads in the filtered dataset is smaller, because we have removed reads with quality values under 8 and shorter than 500 bp.
+> 1. The overall quality has increased as a result of removing low quality reads.
+> </details>
+
+---
