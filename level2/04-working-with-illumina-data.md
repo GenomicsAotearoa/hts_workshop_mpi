@@ -437,4 +437,4 @@ There are just a few more features of `fastp` which can be useful to know.
 
 ---
 
-[Next lesson]()
+[Next lesson](05-working-with-nanopore-data.md)
