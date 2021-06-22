@@ -169,7 +169,6 @@ Later in this workshop we will begin to work with some exemplar fastq files gene
 > 1. SRR097977.fastq
 > 1. Mb1_1.fastq.gz
 > 1. Mb1_2.fastq.gz
-> 1. Mb1.fastq
 >
 > You can do this in whatever way makes the most sense to you, either one file at a time, with a `for loop`, or by using wild cards. Once you have created a personal copy of the data, use `chmod` to remove the write permissions from **your** verison of the data.
 >
