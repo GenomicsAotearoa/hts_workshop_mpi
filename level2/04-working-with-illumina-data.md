@@ -1,8 +1,8 @@
 
 # Working with Illumina data
 
-* Teaching: ??? minutes
-* Exercises: ??? minutes
+* Teaching: 45 minutes
+* Exercises: 15 minutes
 
 #### Objectives
 
