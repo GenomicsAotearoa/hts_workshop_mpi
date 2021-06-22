@@ -56,4 +56,4 @@ In particular, we are working with the following data samples:
 1. [Run ERR4179765](https://www.ncbi.nlm.nih.gov/sra/ERX4143189[accn]) - MinION sequences from *Mycoplasma bovis* strains, obtained using the `guppy` basecalling software
 1. [Run ERR4179828](https://www.ncbi.nlm.nih.gov/sra/ERX4143252[accn]) - Illumina MiSeq sequences from the same strains
 
-Additional teaching materials were sourced from the [Genomics Aoteoroa Metagenomic Summer School workshop](https://github.com/GenomicsAotearoa/metagenomics_summer_school).
+Additional teaching materials were sourced from the [Genomics Aoteoroa Metagenomic Summer School workshop](https://github.com/GenomicsAotearoa/metagenomics_summer_school) and the [Long-Read, long reach Bioinformatics Tutorial](https://timkahlke.github.io/LongRead_tutorials/) put together by Tim Kahlke.
