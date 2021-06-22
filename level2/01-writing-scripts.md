@@ -43,7 +43,7 @@ $ nano README.txt
 
 You should see something like this:
 
-![](../img/01_nano_ubuntu.png)
+![](../img/02_nano_jupyter.png)
 
 The text at the bottom of the screen shows the keyboard shortcuts for performing various tasks in `nano`. We will talk more about how to interpret this information soon.
 
