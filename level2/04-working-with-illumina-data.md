@@ -20,6 +20,7 @@
 ## Contents
 
 1. [Assessing sequence quality](#assessing-sequence-quality)
+1. [Trimming paired data and preserving read order](#trimming-paired-data-and-preserving-read-order)
 1. [Trimming poor quality sequence and adapters](#trimming-poor-quality-sequence-and-adapters)
 
 ---
@@ -150,9 +151,260 @@ It appears that any Illumina sequencing adapters that were used in the library p
 
 ---
 
+## Trimming paired data and preserving read order
+
+Once we have visualised our sequence quality, we need to make some decisions regarding whether we perform quality filering or not, how severely the data must be trimmed, and whether or not we need to remove adapater sequences.
+
+There are many tools available for trimming sequence data, and today we are only going to work with one - [fastp](https://github.com/OpenGene/fastp). This tool was selected for its speed and performance, as well as having a good suite of quality-of-life features, but it there are many alternate tools out there which can perform the same job.
+
+`fastp` is available on NeSI as a pre-installed software module. To access it, we must once again run the `module load` command:
+
+```bash
+$ module load fastp/0.20.0-GCCcore-7.4.0
+```
+
+At it's most basic level, `fastp` simply takes one input sequence file, trims the sequences according to some default values, then saves the output to a new file:
+
+```bash
+$ fastp -i in.R1.fq.gz -o out.R1.fq.gz
+```
+
+Sequences from the input file are read and trimmed for regions that do or do not match filtering criteria. For example, reject adapter regions will be removed, as will regions of the sequence where the average quality falls below a required threshold. If this means that the entirity of a sequence falls below the selection criteria, the resulting sequence will not be written to the output file. Often, short sequences will also be rejected from the output.
+
+Our sequences consist of paired reads. Filtering paired reads is a slightly more complicated process than trimming single-end reads. You cannot just run the trimming tool over each sequence file:
+
+```bash
+$ fastp -i in.R1.fq.gz -o out.R1.fq.gz
+$ fastp -i in.R2.fq.gz -o out.R2.fq.gz
+```
+
+This is because that between the paired sequence files, the forward/reverse reads are ordered such that the first sequence in the `R2` (reverse) file is the partner to the first sequence in the `R1` (forward file). If a sequence in one of these files is rejected by the filtering system but it's partner passes filtering, then there will be an uneven number of sequences written into the two output files.
+
+This is a massive problem, because when we perform tasks like assembly and read mapping, the tools will assume that the sequence order is identical between forward and reverse files. For example, if we have a pair of files where the sequences align like so:
+
+```
+R1-----------------------R2
+@Seq1-----------------@Seq1
+@Seq2-----------------@Seq2
+@Seq3-----------------@Seq3
+@Seq4-----------------@Seq4
+@Seq5-----------------@Seq5
+@Seq6-----------------@Seq6
+@Seq7-----------------@Seq7
+@Seq8-----------------@Seq8
+@Seq9-----------------@Seq9
+```
+
+And after filtering we might get an output like:
+
+```
+R1-----------------------R2
+@Seq1-----------------@Seq1
+@Seq2-----------------@Seq2
+@Seq3-----------------@Seq3
+----------------------@Seq4
+@Seq5-----------------@Seq5
+@Seq6-----------------@Seq6
+@Seq7----------------------
+@Seq8-----------------@Seq8
+@Seq9-----------------@Seq9
+```
+
+Where `Seq4_R1` and `Seq7_R2` are removed, then our downstream analysis tools will not be aware of these gaps, and read the pairing information as:
+
+```
+R1-----------------------R2
+@Seq1-----------------@Seq1
+@Seq2-----------------@Seq2
+@Seq3-----------------@Seq3
+@Seq5-----------------@Seq4
+@Seq6-----------------@Seq5
+@Seq7-----------------@Seq6
+@Seq8-----------------@Seq8
+@Seq9-----------------@Seq9
+```
+
+Where there are now some mismatched pairs - `Seq5_R1` pairs with `Seq4_R2`, `Seq6_R1` with `Seq5_R2`, and `Seq7_R1` with `Seq6_R2`. The impact this has varies depending on what is being done with the next stage of analysis, but whether these errors cause chimeric assembly or simply a failure to successfully map a sequence pair to a reference genome, it is entirely an aretfact of our analysis procedure.
+
+>**NOTE:** This is just a simple example where a single sequence was removed from each direction. In practice the problem would be much more severe, as there would almost certainly be an uneven number of reads filtered from each direction so the order would never recover after the first removal, as it did in this example.
+
+Any worthwhile trimming tool is aware of this problem, and has a built-in capacity for filtering these issues. In the case of `fastp`, this is the correct way to filter the sequences:
+
+```bash
+$ fastp -i in.R1.fq.gz -I in.R2.fq.gz -o out.R1.fq.gz -O out.R2.fq.gz
+```
+
+With this usage, `fastp` takes a second, optional, input with the `-I` parameter which is understood to be the pair of the `-i` input. Similarly, the `-O` output file is the output for the `-I` file, and pairs with the `-o` output file. If the example sequences above were run in this manner, we would get the following output:
+
+```
+out.R1.fq.gz---out.R2.fq.gz
+@Seq1-----------------@Seq1
+@Seq2-----------------@Seq2
+@Seq3-----------------@Seq3
+@Seq5-----------------@Seq5
+@Seq6-----------------@Seq6
+@Seq8-----------------@Seq8
+@Seq9-----------------@Seq9
+```
+
+Which is great. We have lost a few sequences, but those that we retained are still ordered.
+
+There is a problem here, though. The `Seq4_R1` and `Seq7_R2` sequence were of poor quality and did not pass quality filtering, but their partner sequence did pass. In the usage above, the `Seq4_R2` and `Seq7_R1` sequence are still filtered out of the data even though they are of sufficient quality. This is a fairly common occurance, so filtering tools have an additional output type for these unpaired (also called 'orphan' or singleton) sequences which pass filtering when their partner do not.
+
+The command is not getting a bit long, so we will use the `\` character to break the command over several lines:
+
+```bash
+$ fastp -i in.R1.fq.gz -I in.R2.fq.gz \
+        -o out.R1.fq.gz -O out.R2.fq.gz \
+        --unpaired1 out.R1.unpaired.fq.gz \
+        --unpaired2 out.R2.unpaired.fq.gz
+```
+
+This time the output would look like:
+
+```
+out.R1.fq.gz---out.R2.fq.gz
+@Seq1-----------------@Seq1
+@Seq2-----------------@Seq2
+@Seq3-----------------@Seq3
+@Seq5-----------------@Seq5
+@Seq6-----------------@Seq6
+@Seq8-----------------@Seq8
+@Seq9-----------------@Seq9
+
+out.R1.unpaired.fq.gz
+@Seq7_R1
+
+out.R2.unpaired.fq.gz
+@Seq4_R2
+```
+
+This is a much better solution, as we are now retaining more high quality data. However, `fastp` has one more nice feature that we can exploit - if we don't set a value for the `--unpaired2` parameter, the sequences which *would* have gone to this file are instead sent to the same place as `--unpaired1`. This means that we can capture all of our unpaired reads in a single file.
+
+```bash
+$ fastp -i in.R1.fq.gz -I in.R2.fq.gz \
+        -o out.R1.fq.gz -O out.R2.fq.gz \
+        --unpaired1 out.unpaired.fq.gz \
+```
+
+This time the output would look like:
+
+```
+out.R1.fq.gz---out.R2.fq.gz
+@Seq1-----------------@Seq1
+@Seq2-----------------@Seq2
+@Seq3-----------------@Seq3
+@Seq5-----------------@Seq5
+@Seq6-----------------@Seq6
+@Seq8-----------------@Seq8
+@Seq9-----------------@Seq9
+
+out.unpaired.fq.gz
+@Seq4_R2
+@Seq7_R1
+```
+
+> ### Exercise
+>
+> Load the `fastp` tool in your JupyterHub session, and have a quick test run of the different behaviours. Run the tool a few different times using the examples above (i.e. retaining pairs only, writing unpaired sequences out into individual files or the same files.
+>
+> **NOTE:** `fastp` produces a lot of output text while running, and creates some report files. You can ignore this for now.
+>
+> <details>
+> <summary>Solution</summary>
+>
+> 1) Run `fastp` ignoring unpaired sequences:
+> ```bash
+> $ fastp -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz
+> ```
+>
+> 2) Run `fastp` and write unpaired sequences to individual outputs:
+> ```bash
+> $ fastp -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
+          -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz \
+          --unpaired1 results/fastp_test.R1.unpaired.fastq.gz \
+          --unpaired2 results/fastp_test.R2.unpaired.fastq.gz
+> ```
+>
+> 3) Run `fastp` ignoring unpaired sequences:
+> ```bash
+> $ fastp -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
+          -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz \
+          --unpaired1 results/fastp_test.unpaired.fastq.gz
+> ```
+> </details>
+
+---
+
 ## Trimming poor quality sequence and adapters
 
-# TO DO...
+Now that we understand the importance of keeping our fastq outputs ordered, and how to achieve this with `fastp`, let's look at the actual filtering process. From the command line, you can view the manual for `fastp` by running it either without any parameters, or with the `--help` parameter.
+
+```.bash
+$ fastp
+$ fastp --help
+```
+
+There are quite a few options we can modify here, and we are going to ignore most of them in the interests of time. The two main aspects of trimming that we want to work through are the adapter removal options, and the quality filtering options.
+
+#### Adapter removal
+
+Traditionally, sequencing trimming tools require you to provide a list of the adapters in your data set via a fasta file. The sequences of this file are then matched against the start and end of each fastq sequence read by the tool and trimming occurs when there is a match. `fastp` does provide this option, via the `--adapter_fasta` parameter, i.e.:
+
+```bash
+$ fastp --adapter_fasta my_adapater_list.fasta -i ... -o ...
+```
+
+But it introduces two quality of life improvements that are often easier to work with. Since there should only be a single adapater in your data, rather than create a file of adapter sequences, the sequences can be passed directly to the program, saving the effort of creating the file and also making your work more transparent when viewing `history` logs:
+
+```bash
+$ fastp --adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA \
+        --adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT \
+        -i ... -o ...
+```bash
+
+In this example, the Illuma TruSeq adapters are provided to be removed from the sequences.
+
+If even that is too much effort, or we do not know what adapters were used, `fastp` also has the ability to auto-detect adapters in the sequences. When running in this way, `fastp` will read the first 1,000,000 sequences in the file and search for common nucleotide patterns in the read. The sequences that `fastp` identifies as the adapater are reported as part of the console output, and can then be compared against known lists of sequencing adapters to confirm they are correct.
+
+```bash
+$ fastp --detect_adapter_for_pe -i ... -o ...
+```bash
+
+This is a very helpful feature, but be warned that if your library has already been trimmed of adapters and you force `fastp` to find them, results can be quite weird.
+
+> ### Exercise
+>
+> Run `fastp` against the `Mb1_1.fastq.gz` and `Mb1_2.fastq.gz` files, with and without adapter trimming. Run the command again with automatic adapter detection. Look at the outputs in `FastQC` and see how they differ.
+>
+> <details>
+> <summary>Solution</summary>
+>
+> ```bash
+> $ fastp -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz
+> $ FastQC results/fastp_test.R1.fastq.gz results/fastp_test.R2.fastq.gz
+>
+> $ fastp --disable_adapter_trimming \
+          -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
+          -o results/fastp_test.no_removal.R1.fastq.gz -O results/fastp_test.no_removal.R2.fastq.gz
+> $ FastQC results/fastp_test.no_removal.R1.fastq.gz results/fastp_test.no_removal.R2.fastq.gz
+>
+> $ fastp --detect_adapter_for_pe \
+          -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
+          -o results/fastp_test.auto_removal.R1.fastq.gz -O results/fastp_test.auto_removal.R2.fastq.gz
+> $ FastQC results/fastp_test.auto_removal.R1.fastq.gz results/fastp_test.auto_removal.R2.fastq.gz
+> ```
+> </details>
+
+#### Quality filtering
+
+Although it's nearly the last feature we will address in this exercise, quality filtering is really the main reason we use tools like `fastp`. There are several ways to screen a sequence for quality, once we have determined what we want our lower limit of acceptable quality to be.
+
+1. Remove a sequence with an average quality below this value
+1. Cut the regions of a sequence with quality below this value
+
+The later of these is definitely the better option, as a sequence with quite high average quality can still have large spans of low-quality sequence which will interfere with out analysis. The second option is usually refered to as 'sliding window' evaluation and consists of the sequence being read from one end to the other, reading a small number of bases (the window) and assessing the average quality over these nucleotides. The window progresses (slides) along the sequence, and at the first instance of average quality dropping below the threshold, the sequence is cut and the remainder discarded.
+
 
 ---
 
