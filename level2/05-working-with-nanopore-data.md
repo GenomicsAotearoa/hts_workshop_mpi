@@ -64,7 +64,7 @@ An increasing number of tools are available for sequence data assessment, with d
 >
 > ```bash
 > $ cd /nesi/project/nesi03181/phel/module_2/
-  $ cp -r nanopore_data/ ../USERNAME/fastq_processing/data/
+>  $ cp -r nanopore_data/ ../USERNAME/fastq_processing/data/
 > ```
 > </details>
 
