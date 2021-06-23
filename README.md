@@ -15,7 +15,7 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Background](#level-2---slurm-and-quality-filtering)
    * [`slurm` and `module` cheatsheet](slurm_module_guide.md)
    * [Materials (Part 1)](level2/01-writing-scripts.md)
-   * [Materials (Part 2)](level2/04-working-with-illumina-data.md)
+   * [Materials (Part 2)](level2/03-intro-to-nesi.md)
    * [Homework](level2/06-homework.md)
 
 ---
