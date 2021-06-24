@@ -6,6 +6,7 @@
 #### Objectives
 
 * Write and submit a `BLAST` job to the NeSI compute cluster using the `slurm` system
+* Understand the compatibility considerations that must be made when loading modules
 
 #### Keypoints
 
@@ -32,7 +33,7 @@ This section will be delivered through the a presentation. The slides are availa
 
 In the `slurm` example we just worked through, we were provided the software names and versions to a piece of software (`BLASTn`) and a database which were both already installed on NeSI. But what do we do if we don't know what is available, or what version it is?
 
-Before we worry about loading software, there are a few handy commands and resources for finding existing software on NeSI. The most user-friendly option is the NeSI [Supported Applications](https://support.nesi.org.nz/hc/en-gb/sections/360000040076-Supported-Applications) web page which provides an up to date list of everything available on NeSI. Easch piece of software lists the versions installed and links to the software documentation, and every entry is tagged with some handy keywords to enable quick searching.
+Before we worry about loading software, there are a few handy commands and resources for finding existing software on NeSI. The most user-friendly option is the NeSI [Supported Applications](https://support.nesi.org.nz/hc/en-gb/sections/360000040076-Supported-Applications) web page which provides an up to date list of everything available on NeSI. Each piece of software lists the versions installed and links to the software documentation, and every entry is tagged with some handy keywords to enable quick searching.
 
 Alternatively, if we are already logged into NeSI then we can search from the command line to find software relevant to us. To view our currently loaded software modules, we can use the `module list` command.
 
@@ -80,9 +81,9 @@ In the first instance, we see everything available on NeSI. In the second, we se
 $ module spider blast
 ```
 
-The difference here is that `avail` searches the module names, and `spider` searches their description and other information for the keyword. both are useful, and both are case insensitive. For exmaple, above we used the lowercase spelling of `BLAST` but in the results we have a mixture of cases (`BLAST/2.3.0`, `RMBlast/2.6.0-gimkl-2017a`, `samblaster/0.1.24-gimkl-2017a`).
+The difference here is that `avail` searches the module names, and `spider` searches their description and other information for the keyword. Both are useful, and in both cases the search is case insensitive. For example, above we used the lowercase spelling of `BLAST` but in the results we have a mixture of cases (`BLAST/2.3.0`, `RMBlast/2.6.0-gimkl-2017a`, `samblaster/0.1.24-gimkl-2017a`).
 
-When we want to go and load a module, the `module load` command **is case sensitive** so we must use the exact result from `module avail` or `module spider`.
+When we want to go and load a module, the `module load` command **_is case sensitive_** so we must use the exact result from `module avail` or `module spider`.
 
 ```bash
 $ module load blast/2.3.0
@@ -103,7 +104,7 @@ When we load a module, if there is no feedback from the command prompt then the 
 
 Software modules are used for a number of reasons. The first is that whenever a session starts (i.e. you log into NeSI) all required tools must be found and loaded by the operating system. With the number of tools available on NeSI this would be prohibitive.
 
-The second reason is that software versions change through time, as new features are added or bugs are fixed. For the `samtools` software, which we will use later in this training program, there are currently 7 versions of the software installed into NeSI (0.1.18, 0.1.19, 1.3.1, 1.8, 1.9, 1.10, 1.12). As these are all accessed through the `samtools` command, if all were simultaneously available how would NeSI know which one you wanted to work with? The most recent version would be the logical choice, and is the default if you load the module without specifying a version name, but sometimes there are reasons to use an older version.
+The second reason is that software versions change through time, as new features are added or bugs are fixed. For the `samtools` software, which we will use later in this training program, there are currently 7 versions of the software installed into NeSI (0.1.18, 0.1.19, 1.3.1, 1.8, 1.9, 1.10, 1.12). All of these are executed through the `samtools` command, so if all were simultaneously available NeSI would not know which one to use. In most situations we would want to be working with the most recent version of the software, and if we use the `module load` command without providing a version number then this is what will load, but sometimes there are reasons to use an older version.
 
 ```bash
 $ module avail blast
@@ -118,11 +119,11 @@ blastn -version
 blastn: 2.10.0+
 ```
 
-It is always better to load the specific version as you then have a record of which version was used should you ever need to revisit your work. This also helps to avoid dependency clashes, which is the final consideration when loading modules.
+It is always better to load a specific version as you then have a record of which version was used should you ever need to revisit your work. This helps to avoid dependency clashes, which is the final consideration when loading modules.
 
-When we write software, it is very rare to write the entire program from scratch. There are a wealth of publicly available resources which can be used when developing a tool which saves the developer from writing every single line of code they need to achieve their intent. This saves time, obviously, but also tends to lead to more stable and robust code. This can be a problem though when we are using many different tools as sometimes these dependencies clash with each other. Sometimes, this can be a simple result of software being written to work on a different version of a language. For example, the popular `python` scripting lagnuage existed in two forms for many years as the release of the newer version 3.0 of the lanuage was developed in parallel to the older version 2.7. Code written in one version was not compatible with the other, and so for nearly 14 years it was required to carefully manage which version of `python` was being used in your system.
+When we write software, it is very rare to write the entire program from scratch. There are a wealth of publicly available resources which can be used when developing a tool which saves the developer from writing every single line of code they need to achieve their intent. This saves time and leads to more stable and robust code but can be a problem if we are trying to use tools with incompatible dependencies. An example of this issue can be found with the popular `python` scripting language. When the language was updated from version `2.7` to version `3.0` in 2006, there were fundamental changes to how the language was used so that code written in version `2.7` could not run in version `3.0+`. In order to save the global `python` community from having to rebuild all their work, version `2.7` was maintained and updated in parallel to the newer releases of `3.0+`. Unfortunately, because people didn't *need* to swap to the newer version, a situation arose in which even in 2019 tools were still being developed in the older version and users needed to implement complicated work arounds to run both `python2.7` and `python3` code in parallel as pipelines often consisted of a mixture of tools written in both versions.
 
-For a more common example of clashing dependencies, we will try to load two modules at the same time.
+For a common example of clashing dependencies, we will try to load two modules at the same time on NeSI.
 
 > ### Exercise
 >
@@ -158,7 +159,7 @@ For a more common example of clashing dependencies, we will try to load two modu
 > ```
 > </details>
 
-This issue occurs because these two different tools were created using a different set of development tools, and both sets of code cannot be activate in parallel.
+This issue occurs because these two different tools were created using a different set of development tools, and both sets of code cannot be active in parallel.
 
 This is one of the key considerations we must keep in mind when working with NeSI. Ideally, our `slurm` scripts will be minimalistic and only load a single module for each job, as in order to keep our resource usage minimal and efficient we will use resource requests tailored for the specific job. When we **_need_** to perform multiple commands in a single script we must make sure that all modules can be loaded together, or make use of the `module purge` command to isolate the software at each step of the script.
 
