@@ -2,7 +2,7 @@
 
 This revision material consists of five short exercises covering the main points of the Level 2 training. When you have completed all exercises, please contact one of the training representatives and send through any material required from the exercises below.
 
-**_All participants must complete the homework before moving to the next session to facilitate the smooth running of the sessions._**
+**_All participants must complete the homework before attending the next workshop to facilitate the smooth running of the sessions._**
 
 > Remember, if you are struggling with any exercises, remember the following:
 >
@@ -23,7 +23,7 @@ This revision material consists of five short exercises covering the main points
 
 Consider the `slurm` batch file below. It contains a number of errors. Identify at least 5 and send your observations, along with the correction to the trainer.
 
->**:Note:** As we have not yet covered running the `BLASTn` command from the command line, this is the same line that you used in the workshop. There are no intentional errors in this line.
+>**Note:** As we have not yet covered running the `BLASTn` command from the command line, this is the same line that you used in the workshop. There are no intentional errors in this command.
 
 ```bash
 #!/bin/bas -e
