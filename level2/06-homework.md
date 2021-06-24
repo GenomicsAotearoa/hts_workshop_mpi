@@ -1,12 +1,14 @@
 # Level 2 revision
 
-This revision material consists of five short exercises covering the main points of the Level 2 training. When you have completed all exercises, please contact one of the training representatives to have them check your work.
+This revision material consists of five short exercises covering the main points of the Level 2 training. When you have completed all exercises, please contact one of the training representatives and send through any material required from the exercises below.
 
-If you are struggling with any exercises, remember the following:
+Please note that we will be using the outputs from this homework for the next HTS workshop. If you do not do the homework, you **_will not_** have anything to work with on the next training day.
 
-1. Every exercise here was covered in the training material. Refer to this for hints.
-2. It is not cheating to use Google to find help on how various commands work.
-3. You are welcome to contact the trainers for advice on a particular exercise, but please attempt the first two options before resorting to this.
+> Remember, if you are struggling with any exercises, remember the following:
+>
+> 1. Every exercise here was covered in the training material. Refer to this for hints.
+> 1. It is not cheating to use Google to find help on how various commands work.
+> 1. You are welcome to contact the trainers for advice on a particular exercise, but please attempt the first two options before resorting to this.
 
 ---
 
@@ -54,23 +56,26 @@ $ gunzip GCF_000696015.1_ASM69601v1_genomic.fna.gz
 
 Create a `slurm` batch file to perform these commands. For the sake of efficiency, this job will only require 1 or 2 minutes to run and needs less than 1 GB of RAM to perform, so pick values that reflect this.
 
-Once you are happy with your script, submit it using `sbatch` and report the *successful* job identifier to the trainers, and provide them with the location of the script and results in NeSI.
+Once you are happy with your script, submit it using `sbatch` and report the *successful* job identifier to the trainers. Also provide them with the location of the script and results in NeSI.
 
 ---
 
 ## Exercise 4 - Working with `fastp` and `FastQC`
 
-In the `module_2/` resource folder there is a hidden directory `.homework_resources/` which contains the MiSeq output for two additional *M. bovis* isolates. Copy these to your `fastq_processing/data/` directory, then perform the following tasks:
+In the `module_2/` resource folder there is a directory `homework_resources/` which contains the MiSeq output for two additional *M. bovis* isolates. Copy these to your `fastq_processing/data/` directory, then perform the following tasks:
 
 1. Create a `FastQC` report of the sequences. Inspect any problems identified by `FastQC` and determine whether or not these are likely to be real issues for analysing the data.
 1. Trim the sequences with `fastp`, removing any low quality regions and adapter sequences.
    * You can pick any value for the Q-score threshold.
    * Remember that these are paired-end data
-1. Also process the `SRR097977` and `SRR098026` sequences with `fastp`
-   * We know from our previous work with `grep` and `FastQC` that the quality of these mock libraries is much lower than a standard output. How many reads from each sample pass through your filtering? 
 
 ---
 
-## Exercise 5 - Working with `pycoQC`
+## Exercise 5 - Working with `nanofilt`
 
-TO DO...
+In the `homework_resources/` folder you will also find the MinION sequencing runs for the same *M. bovis* isolates. Copy the data to your `fastq_processing/data/` directory and perform the following filtering on each set of reads:
+
+1. Remove sequences with an average Q-score less than XXX.
+1. Remove and sequences which are shorter than XXX nucleotides in length.
+
+---
