@@ -2,7 +2,7 @@
 
 This revision material consists of five short exercises covering the main points of the Level 2 training. When you have completed all exercises, please contact one of the training representatives and send through any material required from the exercises below.
 
-Please note that we will be using the outputs from this homework for the next HTS workshop. If you do not do the homework, you **_will not_** have anything to work with on the next training day.
+**_All participants must complete the homework before moving to the next session to facilitate the smooth running of the sessions._**
 
 > Remember, if you are struggling with any exercises, remember the following:
 >
