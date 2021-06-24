@@ -60,7 +60,14 @@ Once you are happy with your script, submit it using `sbatch` and report the *su
 
 ## Exercise 4 - Working with `fastp` and `FastQC`
 
-TO DO...
+In the `module_2/` resource folder there is a hidden directory `.homework_resources/` which contains the MiSeq output for two additional *M. bovis* isolates. Copy these to your `fastq_processing/data/` directory, then perform the following tasks:
+
+1. Create a `FastQC` report of the sequences. Inspect any problems identified by `FastQC` and determine whether or not these are likely to be real issues for analysing the data.
+1. Trim the sequences with `fastp`, removing any low quality regions and adapter sequences.
+   * You can pick any value for the Q-score threshold.
+   * Remember that these are paired-end data
+1. Also process the `SRR097977` and `SRR098026` sequences with `fastp`
+   * We know from our previous work with `grep` and `FastQC` that the quality of these mock libraries is much lower than a standard output. How many reads from each sample pass through your filtering? 
 
 ---
 
