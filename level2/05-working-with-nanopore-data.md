@@ -115,7 +115,7 @@ In the directory `/nesi/project/nesi03181/phel/USERNAME/fastq_processing/data/na
 
 ```bash
 $ module purge
-$ module load nanofilt
+$ module load nanofilt/2.6.0-gimkl-2020a-Python-3.8.2
 $ NanoFilt -q 15 -l 500 --headcrop 50 < Mb1.fastq > Mb1_nanofiltered.fastq
 ```
 
