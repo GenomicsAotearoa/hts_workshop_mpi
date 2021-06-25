@@ -56,6 +56,8 @@ $ gunzip GCF_000696015.1_ASM69601v1_genomic.fna.gz
 
 Create a `slurm` batch file to perform these commands. For the sake of efficiency, this job will only require 1 or 2 minutes to run and needs less than 1 GB of RAM to perform, so pick values that reflect this.
 
+>**Hint:** For this exercise you do not need to produce a `slurm` script from scratch. In the [Introduction to NeSI HPC Platforms](03-intro-to-nesi.md) exercise we used a `slurm` script to submit a `BLAST` job as part of the training. You are welcome to use that script as a template for this exercise.
+
 Once you are happy with your script, submit it using `sbatch` and report the *successful* job identifier to the trainers. Also provide them with the location of the script and results in NeSI.
 
 ---
@@ -73,9 +75,9 @@ In the `module_2/` resource folder there is a directory `homework_resources/` wh
 
 ## Exercise 5 - Working with `nanofilt`
 
-In the `homework_resources/` folder you will also find the MinION sequencing runs for the same *M. bovis* isolates. Copy the data to your `fastq_processing/data/` directory and perform the following filtering on each set of reads:
+In the `homework_resources/` folder you will also find the MinION sequencing runs which correspond to the same *M. bovis* isolates. Copy these data to your `fastq_processing/data/` directory and use `nanopore` to perform the following filtering on each set of reads:
 
-1. Remove sequences with an average Q-score less than XXX.
-1. Remove and sequences which are shorter than XXX nucleotides in length.
+1. Remove sequences with an average Q-score less than 10.
+1. Remove and sequences which are shorter than 400 nucleotides in length.
 
 ---
