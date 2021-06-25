@@ -4,7 +4,7 @@ This revision material consists of five short exercises covering the main points
 
 **_All participants must complete the homework before attending the next workshop to facilitate the smooth running of the sessions._**
 
-> Remember, if you are struggling with any exercises, remember the following:
+> Remember, if you are struggling with any exercises:
 >
 > 1. Every exercise here was covered in the training material. Refer to this for hints.
 > 1. It is not cheating to use Google to find help on how various commands work.
