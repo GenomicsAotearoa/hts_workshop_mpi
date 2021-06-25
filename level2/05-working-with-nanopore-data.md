@@ -35,7 +35,7 @@ When performing base calling in `guppy` there are several prediction models that
 
 ![](../img/02_minknow_select_model.png)
 
->**Note:** With the release of `guppy` version 5 there are also 'super accurate' models which provide higher quality translations than the high-accuracy model. These models can only be used when running `guppy` throug the command line.
+>**Note:** With the release of `guppy` version 5 there are also 'super accurate' models which provide higher quality translations than the high-accuracy model. These models can only be used when running `guppy` through the command line.
 
 If we choose to not perform the base calling in real time, we will need to perform the manually call the electronic signal files on the raw output files. These are stored in the `fast5` format. In order to do this, we can work with `guppy` in the command line in NeSI or the computers which PHEL use to run the MinION devices. We are not going to do this in the present workshop, as we normally request `MinKNOW` to perform basecalling in real time.
 
