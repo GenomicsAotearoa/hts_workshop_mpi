@@ -35,7 +35,7 @@ When we obtain data from a sequencing facility, it is always important to check 
 
 A very useful tool for answering these questions is `FastQC`. This tool takes a set of fastq files as input and produces reports for each one to allow us to answer the questions above, as well as examine over features of the sequences such as compositional bias, *k*-mer frequency profiles, and sequence duplication levels.
 
-To activate `FastQC` on NeSI, we need to load the `slurm` module using the command
+To activate `FastQC` on NeSI, we need to load the module using the command
 
 ```bash
 $ module purge
