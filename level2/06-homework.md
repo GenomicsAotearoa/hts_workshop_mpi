@@ -75,7 +75,7 @@ In the `module_2/` resource folder there is a directory `homework_resources/` wh
 
 ## Exercise 5 - Working with `nanofilt`
 
-In the `homework_resources/` folder you will also find the MinION sequencing runs which correspond to the same *M. bovis* isolates. Copy these data to your `fastq_processing/data/` directory and use `nanopore` to perform the following filtering on each set of reads:
+In the `homework_resources/` folder you will also find the MinION sequencing runs which correspond to the same *M. bovis* isolates. Copy these data to your `fastq_processing/data/` directory and use `NanoFilt` to perform the following filtering on each set of reads:
 
 1. Remove sequences with an average Q-score less than 10.
 1. Remove and sequences which are shorter than 400 nucleotides in length.
