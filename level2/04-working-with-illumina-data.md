@@ -386,17 +386,17 @@ This is a very helpful feature, but be warned that if your library has already b
 >
 > ```bash
 > $ fastp -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz -o results/fastp_test.R1.fastq.gz -O results/fastp_test.R2.fastq.gz
-> $ FastQC results/fastp_test.R1.fastq.gz results/fastp_test.R2.fastq.gz
+> $ fastqc results/fastp_test.R1.fastq.gz results/fastp_test.R2.fastq.gz
 >
 > $ fastp --disable_adapter_trimming \
 >         -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
 >         -o results/fastp_test.no_removal.R1.fastq.gz -O results/fastp_test.no_removal.R2.fastq.gz
-> $ FastQC results/fastp_test.no_removal.R1.fastq.gz results/fastp_test.no_removal.R2.fastq.gz
+> $ fastqc results/fastp_test.no_removal.R1.fastq.gz results/fastp_test.no_removal.R2.fastq.gz
 >
 > $ fastp --detect_adapter_for_pe \
 >         -i data/Mb1_1.fastq.gz -I data/Mb1_2.fastq.gz \
 >         -o results/fastp_test.auto_removal.R1.fastq.gz -O results/fastp_test.auto_removal.R2.fastq.gz
-> $ FastQC results/fastp_test.auto_removal.R1.fastq.gz results/fastp_test.auto_removal.R2.fastq.gz
+> $ fastqc results/fastp_test.auto_removal.R1.fastq.gz results/fastp_test.auto_removal.R2.fastq.gz
 > ```
 > </details>
 
