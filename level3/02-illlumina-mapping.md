@@ -119,7 +119,7 @@ $ module load SAMtools/1.12-GCC-9.2.0
 $ samtools view -bS bwa_results/Mb152.16S_M_bovis.paired.bwa.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.paired.bwa.bam
 $ samtools view -bS bwa_results/Mb152.16S_M_bovis.unpaired.bwa.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.unpaired.bwa.bam
 
-$ samtools merge bwa_results/Mb152.16S_M_bovis.bwa.bam bwa_results/Mb152.16S_M_bovis.paired.bam bwa_results/Mb152.16S_M_bovis.unpaired.bwa.bam
+$ samtools merge bwa_results/Mb152.16S_M_bovis.bwa.bam bwa_results/Mb152.16S_M_bovis.paired.bwa.bam bwa_results/Mb152.16S_M_bovis.unpaired.bwa.bam
 ```
 
 We can now download the final `bam` file and import it into `Geneious`.
