@@ -75,7 +75,7 @@ We can now download the resulting `bam` file and import it into `Geneious`.
 > $ for i in Mb1 Mb168;
 > do
 >      bowtie2 --sensitive -x bowtie2_index/NZ_CP005933_16S_rRNA \
->              -1 ../2_Quality_filtered_data/${i}_trimmed.miseq.fastq \
+>              -1 ../2_Quality_filtered_data/${i}_1_trimmed.miseq.fastq \
 >              -2 ../2_Quality_filtered_data/${i}_2_trimmed.miseq.fastq \
 >              -U ../2_Quality_filtered_data/${i}_unpaired_trimmed.miseq.fastq \
 >              -S bowtie2_results/${i}.16S_M_bovis.bwt.sam
