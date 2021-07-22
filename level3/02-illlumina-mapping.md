@@ -126,13 +126,13 @@ We can now download the final `bam` file and import it into `Geneious`.
 
 > ### Exercise
 >
-> You have also obtained paired-end reads from two other *M. bovis* isolates. Write a loop to perform the `bowtie2` and `samtools` operations over these data.
+> Repeat this mapping effort for the other two samples, similar to the previous exercise.
 >
 > <details>
 > <summary>Solution</summary>
 >
 > ```bash
-> $ module load Bowtie2/2.4.1-GCC-9.2.0
+> $ module load BWA/0.7.17-gimkl-2017a
 > $ module load SAMtools/1.12-GCC-9.2.0
 >
 > $ for i in Mb1 Mb168;
