@@ -99,4 +99,4 @@ In either case, it is important that **both** the `bam` file and the reference s
 
 ---
 
-[Next lesson](03-ont-mapping.md)
+[Next lesson](02-illlumina-mapping.md)
