@@ -47,7 +47,7 @@ When mapping sequences, the input consists of a set of reads and a reference gen
 
 The figure above gives an example of the ways in which reads can map with mismatches to a reference. The first read is aligned at position 100 and the alignment has two mismatches. The second read is aligned at position 114. It is a local alignment with clippings on the left and right. The third read is aligned at position 123. It consists of a 2-base insertion and a 1-base deletion.
 
-When working with mapped reads it is our job to example these areas of mismatch and evaluate whether or not these represent real sequence variation.
+When working with mapped reads it is our job to examine these areas of mismatch and evaluate whether or not these represent real sequence variation.
 
 ---
 
@@ -71,9 +71,9 @@ Mapping tools usually produce their output in the `sam` format. This file stores
 
 The full specification for the file format [can be found here](https://samtools.github.io/hts-specs/SAMv1.pdf).
 
-However, it is not usually nessesary to inspect the `sam` file directly - there is a lot of information in here and unless you are looking to extract specific information from the alignment it is just an intermediate file in the workflow. In order to save disk space, and to prepare the file for downstream analysis, `sam` files are ussually sorted and compressed.
+However, it is not usually necessary to inspect the `sam` file directly - there is a lot of information in here and unless you are looking to extract specific information from the alignment it is just an intermediate file in the workflow. In order to save disk space, and to prepare the file for downstream analysis, `sam` files are ussually sorted and compressed.
 
-Sorting the mapping information is an important prerequisite for performing certain downstream processes. Not every tool we use requires reads to be sorted, but it can be frustrating having to debug the instances where read sorting matters, so we typically just get it done as soon as possible and then we don't have to worry about it again. Reads will initially be mapped in an unsorted order, as they are added to the `sam` file in more or less the same order as they are encountered in the input fastq files. We sort thew reads so that reads mapped to a contig are listed in order of their start position as exemplified below:
+Sorting the mapping information is an important prerequisite for performing certain downstream processes. Not every tool we use requires reads to be sorted, but it can be frustrating having to debug the instances where read sorting matters, so we typically just get it done as soon as possible and then we don't have to worry about it again. Reads will initially be mapped in an unsorted order, as they are added to the `sam` file in more or less the same order as they are encountered in the input fastq files. When sorted the reads are ordered by the position of their first mapped nucleotide, as exemplified below:
 
 ```
 # Unsorted reads
@@ -93,7 +93,7 @@ Map: -----------NTIG
 
 Compressing the file to the `bam` format is an important step as `sam` files can be massive and our storage capacity on NeSI is limited.
 
-The final output (`bam`) files can be used as input for downstream processeses in our command line work, or can be imported into GUI programs for a visual analysis. We will use `Geneious` for this purpose. There are severla ways to import `bam` files into `Geneious` either by using the `Import Files...` option from the `File` menu, or simply dragging and dropping the files into the `Geneious` document table.
+The final output (`bam`) files can be used as input for downstream processeses in our command line work, or can be imported into GUI programs for a visual analysis. We will use `Geneious` for this purpose. There are several ways to import `bam` files into `Geneious` either by using the `Import Files...` option from the `File` menu, or simply dragging and dropping the files into the `Geneious` document table.
 
 In either case, it is important that **both** the `bam` file and the reference sequence against which the reads were mapped are imported. If you import the `bam` without the reference, `Geneious` will not know the content of the original reference sequence.
 
