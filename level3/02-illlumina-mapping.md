@@ -32,6 +32,7 @@ $ cd /nesi/project/nesi03181/phel/USERNAME/3_Assembly-mapping/
 
 # Create an index of the reference sequence
 $ module load Bowtie2/2.4.1-GCC-9.2.0
+
 $ mkdir bowtie2_index/
 $ bowtie2-build NZ_CP005933_16S_rRNA.fasta bowtie2_index/NZ_CP005933_16S_rRNA
 ```
@@ -40,6 +41,7 @@ We are now ready to align (map) the sequences against the reference.
 
 ```bash
 $ mkdir bowtie2_results/
+
 $ bowtie2 --sensitive -x bowtie2_index/NZ_CP005933_16S_rRNA \
           -1 ../2_Quality_filtered_data/Mb152_1_trimmed.miseq.fastq \
           -2 ../2_Quality_filtered_data/Mb152_2_trimmed.miseq.fastq \
@@ -51,6 +53,7 @@ We will now sort and compress the contents of the `sam` file. This will not requ
 
 ```bash
 $ module load SAMtools/1.12-GCC-9.2.0
+
 $ samtools view -bS bowtie2_results/Mb152.16S_M_bovis.sam | samtools sort -o bowtie2_results/Mb152.16S_M_bovis.bam
 ```
 
@@ -90,6 +93,7 @@ We can now download the resulting `bam` file and import it into `Geneious`.
 ```bash
 # Create an index of the reference sequence
 $ module load BWA/0.7.17-gimkl-2017a
+
 $ mkdir bwa_index/
 $ bwa index -p bwa_index/NZ_CP005933_16S_rRNA NZ_CP005933_16S_rRNA.fasta
 ```
@@ -98,9 +102,11 @@ We are now ready to align (map) the sequences against the reference. Unforetunat
 
 ```bash
 $ mkdir bwa_results/
+
 $ bwa mem bwa_index/NZ_CP005933_16S_rRNA \
       ../2_Quality_filtered_data/Mb152_1_trimmed.miseq.fastq \
       ../2_Quality_filtered_data/Mb152_2_trimmed.miseq.fastq > bwa_results/Mb152.16S_M_bovis.paired.sam
+
 $ bwa mem bwa_index/NZ_CP005933_16S_rRNA \
       ../2_Quality_filtered_data/Mb152_unpaired_trimmed.miseq.fastq > bwa_results/Mb152.16S_M_bovis.unpaired.sam
 ```
