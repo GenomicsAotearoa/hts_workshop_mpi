@@ -46,7 +46,7 @@ $ bowtie2 --sensitive -x bowtie2_index/NZ_CP005933_16S_rRNA \
           -1 ../2_Quality_filtered_data/Mb152_1_trimmed.miseq.fastq \
           -2 ../2_Quality_filtered_data/Mb152_2_trimmed.miseq.fastq \
           -U ../2_Quality_filtered_data/Mb152_unpaired_trimmed.miseq.fastq \
-          -S bowtie2_results/Mb152.16S_M_bovis.sam
+          -S bowtie2_results/Mb152.16S_M_bovis.bwt.sam
 ```
 
 We will now sort and compress the contents of the `sam` file. This will not require us to perform a `module purge` as `bowtie2` and `samtools` were built with the same environment, but there is no harm in performing a purge if you wish.
@@ -54,7 +54,7 @@ We will now sort and compress the contents of the `sam` file. This will not requ
 ```bash
 $ module load SAMtools/1.12-GCC-9.2.0
 
-$ samtools view -bS bowtie2_results/Mb152.16S_M_bovis.sam | samtools sort -o bowtie2_results/Mb152.16S_M_bovis.bam
+$ samtools view -bS bowtie2_results/Mb152.16S_M_bovis.bwt.sam | samtools sort -o bowtie2_results/Mb152.16S_M_bovis.bwt.bam
 ```
 
 > **Note:** There is no point in retaining the original `sam` file at this point, as the information it contains is more efficiently encoded within the `bam` format.
@@ -78,8 +78,8 @@ We can now download the resulting `bam` file and import it into `Geneious`.
 >              -1 ../2_Quality_filtered_data/${i}_trimmed.miseq.fastq \
 >              -2 ../2_Quality_filtered_data/${i}_2_trimmed.miseq.fastq \
 >              -U ../2_Quality_filtered_data/${i}_unpaired_trimmed.miseq.fastq \
->              -S bowtie2_results/${i}.16S_M_bovis.sam
->     samtools view -bS bowtie2_results/${i}.16S_M_bovis.sam | samtools sort -o bowtie2_results/${i}.16S_M_bovis.bam
+>              -S bowtie2_results/${i}.16S_M_bovis.bwt.sam
+>     samtools view -bS bowtie2_results/${i}.16S_M_bovis.bwt.sam | samtools sort -o bowtie2_results/${i}.16S_M_bovis.bwt.bam
 > done
 > ```
 > </details>
@@ -105,10 +105,10 @@ $ mkdir bwa_results/
 
 $ bwa mem bwa_index/NZ_CP005933_16S_rRNA \
       ../2_Quality_filtered_data/Mb152_1_trimmed.miseq.fastq \
-      ../2_Quality_filtered_data/Mb152_2_trimmed.miseq.fastq > bwa_results/Mb152.16S_M_bovis.paired.sam
+      ../2_Quality_filtered_data/Mb152_2_trimmed.miseq.fastq > bwa_results/Mb152.16S_M_bovis.paired.bwa.sam
 
 $ bwa mem bwa_index/NZ_CP005933_16S_rRNA \
-      ../2_Quality_filtered_data/Mb152_unpaired_trimmed.miseq.fastq > bwa_results/Mb152.16S_M_bovis.unpaired.sam
+      ../2_Quality_filtered_data/Mb152_unpaired_trimmed.miseq.fastq > bwa_results/Mb152.16S_M_bovis.unpaired.bwa.sam
 ```
 
 We will now sort and compress the contents of the `sam` file. This time, however, we will need to account for the fact that there are two `sam` files that need to be combined.
@@ -116,10 +116,10 @@ We will now sort and compress the contents of the `sam` file. This time, however
 ```bash
 $ module load SAMtools/1.12-GCC-9.2.0
 
-$ samtools view -bS bwa_results/Mb152.16S_M_bovis.paired.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.paired.bam
-$ samtools view -bS bwa_results/Mb152.16S_M_bovis.unpaired.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.unpaired.bam
+$ samtools view -bS bwa_results/Mb152.16S_M_bovis.paired.bwa.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.paired.bwa.bam
+$ samtools view -bS bwa_results/Mb152.16S_M_bovis.unpaired.bwa.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.unpaired.bwa.bam
 
-$ samtools merge bwa_results/Mb152.16S_M_bovis.bam bwa_results/Mb152.16S_M_bovis.paired.bam bwa_results/Mb152.16S_M_bovis.unpaired.bam
+$ samtools merge bwa_results/Mb152.16S_M_bovis.bwa.bam bwa_results/Mb152.16S_M_bovis.paired.bam bwa_results/Mb152.16S_M_bovis.unpaired.bwa.bam
 ```
 
 We can now download the final `bam` file and import it into `Geneious`.
@@ -140,16 +140,16 @@ We can now download the final `bam` file and import it into `Geneious`.
 >     # Map
 >     bwa mem bwa_index/NZ_CP005933_16S_rRNA \
 >             ../2_Quality_filtered_data/${i}_1_trimmed.miseq.fastq \
->             ../2_Quality_filtered_data/${i}_2_trimmed.miseq.fastq > bwa_results/${i}.16S_M_bovis.paired.sam
->     bwa mem bwa_index/NZ_CP005933_16S_rRNA ../2_Quality_filtered_data/${i}_unpaired_trimmed.miseq.fastq > bwa_results/${i}.16S_M_bovis.unpaired.sam
+>             ../2_Quality_filtered_data/${i}_2_trimmed.miseq.fastq > bwa_results/${i}.16S_M_bovis.paired.bwa.sam
+>     bwa mem bwa_index/NZ_CP005933_16S_rRNA ../2_Quality_filtered_data/${i}_unpaired_trimmed.miseq.fastq > bwa_results/${i}.16S_M_bovis.unpaired.bwa.sam
 >
 >     # Sort and merge
->     samtools view -bS bwa_results/${i}.16S_M_bovis.paired.sam | samtools sort -o bwa_results/${i}.16S_M_bovis.paired.bam
->     samtools view -bS bwa_results/${i}.16S_M_bovis.unpaired.sam | samtools sort -o bwa_results/${i}.16S_M_bovis.unpaired.bam
->     samtools merge bwa_results/${i}.16S_M_bovis.bam bwa_results/${i}.16S_M_bovis.paired.bam bwa_results/${i}.16S_M_bovis.unpaired.bam
+>     samtools view -bS bwa_results/${i}.16S_M_bovis.paired.bwa.sam | samtools sort -o bwa_results/${i}.16S_M_bovis.paired.bwa.bam
+>     samtools view -bS bwa_results/${i}.16S_M_bovis.unpaired.bwa.sam | samtools sort -o bwa_results/${i}.16S_M_bovis.unpaired.bwa.bam
+>     samtools merge bwa_results/${i}.16S_M_bovis.bwa.bam bwa_results/${i}.16S_M_bovis.*.bwa.bam
 >
 >     # Tidy up
->     rm bwa_results/${i}.16S_M_bovis.{paired,unpaired}.{bam,sam}
+>     rm bwa_results/${i}.16S_M_bovis.{paired,unpaired}.bwa.{bam,sam}
 > done
 > ```
 > </details>
