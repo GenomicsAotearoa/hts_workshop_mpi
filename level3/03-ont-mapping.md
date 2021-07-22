@@ -60,4 +60,24 @@ $ samtools view -bS minimap_results/Mb152.16S_M_bovis.ont.sam | samtools sort -o
 
 The results can now be imported into `Geneious` just as before.
 
+> ### Exercise
+>
+> Write a loop to perform the `minimap2` and `samtools` operations over the other two samples.
+>
+> <details>
+> <summary>Solution</summary>
+>
+> ```bash
+> $ module load minimap2/2.20-GCC-9.2.0
+> $ module load SAMtools/1.12-GCC-9.2.0
+>
+> $ for i in Mb1 Mb168;
+> do
+>     minimap2 -ax map-ont minimap_index/NZ_CP005933_16S_rRNA.mmi ../2_Quality_filtered_data/${i}_trimmed.minion.fastq > minimap_results/${i}.16S_M_bovis.ont.sam
+>     samtools view -bS minimap_results/${i}.16S_M_bovis.ont.sam | samtools sort -o minimap_results/${i}.16S_M_bovis.ont.bam
+> done
+> ```
+> </details>
+
+
 ---
