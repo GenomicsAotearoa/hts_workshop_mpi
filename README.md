@@ -17,6 +17,9 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Materials (Part 1)](level2/01-writing-scripts.md)
    * [Materials (Part 2)](level2/03-intro-to-nesi.md)
    * [Homework](level2/06-homework.md)
+1. Level 3 - Read mapping and assembly
+   * [Background](#Level-3---read-mapping-and-assembly)
+   * [Materials (part 1)](level3/01-introduction-to-mapping.md)
 
 ---
 
@@ -60,3 +63,15 @@ In particular, we are working with the following data samples:
 1. [Run ERR4179828](https://www.ncbi.nlm.nih.gov/sra/ERX4143252[accn]) - Illumina MiSeq sequences from the same strains
 
 Additional teaching materials were sourced from the [Genomics Aoteoroa Metagenomic Summer School workshop](https://github.com/GenomicsAotearoa/metagenomics_summer_school) and the [Long-Read, long reach Bioinformatics Tutorial](https://timkahlke.github.io/LongRead_tutorials/) put together by Tim Kahlke.
+
+---
+
+## Level 3 - Read mapping and assembly
+
+This workshop covers the process of mapping Illumina and Oxford Nanopore sequences against reference genomes, and covers the basics of performing *de novo* assembly.
+
+Some material has been adapted from the [Genomics Aotearoa](https://www.genomics-aotearoa.org.nz/) metagenomics summer school ([github here](https://github.com/GenomicsAotearoa/metagenomics_summer_school)), and the training materials provided by the [Galaxy community](https://training.galaxyproject.org/training-material/).
+
+### Citation
+
+Joachim Wolff, Bérénice Batut, Helena Rasche, (2021). Mapping (Galaxy Training Materials). [https://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/mapping/tutorial.html](https://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/mapping/tutorial.html).
