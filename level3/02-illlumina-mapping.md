@@ -54,6 +54,8 @@ $ module load SAMtools/1.12-GCC-9.2.0
 $ samtools view -bS bowtie2_results/Mb152.16S_M_bovis.sam | samtools sort -o bowtie2_results/Mb152.16S_M_bovis.bam
 ```
 
+> **Note:** There is no point in retaining the original `sam` file at this point, as the information it contains is more efficiently encoded within the `bam` format.
+
 We can now download the resulting `bam` file and import it into `Geneious`.
 
 > ### Exercise
@@ -107,10 +109,14 @@ We will now sort and compress the contents of the `sam` file. This time, however
 
 ```bash
 $ module load SAMtools/1.12-GCC-9.2.0
-$ ...
+
+$ samtools view -bS bwa_results/Mb152.16S_M_bovis.paired.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.paired.bam
+$ samtools view -bS bwa_results/Mb152.16S_M_bovis.unpaired.sam | samtools sort -o bwa_results/Mb152.16S_M_bovis.unpaired.bam
+
+$ samtools merge bwa_results/Mb152.16S_M_bovis.bam bwa_results/Mb152.16S_M_bovis.paired.bam bwa_results/Mb152.16S_M_bovis.unpaired.bam
 ```
 
-We can now download the resulting `bam` file and import it into `Geneious`.
+We can now download the final `bam` file and import it into `Geneious`.
 
 > ### Exercise
 >
@@ -125,7 +131,19 @@ We can now download the resulting `bam` file and import it into `Geneious`.
 >
 > $ for i in Mb1 Mb168;
 > do
->      ...
+>     # Map
+>     bwa mem bwa_index/NZ_CP005933_16S_rRNA \
+>             ../2_Quality_filtered_data/${i}_1_trimmed.miseq.fastq \
+>             ../2_Quality_filtered_data/${i}_2_trimmed.miseq.fastq > bwa_results/${i}.16S_M_bovis.paired.sam
+>     bwa mem bwa_index/NZ_CP005933_16S_rRNA ../2_Quality_filtered_data/${i}_unpaired_trimmed.miseq.fastq > bwa_results/${i}.16S_M_bovis.unpaired.sam
+>
+>     # Sort and merge
+>     samtools view -bS bwa_results/${i}.16S_M_bovis.paired.sam | samtools sort -o bwa_results/${i}.16S_M_bovis.paired.bam
+>     samtools view -bS bwa_results/${i}.16S_M_bovis.unpaired.sam | samtools sort -o bwa_results/${i}.16S_M_bovis.unpaired.bam
+>     samtools merge bwa_results/${i}.16S_M_bovis.bam bwa_results/${i}.16S_M_bovis.paired.bam bwa_results/${i}.16S_M_bovis.unpaired.bam
+>
+>     # Tidy up
+>     rm bwa_results/${i}.16S_M_bovis.{paired,unpaired}.{bam,sam}
 > done
 > ```
 > </details>
