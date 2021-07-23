@@ -103,7 +103,7 @@ In either case, it is important that **both** the `bam` file and the reference s
 
 ## Obtaining a reference sequence
 
-In the exercises that follow we will be working with a single gene as the reference sequence, rathre than the full genome. We have previously covered a method of obtaining full genome sequences using `wget` (see [the module 2 homework]()), but there is an easier way to obtain a reference if it is just a single sequence that we want.
+In the exercises that follow we will be working with a single gene as the reference sequence, rathre than the full genome. We have previously covered a method of obtaining full genome sequences using `wget` (see [the module 2 homework](../level2/06-homework.md#exercise-3---writing-your-own-slurm-script)), but there is an easier way to obtain a reference if it is just a single sequence that we want.
 
 If we know the accession number of a sequence to download, it can be retrieved using the `Entrez Direct` utilities ([https://www.ncbi.nlm.nih.gov/books/NBK179288/](https://www.ncbi.nlm.nih.gov/books/NBK179288/)) on NeSI quite simply. For example, to obtain the complete sequence for the *Mycoplasma bovis* CQ-W70 genome (accession CP005933) we can use the following command: 
 
