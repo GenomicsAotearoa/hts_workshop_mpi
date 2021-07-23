@@ -24,6 +24,8 @@
 1. [Introduction to mapping](#introduction-to-mapping)
 1. [Overview of the mapping process](#overview-of-the-mapping-process)
 1. [Storing read mapping information](#storing-read-mapping-information)
+1. [Obtaining a reference sequence](#obtaining-a-reference-sequence)
+
 ---
 
 ## Introduction to mapping
@@ -98,5 +100,25 @@ The final output (`bam`) files can be used as input for downstream processeses i
 In either case, it is important that **both** the `bam` file and the reference sequence against which the reads were mapped are imported. If you import the `bam` without the reference, `Geneious` will not know the content of the original reference sequence.
 
 ---
+
+## Obtaining a reference sequence
+
+In the exercises that follow we will be working with a single gene as the reference sequence, rathre than the full genome. We have previously covered a method of obtaining full genome sequences using `wget` (see [the module 2 homework]()), but there is an easier way to obtain a reference if it is just a single sequence that we want.
+
+If we know the accession number of a sequence to download, it can be retrieved using the `Entrez Direct` utilities ([https://www.ncbi.nlm.nih.gov/books/NBK179288/](https://www.ncbi.nlm.nih.gov/books/NBK179288/)) on NeSI quite simply. For example, to obtain the complete sequence for the *Mycoplasma bovis* CQ-W70 genome (accession CP005933) we can use the following command: 
+
+```bash
+$ module load entrez-direct/13.3
+
+# Download the raw fasta file
+$ efetch -format fasta -db sequences -id CP005933 > CP005933.fna
+
+# Download the annotated GenBank file
+$ efetch -format gb -db sequences -id CP005933 > CP005933.gb
+```
+
+To find the correct accession number, you will still need to perform your own digging to find a trusted reference. This is just a means to speed up the process of getting the data onto NeSI once you have chosen the correct sequence for use.
+
+--
 
 [Next lesson](02-illlumina-mapping.md)
