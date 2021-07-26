@@ -119,6 +119,6 @@ $ efetch -format gb -db sequences -id CP005933 > CP005933.gb
 
 To find the correct accession number, you will still need to perform your own digging to find a trusted reference. This is just a means to speed up the process of getting the data onto NeSI once you have chosen the correct sequence for use.
 
---
+---
 
 [Next lesson](02-illlumina-mapping.md)
