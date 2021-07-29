@@ -92,7 +92,7 @@ We can now download the resulting `bam` file and import it into `Geneious`.
 
 ```bash
 # Create an index of the reference sequence
-$ module load BWA/0.7.17-gimkl-2017a
+$ module load BWA/0.7.17-GCC-9.2.0
 
 $ mkdir bwa_index/
 $ bwa index -p bwa_index/NZ_CP005933_16S_rRNA NZ_CP005933_16S_rRNA.fasta
@@ -132,7 +132,7 @@ We can now download the final `bam` file and import it into `Geneious`.
 > <summary>Solution</summary>
 >
 > ```bash
-> $ module load BWA/0.7.17-gimkl-2017a
+> $ module load BWA/0.7.17-GCC-9.2.0
 > $ module load SAMtools/1.12-GCC-9.2.0
 >
 > $ for i in Mb1 Mb168;
