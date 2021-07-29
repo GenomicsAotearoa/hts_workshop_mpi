@@ -20,6 +20,7 @@ This is the opening page for the HTS workshop. Content is divided into four leve
 1. Level 3 - Read mapping and assembly
    * [Background](#Level-3---read-mapping-and-assembly)
    * [Materials (part 1)](level3/01-introduction-to-mapping.md)
+   * [Homework (part 1)](level3/04-homework.md)
 
 ---
 
