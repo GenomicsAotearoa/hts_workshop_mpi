@@ -1,6 +1,4 @@
-# TO DO...
-
-# Selecting assembly tools and parameters
+# Selecting assembly parameters
 
 * Teaching: 20 minutes
 
@@ -21,6 +19,12 @@
 ## Contents
 
 1. [Key considerations for optimising an assembly](#key-considerations-for-optimising-an-assembly)
+   1. [Assembly modes](#assembly-modes)
+   1. [Stages of assembly](#stages-of-assembly)
+   1. [Input data and reference files](#input-data-and-reference-files)
+   1. [Tuning the assembly](#tuning-the-assembly)
+   1. [Checkpointing](#checkpointing)
+   1. [Resource limitations](#resource-limitations)
 
 ---
 
@@ -135,7 +139,7 @@ $ spades.py --continue -o test_assembly/
 
 ### Resource limitations
 
-Finally, there are several parameters we can adjust with `SPAdes` to affect its resource utilisation. There are three main options we will routinely need to change - the thread count, the memory ceiling, and (sometimes) the temporary file location.
+Finally, there are several parameters we can adjust with `SPAdes` to affect its resource utilisation. There are two options we will routinely need to change - the thread count, the memory ceiling.
 
 ##### Specifying the thread count
 
@@ -158,6 +162,3 @@ The interaction between `SPAdes` and `slurm` memory management is important to r
 |250 GB|600 GB|`slurm` terminates `SPAdes` job when memory request execeeds 250 GB|
 |600 GB|600 GB|Job completes successfully|
 
-##### Changing the temporary file directory
-
-`SPAdes` produces a number of temporary files when performing assembly. Generally this is not a problem but when working on NeSI there are a number of file size and file number restrictions placed upon our working directories. If you are following best practice and working on the `/nobackup/` location then you are very unlikely to ever encouter this issue.
