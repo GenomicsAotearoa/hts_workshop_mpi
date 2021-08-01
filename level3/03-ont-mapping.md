@@ -26,8 +26,6 @@
 
 ---
 
-<Text to come>
-
 Once more, navigate to the working directory before beginning the exercise.
 
 ```bash
