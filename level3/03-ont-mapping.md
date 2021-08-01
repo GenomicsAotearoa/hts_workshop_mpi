@@ -24,8 +24,6 @@
 
 ## Mapping reads with `minimap2`
 
----
-
 Once more, navigate to the working directory before beginning the exercise.
 
 ```bash
