@@ -16,7 +16,7 @@ When you have completed all exercises, email the requested material and answers 
 
 ---
 
-## Exercise 1 - Mapping to a genome using `bwa`
+## Exercise 1 - Mapping to a genome using `bowtie2`
 
 Create a `slurm` batch file to perform mapping of the quality filtered sequences corresponding to the `Mb168` isolate against the reference genome and convert the output to a sorted `bam` file.
 
@@ -26,7 +26,7 @@ Once you have completed this task, download both the reference genome and your `
           
 ---
 
-## Exercise 2 - Mapping to a genome using `bowtie2`
+## Exercise 2 - Mapping to a genome using `bwa`
 
 Create a `slurm` batch file to perform mapping of the quality filtered sequences corresponding to the `Mb168` isolate against the reference genome and convert the output to a sorted `bam` file.
 
