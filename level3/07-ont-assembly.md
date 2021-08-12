@@ -63,8 +63,8 @@ You can explore the `Canu` documentation [online](https://canu.readthedocs.io/en
 
 ```bash
 $ canu -d Mb1_canu/ -p Mb1 \
-       genomeSize=1m useGrid=false \
-       -nanopore ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq
+       -nanopore ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
+       genomeSize=1m useGrid=false
 ```
 
 There are several parameters here which we are using, so we will go through them briefly:
@@ -114,7 +114,7 @@ We can then use this mapping file as the input for `racon`:
 ```bash
 $ module load Racon/1.4.13-GCC-9.2.0
 
-$ racon ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq Mb1.sam ont_polishing/Mb1.canu.fna > ont_polishing/Mb1.racon.fna
+$ racon -t 10 ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq Mb1.sam ont_polishing/Mb1.canu.fna > ont_polishing/Mb1.racon.fna
 ```
 
 >**Note:** It is possible to perform the `racon` process iteratively, remapping reads to the `racon` output and then running the polishing cycle again. There is some data in the `medaka` documentation ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running a single polishing step. However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your is unclear, and ultimately it is your decision whether or not to perform this approach.
