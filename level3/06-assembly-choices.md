@@ -118,7 +118,7 @@ Notice above that all manual *k*-mer values are odd-numbered. This is deliberate
 In practice, we tend to find that `SPAdes` is quite quick to end the *k*-mer extension process and we can often get much better assemblies by manually specifying additonal *k*-mer sizes. However, the more *k*-mers we specify the longer assembly will take (as each *k*-mer size must go through a round of error correction and assembly). For an example of the effect of *k*-mer size on assembly, here is some data from a Genomics Aotearoa experiment assembling a marine metagenome:
 
 |Method|*k*-mers assembled|Contigs assembled|Longest contig length|N50 (>2kbp)|L50 (>2kbp)|
-|:---|:---|:---|:---|:---|
+|:---|:---|:---|:---|:---|:---|
 |Automatic|21, 33, 55|4,239,806|660,812|6,782|12,906|
 |Manual|43, 55, 77, 99, 121|2,519,669|1,022,083|7,990|12,673|
 |Manual|21, 43, 55, 77, 99, 121|3,388,682|71,022,083|7,789|13,327|
