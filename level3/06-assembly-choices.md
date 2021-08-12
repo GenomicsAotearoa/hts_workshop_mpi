@@ -1,6 +1,6 @@
 # Selecting assembly parameters
 
-* Teaching: 20 minutes
+* Teaching: 30 minutes
 
 #### Objectives
 
