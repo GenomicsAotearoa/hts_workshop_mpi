@@ -17,7 +17,7 @@
 
 ## Contents
 
-1. [Performing *de novo* assembly with `Canu`](#performing-de-novo-assembly-with-Canu)
+1. [Performing *de novo* assembly with `Canu`](#performing-de-novo-assembly-with-canu)
 1. [Preparing to polish our assembly](#preparing-to-polish-our-assembly)
 1. [Performing an initial tidy up with `racon`](#performing-an-initial-tidy-up-with-racon)
 1. [Performing additional polishing with `medaka`](#performing-additional-polishing-with-medaka)
@@ -62,9 +62,9 @@ $ module load Canu/2.1.1-GCC-9.2.0
 You can explore the `Canu` documentation [online](https://canu.readthedocs.io/en/latest/index.html) or through the help menu, but at a minimum to make an assembly work, you can use the following parameters:
 
 ```bash
-$ canu -d Mb152_canu/ -p Mb152 \
+$ canu -d Mb1_canu/ -p Mb1 \
        genomeSize=1m useGrid=false \
-       -nanopore ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq
+       -nanopore ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq
 ```
 
 There are several parameters here which we are using, so we will go through them briefly:
@@ -76,7 +76,6 @@ There are several parameters here which we are using, so we will go through them
 |`genomeSize`|The approximate genome size for our organism. This is used to calculate the initial read coverage.|
 |`useGrid`|By default, `Canu` will detect that it is running on a compute cluster with `slurm` installed and will dispatch itself in a `slurm` script. We don't want this behaviour.|
 |`-nanopore`|Use pre-computed error rates representative of ONT data|
-
 
 ---
 
@@ -92,7 +91,7 @@ Before proceding, we will create a directory for all polishing attempts and make
 
 ```bash
 $ mkdir ont_polishing/
-$ cp asdasdasd/asdasdasd ont_polishing/adasdasd
+$ cp Mb1_canu/Mb1.contigs.fasta ont_polishing/Mb1.canu.fna
 ```
 
 ---
@@ -106,7 +105,7 @@ Before running `racon` we must produce a mapping file of the quality filtered se
 ```bash
 $ module load minimap2/2.17-GCC-9.2.0
 
-$ minimap2 -ax map-ont ${TARGET} ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq > ${TARGET}.sam
+$ minimap2 -ax map-ont ont_polishing/Mb1.canu.fna ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq > Mb1.sam
 ```
 
 We can then use this mapping file as the input for `racon`:
@@ -114,7 +113,7 @@ We can then use this mapping file as the input for `racon`:
 ```bash
 $ module load Racon/1.4.13-GCC-9.2.0
 
-$ racon ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq ${TARGET}.sam ${TARGET} > ont_polishing/${TARGET}.racon.fna
+$ racon ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq Mb1.sam ont_polishing/Mb1.canu.fna > ont_polishing/Mb1.racon.fna
 ```
 
 **Note:** It is possible to perform the `racon` process iteratively, remapping the reads to each output and then re-running `racon` on the new alignment. There is some data in the `medaka` documentation ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running tools individually. However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your is unclear, and ultimately it is your decision whether or not to perform this approach.
@@ -138,3 +137,9 @@ $ medaka -h
 ```
 
 While this environment is active we can access `medaka` as if it were a native piece of software.
+
+# TO COMPLETE
+
+---
+
+[Next lesson](08-hybrid-assembly.md)
