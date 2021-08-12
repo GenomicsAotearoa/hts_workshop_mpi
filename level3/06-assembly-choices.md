@@ -30,7 +30,7 @@
 
 ## Key considerations for optimising an assembly
 
-If you look through the manual of `SPAdes` you will see a **_lot_** of parameters which can be adjusted for try to optimise the final assembly. There are also a number of parameters to adjust the performance of `SPAdes` itself, to either speed up the job or to prevent it from overloading the server. Here we will discuss some of the key parameter choices which should be considered for each assembly.
+If you look through the manual of `SPAdes` you will see a **_lot_** of parameters which can be adjusted in order to optimise the final assembly. There are also a number of parameters to adjust the performance of `SPAdes` itself, to either speed up the job or to prevent it from overloading the server. Here we will discuss some of the key parameter choices which should be considered for each assembly.
 
 ```bash
 $ module load SPAdes/3.15.2-gimkl-2020a
@@ -40,38 +40,38 @@ $ spades.py -h
 
 ### Assembly modes
 
-In its original inception, `SPAdes` was developed as an assembly tool to address some of the problems inherent in assembly single-cell genome data, as contemporary asssemblers performed poorly on these data. As part of the testing, the authors also noted that `SPAdes` performed extremely well of regular enome sequencing data.
+In its original inception, `SPAdes` was developed as an assembly tool for single-cell genomics, as contemporary asssemblers performed poorly on these data. As part of the testing, the authors also noted that `SPAdes` performed extremely well on regular genome sequencing data.
 
 Since it's original release ([Bankevich *et al.*, 2012](https://dx.doi.org/10.1089%2Fcmb.2012.0021)), `SPAdes` has been constantly improved upon, adding new assembly models for a range of different data types as the needs of the community have shifted. When executing `SPAdes` the first important piece of information we must provide the assembler is which of the optimised sub-routines we wish to perform. The current general-purpose assembly options that `SPAdes` provides are as follows:
 
-|Mode|Parameter|Input library|
+|Parameter|Mode|Input library|
 |:---|:---|:---|
-|Isolate sequencing|`--isolate`|Standard pure-culture sequencing library.|
-|Single-cell|`--sc`|Single cell sequencing data, typically amplified through MDA (multiple displacement amplification).|
-|Metagenome|`--meta`|Assemble a library produced from a mixture of organisms, which have all contributed DNA to the library.|
-|Transcriptome|`--rna`|Assemble RNA transcripts/isoforms from an RNA-Seq library.|
-|IonTorrent|`--iontorrent`|Assembly of IonTorrent short read data, which are noisier than Illumina libraries.|
+|`--isolate`|Isolate sequencing|Standard pure-culture sequencing library.|
+|`--sc`|Single-cell|Single cell sequencing data, typically amplified through MDA (multiple displacement amplification).|
+|`--meta`|Metagenome|A library produced from a mixture of organisms, which have all contributed DNA to the library.|
+|`--rna`|Transcriptome|RNAseq data, optimised to identify transcripts/isoforms.|
+|`--iontorrent`|IonTorrent|IonTorrent short read data, which are noisier than Illumina reads.|
 
-`SPAdes` also provides several targetted-assembly modes, which are focused on performing a rapid assembly of particular genetic elements at the expense of the boarder genomic context.
+`SPAdes` also provides several targeted assembly modes, which are focused on performing a rapid assembly of particular genetic elements at the expense of the boarder genomic context.
 
-|Mode|Parameter|Input library|
+|Parameter|Mode|Assembly target|
 |:---|:---|:---|
-|Biosynthetic cluster assembly|`--bio`|Perform an assembly of specific biosynthetic gene clusters, determined by an HMM profile of BGCs of interest.|
-|Corona virus|`--corona`|A simplfiied version of the `--rnaviral` mode, specifically targetting a set of SARS-CoV-2 proteins collected from the Pfam database and [Phan *et al.*, 2018](https://doi.org/10.1093/ve/vey035).|
-|Plasmid recovery (genome)|`--plasmid`|Targetted identification and assembly of plasmid sequences.|
-|Plasmid recovery (metagenome)|`--metaplasmid`|Targetted identification and assembly of plasmid sequences from a metagenomic library.|
-|Viral recovery (metagenome)|`--metaviral`|Targetted identification and assembly of viral sequences from a metagenomic library.|
-|Viral recovery (transcriptome)|`--rnaviral`|Targetted identification and assembly of viral sequences from a transcriptome or metatranscriptome.|
+|`--bio`|Biosynthetic cluster assembly|Perform an assembly of specific biosynthetic gene clusters, determined by an HMM profile of BGCs of interest.|
+|`--corona`|Corona virus|A simplified version of the `--rnaviral` mode, specifically targetting a set of SARS-CoV-2 proteins collected from the Pfam database and [Phan *et al.*, 2018](https://doi.org/10.1093/ve/vey035).|
+|`--plasmid`|Plasmid recovery (genome)|Targeted identification and assembly of plasmid sequences.|
+|`--metaplasmid`|Plasmid recovery (metagenome)|Targeted identification and assembly of plasmid sequences from a metagenomic library.|
+|`--metaviral`|Viral recovery (metagenome)|Targeted identification and assembly of viral sequences from a metagenomic library.|
+|`--rnaviral`|Viral recovery (transcriptome)|Targeted identification and assembly of viral sequences from a transcriptome or metatranscriptome.|
 
-In practice, we will only use a small number of these assembly modes in routine work. Even, it is important to know which is the correct method for your data as there can be significant differences in the assembly output if the wrong mode is selected, particular with the targetted assembly methods.
+In practice, we will only use a small number of these assembly modes in routine work but it is important to know which is the correct method for your data as there can be significant differences in the assembly output if the wrong mode is selected, particular with the targeted assembly methods.
 
 ### Stages of assembly
 
-There are a number of steps performed by `SPAdes` during assembly, but broadly speaking we are only concerned with two phases of the assembly - **error correction** and **assembly**. When a new run of `SPAdes` begins, the first stage of the workflow is to analyse the input data and identify sequences which may contain obvious sequencing error. If possible, these are corrected to the sequence which they 'should' contain. Performing *a priori* correction of the sequence data streamlines the assembly process, as there are fewer erronous paths in the assembly graph for `SPAdes` to analyse.
+There are two main steps performed during a `SPAdes` assembly - **error correction** and **assembly**. When a new run begins, the first stage of the workflow is to analyse the input data and identify sequences which may contain obvious sequencing error. If possible, these are corrected to the sequence which they 'should' contain. Performing *a priori* correction of the sequence data streamlines the assembly process, as there are fewer erronous paths in the assembly graph for `SPAdes` to analyse.
 
-However, the error correction process can be quite slow and memory intensive. If desired, it is possible to skip this step using the `--only-assembler` flag when running assembly. Be warned, however, that a large degree of `SPAdes` assembly quality can be attributed to the error correction phase and while disabling it will speed up analysis, the results will usually be inferior to that of the complete pipeline.
+However, the error correction process can be quite slow and memory intensive. If desired, it is possible to skip this step using the `--only-assembler` flag when running assembly. Be warned, however, that error correction is responsible for a large part of the final assembly quality, and while disabling it will speed up analysis the results will usually be inferior to that of the complete pipeline.
 
-By contrast, we can also perform the error correction by itself, producing a new set of 'improved' sequences without moving into the assembly. This can be achieved by invoking the `--only-error-correction` flag when executing `SPAdes`.
+By contrast, we can also perform the error correction by itself, producing a new set of 'improved' sequences without moving into the assembly. This can be achieved by invoking the `--only-error-correction` flag.
 
 ### Input data and reference files
 
@@ -99,11 +99,11 @@ When using long reads to aid assembly, `SPAdes` can process Nanopore, PacBio, or
 
 ### Tuning the assembly
 
-Modern short read assemblers most commonly use an assembly strategy based on the analysis of short *k*-mer sequence fragments and the construction of a mathematical construct known as a de Bruijn graph. Compared with the more intuitive and traditional overlap layout consensus method, whereby sequences are aligned against each other, the de Bruijn graph approach scales much more efficiently with increasing input data.
+Modern short read assemblers mostly use an assembly strategy based on the analysis of short *k*-mer sequence fragments and the construction of a mathematical construct known as a de Bruijn graph. Compared with the more intuitive Overlap Layout Consensus (OLC) method, whereby sequences are aligned against each other, the de Bruijn graph approach scales much more efficiently with increasing input data.
 
 The challenge with this approach is that we are subdiving our sequences down into shorter fragments of *k* nucleotides in length and determining the optimal value for *k* is a difficult process. With values of *k* which are too short we are unable to resolve repeat regions (i.e. if the *k*-mer size is shorter than the repeat region, we cannot bridge it with our *k*-mers), yet if *k* is too large we lose sensitivity in joining sequences together.
 
-This is resolved in all modern assemblers by assembling the data with a range of *k*-mer sizes and then aggregating the results. When assembling with `SPAdes` the *k*-mer size(s) to assemble can be provided explicitly to the assembler or we can allow the tool to automatically increase the *k*-mer size from a short starting value until the tool determines that additional effort is no longer justified.
+This is resolved in all modern assemblers by performing assembling with a range of different *k*-mer sizes and then aggregating the results. When assembling with `SPAdes` the *k*-mer size(s) to assemble can be provided explicitly to the assembler or we can allow the tool to automatically increase the *k*-mer size from a short starting value until the tool determines that additional effort is no longer justified.
 
 ```bash
 # Automatic k-mer selection
@@ -113,7 +113,7 @@ $ spades.py --isolate -k auto ...
 $ spades.py --isolate -k 21,33,55,77,99 ...
 ```
 
-Notice above that all manual *k*-mer values are odd-numbered. This is deliberate, as even-lengthed *k*-mers can yield palindromic *k*-mers which cannot be fitted into the assembly graph. Chosing only odd values is a simple way to prevent this issue.
+Notice above that all manual *k*-mer values are odd-numbered. This is deliberate, as even-lengthed values can yield palindromic *k*-mers which confuse the assembly graph. Chosing only odd values is a simple way to prevent this issue.
 
 In practice, we tend to find that `SPAdes` is quite quick to end the *k*-mer extension process and we can often get much better assemblies by manually specifying additonal *k*-mer sizes. However, the more *k*-mers we specify the longer assembly will take (as each *k*-mer size must go through a round of error correction and assembly). For an example of the effect of *k*-mer size on assembly, here is some data from a Genomics Aotearoa experiment assembling a marine metagenome:
 
@@ -127,7 +127,7 @@ As you can see from this table, selecting additional *k*-mer sizes beyond what `
 
 ### Checkpointing
 
-As `SPAdes` assembly is a long and resource intensive process, the assembler creates checkpoints as it passes particular assembly milestones. This means that if a job is terminated and must be restarted, we do not need to repeat the full workflow from scratch. However, a restarted job is restricted to repeating with the same parameters as the original job so while checkpoints are a powerful quality of life improvement they do not allow us to branch our assembly process.
+As `SPAdes` assembly is a long and resource intensive process, the assembler creates checkpoints as it passes particular assembly milestones. This means that if a job is terminated and must be restarted we do not need to repeat the full workflow from scratch. However, a restarted job is restricted to repeating with the same parameters as the original assembly so while checkpoints are a powerful quality of life improvement they do not allow us to branch our assembly process.
 
 ```bash
 # Original job
@@ -151,7 +151,7 @@ $ spades.py --threads 32 ...
 
 ##### Specifying the memory cap
 
-`SPAdes` is notoriously memory-hungry when performing assembly, and therefore imposes an internal memory limitation on itslf to prevent itself from requesting more RMA thatn the computer can provide. This is a great feature, as it is better for `SPAdes` to end itself (crash) rather than cause the host computer to run out of memory and begin using its [swap space](https://opensource.com/article/18/9/swap-space-linux-systems). By default `SPAdes` will request up to 250 GB of RAM before terminating. This can be increased with the `--memory` parameter.
+`SPAdes` is notoriously memory-hungry when performing assembly, and therefore imposes an internal memory limitation on itself to prevent itself from requesting more RAM than the computer can provide. This is a great feature, as it is better for `SPAdes` to end itself (crash) than to cause the host computer to run out of memory and begin using its [swap space](https://opensource.com/article/18/9/swap-space-linux-systems). By default `SPAdes` will request up to 250 GB of RAM before terminating. This can be increased with the `--memory` parameter.
 
 The interaction between `SPAdes` and `slurm` memory management is important to remember. If you detect that an assembly is crashing due to a lack of memory, you will need to increase the memory allocation both in your `slurm` file AND in `SPAdes` itself. For example, if a particular job needs 500 GB of RAM to complete we can encounter the following scenarios:
 
@@ -162,3 +162,6 @@ The interaction between `SPAdes` and `slurm` memory management is important to r
 |250 GB|600 GB|`slurm` terminates `SPAdes` job when memory request execeeds 250 GB|
 |600 GB|600 GB|Job completes successfully|
 
+---
+
+[Next lesson](07-ont-assembly.md)
