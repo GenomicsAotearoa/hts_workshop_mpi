@@ -106,7 +106,7 @@ Before running `racon` we must produce a mapping file of the quality filtered se
 ```bash
 $ module load minimap2/2.17-GCC-9.2.0
 
-$ minimap2 -t 10 -ax map-ont ont_polishing/Mb1.canu.fna ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq > Mb1.sam
+$ minimap2 -t 10 -ax map-ont ont_polishing/Mb1.canu.fna ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq > Mb1.sam
 ```
 
 We can then use this mapping file as the input for `racon`:
@@ -114,10 +114,10 @@ We can then use this mapping file as the input for `racon`:
 ```bash
 $ module load Racon/1.4.13-GCC-9.2.0
 
-$ racon -t 10 ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq Mb1.sam ont_polishing/Mb1.canu.fna > ont_polishing/Mb1.racon.fna
+$ racon -t 10 ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq Mb1.sam ont_polishing/Mb1.canu.fna > ont_polishing/Mb1.racon.fna
 ```
 
->**Note:** It is possible to perform the `racon` process iteratively, remapping reads to the `racon` output and then running the polishing cycle again. There is some data in the `medaka` documentation ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running a single polishing step. However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your is unclear, and ultimately it is your decision whether or not to perform this approach.
+>**Note:** It is possible to perform the `racon` process iteratively, remapping reads to the output and then running the polishing cycle again. There is some data ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running a single polishing step. However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your data is unclear, and ultimately it is your decision whether or not to perform this approach.
 
 ---
 
@@ -146,13 +146,13 @@ In practice we will always know which model was used during basecalling as we pr
 > The only detail which is really in the users control is whether we used the fast, high-accuracy, or super-accuracy (`guppy` v5 only) models for basecalling. This is something that you should know, and will be in the run report if live basecalling was performed by `MinKNOW`.
 > </details>
 
-For the purposes of this exercise we will assume that the correct model is **r941_min_high_g360**. As `medaka` is not installed on NeSI, we have created a small software environment which contains `medaka` and its dependencies. To access this environment perform the following steps:
+For the purposes of this exercise we will assume that the correct model is **r941_min_high_g360**. As `medaka` is not installed on NeSI, we have obtained a small software container which contains `medaka` and its dependencies. To access this container perform the following steps:
 
 ```bash
 $ module purge
 $ module load Miniconda3/4.10.3
 
-$ conda activate -p /nesi/project/nesi03181/phel/module_3/envs/medaka
+$ conda activate /nesi/project/nesi03181/phel/module_3/envs/medaka
 $ medaka -h
 ```
 
@@ -160,7 +160,7 @@ While this environment is active we can access `medaka` as if it were a native p
 
 ```bash
 $ medaka_consensus -t 10 -m r941_min_high_g360 \
-                   -i ../2_Quality_filtered_data/Mb152.trimmed.minion.fastq \
+                   -i ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
                    -d ont_polishing/Mb1.racon.fna \
                    -o Mb1_medaka/
 ```
@@ -172,9 +172,9 @@ As an easy solution to this is to rename your contigs using `seqmagick` to appen
 ```bash
 $ module load seqmagick/0.7.0-gimkl-2018b-Python-3.7.3
 
-$ seqmagick mogrify --first-name --name-suffix _canu ont_polishing/Mb1.canu.fna
-$ seqmagick mogrify --first-name --name-suffix _racon ont_polishing/Mb1.racon.fna
-$ seqmagick mogrify --first-name --name-suffix _medaka ont_polishing/Mb1.medaka.fna
+$ seqmagick mogrify --name-suffix _canu ont_polishing/Mb1.canu.fna
+$ seqmagick mogrify --name-suffix _racon ont_polishing/Mb1.racon.fna
+$ seqmagick mogrify --name-suffix _medaka ont_polishing/Mb1.medaka.fna
 ```
 
 >**Note:** When running `seqmagick` you will get a warning which looks like:
