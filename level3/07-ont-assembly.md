@@ -163,6 +163,8 @@ $ medaka_consensus -t 10 -m r941_min_high_g360 \
                    -i ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
                    -d ont_polishing/Mb1.racon.fna \
                    -o Mb1_medaka/
+
+$ cp Mb1_medaka/consensus.fasta ont_polishing/Mb1.medaka.fna
 ```
 
 One important piece on information to note with the polishing process is that `racon` and `medaka` **_do not_** change the names of contigs during polishing. This is helpful, as it allows us to easily compare contigs between different polishing steps but it also means that you have to be careful when importing the data into `Geneious` as it might become hard to track which step of the analysis your contig comes from.
