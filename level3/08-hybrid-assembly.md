@@ -16,6 +16,9 @@
 ## Contents
 
 1. [Options for hybrid assembly](#options-for-hybrid-assembly)
+   1. [Polish, then assemble](#polish,-then-assemble)
+   1. [Assemble first, then polish](#assemble-first,-then-polish)
+   1. [Hybrid assembly](#hybrid-assembly)
 
 ---
 
