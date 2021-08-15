@@ -1,7 +1,7 @@
 # *De novo* assembly of Oxford Nanopore sequences
 
 * Teaching: 20 minutes
-* Exercises: 20 minutes
+* Exercises: 40 minutes
 
 #### Objectives
 
@@ -17,10 +17,23 @@
 
 ## Contents
 
+1. [A word on assembly tools](#a-word-on-assembly-tools)
 1. [Performing *de novo* assembly with `Canu`](#performing-de-novo-assembly-with-canu)
 1. [Preparing to polish our assembly](#preparing-to-polish-our-assembly)
 1. [Performing an initial tidy up with `racon`](#performing-an-initial-tidy-up-with-racon)
 1. [Performing additional polishing with `medaka`](#performing-additional-polishing-with-medaka)
+
+---
+
+## A word on assembly tools
+
+For the exercise today we will be using the `Canu` assembly tool to work with one of the *M. bovis* genomes. Like with other areas of genomics, there are many good options for assembly tools and our usage of `Canu` today is in no way an endorsement that we consider this tool to be the 'best' long read assembler. `Canu` is a very good tool an will give us good results with the data we process today, but when working with real data there are many other good options to try, including:
+
+1. `MaSuRCA` ([Zimin *et al.*, 2013](https://doi.org/10.1093/bioinformatics/btt476)) - [https://github.com/alekseyzimin/masurca](https://github.com/alekseyzimin/masurca)
+1. `UniCycler` (and `TriCycler`) ([Wick *et al.*, 2017](https://doi.org/10.1371/journal.pcbi.1005595)) - [https://github.com/rrwick/Unicycler](https://github.com/rrwick/Unicycler)
+1. `Flye` ([Kolmogorov *et al.*, 2019](https://doi.org/10.1038/s41587-019-0072-8)) - [https://github.com/fenderglass/Flye](https://github.com/fenderglass/Flye)
+
+A recent comparison of assembly tools was published by [Wick & Holt (2021)](https://doi.org/10.12688/f1000research.21782.4) which tests some of the options listed above along with several other tools.
 
 ---
 
