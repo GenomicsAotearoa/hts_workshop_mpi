@@ -226,6 +226,6 @@ Alternatively, it is possible for many assemblers to take a multitude of data ty
 1. `MaSuRCA` ([Zimin *et al.*, 2013](https://doi.org/10.1093/bioinformatics/btt476))
 1. `Unicycler` / `Trycycler` ([Wick *et al.*, 2017](https://doi.org/10.1371/journal.pcbi.1005595), [Wick *et al.*, preprint](https://doi.org/10.1101/2021.07.04.451066))
 
->**Note:**The `Unicycler` assembler does make use of `SPAdes` under the hood, so many not be a complete separate approach from `hybridSPAdes`.
+>**Note:** The `Unicycler` assembler does make use of `SPAdes` under the hood, so many not be a complete separate approach from `hybridSPAdes`.
 
 ---
