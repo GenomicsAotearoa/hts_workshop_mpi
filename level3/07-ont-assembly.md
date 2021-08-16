@@ -18,7 +18,7 @@
 ## Contents
 
 1. [A word on assembly tools](#a-word-on-assembly-tools)
-1. [Performing *de novo* assembly with `Canu`](#performing-de-novo-assembly-with-canu)
+1. [Performing *de novo* assembly with `Flye`](#performing-de-novo-assembly-with-flye)
 1. [Preparing to polish our assembly](#preparing-to-polish-our-assembly)
 1. [Performing an initial tidy up with `racon`](#performing-an-initial-tidy-up-with-racon)
 1. [Performing additional polishing with `medaka`](#performing-additional-polishing-with-medaka)
@@ -31,13 +31,15 @@ For the exercise today we will be using the `Canu` assembly tool to work with on
 
 1. `MaSuRCA` ([Zimin *et al.*, 2013](https://doi.org/10.1093/bioinformatics/btt476)) - [https://github.com/alekseyzimin/masurca](https://github.com/alekseyzimin/masurca)
 1. `UniCycler` (and `TriCycler`) ([Wick *et al.*, 2017](https://doi.org/10.1371/journal.pcbi.1005595)) - [https://github.com/rrwick/Unicycler](https://github.com/rrwick/Unicycler)
-1. `Flye` ([Kolmogorov *et al.*, 2019](https://doi.org/10.1038/s41587-019-0072-8)) - [https://github.com/fenderglass/Flye](https://github.com/fenderglass/Flye)
+1. `Canu` ([Koren *et al.*, 2017](http://www.genome.org/cgi/doi/10.1101/gr.215087.116))
 
 A recent comparison of assembly tools was published by [Wick & Holt (2021)](https://doi.org/10.12688/f1000research.21782.4) which tests some of the options listed above along with several other tools.
 
+In practice, there are sometimes particular cases where a tool will not be compatible with your data, so it is helpful to be aware of several tools so that you have options is assembly proves problematic for a particular sample.
+
 ---
 
-## Performing *de novo* assembly with `Canu`
+## Performing *de novo* assembly with `Flye`
 
 As ONT data are fundamentally more error prone than the sequences we obtained through Illumina sequencing, a considerable amount of an ONT assembly is spent identifying and correcting errors to produce high-quality contigs from a comparably low-quality set of reads. If you think back to the original presentation, recall this figure of the error rates of our Illumina (green) and MinION (purple) sequences:
 
@@ -45,50 +47,31 @@ As ONT data are fundamentally more error prone than the sequences we obtained th
 
 The median sequence quality for the MinION data sits around Q20 for most of the sequence. This corresponds to 99% accuracy which might sound good but by definition half of the sequences have lower quality than this. At the low end of this plot the sequences are slightly above Q10, which denotes 90% accuracy. Finding consensus regions between pairs of reads, when one of them might differ by up to 10% of it's composition **_just due to sequencing error alone_** makes assembly a complicated process and assembly tools which are aware of the error profiles of our long read data are essential.
 
-The complete workflow of `Canu` is published ([Koren *et al.*, 2017](http://www.genome.org/cgi/doi/10.1101/gr.215087.116)) but it is quite complicated process which involved multiple rounds of aligning reads and attempting to resolve errors.
+The complete workflow of `Flye` is published ([Kolmogorov *et al.*, 2019](https://doi.org/10.1038/s41587-019-0072-8)) but it is quite complicated process. The novel aspect of assembly with `Flye` when compared with other asssembly tools was the developers observation that when working with noisy reads (as mentioned above) mapping sequences against each other is confounded by highly similar repeat regions, which create hotspots of local alignment between reads with very different flanking sites.
 
-For our purposes, the main points to understand are:
+For our purposes, the main points of the assembly process to understand are:
 
-1. Read correction
-   1. Reads are mapped against each other to find regions of alignment common to multiple sequences.
-   1. High quality sequences are used to correct ambiguous regions of lower quality sequences, but the number of times a sequence can be used to correct others is restricted.
-1. Overlap-based trimming and error adjustment
-   1. Corrected reads are trimmed to only high coverage regions, and short and low quality sequences are removed.
-   1. Overlaps are re-computed and overlap error rates are computed
-1. Graph construction
-   1. An assembly graph is constructed from the remaining reads. *Dovetail* overlaps, where a pair of reads overlap at their ends, are identified and the 'best' overlaps for each read are identified.
-   1. Filtering is performed to remove spurious overlaps, and the resulting set of reads are used to construct an initial set of contigs.
-1. Contig consensus
-   1. For each initial contig, a template sequence is created by splicing together the individual reads which comprise the contig.
-   1. Reads are aligned to the template sequence and a final pass at indel correction is attempted.
+1. Repetitive regions of the genome are identified
+1. Repeat regions are clustered together to form deliberately misassembled **_disjointigs_**
+1. Disjointigs are concatenated and a repeat graph (similar to a de Bruijn graph) is created
+1. The input reads are mapped to the repeat graph
+1. Using the reads that map to the repeat region and it's 5' and 3' flanking regions, the loops in the assembly graph are unwound
 
-Generally speaking, we do not need to know the specifics of how these steps are performed but they are important to know as `Canu` uses a set of default values for each of these processes. When assemblies fail, or do not produce a good result, tuning these values may drastically improve the final set of contigs as different alignment sensitivities or overlap sizes are considered.
-
-To run `Canu`, navigate to your `3_Assembly-mapping/` directory, and we will load the latest module from NeSI:
+To run `Flye`, navigate to your `3_Assembly-mapping/` directory, and we will load the latest module from NeSI:
 
 ```bash
 $ cd /nesi/project/nesi03181/phel/USERNAME/3_Assembly-mapping/
 
-$ module load Canu/2.1.1-GCC-9.2.0
+$ module load Flye/2.8.3-gimkl-2020a-Python-3.8.2
 ```
 
-You can explore the `Canu` documentation [online](https://canu.readthedocs.io/en/latest/index.html) or through the help menu, but at a minimum to make an assembly work, you can use the following parameters:
+You can explore the `Flye` documentation [online](https://github.com/fenderglass/Flye/blob/flye/docs/USAGE.md) or through the help menu, but at a minimum to make an assembly work, you can use the following parameters:
 
 ```bash
-$ canu -d Mb1_canu/ -p Mb1 \
-       -nanopore ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
-       genomeSize=1m useGrid=false
+$ flye --threads 10 --genome-size 1m \
+       --nano-raw ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
+       --out-dir Mb1_flye/
 ```
-
-There are several parameters here which we are using, so we will go through them briefly:
-
-|Parameter|Meaning|
-|:---|:---|
-|-d|Output directory for assembly files|
-|-p|Output file prefix (i.e. file names)|
-|-nanopore|Use pre-computed error rates representative of ONT data|
-|genomeSize|The approximate genome size for our organism. This is used to calculate the initial read coverage.|
-|useGrid|By default, `Canu` will detect that it is running on a compute cluster with `slurm` installed and will dispatch itself in a `slurm` script. We don't want this behaviour.|
 
 ---
 
@@ -105,7 +88,7 @@ Before proceding, we will create a directory for all polishing attempts and make
 ```bash
 $ mkdir ont_polishing/
 
-$ cp Mb1_canu/Mb1.contigs.fasta ont_polishing/Mb1.canu.fna
+$ cp Mb1_flye/Mb1.contigs.fasta ont_polishing/Mb1.flye.fna
 ```
 
 ---
@@ -187,7 +170,7 @@ As an easy solution to this is to rename your contigs using `seqmagick` to appen
 ```bash
 $ module load seqmagick/0.7.0-gimkl-2018b-Python-3.7.3
 
-$ seqmagick mogrify --name-suffix _canu ont_polishing/Mb1.canu.fna
+$ seqmagick mogrify --name-suffix _flye ont_polishing/Mb1.flye.fna
 $ seqmagick mogrify --name-suffix _racon ont_polishing/Mb1.racon.fna
 $ seqmagick mogrify --name-suffix _medaka ont_polishing/Mb1.medaka.fna
 ```
