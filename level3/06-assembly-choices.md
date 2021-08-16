@@ -32,12 +32,6 @@
 
 If you look through the manual of `SPAdes` you will see a **_lot_** of parameters which can be adjusted in order to optimise the final assembly. There are also a number of parameters to adjust the performance of `SPAdes` itself, to either speed up the job or to prevent it from overloading the server. Here we will discuss some of the key parameter choices which should be considered for each assembly.
 
-```bash
-$ module load SPAdes/3.15.2-gimkl-2020a
-
-$ spades.py -h
-```
-
 ### Assembly modes
 
 In its original inception, `SPAdes` was developed as an assembly tool for single-cell genomics, as contemporary asssemblers performed poorly on these data. As part of the testing, the authors also noted that `SPAdes` performed extremely well on regular genome sequencing data.
@@ -46,7 +40,7 @@ Since it's original release ([Bankevich *et al.*, 2012](https://dx.doi.org/10.10
 
 |Parameter|Mode|Input library|
 |:---|:---|:---|
-|`--isolate`|Isolate sequencing|Standard pure-culture sequencing library.|
+|`--isolate`|Isolate sequencing|Standard pure-culture sequencing library, recommended for small genome/high coverage samples.|
 |`--sc`|Single-cell|Single cell sequencing data, typically amplified through MDA (multiple displacement amplification).|
 |`--meta`|Metagenome|A library produced from a mixture of organisms, which have all contributed DNA to the library.|
 |`--rna`|Transcriptome|RNAseq data, optimised to identify transcripts/isoforms.|
@@ -75,24 +69,24 @@ By contrast, we can also perform the error correction by itself, producing a new
 
 ### Input data and reference files
 
-`SPAdes` is designed as an assembler of Illumina sequence data, and as such the parameter for defining input files reflect this. Input sequences can be in either interleaved fastq format or the standard forward/reverse/single format we produced in previous exercises. The syntax for passing these files into `SPAdes` is either:
+`SPAdes` is primarily an assembler of Illumina sequence data, and as such the parameter for defining input files reflect this. Input sequences can be in either interleaved fastq format or the standard forward/reverse/single format we produced in previous exercises. The syntax for passing these files into `SPAdes` is either:
 
 ```bash
 # Forward/reverse/single input files
-$ spades.py --isolate -1 sample_1.fq -2 sample_2.fq -s sample_s.fq ...
+$ spades.py -1 sample_1.fq -2 sample_2.fq -s sample_s.fq ...
 
 # Interleaved input file
-$ spades.py --isolate --12 sample_12.fq -s sample_s.fq ...
+$ spades.py --12 sample_12.fq -s sample_s.fq ...
 ```
 
 `SPAdes` can also accept additional sequence files to resolve spatial information in the assembly, either through [mate-pair sequencing](https://www.illumina.com/science/technology/next-generation-sequencing/mate-pair-sequencing.html), reference contigs, or long read sequencing technologies.
 
-```
-# Run with a mate-pair library to improve assembly
-$ spades.py --isolate -1 sample_1.fq -2 sample_2.fq -s sample_s.fq --mp-1 MP_library_1.fq --mp-2 MP_library_2.fq ...
+```bash
+# Run with a mate-pair library
+$ spades.py -1 sample_1.fq -2 sample_2.fq -s sample_s.fq --mp-1 MP_library_1.fq --mp-2 MP_library_2.fq ...
 
-# Run with Nanopore sequences to resolve repeat regions
-$ spades.py --isolate -1 sample_1.fq -2 sample_2.fq -s sample_s.fq --nanopore sample.minion.fq ...
+# Run with Nanopore sequences
+$ spades.py -1 sample_1.fq -2 sample_2.fq -s sample_s.fq --nanopore sample.minion.fq ...
 ```
 
 When using long reads to aid assembly, `SPAdes` can process Nanopore, PacBio, or Sanger sequence data or trusted reference contigs from a previous assembly.
@@ -107,10 +101,10 @@ This is resolved in all modern assemblers by performing assembling with a range 
 
 ```bash
 # Automatic k-mer selection
-$ spades.py --isolate -k auto ...
+$ spades.py -k auto ...
 
 # Manual selection of k-mer sizes
-$ spades.py --isolate -k 21,33,55,77,99 ...
+$ spades.py -k 21,33,55,77,99 ...
 ```
 
 Notice above that all manual *k*-mer values are odd-numbered. This is deliberate, as even-lengthed values can yield palindromic *k*-mers which confuse the assembly graph. Chosing only odd values is a simple way to prevent this issue.
@@ -121,7 +115,7 @@ In practice, we tend to find that `SPAdes` is quite quick to end the *k*-mer ext
 |:---|:---|:---|:---|:---|:---|
 |Automatic|21, 33, 55|4,239,806|660,812|6,782|12,906|
 |Manual|43, 55, 77, 99, 121|2,519,669|1,022,083|7,990|12,673|
-|Manual|21, 43, 55, 77, 99, 121|3,388,682|71,022,083|7,789|13,327|
+|Manual|21, 43, 55, 77, 99, 121|3,388,682|1,022,083|7,789|13,327|
 
 As you can see from this table, selecting additional *k*-mer sizes beyond what `-k auto` would chose resulted in a much larger longest contig. There were also modest improvement to the N50 and L50 of the assembly. However, this improvement came at a significant increase in run time.
 
@@ -131,7 +125,7 @@ As `SPAdes` assembly is a long and resource intensive process, the assembler cre
 
 ```bash
 # Original job
-$ spades.py --isolate -k 21,55,77 -1 ... -2 ... -o test_assembly/
+$ spades.py -k 21,55,77 -1 ... -2 ... -o test_assembly/
 
 # Restart the job
 $ spades.py --continue -o test_assembly/
@@ -158,7 +152,7 @@ The interaction between `SPAdes` and `slurm` memory management is important to r
 |slurm limit|SPAdes limit|Outcome|
 |:---|:---|:---|
 |250 GB|250 GB|Job terminates when memory request exceeds 250 GB|
-|600 GB|250 GB|`SPAdes` self-terminates wen memory request exceeds 250 GB|
+|600 GB|250 GB|`SPAdes` self-terminates when memory request exceeds 250 GB|
 |250 GB|600 GB|`slurm` terminates `SPAdes` job when memory request execeeds 250 GB|
 |600 GB|600 GB|Job completes successfully|
 
