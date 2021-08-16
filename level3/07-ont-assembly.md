@@ -5,8 +5,9 @@
 
 #### Objectives
 
-* Use `Canu` to assemble quality filtered Nanopore sequences
+* Use `Flye` to assemble quality filtered Nanopore sequences
 * Use `racon` and `medaka` to polish the assembly
+* Compare the outputs of several assemblies using `QUAST`
 
 #### Keypoints
 
@@ -22,6 +23,7 @@
 1. [Preparing to polish our assembly](#preparing-to-polish-our-assembly)
 1. [Performing an initial tidy up with `racon`](#performing-an-initial-tidy-up-with-racon)
 1. [Performing additional polishing with `medaka`](#performing-additional-polishing-with-medaka)
+1. [Comparing outputs with `QUAST`](#comparing-outputs-with-QUAST)
 
 ---
 
@@ -185,6 +187,23 @@ $ seqmagick mogrify --name-suffix _medaka ont_polishing/Mb1.medaka.fna
 >```
 >
 >Don't worry about this. It is a warning to developers and does not affect our work.
+
+---
+
+## Comparing outputs with `QUAST`
+
+To finish this exercise, we will compare out assembly produced using `Flye` to comparable assemblies produced with `Canu` and `Unicycler`.
+
+You will be able to find a copy of these assemblies in the directory `asdasd`. Copy the references to your `qweqwe` folder and run `QUAST` then compress the output with the following commands
+
+
+```bash
+$ module purge
+$ module load QUAST/5.0.2-gimkl-2018b
+
+$ quast.py -r GCF_000696015.1.fna -o quast/ --gene-finding \
+           ont_polishing/Mb1.flye.fna ont_polishing/Mb1.racon.fna ont_polishing/Mb1.unicycler.fna ont_polishing/Mb1.canu.fna
+```
 
 ---
 
