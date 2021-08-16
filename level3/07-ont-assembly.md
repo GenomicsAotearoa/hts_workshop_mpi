@@ -88,9 +88,9 @@ In practice, I (David) have obtained good assemblies applying a workflow of `Can
 Before proceding, we will create a directory for all polishing attempts and make a copy of the initial assembly which will form the basis of our polishing steps.
 
 ```bash
-$ mkdir ont_polishing/
+$ mkdir ont_assemblies/
 
-$ cp Mb1_flye/Mb1.contigs.fasta ont_polishing/Mb1.flye.fna
+$ cp Mb1_flye/Mb1.contigs.fasta ont_assemblies/Mb1.flye.fna
 ```
 
 ---
@@ -104,7 +104,7 @@ Before running `racon` we must produce a mapping file of the quality filtered se
 ```bash
 $ module load minimap2/2.17-GCC-9.2.0
 
-$ minimap2 -t 10 -ax map-ont ont_polishing/Mb1.canu.fna ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq > Mb1.sam
+$ minimap2 -t 10 -ax map-ont ont_assemblies/Mb1.flye.fna ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq > Mb1.sam
 ```
 
 We can then use this mapping file as the input for `racon`:
@@ -112,7 +112,7 @@ We can then use this mapping file as the input for `racon`:
 ```bash
 $ module load Racon/1.4.13-GCC-9.2.0
 
-$ racon -t 10 ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq Mb1.sam ont_polishing/Mb1.canu.fna > ont_polishing/Mb1.racon.fna
+$ racon -t 10 ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq Mb1.sam ont_assemblies/Mb1.flye.fna > ont_assemblies/Mb1.racon.fna
 ```
 
 >**Note:** It is possible to perform the `racon` process iteratively, remapping reads to the output and then running the polishing cycle again. There is some data ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running a single polishing step. However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your data is unclear, and ultimately it is your decision whether or not to perform this approach.
@@ -159,10 +159,10 @@ While this environment is active we can access `medaka` as if it were a native p
 ```bash
 $ medaka_consensus -t 10 -m r941_min_high_g360 \
                    -i ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
-                   -d ont_polishing/Mb1.racon.fna \
+                   -d ont_assemblies/Mb1.racon.fna \
                    -o Mb1_medaka/
 
-$ cp Mb1_medaka/consensus.fasta ont_polishing/Mb1.medaka.fna
+$ cp Mb1_medaka/consensus.fasta ont_assemblies/Mb1.medaka.fna
 ```
 
 One important piece on information to note with the polishing process is that `racon` and `medaka` **_do not_** change the names of contigs during polishing. This is helpful, as it allows us to easily compare contigs between different polishing steps but it also means that you have to be careful when importing the data into `Geneious` as it might become hard to track which step of the analysis your contig comes from.
@@ -172,9 +172,9 @@ As an easy solution to this is to rename your contigs using `seqmagick` to appen
 ```bash
 $ module load seqmagick/0.7.0-gimkl-2018b-Python-3.7.3
 
-$ seqmagick mogrify --name-suffix _flye ont_polishing/Mb1.flye.fna
-$ seqmagick mogrify --name-suffix _racon ont_polishing/Mb1.racon.fna
-$ seqmagick mogrify --name-suffix _medaka ont_polishing/Mb1.medaka.fna
+$ seqmagick mogrify --name-suffix _flye ont_assemblies/Mb1.flye.fna
+$ seqmagick mogrify --name-suffix _racon ont_assemblies/Mb1.racon.fna
+$ seqmagick mogrify --name-suffix _medaka ont_assemblies/Mb1.medaka.fna
 ```
 
 >**Note:** When running `seqmagick` you will get a warning which looks like:
@@ -194,7 +194,7 @@ $ seqmagick mogrify --name-suffix _medaka ont_polishing/Mb1.medaka.fna
 
 To finish this exercise, we will compare out assembly produced using `Flye` to comparable assemblies produced with `Canu` and `Unicycler`.
 
-You will be able to find a copy of these assemblies in the directory `asdasd`. Copy the references to your `qweqwe` folder and run `QUAST` then compress the output with the following commands
+You will be able to find a copy of these assemblies in the directory `/nesi/project/nesi03181/phel/module_3/3_Assembly-mapping/`. Copy the references to your `3_Assembly-mapping/ont_assemblies/` folder and run `QUAST` then compress the output with the following commands
 
 
 ```bash
@@ -202,8 +202,12 @@ $ module purge
 $ module load QUAST/5.0.2-gimkl-2018b
 
 $ quast.py -r GCF_000696015.1.fna -o quast/ --gene-finding \
-           ont_polishing/Mb1.flye.fna ont_polishing/Mb1.racon.fna ont_polishing/Mb1.unicycler.fna ont_polishing/Mb1.canu.fna
+           ont_assemblies/Mb1.flye.fna ont_assemblies/Mb1.racon.fna ont_assemblies/Mb1.unicycler.fna ont_assemblies/Mb1.canu.fna
 ```
+
+>**Note:** You may need to change the path to your reference genome `GCF_000696015.1.fna`, depending on where you have downloaded it to.
+
+We can now open the `quast/report.pdf` file in the Jupyter browser to inspect the results.
 
 ---
 
