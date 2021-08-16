@@ -57,7 +57,7 @@ For our purposes, the main points of the assembly process to understand are:
 1. Repeat regions are clustered together to form deliberately misassembled **_disjointigs_**
 1. Disjointigs are concatenated and a repeat graph (similar to a de Bruijn graph) is created
 1. The input reads are mapped to the repeat graph
-1. Using the reads that map to the repeat region and it's 5' and 3' flanking regions, the loops in the assembly graph are unwound
+1. Using the reads that map to the repeat region and it's 5' and 3' flanking regions, the loops in the assembly graph are unwound to create long contigs
 
 To run `Flye`, navigate to your `3_Assembly-mapping/` directory, and we will load the latest module from NeSI:
 
