@@ -209,14 +209,14 @@ It is also worth noting that in their data they report that assemblies were gene
 
 ### Assemble then polish
 
-As you might note, the order of polshing prior to assembly is the opposite of what we performed in the last exercise, and the `racon` and `medaka` documentation specifically detail polishing an assembly not the raw reads. This is generally the approach tested in the development of polishing tools. For example, along with the two tools we have worked with, the following polish software describes a polish/assemble workflow:
+As you might note, the order of polshing prior to assembly is the opposite of what we performed in the last exercise, and the `racon` and `medaka` documentation specifically detail polishing an assembly not the raw reads. This is generally the approach tested in the development of polishing tools. For example, along with the two tools we have worked with, the following polish software describes a assemble/polish workflow:
 
 1. `POLCA` ([Zimin *et al.*, 2013](https://doi.org/10.1093/bioinformatics/btt476))
 1. `Pilon` ([Walker *et al.*, 2014](https://doi.org/10.1371/journal.pone.0112963))
 1. `NanoPolish` ([Loman *et al.*, 2015](https://doi.org/10.1038/nmeth.3444))
 1. `HomoPolish` ([Huang *et al.*, 2021](https://doi.org/10.1186/s13059-021-02282-6))
 
-The advantage of polishing post-assembly is that it allows multiple tools to be tested on a single draft assembly to compare their performance. This approach also carries the benefit that the benchmarking of assemblers is performed on uncorrected reads. If correction is performed prior to assembly the results may be excellent (as seen in the data above) but the corrected reads will violate some of the assumptions that assembers make about their input data. Some tools are aware of the difference between raw and corrected input reads, for example with `Canu` there is an optional parameter `-corrected` which tells the assembler that the input reads have already been corrected by an unspecified technology and they are treated differently to raw sequences.
+The advantage of polishing post-assembly is that it allows multiple tools to be tested on a single draft assembly to compare their performance. This approach also carries the benefit that the benchmarking of assemblers is performed on uncorrected reads. If correction is performed prior to assembly the results may be excellent (as seen in the data above) but the corrected reads will violate some of the assumptions that assembers make about their input data. Some tools are aware of the difference between raw and corrected input reads. For example when we used `Flye` to assemble the *M. bovis* genome we used the `--nano-raw` flag for out reads. There is a corresponding parameter for corrected Nanopore reads, and a parallel set of parameters for PacBio sequence.
 
 ### Hybrid assembly
 
