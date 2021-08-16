@@ -8,8 +8,7 @@
 
 #### Keypoints
 
-* ...
-* ...
+* There are multiple ways in which short read data can be used to polish long read sequences and assemblies
 
 ---
 
@@ -230,4 +229,3 @@ Alternatively, it is possible for many assemblers to take a multitude of data ty
 >**Note:**The `Unicycler` assembler does make use of `SPAdes` under the hood, so many not be a complete separate approach from `hybridSPAdes`.
 
 ---
-
