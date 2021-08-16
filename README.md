@@ -21,6 +21,7 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Background](#Level-3---read-mapping-and-assembly)
    * [Materials (part 1)](level3/01-introduction-to-mapping.md)
    * [Homework (part 1)](level3/04-homework.md)
+   * [Materials (part 2)](level3/05-illumina-assembly.md)
 
 ---
 
@@ -72,6 +73,10 @@ Additional teaching materials were sourced from the [Genomics Aoteoroa Metagenom
 This workshop covers the process of mapping Illumina and Oxford Nanopore sequences against reference genomes, and covers the basics of performing *de novo* assembly.
 
 Some material has been adapted from the [Genomics Aotearoa](https://www.genomics-aotearoa.org.nz/) metagenomics summer school ([github here](https://github.com/GenomicsAotearoa/metagenomics_summer_school)), and the training materials provided by the [Galaxy community](https://training.galaxyproject.org/training-material/).
+
+This module also uses sequence data from `BioProject` [PRJNA678533]:
+
+1. [Run SRR13090255](https://www.ncbi.nlm.nih.gov/sra/SRX9536177[accn]) - DNA-Seq of *Halyomorpha halys* (H1 Haplotype)
 
 ### Citation
 
