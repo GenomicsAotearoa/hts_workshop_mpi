@@ -16,8 +16,8 @@
 ## Contents
 
 1. [Options for hybrid assembly](#options-for-hybrid-assembly)
-   1. [Polish, then assemble](#polish,-then-assemble)
-   1. [Assemble first, then polish](#assemble-first,-then-polish)
+   1. [Polish then assemble](#polish-then-assemble)
+   1. [Assemble then polish](#assemble-then-polish)
    1. [Hybrid assembly](#hybrid-assembly)
 
 ---
@@ -36,7 +36,7 @@ We have already briefly mentioned the third option during our walk through of `S
 
 >**Note:** Before continuing, please keep in mind that this is an actively growing area of research and new results are being published all the time. The following results and recommendations may not prove true as sequencing error rates improve, new tools are released, and existing tools are refined.
 
-### Polish, then assemble
+### Polish then assemble
 
 This approach was benchmarked in a study by [Fu and colleages (2019)](https://doi.org/10.1186/s13059-018-1605-z), who compared 10 polishing tools against a data set consisting of one bacterial, fungal, invertebrate, and plant genome. Profiles were made from raw and corrected sequences and assembly efficiency was evaluated for all analysis methods. They summarised their results in the following figure, noting several notable high-performing options.
 
@@ -208,7 +208,7 @@ It is also worth noting that in their data they report that assemblies were gene
   </tr>
 </table>
 
-### Assemble first, then polish
+### Assemble then polish
 
 As you might note, the order of polshing prior to assembly is the opposite of what we performed in the last exercise, and the `racon` and `medaka` documentation specifically detail polishing an assembly not the raw reads. This is generally the approach tested in the development of polishing tools. For example, along with the two tools we have worked with, the following polish software describes a polish/assemble workflow:
 
