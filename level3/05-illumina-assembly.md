@@ -105,36 +105,12 @@ $ sbatch bmsb_spades.sl
 
 We will use the tool `QUAST` ([source](http://bioinf.spbau.ru/quast)) to obtain assembly statistics for the assembly. `QUAST` works better with a reference genome for comparison, so we will download one from the NCBI website using the `efetch` tool on NeSI.
 
-We will also perform some filtering on the `SPAdes` assembly to remove some of the very short contigs.
-
 ```bash
 $ module load entrez-direct/13.3
-$ module load seqmagick/0.7.0-gimkl-2018b-Python-3.7.3
 
 # Obtain the reference sequence for comparison
+$ cd /nesi/project/nesi03181/phel/USERNAME/3_Assembly-mapping/
 $ efetch -format fasta -db sequences -id NC_013272.1 > NC_013272.fna
-
-# Filter out contigs shorter than 1 kbp in length
-$ seqmagick convert --min-length 1000 bmsb_spades/contigs.fasta BMSB_mitochondria.fna
-```
-
->**Note:** When running `seqmagick` you will get a warning which looks like:
->
->```bash
->/opt/nesi/CS400_centos7_bdw/Python/3.7.3-gimkl-2018b/lib/python3.7/importlib/_bootstrap.py:219: RuntimeWarning: This module has been deprecated. We encourage users to switch to alternative libraries implementing a trie data structure, for example pygtrie.
->    return f(*args, **kwds)
->/opt/nesi/CS400_centos7_bdw/Python/3.7.3-gimkl-2018b/lib/python3.7/site-packages/Bio/triefind.py:34: BiopythonDeprecationWarning: This module has been deprecated. We encourage users to switch to alternative libraries implementing a trie data structure, for example pygtrie.
->    "for example pygtrie.", BiopythonDeprecationWarning)
->```
->
->Don't worry about this. It is a warning to developers and does not affect our work.
-
-We can see how much data was filtered from the assembly file with a quick `grep` command:
-
-```bash
-$ grep -c ">" bmsb_spades/contigs.fasta BMSB_mitochondria.fna 
-#bmsb_spades/contigs.fasta:490
-#BMSB_mitochondria.fna:5
 ```
 
 We can now use `QUAST` to compare the results of our filtered assembly with the BMSB reference mitochondria genome.
@@ -143,7 +119,7 @@ We can now use `QUAST` to compare the results of our filtered assembly with the 
 $ module purge
 $ module load QUAST/5.0.2-gimkl-2018b
 
-$ quast.py -r NC_013272.fna --gene-finding -o bmsb_quast/ BMSB_mitochondria.fna
+$ quast.py -r NC_013272.fna --gene-finding -o bmsb_quast/ bmsb_spades/contigs.fasta
 ```
 
 Open the resulting `bmsb_quast/report.pdf` file in Jupyter using the file browser. How complete does the assembly appear to be, compared with the reference?
