@@ -87,7 +87,7 @@ module load  SPAdes/3.15.2-gimkl-2020a
 cd /nesi/project/nesi03181/phel/USERNAME/
 
 # Execute SPAdes
-spades.py --thread 10 \
+spades.py --threads 10 \
           -1 2_Quality_filtered_data/SRR13090255_1.fq.gz \
           -2 2_Quality_filtered_data/SRR13090255_2.fq.gz \
           -s 2_Quality_filtered_data/SRR13090255_s.fq.gz \
