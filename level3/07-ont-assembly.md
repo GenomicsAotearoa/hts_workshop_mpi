@@ -29,7 +29,7 @@
 
 ## A word on assembly tools
 
-For the exercise today we will be using the `Canu` assembly tool to work with one of the *M. bovis* genomes. Like with other areas of genomics, there are many good options for assembly tools and our usage of `Canu` today is in no way an endorsement that we consider this tool to be the 'best' long read assembler. `Canu` is a very good tool an will give us good results with the data we process today, but when working with real data there are many other good options to try, including:
+For the exercise today we will be using the `Flye` assembly tool to work with one of the *M. bovis* genomes. Like with other areas of genomics, there are many good options for assembly tools and our usage of `Flye` today is in no way an endorsement that we consider this tool to be the 'best' long read assembler. `Flye` is a very good tool an will give us good results with the data we process today, but when working with real data there are many other good options to try, including:
 
 1. `MaSuRCA` ([Zimin *et al.*, 2013](https://doi.org/10.1093/bioinformatics/btt476)) - [https://github.com/alekseyzimin/masurca](https://github.com/alekseyzimin/masurca)
 1. `UniCycler` (and `TriCycler`) ([Wick *et al.*, 2017](https://doi.org/10.1371/journal.pcbi.1005595)) - [https://github.com/rrwick/Unicycler](https://github.com/rrwick/Unicycler)
@@ -79,7 +79,7 @@ $ flye --threads 10 --genome-size 1m \
 
 ## Preparing to polish our assembly
 
-Once we have our draft assembly, we want to revisit it and attempt to improve regions by aligning the original reads against the assembled contigs and trying to improve regions which might have been modelled incorrectly by `Canu`. We are going to use two tools for performing this polishing process, the first is a tool called `racon` and the second is `medaka`.
+Once we have our draft assembly, we want to revisit it and attempt to improve regions by aligning the original reads against the assembled contigs and trying to improve regions which might have been modelled incorrectly by `Flye`. We are going to use two tools for performing this polishing process, the first is a tool called `racon` and the second is `medaka`.
 
 Whether or not out assembly will benefit from polishing is hard to predict. When working through this process it is a good idea to make copies of your data as you perform different correction procedures (or combinations of procedures) and to evaluate each outcome.
 
@@ -97,7 +97,7 @@ $ cp Mb1_flye/Mb1.contigs.fasta ont_assemblies/Mb1.flye.fna
 
 ## Performing an initial tidy up with `racon`
 
-Strictly speaking, `racon` ([source](https://github.com/isovic/racon)) is designed for polishing assemblies which have been obtained form tools that do not perform extensive error correction themselves. However, we are going to apply it to the `Canu` assembly as we have limited time in this workshop. Anecdotally, I have not found any harm in applying `racon` to a `Canu` assembly, although this is not a guarantee.
+Strictly speaking, `racon` ([source](https://github.com/isovic/racon)) is designed for polishing assemblies which have been obtained form tools that do not perform extensive error correction themselves. However, we are going to apply it to the `Flye` assembly as we have limited time in this workshop. Anecdotally, I have not found any harm in applying `racon` to a `Flye` assembly, although this is not a guarantee.
 
 Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`:
 
