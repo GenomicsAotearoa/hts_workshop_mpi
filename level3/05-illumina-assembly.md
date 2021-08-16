@@ -22,9 +22,9 @@ Each sequence read can be disseted into *k*-mers of the length *k*. For example,
 <br>`GCA` 
 <br>`CAT`
 
-Each *k*-mer can be further split into two substrings: **prefix** and **suffix**. Both substrings have the length of *k-1*. For example, the *3*-mer `ATG` can be split into **prefix** `AT` and **suffix** `TG`. *k*-mers that shared a common **prefix** and **suffix** can be connected. For example, the **sufix** of `ATG` and the **prefix** of `TGC` are identical, therefore they can be connected and form a new sequence `ATGC`. In this way, more overlapping *k*-mers can be connected and forming a longer new sequence. The linkage of *k*-mers along these connections is known as a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph). When many *k*-mers are connected in this way, they form paths which represent the original sequence of the input nucleic acid. 
+Each *k*-mer can be further split into two substrings: **prefix** and **suffix**. Both substrings have the length of *k-1*. For example, the *3*-mer `ATG` can be split into **prefix** `AT` and **suffix** `TG`. *k*-mers that shared a common **prefix** and **suffix** can be connected. For example, the **suffix** of `ATG` and the **prefix** of `TGC` are identical, therefore they can be connected and form a new sequence `ATGC`. In this way, more overlapping *k*-mers can be connected and forming a longer new sequence. The linkage of *k*-mers along these connections is known as a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph). When many *k*-mers are connected in this way, they form paths which represent the original sequence of the input nucleic acid. 
 
-However, due to the fact that short nucleic acid *k*-mers may not be unique in a genome, some *k*-mers will form multiple paths which may form loops in the graph - this structure is called a [de Bruijn graph](https://en.wikipedia.org/wiki/De_Bruijn_graph) and these structures in the graph must be resolved if we wish to correctly resolve our genome.
+However, due to the fact that short nucleic acid *k*-mers may not be unique in a genome, some *k*-mers will form multiple paths which may form loops in the graph - this structure is called a [de Bruijn graph](https://en.wikipedia.org/wiki/De_Bruijn_graph) and these structures must be resolved if we wish to correctly resolve our assembly.
 
 ![](../img/03_debruijn_graph.png)
 
@@ -32,7 +32,7 @@ However, due to the fact that short nucleic acid *k*-mers may not be unique in a
  
 ---
 
-## Introduction to the `SPAdes` assembly tool
+## Introduction to the SPAdes assembly tool
 
 The `SPAdes` assembler is a very powerful tool for assembling genomes from short read sequence data using de Bruijn graphs to join *k*-mers into longer contiguous sequences (contigs). The tool was originally developed as an assembler for processing single-cell genomic data but it has since expanded to cover many more areas of biology (see the next module for more information). The `SPAdes` assembler is designed for the following cases:
 
@@ -41,12 +41,11 @@ The `SPAdes` assembler is a very powerful tool for assembling genomes from short
 * Small size genomes (ideally <100 Mb, such as bacterial, viral, fungal, mitochondrial genomes)
   * Despite this, it is possible to apply `SPAdes` to larger genomes and obtain very good results.
 
-Before beginning to work with `SPAdes` we need to ensure that our data is free from adapter sequences. The main reason for doing this is when we assemble seuqences to form a genome, the assembler is looking for spans of nucleic acid sequence which are common to multiple reads, so that those reads can be joined together to create longer contigs. As the adapater sequence is an identical tag added to every read, these create regions of artificial homology between sequences which have no real connection to each other. Before we attempt assembly it is critical to remove these from our data.
+Before beginning to work with `SPAdes` we need to ensure that our data is free from adapter sequences. The main reason for doing this is when we assemble sequences to form a genome, the assembler is looking for spans of nucleic acid sequence which are common to multiple reads, so that those reads can be joined together to create longer contigs. As the adapater sequence is an identical tag added to every read, these create regions of artificial homology between sequences which have no real connection to each other. Before we attempt assembly it is critical to remove these from our data.
 
 In order to begin, we must first find the versions of `SPAdes` installed on NeSI and load the module of interest.
 
 ```bash
-$ module avail spades
 $ module load SPAdes/3.15.2-gimkl-2020a
 
 $ spades.py -h
@@ -54,14 +53,13 @@ $ spades.py -h
 
 ---
 
-## Performing an assembly using `SPAdes`
+## Performing an assembly using SPAdes
 
-The test data is a set of Illumina MiSeq sequencing reads from a BMSB sample. Morphological identification indicated that the specimen was a brown marmorated stink bug (BMSB).
+The test data is a set of Illumina MiSeq sequencing reads from a BMSB sample, specifically isolated from mitochondria. To save time, the reads have already been quality filtered with `fastp` and the number of reads reduced to speed up analysis.
 
-To save time, the reads have already been quality filtered with `fastp` and the number of reads reduced to speed up analysis.
+Copy the BMSB reads to your SPAdes working directory
 
 ```bash
-# Copy the BMSB reads to your SPAdes working directory
 $ cd /nesi/project/nesi03181/phel/USERNAME/2_Quality_filtered_data/
 $ cp /nesi/project/nesi03181/phel/module_3/2_Quality_filtered_data/SRR13090255_*.fq.gz ./
 
@@ -105,7 +103,7 @@ $ sbatch bmsb_spades.sl
 
 ## Assessing the results of the assembly
 
-We will use the tool `QUAST` [source](http://bioinf.spbau.ru/quast) to obtain assembly statistics for the assembly. `QUAST` works better with a reference genome for comparison, so we will download one from the NCBI website using the `efetch` tool on NeSI.
+We will use the tool `QUAST` ([source](http://bioinf.spbau.ru/quast)) to obtain assembly statistics for the assembly. `QUAST` works better with a reference genome for comparison, so we will download one from the NCBI website using the `efetch` tool on NeSI.
 
 We will also perform some filtering on the `SPAdes` assembly to remove some of the very short contigs.
 
@@ -135,8 +133,8 @@ We can see how much data was filtered from the assembly file with a quick `grep`
 
 ```bash
 $ grep -c ">" bmsb_spades/contigs.fasta BMSB_mitochondria.fna 
-bmsb_spades/contigs.fasta:490
-BMSB_mitochondria.fna:5
+#bmsb_spades/contigs.fasta:490
+#BMSB_mitochondria.fna:5
 ```
 
 We can now use `QUAST` to compare the results of our filtered assembly with the BMSB reference mitochondria genome.
