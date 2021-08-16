@@ -23,13 +23,13 @@
 1. [Preparing to polish our assembly](#preparing-to-polish-our-assembly)
 1. [Performing an initial tidy up with `racon`](#performing-an-initial-tidy-up-with-racon)
 1. [Performing additional polishing with `medaka`](#performing-additional-polishing-with-medaka)
-1. [Comparing outputs with `QUAST`](#comparing-outputs-with-QUAST)
+1. [Comparing outputs with `QUAST`](#comparing-outputs-with-quast)
 
 ---
 
 ## A word on assembly tools
 
-For the exercise today we will be using the `Flye` assembly tool to work with one of the *M. bovis* genomes. Like with other areas of genomics, there are many good options for assembly tools and our usage of `Flye` today is in no way an endorsement that we consider this tool to be the 'best' long read assembler. `Flye` is a very good tool an will give us good results with the data we process today, but when working with real data there are many other good options to try, including:
+For the exercise today we will be using the `Flye` assembly tool to work with one of the *M. bovis* genomes. Like with other areas of genomics, there are many good options for assembly tools and our usage of `Flye` today is in no way an endorsement that we consider this tool to be the 'best' long read assembler. `Flye` is a very good tool and will give us good results with the data we process today, but when working with real data there are many other good options to try, including:
 
 1. `MaSuRCA` ([Zimin *et al.*, 2013](https://doi.org/10.1093/bioinformatics/btt476)) - [https://github.com/alekseyzimin/masurca](https://github.com/alekseyzimin/masurca)
 1. `UniCycler` (and `TriCycler`) ([Wick *et al.*, 2017](https://doi.org/10.1371/journal.pcbi.1005595)) - [https://github.com/rrwick/Unicycler](https://github.com/rrwick/Unicycler)
@@ -37,13 +37,13 @@ For the exercise today we will be using the `Flye` assembly tool to work with on
 
 A recent comparison of assembly tools was published by [Wick & Holt (2021)](https://doi.org/10.12688/f1000research.21782.4) which tests some of the options listed above along with several other tools.
 
-In practice, there are sometimes particular cases where a tool will not be compatible with your data, so it is helpful to be aware of several tools so that you have options is assembly proves problematic for a particular sample.
+In practice, there are sometimes particular cases where a tool will not be compatible with your data, so it is helpful to be aware of several tools so that you have options if assembly proves problematic for a particular sample.
 
 ---
 
 ## Performing *de novo* assembly with `Flye`
 
-As ONT data are fundamentally more error prone than the sequences we obtained through Illumina sequencing, a considerable amount of an ONT assembly is spent identifying and correcting errors to produce high-quality contigs from a comparably low-quality set of reads. If you think back to the original presentation, recall this figure of the error rates of our Illumina (green) and MinION (purple) sequences:
+As Nanopore sequences are fundamentally more error prone than the sequences we obtained through Illumina sequencing, a considerable amount of assembly is spent identifying and correcting errors to produce high-quality contigs from a comparably low-quality set of reads. If you think back to the original presentation, recall this figure of the error rates of our Illumina (green) and MinION (purple) sequences:
 
 ![](../img/03_ont_vs_illumina_quality.png)
 
@@ -62,9 +62,9 @@ For our purposes, the main points of the assembly process to understand are:
 To run `Flye`, navigate to your `3_Assembly-mapping/` directory, and we will load the latest module from NeSI:
 
 ```bash
-$ cd /nesi/project/nesi03181/phel/USERNAME/3_Assembly-mapping/
-
 $ module load Flye/2.8.3-gimkl-2020a-Python-3.8.2
+
+$ cd /nesi/project/nesi03181/phel/USERNAME/3_Assembly-mapping/
 ```
 
 You can explore the `Flye` documentation [online](https://github.com/fenderglass/Flye/blob/flye/docs/USAGE.md) or through the help menu, but at a minimum to make an assembly work, you can use the following parameters:
@@ -123,9 +123,9 @@ $ racon -t 10 ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq Mb1.sam ont_as
 
 The `medaka` software is developed by Oxford Nanopore Technologies and claims to provide drastically improved assemblies when used in conjunction with `racon`. The [documentation](https://nanoporetech.github.io/medaka/) for `medaka` recommends using the `Flye` assembler for creating draft assemblies but they also report data showing that `Canu` produces the highest quality assembly.
 
-When working with `medaka` it is important to note that the basecalling model used by `guppy` during sequencing must be provided as a parameter. Unfortunately, as our mock data were obtained from NCBI we do not know for certain which basecaling model was used. According to the project description ([PRJEB38523](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38523)) for these data, parallel basecalling attempts were made with `guppy` (the data we have) and version 0.1.3 of the `bonito` basecaller. This version was released in [April 2020](https://pypi.org/project/ont-bonito/0.1.3/#history) so with a bit of detective work I *think* that the correct basecalling model for our data should be either **r941_min_high_g351** or **r941_min_high_g360**.
+When working with `medaka` it is important to note that the basecalling model used by `guppy` during sequencing must be provided as a parameter. Unfortunately, as our mock data were obtained from NCBI we do not know for certain which basecalling model was used. According to the project description ([PRJEB38523](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38523)) for these data, parallel basecalling attempts were made with `guppy` (the data we have) and version 0.1.3 of the `bonito` basecaller. This version was released in [April 2020](https://pypi.org/project/ont-bonito/0.1.3/#history) so with a bit of detective work I *think* that the correct basecalling model for our data should be either **r941_min_high_g351** or **r941_min_high_g360**.
 
-In practice we will always know which model was used during basecalling as we provide this parameter to `guppy` as part of basecalling. In addition, if we perform basecalling live, then `MinKNOW` tells us the model used in the run report. This is only an uncertainty in this training exercise as we do not have access to the raw `fast5` sequencing files.
+In practice we will always know which model was used during basecalling as we provide this parameter to `guppy` as part of basecalling. In addition, if we perform basecalling live, then `MinKNOW` tells us the model used in the run report. This is only an uncertainty in this training exercise as we do not have access to the raw sequencing files.
 
 > <details>
 > <summary>Understanding `medaka` model names</summary>
@@ -194,7 +194,7 @@ $ seqmagick mogrify --name-suffix _medaka ont_assemblies/Mb1.medaka.fna
 
 To finish this exercise, we will compare out assembly produced using `Flye` to comparable assemblies produced with `Canu` and `Unicycler`.
 
-You will be able to find a copy of these assemblies in the directory `/nesi/project/nesi03181/phel/module_3/3_Assembly-mapping/`. Copy the references to your `3_Assembly-mapping/ont_assemblies/` folder and run `QUAST` then compress the output with the following commands
+You will be able to find a copy of these assemblies in the directory `/nesi/project/nesi03181/phel/module_3/3_Assembly-mapping/`. Copy the references to your `ont_assemblies/` folder and run `QUAST` with the following command:
 
 
 ```bash
@@ -202,7 +202,10 @@ $ module purge
 $ module load QUAST/5.0.2-gimkl-2018b
 
 $ quast.py -r GCF_000696015.1.fna -o quast/ --gene-finding \
-           ont_assemblies/Mb1.flye.fna ont_assemblies/Mb1.racon.fna ont_assemblies/Mb1.unicycler.fna ont_assemblies/Mb1.canu.fna
+           ont_assemblies/Mb1.flye.fna \
+           ont_assemblies/Mb1.racon.fna \
+           ont_assemblies/Mb1.unicycler.fna \
+           ont_assemblies/Mb1.canu.fna
 ```
 
 >**Note:** You may need to change the path to your reference genome `GCF_000696015.1.fna`, depending on where you have downloaded it to.
