@@ -90,7 +90,7 @@ Before proceding, we will create a directory for all polishing attempts and make
 ```bash
 $ mkdir ont_assemblies/
 
-$ cp Mb1_flye/Mb1.contigs.fasta ont_assemblies/Mb1.flye.fna
+$ cp Mb1_flye/assembly.fasta ont_assemblies/Mb1.flye.fna
 ```
 
 ---
