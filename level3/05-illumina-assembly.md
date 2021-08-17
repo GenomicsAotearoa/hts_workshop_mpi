@@ -128,7 +128,6 @@ We can also visualise the assembly by looking at how well the loops and fragment
 
 ```bash
 $ module load Bandage/0.8.1_Centos
-$ module load Qt5/5.13.2-GCCcore-9.2.0
 
 $ Bandage image bmsb_spades/assembly_graph.fastg bmsb_bandage.svg 2> /dev/null
 ```
