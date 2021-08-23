@@ -20,31 +20,55 @@ When you have completed all exercises, email the requested material and answers 
 
 ## Exercise 1 - Genome assembly with SPAdes
 
-Select one of the three *M. bovis* samples to assemble with `SPAdes`. Create a `slurm` script to assemble the MiSeq data, creating an output folder in your equivalent of the `3_Assembly-mapping/` folder. For this assembly, you must set the following parameters:
+In the `/nesi/project/nesi03181/phel/module_3/2_Quality_filtered_data/` folder you will find quality filtered Illumina MiSeq reads for six different *M. bovis* isolates, different from the ones that we have used in the workshops so far:
+
+1. Mb166
+1. Mb182
+1. Mb183
+1. Mb194
+1. Mb240
+1. Mb267
+
+These files ahve already been processed with `fastp` to remove low quality sequences and adapter sequence, producing familiar `Mb###_1.trim.fq.gz`, `Mb###_2.trim.fq.gz`, and `Mb###_s.trim.fq.gz` files. Select any one of these isolates, and write a `slurm` script to performing a genome assembly using `SPAdes`.
+
+For this assembly, you must set the following parameters:
 
 1. Assembly will take place in **isolate** mode.
 1. Manually specify *k*-mer sizes for assembly. It is up to you which values to choose, but you must make the selection rather than let `SPAdes` pick automatically.
 1. Set the number of threads to 20.
-   1. *Note - you will have to account for this in your `slurm` batch file as well.
+   1. *Note - you will have to account for this in your `slurm` batch file as well.*
+1. Write the output files to your equivalent of the `3_Assembly-mapping/` folder.
 
-You must also provide an appropriate amount of memory and run time for the command to finish. Below as some approximations of the resources needed to assemble each genome.
+You must also provide an appropriate amount of memory and run time for the command to finish. For most samples, selecting 10 - 20 GB of RAM and 2 hours of run time should be sufficient.
 
-|Sample|Run time (hh:mm:ss)|Memory (GB)|
-|:---|:---:|:---:|
-|Mb1|01:00:00|40 GB|
-|Mb152|00:10:00|20 GB|
-|Mb168|01:30:00|60 GB|
+When the assembly is complete, copy and rename the `contigs.fasta` and `assembly_graph.fastg` files. These will be used in later exercises.
 
 ---
 
-## Exercise 2 - ...
+## Exercise 2 - Genome assembly with Flye
 
-...
+In the sample folder you will find a match set of quality filtered MinION sequences from the same six genomes, named as `Mb###.nanofilt.fq.gz`. Perform an assembly on the same isolate using `Flye`, or any other long-read assembly tool that you wish to trial.
+
+For any assembly tool that requires an estimate of genome size, 1 Mb (1,000,000 bases) is sufficient for the *M. bovis* genome.
+
+Write the output to your equivalent of the `3_Assembly-mapping/` folder. When assembly is complete, copy and rename the resulting contigs and assembly graph files. These will be named `assembly.fasta` and `assembly_graph.gfa` if you use `Flye`.
 
 ---
 
-## Exercise 3 - ...
+## Exercise 3 - Performing a hybrid assembly
 
-...
+Modify your `SPAdes` script to incorporate the MinION sequences into the assembly process. Submit the assembly job, then copy and rename the output contigs and assembly graph as for the previous exercises.
+
+>**Note:** For this exercise you only need to add a single parameter to your existing script, and change the output folder name. All other parameters can be left the same, and the run time and memory limits used in the original assembly should be sufficient to complete the hybrid assembly.
+
+---
+
+## Exercise 4 - Evaluating the differences in assembly quality
+
+For each of the three assembly graphs you have produced (short read, long read, hybrid) summarise the assembly outputs using `QUAST` with the *M. bovis* reference genome. Inspect the final output and identify features that favour each of the three methods.
+
+You may also wish to produce `Bandage` plots of the assemblies for aid in your conclusions.
+
+Email your report file and key findings to the trainers.
 
 ---
