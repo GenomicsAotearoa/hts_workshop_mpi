@@ -29,7 +29,7 @@ In the `/nesi/project/nesi03181/phel/module_3/2_Quality_filtered_data/` folder y
 1. Mb240
 1. Mb267
 
-These files ahve already been processed with `fastp` to remove low quality sequences and adapter sequence, producing familiar `Mb###_1.trim.fq.gz`, `Mb###_2.trim.fq.gz`, and `Mb###_s.trim.fq.gz` files. Select any one of these isolates, and write a `slurm` script to performing a genome assembly using `SPAdes`.
+These files have already been processed with `fastp` to remove low quality sequences and adapter sequence, producing familiar `Mb###_1.trim.fq.gz`, `Mb###_2.trim.fq.gz`, and `Mb###_s.trim.fq.gz` files. Select any one of these isolates, and write a `slurm` script to performing a genome assembly using `SPAdes`.
 
 For this assembly, you must set the following parameters:
 
