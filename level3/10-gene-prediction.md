@@ -24,6 +24,7 @@
 1. [Prediciting prokaryote coding regions with `prodigal`](#prediciting-prokaryote-coding-regions-with-prodigal)
    1. [`prodigal` prediction parameters](#prodigal-prediction-parameters)
    1. [Running `prodigal`](#running-prodigal)
+1. [Prediciting eukaryote coding regions with `AUGUSTUS`](#prediciting-eukaryote-coding-regions-with-augustus)
 
 ---
 
@@ -144,15 +145,47 @@ As `prodigal` is only concerned with *predicting* sequences, not annotating them
 
 The next three numbers provide the nucleotide coordinates of the coding sequence and the orientation (1 for forward, -1 for reverse). Again, these are very useful when tracking down the genomic context of a sequence and can sometimes provide a quick-and-dirty means for spotting rearrangements.
 
-The unique gene identifier is used to link the entries in the fasta file to the output obtained from the `-o` (or `stdout`) channel. Simiarly to the prediction number, it is simply derived from the order of contigs and sequence of predictions.
+After these parameters are done, there are a series of keyword-linked pieces of information about the sequence. The unique gene identifier is used to link the entries in the fasta file to the output obtained from the `-o` (or `stdout`) channel. Simiarly to the prediction number, it is simply derived from the order of contigs and sequence of predictions.
 
-Finally, the last piece of information we are going to inspect is whether or not the prediction is complete of not.
+The main piece of information we are going to inspect is whether or not the prediction is complete of not. The 'partial' keyword provides a two digit code that reports the status of the prediction, the first digit corresponds to the start of the sequence and the second to the end of the sequence. The values these can take are either 0 (complete) or 1 (incomplete). A fully complete prediction will therefore have a code of `00`, and a partial predictions can be:
 
+* `01` - Started, but no end found - typically when a prediction runs off the end of a contig
+* `10` - No start identified, but a complete end found - often a sequence which occurs at the start of the contig
+* `11` - No ends found - likely due to predicting for a very short contig
 
+You can also inspect the sequences to see if they appear complete. Typically protein predictions begin with a methionine (M) amino acid residue, as this is the translation of the `ATG` codon. There is no residue which corresponds to stop (as stop is a gap in translation) so `prodigal` reports the stop position with an asterisk (`*`).
 
+---
 
+## Prediciting eukaryote coding regions with `AUGUSTUS`
 
+Unlike prokaryotic genomes, the genes of eukaryotes carry intronic sequences, which need to be spliced out of the gene sequence before undergoing translation. The detection of splicing boundaries is a difficult task, as there are many organism-specific patterns used to mark splice sites.
 
+`AUGUSTUS` is one tool which can predict protein coding sequences without direct alignment to a reference genome, but it still requires training against a closely related model organisms to generate accurate predictions.
 
+To begin, find the latest version of `AUGUSTUS` on NeSI and load it.
+
+> <details>
+> <summary>Solution</summary>
+> 
+> ```bash
+> $ module spider augustus
+> $ module load AUGUSTUS/3.3.3-gimkl-2020a
+> ```
+> </details>
+
+Once loaded, you can view the available models for gene prediction using the following command:
+
+```bash
+$ augustus --species=help
+```
+
+You will see a number of results, including some from the insecta, but nothing particularly closely related to the *Pentatomidae*. Instead, we will use the `caenorhabditis`` model for an initial round of predictionon the BMSB mitochondrial genome.
+
+```bash
+$ augustus --species=caenorhabditis H_halys.NC_013272.fna > H_halys.NC_013272.aug.gff
+# --protein=on/off
+# --codingseq=on/off
+```
 
 ---
