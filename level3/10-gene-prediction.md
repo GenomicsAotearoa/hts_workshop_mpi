@@ -31,7 +31,7 @@
 
 Prediction of genes in a genome assembly is a complicated process - there are many tools which can perform good initial predictions from assembled contigs, but there are often many biological features which confound the prediction process and make it more complicated than simply finding start and stop codons within a sequence. Depending on the work that you are doing, you may be most interested in identifying protein coding regions or untranslated genetic elements such as ribosomal and transfer RNA sequences (rRNA and tRNAs, respectively). For features such as these, which are functional but not not translated a different set of tools is required for prediction and we will cover these in the next workshop.
 
-At the most basic level, searching for proteins is simply looking for open reading frames (ORF) within a contig, but in practice there are many features (some biological, some as a consequence of having a draft assembly) which confound the process. At the biological level, features such as alternate stop codons (the [amber, umber, and ochre codons](https://en.wikipedia.org/wiki/Stop_codon#Nomenclature) and stop codon read-through or intro splicing make obtaining the protein coding sequence more complicated than simply translating the sequence between a start/stop pairing. In addition, if our genome assembly is not complete we run the risk of encountering partial coding sequeences in which either the 5' or 3' region of the sequence were not assembled. In these cases, a simple search for ORFs will fail to detect the partial sequence.
+At the most basic level, searching for proteins is simply looking for open reading frames (ORF) within a contig, but in practice there are many features (some biological, some as a consequence of having a draft assembly) which confound the process. At the biological level, features such as pseudogenes, the presence of alternate stop codons (the [amber, umber, and ochre codons](https://en.wikipedia.org/wiki/Stop_codon#Nomenclature) and stop codon read-through or intron splicing make obtaining the protein coding sequence more complicated than simply translating the nucleotide sequence between a start/stop pairing. In addition, if our genome assembly is not complete we run the risk of encountering partial coding sequeences in which either the 5' or 3' region of the sequence were not assembled. In these cases, a simple search for ORFs will fail to detect the partial sequence.
 
 The prediction of protein coding sequences is therefore done using more complicated techniques. Similar to assembly, we can perform gene prediction in either a reference-guided manner, or through the use of *ab initio* prediction tools. We will not be covering the reference-guided approach here, as it is quite simple to perform in `Geneious`, but it is not to be underestimated as a technique, particularly when working with viruses or other organisms with complex read-through or splicing properties. *Ab initio* pprediction is akin to *de novo* assembly - the tool is created with some internal models for what coding regions 'look' like, which are then applied to query sequences to find putative coding regions. Depending on the intended use of the tool, each prediction tool may be better tuned for partiular assumptions of the data. We are going to use two different tools today, one designed for prediction of prokaryotic coding sequences (which generally lack introns) and eukaryotic sequences.
 
@@ -100,6 +100,59 @@ There are also some features for producing customised prediction models for a li
 
 ### Running `prodigal`
 
-...
+One of the nice features of `prodigal` is that it does not take a lot of resources to run, so we can easily run it without resorting to `slurm` for a single genome.
+
+```bash
+$ prodigal -i M_bovis.NZ_CP005933.fna -p single -g 4 \
+           -d M_bovis.NZ_CP005933.prod.fna -a M_bovis.NZ_CP005933.prod.faa -o M_bovis.NZ_CP005933.prod.gbk
+```
+
+This will only take a few seconds to complete. Once done, we can quickly see how many protein coding sequences were predicted by counting the number of sequences in either of the output fasta files.
+
+> <details>
+> <summary>Solution</summary>
+> 
+> ```bash
+> $ grep -c ">" M_bovis.NZ_CP005933.prod.faa
+> ```
+> </details>
+
+Since this is a chromosome downloaded from the [NCBI RefSeq database](https://www.ncbi.nlm.nih.gov/nuccore/NZ_CP005933) we can look to the official annotation and see how many proteins we should expect to find. This number (782) is slightly fewer than what `prodigal` predicts (792) but is very close.
+
+If we inspect the output of the fasta files, you will notice that there is a lot of metadata stored in each line. For example:
+
+```bash
+$ head -n1 M_bovis.NZ_CP005933.prod.faa
+# >NZ_CP005933.1_1 # 1 # 1401 # 1 # ID=1_1;partial=10;start_type=Edge;rbs_motif=None;rbs_spacer=None;gc_cont=0.293
+```
+
+There is quite a lot to unpack here - some is quite important to know and other parts are just descriptive. We can break down the results like so:
+
+```
+>NZ_CP005933.1_1 # 1 # 1401 # 1 # ID=1_1;partial=10;start_type=Edge;rbs_motif=None;rbs_spacer=None;gc_cont=0.293
+ |             |   |   |      |   |      |
+ |             |   |   |      |   |      Are the gene boundaries complete or not
+ |             |   |   |      |   Unique gene ID
+ |             |   |   |      Orientation
+ |             |   |   Stop position
+ |             |   Start position
+ |             Gene suffix
+ Contig name
+```
+
+As `prodigal` is only concerned with *predicting* sequences, not annotating them, there is no functional imformation which can be used to guide the name of each prediction. For simplicity, protein predictions are simply named as `[CONTIG NAME]_[PREDICTION]`. This has some nice implications when we want to study gene synteny but for the most part numbering off the predicitons in the order they are made is the simpliest way to generate names.
+
+The next three numbers provide the nucleotide coordinates of the coding sequence and the orientation (1 for forward, -1 for reverse). Again, these are very useful when tracking down the genomic context of a sequence and can sometimes provide a quick-and-dirty means for spotting rearrangements.
+
+The unique gene identifier is used to link the entries in the fasta file to the output obtained from the `-o` (or `stdout`) channel. Simiarly to the prediction number, it is simply derived from the order of contigs and sequence of predictions.
+
+Finally, the last piece of information we are going to inspect is whether or not the prediction is complete of not.
+
+
+
+
+
+
+
 
 ---
