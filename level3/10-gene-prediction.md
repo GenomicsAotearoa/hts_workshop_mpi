@@ -180,12 +180,55 @@ Once loaded, you can view the available models for gene prediction using the fol
 $ augustus --species=help
 ```
 
-You will see a number of results, including some from the insecta, but nothing particularly closely related to the *Pentatomidae*. Instead, we will use the `caenorhabditis`` model for an initial round of predictionon the BMSB mitochondrial genome.
+You will see a number of results, including some from the insecta, but nothing particularly closely related to the *Pentatomidae*. Instead, we will use two different models for an initial round of prediction on the BMSB mitochondrial genome - one insect and one bacterial species.
 
 ```bash
-$ augustus --species=caenorhabditis H_halys.NC_013272.fna > H_halys.NC_013272.aug.gff
-# --protein=on/off
-# --codingseq=on/off
+$ augustus --protein=on --codingseq=on --species=honeybee1 H_halys.ML746646.fna > H_halys.ML746646.aug_hb.gff
+$ getAnnoFasta.pl H_halys.ML746646.aug_hb.gff
+
+$ augustus --protein=on --codingseq=on --species=s_aureus H_halys.ML746646.fna > H_halys.ML746646.aug_sa.gff
+$ getAnnoFasta.pl H_halys.ML746646.aug_sa.gff
+```
+
+If you count the number of coding sequences in each prediction, you will notice that they are different. This is because neither of these gene models are accurate for the organism we are trying to characterise. It is possible to create a custom species profile for an organism to get a more accurate prediction. Creating a new model is a slow process so we will not cover it here, although you can see the steps required in the text below.
+
+> <details>
+> <summary>Creating a custom gene profile</summary>
+> 
+> There are a few steps we need to perform in advance of the new model training. The first is to do with file permissions - the location of the prediction databases that `AUGUSTUS` uses for gene prediction are not writable to us, so we cannot add new data into them. We must create our own copy of the configuration information and point `AUGUSTUS` towards this new location in order to create new models
+>
+> ```bash
+> $ ECHO $AUGUSTUS_CONFIG_PATH
+> #/opt/nesi/CS400_centos7_bdw/AUGUSTUS/3.3.3-gimkl-2020a/config
+>
+> # Create a local copy
+> $ cp -r /opt/nesi/CS400_centos7_bdw/AUGUSTUS/3.3.3-gimkl-2020a/config/ /nesi/project/nesi03181/phel/USERNAME/config/
+>
+> # Update the `AUGUSTUS_CONFIG_PATH` variable to point to the new location
+> $ AUGUSTUS_CONFIG_PATH="/nesi/project/nesi03181/phel/USERNAME/config"
+> ```
+>
+> Now we just need to obtain a reference genome to train against. For *H. halys*, this can found on the [NCBI website](https://www.ncbi.nlm.nih.gov/assembly/GCA_000696795.3) and downloaded from the command line:
+>
+> ```bash
+> $ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/696/795/GCA_000696795.3_Hhal_1.1/GCA_000696795.3_Hhal_1.1_genomic.gbff.gz
+> $ gunzip GCA_000696795.3_Hhal_1.1_genomic.gbff.gz
+> ```
+>
+> Once these steps are completed, training is a single command:
+>
+> ```bash
+> $ autoAugTrain.pl --trainingset=GCA_000696795.3_Hhal_1.1_genomic.gbff --species=hhalys
+> ```
+> </details>
+
+In order to use the custom *H. halys* gene model, the only additional step we need to take is changing the system variable `asdasd` from its current location to a new location containing the *H. halys* reference.
+
+```bash
+$ AUGUSTUS_CONFIG_PATH="/nesi/project/nesi03181/phel/module_3/4_Gene_predictions/config"
+
+$ augustus --protein=on --codingseq=on --species=hhalys H_halys.ML746646.fna > H_halys.ML746646.aug_hh.gff
+$ getAnnoFasta.pl H_halys.ML746646.aug_hh.gff
 ```
 
 ---
