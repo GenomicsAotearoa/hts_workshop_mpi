@@ -222,7 +222,7 @@ If you count the number of coding sequences in each prediction, you will notice 
 > ```
 > </details>
 
-In order to use the custom *H. halys* gene model, the only additional step we need to take is changing the system variable `asdasd` from its current location to a new location containing the *H. halys* reference.
+In order to use the custom *H. halys* gene model, the only additional step we need to take is changing the system variable `AUGUSTUS_CONFIG_PATH` from its current location to a new location containing the *H. halys* reference.
 
 ```bash
 $ AUGUSTUS_CONFIG_PATH="/nesi/project/nesi03181/phel/module_3/4_Gene_predictions/config"
