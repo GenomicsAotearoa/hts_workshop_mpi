@@ -159,9 +159,11 @@ You can also inspect the sequences to see if they appear complete. Typically pro
 
 ## Prediciting eukaryote coding regions with `AUGUSTUS`
 
-Unlike prokaryotic genomes, the genes of eukaryotes carry intronic sequences, which need to be spliced out of the gene sequence before undergoing translation. The detection of splicing boundaries is a difficult task, as there are many organism-specific patterns used to mark splice sites.
+Unlike prokaryotic genomes, the genes of eukaryotes carry intronic sequences, which need to be spliced out of the gene sequence before undergoing translation. The detection of splicing boundaries is a difficult task, as there are many organism-specific patterns used to mark splice sites. Protein prediction tools for this purpose typically come with  number of pre-trained models for finding protein domains within contigs, but if there is no closely matching model within the 
 
-`AUGUSTUS` is one tool which can predict protein coding sequences without direct alignment to a reference genome, but it still requires training against a closely related model organisms to generate accurate predictions.
+A recently published article ([Scalzitti *et al.*, 2020](https://doi.org/10.1186/s12864-020-6707-9)) profiled a number of these tools found `AUGUSTUS` to be one of the best performing tools for gene prediction in eukaryotic organisms, so this is what we will use today.
+
+>**Note:** `AUGUSUTUS` does require training against a closely related model organisms to generate accurate predictions, which we do not have for this workshop. We will instead be performing predictions with a few different models and seeing how the outputs differ.
 
 To begin, find the latest version of `AUGUSTUS` on NeSI and load it.
 
@@ -183,11 +185,11 @@ $ augustus --species=help
 You will see a number of results, including some from the insecta, but nothing particularly closely related to the *Pentatomidae*. Instead, we will use two different models for an initial round of prediction on the BMSB mitochondrial genome - one insect and one bacterial species.
 
 ```bash
-$ augustus --protein=on --codingseq=on --species=honeybee1 H_halys.ML746646.fna > H_halys.ML746646.aug_hb.gff
-$ getAnnoFasta.pl H_halys.ML746646.aug_hb.gff
+$ augustus --protein=on --codingseq=on --species=honeybee1 H_halys.ML743815.fna > H_halys.ML743815.aug_hb.gff
+$ getAnnoFasta.pl H_halys.ML743815.aug_hb.gff
 
-$ augustus --protein=on --codingseq=on --species=s_aureus H_halys.ML746646.fna > H_halys.ML746646.aug_sa.gff
-$ getAnnoFasta.pl H_halys.ML746646.aug_sa.gff
+$ augustus --protein=on --codingseq=on --species=s_aureus H_halys.ML743815.fna > H_halys.ML743815.aug_sa.gff
+$ getAnnoFasta.pl H_halys.ML743815.aug_sa.gff
 ```
 
 If you count the number of coding sequences in each prediction, you will notice that they are different. This is because neither of these gene models are accurate for the organism we are trying to characterise. It is possible to create a custom species profile for an organism to get a more accurate prediction. Creating a new model is a slow process so we will not cover it here, although you can see the steps required in the text below.
