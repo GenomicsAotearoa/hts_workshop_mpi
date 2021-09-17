@@ -79,6 +79,7 @@ Some material has been adapted from the [Genomics Aotearoa](https://www.genomics
 This module also uses sequence data from `BioProject` [PRJNA678533]:
 
 1. [Run SRR13090255](https://www.ncbi.nlm.nih.gov/sra/SRX9536177[accn]) - DNA-Seq of *Halyomorpha halys* (H1 Haplotype)
+1. [*H. halys* reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_000696795.3) - Hhal_1.1 assembly
 
 ### Citation
 
