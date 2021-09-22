@@ -20,15 +20,15 @@
 
 ## Contents
 
-1. [Complexities of prediction protein coding sequences from a *de novo* assembly](#complexities-of-prediction-protein-coding-sequences-from-a-de-novo-assembly)
-1. [Prediciting prokaryote coding regions with `prodigal`](#prediciting-prokaryote-coding-regions-with-prodigal)
+1. [Complexities of predicting protein coding sequences from a *de novo* assembly](#complexities-of-predicting-protein-coding-sequences-from-a-de-novo-assembly)
+1. [Predicting prokaryote coding regions with `prodigal`](#predicting-prokaryote-coding-regions-with-prodigal)
    1. [`prodigal` prediction parameters](#prodigal-prediction-parameters)
    1. [Running `prodigal`](#running-prodigal)
-1. [Prediciting eukaryote coding regions with `AUGUSTUS`](#prediciting-eukaryote-coding-regions-with-augustus)
+1. [Predicting eukaryote coding regions with `AUGUSTUS`](#predicting-eukaryote-coding-regions-with-augustus)
 
 ---
 
-## Complexities of prediction protein coding sequences from a *de novo* assembly
+## Complexities of predicting protein coding sequences from a *de novo* assembly
 
 Prediction of genes in a genome assembly is a complicated process - there are many tools which can perform good initial predictions from assembled contigs, but there are often many biological features which confound the prediction process and make it more complicated than simply finding start and stop codons within a sequence. Depending on the work that you are doing, you may be most interested in identifying protein coding regions or untranslated genetic elements such as ribosomal and transfer RNA sequences (rRNA and tRNAs, respectively). For features such as these, which are functional but not not translated, a different set of tools is required for prediction and we will cover these in the next workshop.
 
@@ -46,7 +46,7 @@ Similar to assembly, we can perform gene prediction in either a reference-guided
 
 ---
 
-## Prediciting prokaryote coding regions with `prodigal`
+## Predicting prokaryote coding regions with `prodigal`
 
 Navigate to your working directory on NeSI. Create a folder `4_Gene_predictions/` and copy the contents of the `/nesi/project/nesi03181/phel/module_3/4_Gene_predictions/` folder into your folder.
 
@@ -88,7 +88,7 @@ There are quite a few options given here, which we can split into input and outp
 
 The first parameter here should be obvious, so will not be discussed. The `-p` parameter is an important one to pay attention to, as it determines whether or not we are predicting sequences in an single genome (i.e. a genome obtained from a pure culture) or a metagenomic mix of sequences. In `single` mode prediction goes through a round of training against the input sequences before producing a prediction output tailored to your contigs. The `meta` mode uses pre-calculated profiles of gene features. Strictly speaking it is possible to run `meta` mode on an isolate genome, or `single` mode on a metagenome but the results do differ.
 
-Selecting the translation table (`-g`) is something we usually do not need to wory about. `prodigal` supports nubmers 1 through 25 of the [NCBI genetic codes](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). By default, it will start with code 11 (bacteria, archaea, and plastids) but shift to code 4 if the predictions are too short. This is important to us because genetic code 4 corresponds to the *Mycoplasmataceae* - the bacterial family that contains the genera *Mycoplasma* and *Ureaplasma*, and the family *Spiroplasmataceae*. These lineages have repurposed `UGA` from a stop codon to a tryptophan codon.
+Selecting the translation table (`-g`) is something we usually do not need to wory about. `prodigal` supports numbers 1 through 25 of the [NCBI genetic codes](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi). By default, it will start with code 11 (bacteria, archaea, and plastids) but shift to code 4 if the predictions are too short. This is important to us because genetic code 4 corresponds to the *Mycoplasmataceae* - the bacterial family that contains the genera *Mycoplasma* and *Ureaplasma*, and the family *Spiroplasmataceae*. These lineages have repurposed `UGA` from a stop codon to a tryptophan codon.
 
 The `-c` parameter is one we generally do not need to use. As we will almost always be working with draft genomes, there is no problem with allowing genes to run over the edges of contigs, as we know that the contigs are not completely assembled.
 
@@ -167,11 +167,11 @@ You can also inspect the sequences to see if they appear complete. Typically pro
 
 ---
 
-## Prediciting eukaryote coding regions with `AUGUSTUS`
+## Predicting eukaryote coding regions with `AUGUSTUS`
 
 Unlike prokaryotic genomes, the genes of eukaryotes carry intronic sequences, which need to be spliced out of the gene sequence before undergoing translation. The detection of splicing boundaries is a difficult task, as there are many organism-specific patterns used to mark splice sites. Protein prediction tools for this purpose typically come with  number of pre-trained models for finding protein domains within contigs, but if there is no model for your organism, or a closely related lineage, then results may not be ideal.
 
-A recently published article ([Scalzitti *et al.*, 2020](https://doi.org/10.1186/s12864-020-6707-9)) profiled a number of these tools found `AUGUSTUS` to be one of the best performing tools for gene prediction in eukaryotic organisms, so this is what we will use today.
+A recently published article ([Scalzitti *et al.*, 2020](https://doi.org/10.1186/s12864-020-6707-9)) which profiled a number of these tools found `AUGUSTUS` to be one of the best performing tools for gene prediction in eukaryotic organisms, so this is what we will use today.
 
 >**Note:** `AUGUSUTUS` does require training against a closely related model organisms to generate accurate predictions, which we do not have for this workshop. We will instead be performing predictions with a few different models and seeing how the outputs differ.
 
