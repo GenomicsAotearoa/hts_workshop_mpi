@@ -245,6 +245,4 @@ If you count the number of coding sequences in each prediction, you will notice 
 
 We will take a quick look at the outputs in `Geneious`. Download the output fasta files, ready to analyse.
 
-```
-
 ---
