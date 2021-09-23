@@ -195,11 +195,11 @@ $ augustus --species=help
 You will see a number of results, including some from the insecta, but nothing particularly closely related to the *Pentatomidae*. Instead, we will use two different models for an initial round of prediction on the BMSB mitochondrial genome - one insect and one bacterial species.
 
 ```bash
-$ augustus --protein=on --codingseq=on --species=honeybee1 H_halys.ML743815.fna > H_halys.ML743815.aug_hb.gff
-$ getAnnoFasta.pl H_halys.ML743815.aug_hb.gff
+$ augustus --protein=on --codingseq=on --species=honeybee1 H_halys.ML746646.fna > H_halys.ML746646.aug_hb.gff
+$ getAnnoFasta.pl H_halys.ML746646.aug_hb.gff
 
-$ augustus --protein=on --codingseq=on --species=s_aureus H_halys.ML743815.fna > H_halys.ML743815.aug_sa.gff
-$ getAnnoFasta.pl H_halys.ML743815.aug_sa.gff
+$ augustus --protein=on --codingseq=on --species=s_aureus H_halys.ML746646.fna > H_halys.ML746646.aug_sa.gff
+$ getAnnoFasta.pl H_halys.ML746646.aug_sa.gff
 ```
 
 If you count the number of coding sequences in each prediction, you will notice that they are different. This is because neither of these gene models are accurate for the organism we are trying to characterise. It is possible to create a custom species profile for an organism to get a more accurate prediction. Creating a new model is a slow process so we will not cover it here, although you can see the steps required in the text below.
