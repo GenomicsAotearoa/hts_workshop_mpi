@@ -144,19 +144,12 @@ In practice we will always know which model was used during basecalling as we pr
 > The only detail which is really in the users control is whether we used the fast, high-accuracy, or super-accuracy (`guppy` v5 only) models for basecalling. This is something that you should know, and will be in the run report if live basecalling was performed by `MinKNOW`.
 > </details>
 
-For the purposes of this exercise we will assume that the correct model is **r941_min_high_g360**. As `medaka` is not installed on NeSI, we have obtained a small software container which contains `medaka` and its dependencies. To access this container perform the following steps:
+For the purposes of this exercise we will assume that the correct model is **r941_min_high_g360**. We can load `medaka` and execute it with the following commands:
 
 ```bash
 $ module purge
-$ module load Miniconda3/4.10.3
+$ module load medaka/1.4.3-Miniconda3-4.10.3
 
-$ conda activate /nesi/project/nesi03181/phel/module_3/envs/medaka
-$ medaka -h
-```
-
-While this environment is active we can access `medaka` as if it were a native piece of software.
-
-```bash
 $ medaka_consensus -t 10 -m r941_min_high_g360 \
                    -i ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
                    -d ont_assemblies/Mb1.racon.fna \
