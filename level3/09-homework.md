@@ -65,7 +65,7 @@ Modify your `SPAdes` script to incorporate the MinION sequences into the assembl
 
 ## Exercise 4 - Evaluating the differences in assembly quality
 
-For each of the three assembly graphs you have produced (short read, long read, hybrid) summarise the assembly outputs using `QUAST` with the *M. bovis* reference genome. Inspect the final output and identify features that favour each of the three methods.
+For each of the three assemblies you have produced (short read, long read, hybrid) summarise the assembly outputs using `QUAST` with the *M. bovis* reference genome. Inspect the final output and identify features that favour each of the three methods.
 
 You may also wish to produce `Bandage` plots of the assemblies for aid in your conclusions.
 
