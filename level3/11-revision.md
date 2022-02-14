@@ -16,7 +16,8 @@
 
 1. [Returning to NeSI](#returning-to-nesi)
 1. [Shell exercises](#shell-exercises)
-1. [slurm exercises](#slurm-exercises)
+1. [NeSI and slurm exercises](#nesi-and-slurm-exercises)
+1. [Recapping the training so far...](#Recapping-the-training-so-far...)
 
 ---
 
@@ -92,7 +93,7 @@ Create a copy of the script produced in **Exercise 3**, then make the following 
 
 ---
 
-## slurm exercises
+## NeSI and slurm exercises
 
 Now that we're back up to speed with `bash` and the basics of command line navigation and operation, let's take a look at `slurm`.
 
@@ -110,7 +111,7 @@ We now know the names of the tools for performing the quality filtering, but we 
 
 **Exercise 3.**
 
-Write a `slurm` script to execute your MiSeq filtering tool on one of the samples in your `1_Raw_data` folder. You can use the following `slurm` template to begin your file:
+Write a `slurm` script to perform quality filtering on one of the MiSeq or MinION samples (or both) in your `1_Raw_data` folder. You can use the following `slurm` template to begin your file:
 
 ```bash
 #!/bin/bash -e
@@ -136,4 +137,30 @@ cd /nesi/project/nesi03181/phel/USERNAME/1_Raw_data/
 >**Note:** You can keep all filtering parameters at the defaul settings for this exercise if you wish, we are more interested in getting the `slurm` script working for this set of exercises.
 
 ---
+
+## Recapping the training so far...
+
+We will not perform any more technical exercises today, in the interest of time, but it is important that we remain aware of the stages of analysis we have performed so far.
+
+In the training to date, we have covered the following aspects of sample processing:
+
+1. Obtaining data - uploading to NeSI, or downloading from public repositories (such as the NCBI GenBank database) onto NeSI
+1. Assessing sequence quality
+   * Visualising quality using tools such as `FastQC` and `pycoQC`
+   * Performing quality filtering using `fastp` and `nanofilt`
+1. Assembling sequences into draft genomes
+   * Different assembly tools for different sequence types - `SPAdes` and `Flye`
+   * Polisihing a long-read assembly - `Racon` and `medaka`
+   * Hybrid assembly, combining both data sets into a single assembly
+   * Visualising assembly quality - `Bandage`
+   * Formally assessing assembly quality - `QUAST`
+1. Mapping sequences to a reference genome (or draft assembly)
+   * Short read mapping - `bowtie2` and `bwa`
+   * Long read mapping - `minimap2`
+   * Processing mapping files - `samtools`
+1. Predicting genes and coding sequences from contigs
+   * Prokaryotic organisms - `prodigal`
+   * Eukaryotic organisms - `AUGUSTUS` (when an appropriate training model exists)
+ 
+--
 
