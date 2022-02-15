@@ -118,7 +118,7 @@ Once you have completed this exercise, take a look and the contents of the outpu
 
 **Exercise 4.**
 
-Finally, let's create a new `bash` script. The `bad-reads-script.sh` is not particularly useful, as it dumps all of the sequences into a snigle output file. For real work, we would probably prefer to keep a per-sample record of which sequences failed our filtering criteria.
+Finally, let's create a new `bash` script. The `bad-reads-script.sh` is not particularly useful, as it dumps all of the sequences into a single output file. For real work, we would probably prefer to keep a per-sample record of which sequences failed our filtering criteria.
 
 Create a copy of the script produced in **Exercise 3**, then make the following changes:
 
