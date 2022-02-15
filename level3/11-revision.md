@@ -35,16 +35,16 @@ We are going to do a few quick exercises to refresh on the basics of command lin
 
 You should still have a folder named `shell_data/` in your directory. This is where we did our initial practice introduction to the command line and common operations. Ignoring any folders you created during your own working, there were three folders provided to you at the start of this training workshop.
 
-> ### Exercise
->
-> There are three folders in your `shell_data/` directory. One of these is hidden, the other two are not. List these folders, and report back with their names and how long ago they were created.
->
+**Exercise 1.**
+
+There are three folders in your `shell_data/` directory. One of these is hidden, the other two are not. List these folders, and report back with their names and how long ago they were created.
+
 > <details>
 > <summary>Solution</summary>
 >
 > ```bash
 > $ cd shell_data/
-> # ls -a -l
+> $ ls -a -l
 > drwxrws---+  2 dsen018        nesi03181 4096 Jun  2  2021 .hidden
 > drwxrws---+  3 dsen018        nesi03181 4096 Jul 11  2021 sra_metadata
 > drwxrws---+  3 dsen018        nesi03181 4096 Jun 23  2021 untrimmed_fastq
@@ -57,17 +57,36 @@ From here, we will perform a few more exercises to refresh ourselves on some of 
 
 ## Shell exercises
 
-There are no answers given for this next section - you can either work through this section independently, or with the group.
+For this section, you may either work through independently at your own pace, or with the group.
 
 **Exercise 1.**
 
 How many lines are in the files `SRR097977.fastq` and `SRR098026.fastq`? Based on this information, how many sequences are in each file?
 
+> <details>
+> <summary>Solution</summary>
+>
+> ```bash
+> $ wc -l *.fastq
+> #  996 SRR097977.fastq
+> #  996 SRR098026.fastq
+> # 1992 total
+> ```
+> </details>
+
 **Exercise 2.**
 
 Sometimes we need to peak inside large files to get a view of the content. We don't neccessarily want to open the full file, but getting a glimpse of the first few lines can be very useful.
 
-Write a command to extract the first 8 lines of `SRR097977.fastq` and write them into a new file, named `SRR097977.sample.fastq`
+Write a command to extract the first 8 lines of `SRR097977.fastq` and use redirection to write them into a new file, named `SRR097977.sample.fastq`
+
+> <details>
+> <summary>Solution</summary>
+>
+> ```bash
+> $ head -n8 SRR097977.fastq > SRR097977.sample.fastq
+> ```
+> </details>
 
 **Exercise 3.**
 
@@ -81,6 +100,22 @@ Perform the following tasks:
 
 Once you have completed this exercise, take a look and the contents of the output file using the `less` or `cat` command. Is the output a valid fasta file? If not, what would you need to change to make it one?
 
+> <details>
+> <summary>Solution</summary>
+>
+> Create the copy of the script:
+>
+> ```bash
+> $ cp bad-reads-script.sh bad-reads-script_copy.sh
+> ```   
+>
+> Now edit the contents:
+>
+> ```bash
+> $ grep -B1 NNNNNNNNNN *.fastq | grep -v "^--" > scripted_bad_reads.fasta
+> ```
+> </details>
+
 **Exercise 4.**
 
 Finally, let's create a new `bash` script. The `bad-reads-script.sh` is not particularly useful, as it dumps all of the sequences into a snigle output file. For real work, we would probably prefer to keep a per-sample record of which sequences failed our filtering criteria.
@@ -90,6 +125,18 @@ Create a copy of the script produced in **Exercise 3**, then make the following 
 1. Use a `for loop` to iterate over each `.fastq` file in your directory, instead of a wildcard
 1. For each iteration of the loop, create a new output file to store the reads (i.e. each `.fastq` file should have a separate output file for bad reads rather than a single output file for all samples).
    1. Remember that you can use the `basename` command to extract a unique identifier from the loop variable
+
+> <details>
+> <summary>Solution</summary>
+>
+> ```bash
+> for f in *.fastq;
+> do
+>     o=$(basename ${f} .fastq)
+>     grep -B1 -A2 NNNNNNNNNN ${f} | grep -v "^--" > ${o}.bad_reads.txt
+> done
+> ```
+> </details>
 
 ---
 
@@ -104,6 +151,17 @@ Navigate over to your folder named `1_Raw_data`. We are going to write  a quick 
 Firstly, we need to identify appropriate tools for performing filtering on these data sets and ensure that they are available on NeSI.
 
 Which tools can we use for filtering Illumina and Oxford data? Why can we not use the same tool for both types of data?
+
+> <details>
+> <summary>Solution</summary>
+>
+> This is achieved with either the `module spider` or `module avail` command:
+>
+> ```bash
+> $ module spider fastp
+> $ module spider nanofilt
+> ```
+> </details>
 
 **Exercise 2.**
 
