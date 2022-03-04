@@ -36,10 +36,12 @@ The fundamental unit of sequence comparison is the 'Blast Local Alignment Search
 
 In the example above, we are trying to match a query sequence `TMATO` against a database of four vegetable names, with the following process
 
-a. The seed sequence `ATO` is identified in the query and two target sequences (green).
-b. The query/target pairs are aligned and the character upstream from `ATO` is examined. Matches (blue) and mismatches (orange) are recorded.
-c. The process repeats at the next position, scoring mismatches for both targets.
-d. The final position is examined. For the target sequence `TOMATO` it is possible to insert a gap into the query sequence to preserve positional homology between query and target and improve the final score, but for the `POTATO` target the number of matching positions is never increased from the initial three.
+- **A)** The seed sequence `ATO` is identified in the query and two target sequences (green).
+- **B)** The query/target pairs are aligned and the character upstream from `ATO` is examined. Matches (blue) and mismatches (orange) are recorded.
+- **C)** The process repeats at the next position, scoring mismatches for both targets.
+- **D)** The final position is examined.
+  - For the target sequence `TOMATO` it is possible to insert a gap into the query sequence to preserve positional homology between query and target and improve the final score.
+  - For the `POTATO` target the number of matching positions is never increased from the initial three.
 
 Over the course of this matching, every target in the database will be assessed for it's suitability to match with the query sequence, and results ranked by how well they match. Typically, we restrict our results to only return a certain number of best matches, rather than report everything with any degree of similarity to the query. Regardless of how many results are returned, for a good set of matches we would expect to see a strong consensus in the gene function and taxonomy of the top hits for our query. From this consensus we can make inferences about the role of the sequence and which organism from which it may have originated.
 
