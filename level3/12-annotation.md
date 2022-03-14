@@ -49,13 +49,81 @@ Over the course of this matching, every target in the database will be assessed 
 
 ## Submitting a nucleotide `BLAST` job on NeSI
 
-The power of BLAST lies in its ability to exaustively search very large sequence databases for each of our 
+The power of BLAST lies in its ability to exhaustively search for query sequences in very large databases of target sequence data, however this can make BLAST a computationally expensive process. This means that on NeSI, when we run a BLAST analysis we need to use ```slurm``` to request resources and schedule our job. 
+
+Lucky for us, BLAST is a commonly used tool and our friends at NeSI have template ```slurm``` scripts available for us to use. 
+We will use this template today to prepare a ``slurm`` script to use BLAST to annotate the predicted open reading frames we identified in the *M. Bovis* genome with ```prodigal```
+
+There are different types of BLAST we can use depending on the type of sequence data we have as input, and the types of databases we want to search to generate output. 
+
+<img src="../img/blast_types.png" alt="Types of BLAST searches" width='600'/>
+
+Here we want to use nucleotide sequence to predict the protein associated with an ORF, so we will use BLASTX
+
+Navigate to your working directory on NeSI. Create a folder `5_Gene_anotations` and copy the template blastx slurm script and the two unknown nucleotide open read frames (ORFs) from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
+
+Make sure you copy the nucleotide sequences for the unknown ORFs by checking the file suffix is ```.fna``` for fasta file. 
+
+> <details>
+> <summary>Solution</summary>
+> 
+> ```bash 
+> $ cd /nesi/project/nesi03181/phel/USERNAME/
+> 
+> $ mkdir 5_Gene_annotations/
+> $ cp ../../module_3/5_Gene_annotations/blastx.sl ./5_Gene_annotations/
+> $ cp ../../module_3/5_Gene_annotations/M_bovis_ORF_*.fna ./5_Gene_annotations/
+> ``` 
+> </details>
+
+
+Lets open the template slurm script and adjust it to suit our files. We can use the text editor Nano for this. 
+
+
+```bash 
+$ nano blastx.sl
+```
+
+To exit out of Nano use ```ctr o``` to writeout (save) your changes and then ```ctr x``` to exit. 
+
+We can then submit our job
+```bash
+$ sbatch blastx.sl 
+```
+
+For todays session, we won't submit our job as each ORF takes about 40 mins to run and produce a result file (A great job to start before lunch!) 
+Instead we will use pre-computed results for each ORF 
+
+From ```../../module_3/5_Gene_annotations/blastx_output_files/``` copy the results files for each ORF
+
+Take a look at your results using the ```less``` command and fill out the ```blastx_results_form.txt``` to record your annotation for each ORF.   
 
 ---
 
 ## Submitting a protein `BLAST` job on NeSI
 
-...
+As well as nucleotide sequences, we can also use amino acid sequences with BLAST to search and identify unknown unknown proteins. In these cases we will use BLASTP. Although BLASTP is less computationaly expensive than BLASTX a ```slurm``` script is still required. 
+
+Copy the template BLASTP slurm script and the two unknown protein sequences from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
+
+Make sure you copy the protein sequences by checking the file suffix is ```.faa``` for protein fasta file. 
+
+> <details>
+> <summary>Solution</summary>
+> 
+> ```bash 
+> #Make sure you are in your dir, if not move there.
+> $ cd /nesi/project/nesi03181/phel/USERNAME/
+> $
+> $ cp ../../module_3/5_Gene_annotations/blastp.sl ./5_Gene_annotations/
+> $ cp ../../module_3/5_Gene_annotations/M_bovis_ORF_*.faa ./5_Gene_annotations/
+> ```
+> </details>
+
+
+
+
+
 
 ---
 
