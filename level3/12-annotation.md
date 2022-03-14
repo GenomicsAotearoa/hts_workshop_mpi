@@ -28,7 +28,7 @@
 
 ## The `BLAST` process
 
-The fundamental unit of sequence comparison is the 'Blast Local Alignment Search Tool' (BLAST) method, originally developed in 1990 ([Altschul *et al.*, 1990](https://doi.org/10.1016/S0022-2836(05)80360-2)). Without going into excessive detail, the approach is to take a set of novel (query) sequences and compare each sequence against a reference database of sequences with a known annotation of taxonomic origin (target sequences). From sufficiently well-matched pairings between query and target, we infer that the origin of the sequence, and possibly function of the gene, are shared.
+The fundamental unit of sequence comparison is the 'Blast Local Alignment Search Tool' (BLAST) method, originally developed in 1990 ([Altschul *et al.*, 1990](https://doi.org/10.1016/S0022-2836(05)80360-2)). Without going into excessive detail, the approach is to take a set of novel (query) sequences and compare each sequence against a reference database of sequences with a known annotation of taxonomic origin (target sequences). From sufficiently well-matched pairings between query and target, we infer that the origin of the sequence, and possibly the function of the gene, are shared.
 
 `BLAST` works by breaking each query sequence into a set of smaller *seed* sequences, and searching each target in the database for the presence of these seeds. Where matches are found, the tool then extends the ends of the seed and assesses how well the ends of the query beyond the seed match the corresponding regions of the target. The quality of the match between the query and the target are evaluated in terms of how well conserved the sequence composition is between the pair, as well as how many insertion or deletion events need to be introduced to maintain the matching.
 
@@ -49,7 +49,7 @@ Over the course of this matching, every target in the database will be assessed 
 
 ## Submitting a nucleotide `BLAST` job on NeSI
 
-...
+The power of BLAST lies in its ability to exaustively search very large sequence databases for each of our 
 
 ---
 
