@@ -91,7 +91,7 @@ We can then submit our job
 $ sbatch blastx.sl 
 ```
 
-For todays session, we won't submit our job as each ORF takes about 40 mins to run and produce a result file (A great job to start before lunch!) 
+For todays session, we won't submit our job as each ORF takes about 40 mins to run and produce a result file (A great job to start before lunch, or heading into the lab!) 
 Instead we will use pre-computed results for each ORF 
 
 From ```../../module_3/5_Gene_annotations/blastx_output_files/``` copy the results files for each ORF
@@ -120,15 +120,45 @@ Make sure you copy the protein sequences by checking the file suffix is ```.faa`
 > ```
 > </details>
 
+We can open the protein blast file in Nano, and adjust it to our data 
 
+```bash 
+$ nano blastp.sl
+```
 
+We can then submit our job
+```bash
+$ sbatch blastp.sl 
+```
 
+Again for today we will use pre-computed results for each ORF which can be found here ```../../module_3/5_Gene_annotations/blastp_output_files/``` copy these results files to your working directory
 
+Take a look at your results using the ```less``` command and fill out the ```blastp_results_form.txt``` to record your annotation for each ORF.   
 
 ---
 
 ## Interpretting the results of BLAST queries
 
-...
+It is important to remember, like most bioinformatics tools, BLAST has a specific job, in this case sequence alignment. BLAST is really good at this job, but it does not offer interpretation of its alignments. Interpretation is completely up to the user on a case by case basis, therefore it is important to know your data and to understand the output metrics given by BLAST to help you make a biologically usefull interpretation of the results. 
+
+BLAST gives four main metrics: coverage, identity, an e-value and a Bit score
+
+**Coverage**
+
+This value tells us as a percentage how much of our query aligns with the database match. 
+A small coverage value means only a small part of our sequence has matched. A perfect match would have a coverage of 100. 
+
+**Identity**
+
+This represents the percent of bases which are identical between the query and the database hit. 
+
+**E-value**
+
+This is the number of hits equivalent to this hit that we would expect to see by chance alone. Smaller E-values represent better hits, but an exact E-value cut off needs to be decided on a case by case basis. E-values take into account both the coverage and identity scores for each hit so can be a more "complete" metric. 
+
+**Bit score** 
+
+Similarly to E-values, bit scores summarise the sequence similarity between the query and database hit. However bit scores are calculated independently from the query sequence length and the database size, as databases are constantly evolving this makes bit scores a constant statistical indicator. A higher bit score indicates a better hit. 
+
 
 ---
