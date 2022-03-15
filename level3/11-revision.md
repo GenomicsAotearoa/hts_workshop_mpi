@@ -220,5 +220,4 @@ In the training to date, we have covered the following aspects of sample process
    * Prokaryotic organisms - `prodigal`
    * Eukaryotic organisms - `AUGUSTUS` (when an appropriate training model exists)
  
---
-
+---
