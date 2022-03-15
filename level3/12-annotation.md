@@ -5,7 +5,7 @@
 
 #### Objectives
 
-* Understand the differences betweem nucleotide and protein sequence matching
+* Understand the differences between nucleotide and protein sequence matching
 * Be aware of which publicly available databases are appropriate for which data
 * Learn how to submit `BLAST` jobs to the NeSI cluster using `slurm`
 
@@ -52,15 +52,15 @@ Over the course of this matching, every target in the database will be assessed 
 The power of BLAST lies in its ability to exhaustively search for query sequences in very large databases of target sequence data, however this can make BLAST a computationally expensive process. This means that on NeSI, when we run a BLAST analysis we need to use ```slurm``` to request resources and schedule our job. 
 
 Lucky for us, BLAST is a commonly used tool and our friends at NeSI have template ```slurm``` scripts available for us to use. 
-We will use this template today to prepare a ``slurm`` script to use BLAST to annotate the predicted open reading frames we identified in the *M. Bovis* genome with ```prodigal```
+We will use a template today to prepare a ``slurm`` script to use BLAST to annotate the predicted open reading frames we identified in the *M. Bovis* genome with ```prodigal```
 
 There are different types of BLAST we can use depending on the type of sequence data we have as input, and the types of databases we want to search to generate output. 
 
 <img src="../img/blast_types.png" alt="Types of BLAST searches" width='600'/>
 
-Here we want to use nucleotide sequence to predict the protein associated with an ORF, so we will use BLASTX
+Here we want to predict the proteins associated with the ORFs we predicted from the genome sequence, so we will use BLASTX
 
-Navigate to your working directory on NeSI. Create a folder `5_Gene_anotations` and copy the template blastx slurm script and the two unknown nucleotide open read frames (ORFs) from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
+Navigate to your working directory on NeSI. Create a folder `5_Gene_annotations` and copy the template blastx slurm script and the two unknown nucleotide open read frames (ORFs) from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
 
 Make sure you copy the nucleotide sequences for the unknown ORFs by checking the file suffix is ```.fna``` for fasta file. 
 
@@ -91,12 +91,9 @@ We can then submit our job
 $ sbatch blastx.sl 
 ```
 
-For todays session, we won't submit our job as each ORF takes about 40 mins to run and produce a result file (A great job to start before lunch, or heading into the lab!) 
-Instead we will use pre-computed results for each ORF 
+For todays session, we don't need to submit our job as we have pre computed results for each ORF that we will take a look at. 
 
-From ```../../module_3/5_Gene_annotations/blastx_output_files/``` copy the results files for each ORF
-
-Take a look at your results using the ```less``` command and fill out the ```blastx_results_form.txt``` to record your annotation for each ORF.   
+If you wish, you can submit your script, but as each ORF takes about 40 mins to run and produce a result file you will likely need to come back after this session to see your results (A great job to start before lunch, or heading into the lab!) 
 
 ---
 
@@ -131,9 +128,7 @@ We can then submit our job
 $ sbatch blastp.sl 
 ```
 
-Again for today we will use pre-computed results for each ORF which can be found here ```../../module_3/5_Gene_annotations/blastp_output_files/``` copy these results files to your working directory
-
-Take a look at your results using the ```less``` command and fill out the ```blastp_results_form.txt``` to record your annotation for each ORF.   
+Again for today we will use pre-computed results for each ORF, but before looking at the results we will discuss how to interpret them. 
 
 ---
 
@@ -160,5 +155,11 @@ This is the number of hits equivalent to this hit that we would expect to see by
 
 Similarly to E-values, bit scores summarise the sequence similarity between the query and database hit. However bit scores are calculated independently from the query sequence length and the database size, as databases are constantly evolving this makes bit scores a constant statistical indicator. A higher bit score indicates a better hit. 
 
+With this in mind lets look at the results from our *M. Bovis* ORFs
+
+From ```../../module_3/5_Gene_annotations/output_files/``` copy the results files for each ORF to your working directory
+
+Take a look at your results using the ```less``` command and fill out the ```results_form.tab``` to record your annotation for each ORF. 
+ 
 
 ---
