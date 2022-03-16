@@ -11,7 +11,7 @@
 
 #### Keypoints
 
-* Annotation is required in order to identify the function and origin of sequences obtaining from HTS analysis
+* Annotation is required in order to identify the function and origin of sequences obtained from HTS analysis
 * There are different databases available for annotation and classification
 * Interpreting the results of BLAST alignments can be a tricky process
   * Understand the meanings of the identity, coverage, e-value, and bitscore metrics when assessing a BLAST output
