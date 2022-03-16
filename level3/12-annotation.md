@@ -71,8 +71,8 @@ Make sure you copy the nucleotide sequences for the unknown ORFs by checking the
 > $ cd /nesi/project/nesi03181/phel/USERNAME/
 > 
 > $ mkdir 5_Gene_annotations/
-> $ cp ../../module_3/5_Gene_annotations/blastx.sl ./5_Gene_annotations/
-> $ cp ../../module_3/5_Gene_annotations/M_bovis_ORF_*.fna ./5_Gene_annotations/
+> $ cp ../module_3/5_Gene_annotations/blastx.sl ./5_Gene_annotations/
+> $ cp ../module_3/5_Gene_annotations/M_bovis_ORF_*.fna ./5_Gene_annotations/
 > ``` 
 > </details>
 
@@ -112,8 +112,8 @@ Make sure you copy the protein sequences by checking the file suffix is ```.faa`
 > #Make sure you are in your dir, if not move there.
 > $ cd /nesi/project/nesi03181/phel/USERNAME/
 > $
-> $ cp ../../module_3/5_Gene_annotations/blastp.sl ./5_Gene_annotations/
-> $ cp ../../module_3/5_Gene_annotations/M_bovis_ORF_*.faa ./5_Gene_annotations/
+> $ cp ../module_3/5_Gene_annotations/blastp.sl ./5_Gene_annotations/
+> $ cp ../module_3/5_Gene_annotations/M_bovis_ORF_*.faa ./5_Gene_annotations/
 > ```
 > </details>
 
