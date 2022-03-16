@@ -159,7 +159,7 @@ With this in mind lets look at the results from our *M. Bovis* ORFs
 
 From ```../../module_3/5_Gene_annotations/output_files/``` copy the results files for each ORF to your working directory
 
-Take a look at your results using the ```less``` command and fill out the ```results_form.tab``` to record your annotation for each ORF. 
+Take a look at your results using the ```less``` or ```head``` command and fill out the ```results_form.tab``` to record your annotation for each ORF. 
  
 
 ---
