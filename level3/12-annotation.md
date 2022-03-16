@@ -161,5 +161,35 @@ From ```../../module_3/5_Gene_annotations/output_files/``` copy the results file
 
 Take a look at your results using the ```less``` or ```head``` command and fill out the ```results_form.tab``` to record your annotation for each ORF. 
  
+Reminder of the headers we requested for our output files: 
+
+Short hand | Meaning 
+---|---
+qseqid|Query sequence ID
+sseqid|Subject or target sequence ID
+pident|Percent of identical matches
+length|Alignment Length 
+mismatch|Number of mismatches
+gapopen|Number of gap openings 
+qstart|Start of alignment in query sequence 
+qend|End of alignment in query sequence 
+sstart|Start of alignment in subject sequence
+send|End of alignment in subject sequence 
+evalue|E value 
+bitscore|Bit score 
+sallseqid|All subjectsequence IDs 
+score|Raw score value 
+nident|Number of identical matches 
+positive|Number of matches giving a positive score 
+gaps|Total number of gaps 
+ppos|Percent of matches giving a positive score 
+qframe|Query frame 
+sframe|Subject frame 
+qseq|Query sequence
+sseq|Subject sequence 
+qlen|Query length 
+slen|Subject length 
+salltitles|All subject titles
+
 
 ---
