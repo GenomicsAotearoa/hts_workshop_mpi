@@ -15,7 +15,7 @@ For each project you will:
 * Write `slurm` scripts to deploy jobs to the cluster, with appropriate resource usage, to perform the necessary analysis 
 * Evaluate the findings of your analysis, to complete a set of discipline-specific tasks  
 
-The due date for your completed analysis is <TO BE DETERMINED>.
+The due date for your completed analysis is [TO BE DETERMINED].
 
 ---
 
@@ -44,18 +44,39 @@ Navigate to the final project folder for your discipline to learn more about you
 
 ## Entomology
 
+**Georgia Breckell**
+
 ...
 
 ---
 
 ## Mycology and Bacteriology
 
-...
+**Luciano Rigano**
+
+In `/nesi/project/nesi03181/phel/proficiency_testing/Mycology_Bacteriology_Test/` you will find two directories:
+
+1. `dataset_A_ONT/`
+1. `dataset_B_illumina/`
+
+These datasets correspond to genome sequencing data from two different bacterial organisms obtained using ONT and Illumina sequencing technologies, as indicated in the file names.
+
+Using your preferred approach, identify the species that organism A and organism B belong to.
 
 ---
 
 ## Virology
 
-...
+**David Waite**
+
+In the `/nesi/project/nesi03181/phel/proficiency_testing/Virology_Test/` folder, you will find three files, corresponding to Illumina MiSeq and MinION sequencing runs from a symtomatic *Vitis* sample. Make a copy of these files in your own directory, then use your knowledge of HTS analysis tools and workflows to identify which virus(es) are present in the sample.
+  
+Notes for the assessment:
+
+1. While both of these libraries were generated from the same nucleic acid extraction, remember that there is a significant difference in the sequencing depth of each platform.
+1. There are multiple viruses in the library, not all of which are diagnostically relevant. For this assessment you will need to:
+   1. Identify the likely viral species in the sample.
+   1. Perform additional analyses to confirm the likelihood that each detection is valid.
+1. Validation can be performed through whichever means you feel is necessary, which may include your knowledge of virology (i.e. known information of host range or risk potential for each virus). However, you should be including sequence data to support your conclusions.
 
 ---
