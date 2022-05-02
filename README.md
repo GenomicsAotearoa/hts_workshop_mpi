@@ -24,6 +24,7 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Materials (part 2)](level3/05-illumina-assembly.md)
    * [Homework (part 2)](level3/09-homework.md)
    * [Materials (part 3)](level3/10-gene-prediction.md)
+   * [Revision](level3/11-revision.md)
 
 ---
 
