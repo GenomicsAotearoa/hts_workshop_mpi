@@ -48,12 +48,12 @@ Navigate to the final project folder for your discipline to learn more about you
 
 Damage to a harvest of apples has been found and it is suspected insect damage. 
 
-<img src='../img/prof_testing_crop_damage.png' alt='crop damage' width='500' />
+<img src='../img/prof_testing_crop_damage.png' alt='crop damage' width='400' />
 
 Fragments of a suspect insect were found and the sample has been sent for molecular analysis.
 
 
-<img src='../img/prof_testing_bug_leg.png' alt='Insect leg' width='500' />
+<img src='../img/prof_testing_bug_leg.png' alt='Insect leg' width='350' />
 
 For this project you will need to use the sequencing data provided here `/nesi/project/nesi03181/phel/proficiency_testing/Entomology_Test`  to identify the insect and determine if this is likely to be responsible for the damage observed. 
 
