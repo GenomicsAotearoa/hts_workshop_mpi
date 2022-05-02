@@ -46,23 +46,20 @@ Navigate to the final project folder for your discipline to learn more about you
 
 **Georgia Breckell**
 
-Damage to a harvest of apples has been found
+Damage to a harvest of apples has been found and it is suspected insect damage. 
 
-<img src='../../img/prof_testing_crop_damage.png' alt='crop damage' width='500' />
+<img src='../img/prof_testing_crop_damage.png' alt='crop damage' width='500' />
 
-The farmer is asking for help to identify the cause, and you suspect insects may be responsible for the symptoms observed. 
-
-Unfortunately no indentifiable insects have been found, but fragments of a suspect insect were found within the crate of apples. 
+Fragments of a suspect insect were found and the sample has been sent for molecular analysis.
 
 
-<img src='../../img/prof_testing_bug_leg.png' alt='Insect leg' width='500' />
+<img src='../img/prof_testing_bug_leg.png' alt='Insect leg' width='500' />
 
+For this project you will need to use the sequencing data provided here `/nesi/project/nesi03181/phel/proficiency_testing/Entomology_Test`  to identify the insect and determine if this is likely to be responsible for the damage observed. 
 
-The sample has been sent for molecular analysis and the sequencing results are now available. 
+Notes for the assesment: 
 
-For this project you will need to use the sequencing data provided here `/nesi/project/nesi03181/phel/proficiency_testing/Entomology_Test`   to identify the insect and determine if this is likely to be responsible for the damage observed. 
-
-
+- You do not know how these reads were produced (ie any chances for contamination or which Illumina platform was used), therefore ensure you investiagate your data and incorperate quality control at various stages of your analysis. 
 
 ---
 
