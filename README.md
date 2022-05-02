@@ -23,7 +23,7 @@ This is the opening page for the HTS workshop. Content is divided into four leve
    * [Homework (part 1)](level3/04-homework.md)
    * [Materials (part 2)](level3/05-illumina-assembly.md)
    * [Homework (part 2)](level3/09-homework.md)
-   * [Materials (part 3.1)](level3/10-gene-prediction.md)
+   * [Materials (part 3)](level3/10-gene-prediction.md)
 
 ---
 
@@ -84,3 +84,5 @@ This module also uses sequence data from `BioProject` [PRJNA678533]:
 ### Citation
 
 Joachim Wolff, Bérénice Batut, Helena Rasche, (2021). Mapping (Galaxy Training Materials). [https://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/mapping/tutorial.html](https://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/mapping/tutorial.html).
+
+---
