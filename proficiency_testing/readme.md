@@ -15,7 +15,7 @@ For each project you will:
 * Write `slurm` scripts to deploy jobs to the cluster, with appropriate resource usage, to perform the necessary analysis 
 * Evaluate the findings of your analysis, to complete a set of discipline-specific tasks  
 
-The due date for your completed analysis is [TO BE DETERMINED].
+The due date for your completed analysis is **4pm, 27<sup>th</sup> May**.
 
 ---
 
@@ -24,7 +24,7 @@ The due date for your completed analysis is [TO BE DETERMINED].
 Before beginning your work, please keep in mind the following considerations:
 
 1. As this work is considered training, please ensure that you use the `nesi03181` project code for submitting all `slurm` jobs, not the MPI diagnostic project.
-1. There is no expectation of a particualr folder structure or file layout for this assessment, but do your best to keep your work well organised and easy to follow, as you would for any other work.
+1. There is no expectation of a particular folder structure or file layout for this assessment, but do your best to keep your work well organised and easy to follow, as you would for any other work.
 1. We will be primarily using your `slurm` scripts to assess your profficiency with the tools that you have used, so please make sure that these are easy to locate.
 1. During the time for this assessment, you will have **_limited_** ability to consult with the trainers for assistance in scheduled meetings. Please respect our time and use these times for questions and help.
 1. Remember that this is an assessment of your ability, which includes the ability to troubleshoot issues. We will provide limited assistance but will not be fixing errors that we find.
