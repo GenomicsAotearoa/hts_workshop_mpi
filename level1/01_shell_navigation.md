@@ -66,10 +66,11 @@ You need to provide three pieces of information to log in. Your **username** was
 
 If you cannot remember your user name,  navigate to the [MyNeSI](https://my.nesi.org.nz/) account management website. Once you have logged in, there is an option on the left-hand menu titled **My HPC Account**. Clicking here will show your user name.
 
-><details>
-><summary>Forgotten username</summary>
->![](../img/level1_01_hpc_account.png)
-></details>
+> <details>
+> <summary>Forgotten username</summary>
+> ![](../img/level1_01_hpc_account.png)
+> </details>
+
 <br />
 
 You will also need to provide your password, and the current two-factor code displayed by the Authenticator app. Once these details are submitted, you will be redirected to a loading page. Click the `Select Project` dropdown box and select project `nesi03181`.
@@ -144,7 +145,7 @@ If we want to now navigate into the `shell_data` folder we must once again call 
 $ cd shell_data/
 ```
 
->**NOTE:** It's easy to get lost in a text-based file system. If you ever get stuck and do not know how to get out of your current location, calling either of:
+> **NOTE:** It's easy to get lost in a text-based file system. If you ever get stuck and do not know how to get out of your current location, calling either of:
 > ```bash
 > $ cd ~
 > ```
