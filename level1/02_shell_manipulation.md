@@ -49,7 +49,7 @@ $ less SRR097977.fastq
 This will load the content of the file into your terminal, but rather than print every line instantly only those that can fit on one page are shown. Since this is a tool designed to run from the command line only we generally need to navigate using the keyboard. Some of the commonly used navigation commands are:
 
 |Key|Action|
-|:---:|:---:|
+|:---:|:---|
 |<kbd>↓</kbd>|Go forward one line|
 |<kbd>↑</kbd>|Go back one line|
 |<kbd>Space</kbd>|Go forward one page|
@@ -78,8 +78,6 @@ The commands `head` and `tail` are for this task. They let you look at the begin
 
 ```bash
 $ head SRR098026.fastq
-```
-```
 @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
 NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
 +SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
@@ -94,8 +92,6 @@ NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
 
 ```bash
 $ tail SRR098026.fastq
-```
-```
 +SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35
 #!##!#################!!!!!!!######
 @SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
@@ -112,15 +108,11 @@ By default the first/last 10 lines are printed. This can be changed by adding th
 
 ```bash
 $ head -n1 SRR098026.fastq
-```
-```
 @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
 ```
 
 ```bash
 $ tail -n1 SRR098026.fastq
-```
-```
 A!@B!BBB@ABAB#########!!!!!!!######
 ```
 
@@ -141,8 +133,6 @@ A!@B!BBB@ABAB#########!!!!!!!######
 >
 > ```bash
 > $ head -n4 SRR097977.fastq
-> ```
-> ```
 > @SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
 > TATTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
 > +SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
@@ -175,8 +165,6 @@ A!@B!BBB@ABAB#########!!!!!!!######
 > |20|99.00%|
 > |30|99.90%|
 > |40|99.99%|
-
-# UP TO HERE!!!!!
 
 ---
 
@@ -280,9 +268,6 @@ Our goal for now is to change permissions on this file so that you no longer hav
 ```bash
 $ chmod -w SRR097977.fastq SRR098026.fastq
 $ ls -l 
-```
-
-```
 drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 backup
 drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 other_backup
 -r--r--r--+ 1 dwaite comm00008 47552 Jun 25  2021 SRR097977.fastq
