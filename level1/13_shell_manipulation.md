@@ -117,54 +117,9 @@ A!@B!BBB@ABAB#########!!!!!!!######
 ```
 
 > <details>
-> <summary>Details of the FASTQ format</summary
->
-> In this session we have been peaking inside fastq files, although we haven't actually discussed what these files contain. Although it looks complicated, the format is actually pretty easy to understand.
-> The [fastq format](https://en.wikipedia.org/wiki/FASTQ_format) is used for writing nucleic acid sequences with a score for the confidence in each nucleotide in the sequence. This is typically the result you get back from a sequencing platform. The file is broken into a repeating pattern of 4 lines, where each line describes a single sequence read. Within these four lines:
->
-> |Line|Description|
-> |:---:|:---|
-> |1|Is the name of the sequence, and optionally some metadata about the read. This line always begins with a `@` symbol, similar to how a fasta file begins a sequence name with `>`.|
-> |2|The nucleic acid sequence.|
-> |3|A placeholder line which divides the nucleic acid sequence and quality information. In some older applications this line will contain a `+` symbol followed by the sequence name from Line 1, although newer tools tend to just use the `+` alone to save file space.|
-> |4|A string of characters which represent the quality scores. This string  must be the same length as Line 2.|
->
-> To make it easy to understand, running the `head` command with a `-n` parameter of 4 we can view the first complete read in one of the files.
->
-> ```bash
-> $ head -n4 SRR097977.fastq
-> @SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
-> TATTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
-> +SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
-> CCCCCCCCCCCCCCC>CCCCC7CCCCCCACA?5A5<
-> ```
->
-> Line 4 shows the quality for each nucleotide in the read. Quality is interpreted as the probability of an incorrect base call (e.g. 1 in 10) or, equivalently, the base call accuracy (e.g. 90%). These probability values are the results from the base calling algorithm and dependent on how much signal was captured for the base incorporation.  To make it possible to line up each individual nucleotide with its quality score, the numerical score is converted into a code where each individual character represents the numerical quality score for an individual nucleotide. In the line above, the quality score line is `CCCCCCCCCCCCCCC>CCCCC7CCCCCCACA?5A5<`.
->
-> The numerical value assigned to each of these characters depends on the sequencing platform that generated the reads. The sequencing machine used to generate our data uses `PHRED+33` encoding, which is what is used in all modern Illumina and Nanopore sequencing, as well as Sanger sequencing. Each character is assigned a quality score between 0 and 42 as shown in the chart below.
->
-> ```
-> Quality encoding: !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJK
->                   |         |         |         |         |
-> Quality score:    0........10........20........30........40..
-> ```
->
-> If you line it up, you can see that the `C` character has a qualtiy score of 34, which is the most common value in this sequence. The probability of a position with a Q of 34 can be calculated as:
->
-> $$ P_{incorrect} = 10^{\frac{Q}{-10}} = 0.000398107 $$
->
-> Which can be converted to the probabilty that the read is correct by
->
-> $$ P_{correct} = 1 - P_{incorrect} = 0.9996 $$
->
-> Therefore, for any of these characters the base call accuracy is 99.96%. You will almost never need to calculate the per-position score, but it is handy to know the following numbers for when we are quality filtering:
->
-> |Q|Accuracy|
-> |:---:|:---:|
-> |10|90.00%|
-> |20|99.00%|
-> |30|99.90%|
-> |40|99.99%|
+> <summary>Details of the FASTQ format</summary>
+> If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../docs/fastq_format.md).
+> </details>
 
 ---
 
@@ -259,7 +214,7 @@ drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 other_backup
 
 What we interested in is the first part of the output, the strings of characters which look like `-rw-rw-r--+`. This represents the current permission state of the file. If we ignore the first and last characters, what we are left with are 9 characters, which represent 3 file permissions for 3 different user groups, like so:
 
-![Permissions breakdown](../img/level1_02_rwx_figure.svg)
+![Permissions breakdown](../img/level1_13_rwx_figure.svg)
 
 We're going to concentrate on the three positions that deal with your permissions (as the file owner), which will have the values `rw-`. The `r` means that you have permission to read the file, the `w` indicates that you have permission to write to (i.e. modify) the file, and the third position is set to `-`, indicating that you don't have permission to carry out the ability encoded by that space. This is the space where `x` or executable ability is stored, we'll talk more about this in a later lesson.
 
