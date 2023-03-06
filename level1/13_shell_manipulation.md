@@ -78,6 +78,8 @@ The commands `head` and `tail` are for this task. They let you look at the begin
 
 ```bash
 $ head SRR098026.fastq
+```
+```
 @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
 NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
 +SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
@@ -92,6 +94,8 @@ NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
 
 ```bash
 $ tail SRR098026.fastq
+```
+```
 +SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35
 #!##!#################!!!!!!!######
 @SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
@@ -108,18 +112,19 @@ By default the first/last 10 lines are printed. This can be changed by adding th
 
 ```bash
 $ head -n1 SRR098026.fastq
+```
+```
 @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
 ```
 
 ```bash
 $ tail -n1 SRR098026.fastq
+```
+```
 A!@B!BBB@ABAB#########!!!!!!!######
 ```
 
-> <details>
-> <summary>Details of the FASTQ format</summary>
-> If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../docs/fastq_format.md).
-> </details>
+>If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../docs/fastq_format.md)
 
 ---
 
