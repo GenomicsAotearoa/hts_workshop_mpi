@@ -10,7 +10,7 @@
 #### Key points
 
 * You can connect to NeSI from any computer with internet access using the [NeSI JupyterHub portal](https://jupyter.nesi.org.nz/).
-* This allocates a small sevrer instance from which you can perform simple operations, or prepare larger analysis scripts for deployment.
+* This allocates a small server instance from which you can perform simple operations, or prepare larger analysis scripts for deployment.
 
 ---
 
@@ -92,6 +92,10 @@ We will spend most of our time learning about the basics of the shell by manipul
 
 ### Uses of JupyterHub
 
-> TO DO...
+Using the JupyterHub portal has two main functions. Primarily, this is a simple and easy to follow method for connecting to the NeSI HPC cluster without using specialised software. As long as you have a supported web browser you will be able to connect to NeSI from any location with internet access.
+
+The JupyterHub portal also provides you with a dedicated slice of NeSI resources so you can run small and medium sized commands directly on this terminal without worrying about the NeSI usage policy (which is a consideration if connecting directly). When you log into the JupyterHub portal you request a certain number of CPUs, an amount of computer memory (RAM) and the time you want these resources for. Once your session begins these are allocated directly to you and cannot be touched by other users. Commands you run here take place in real time and as long as they complete before your time allocation expires there are no limitations to what you can do.
+
+If you are planning to run a job that takes significantly longer than requested, the JupyterHub portal still acts as a good staging ground to log into NeSI, set up your `slurm` batch file and then submit the job. This is covered in different tutorials, but in these cases it is better to request a minimal number of cores and hours as all you really need to do is set up some directories, and write a few text files.
 
 ---

@@ -1,12 +1,12 @@
 # Manipulating files in the shell
 
 * Teaching: 30 minutes
-* Exercises: 15 minutes
+* Exercises: 30 minutes
 
 #### Objectives
 
-* View and search within files for basic pieces of text.
-* Copy, move, and rename filesm and create/remove directories.
+* View the contents of basic text files.
+* Copy, move, and rename files and create/remove directories.
 * Make a file read only.
 * Use the `history` command to view and repeat recently used commands.
 
@@ -139,8 +139,8 @@ There are commands available on the command line which do all of these things. T
 |`mkdir`|Make a new directory.|
 |`rmdir`|Remove (delete) an empty directory.|
 |`cp`|Copy a file, either to a new location or into a new file.|
-|`mv`|Move a file from one location to another. Can also be used to rename files by 'moving' them to a file with a different name.|
-|`rm`|Remove a file. This is how you delete.|
+|`mv`|Move a file from one location to another.<br>Can also be used to rename files by 'moving' them to a file with a different name.|
+|`rm`|Remove a file. This is how you **_permanently_** delete files.|
 
 ### Creating and removing directories
 
@@ -194,15 +194,15 @@ To remove a file, it's super easy. Just use the `rm` ("remove") command:
 $ rm other_backup/SRR097977.fq_bkup
 ```
 
-Boom. It's gone. There is no Recycle Bin on the command line, there is no way to get that file back...
+Boom. It's gone. There is no Recycle Bin on the command line and there is no way to get that file back...
 
-We need to be really careful with the `rm` command - be very careful in which files you are removing. Because of this, the `rmdir` command only removes empty directories and by default the `rm` command will not delete directories either. At this level, we will not expand upon this further.
+We need to be really careful with the `rm` command and be very sure of which files you are removing. To try and avoid unwanted loss of data, the `rmdir` command only removes empty directories and by default the `rm` command will not delete directories either. At this level, we will not expand upon this further.
 
 ---
 
 ## Setting file permissions
 
-If it's that easy to permanently delete a file, how can be put some checks in place to prevent it from happening accidentally. The answer to this is through file permissions. In your `shell_data/` folder, run the following command:
+If it's that easy to permanently delete a file, how can be put some checks in place to prevent it from happening accidentally? The answer to this is through file permissions. In your `shell_data/` folder, run the following command:
 
 ```bash
 $ ls -l
@@ -221,23 +221,29 @@ What we interested in is the first part of the output, the strings of characters
 
 ![Permissions breakdown](../img/level1_13_rwx_figure.svg)
 
-We're going to concentrate on the three positions that deal with your permissions (as the file owner), which will have the values `rw-`. The `r` means that you have permission to read the file, the `w` indicates that you have permission to write to (i.e. modify) the file, and the third position is set to `-`, indicating that you don't have permission to carry out the ability encoded by that space. This is the space where `x` or executable ability is stored, we'll talk more about this in a later lesson.
+We're going to concentrate on the three positions that deal with your permissions (as the file owner), which will have the values `rw-`. This shows that you have permission to read (`r`) the file as well as edit the contents (write, `w`). The third position is set to `-`, indicating that you don't have permission to carry out the ability encoded by that space. This is the space where the ability to execute the file (`x`) is set, we'll talk more about this in a later lesson.
 
 Our goal for now is to change permissions on this file so that you no longer have `w` or write permissions. We can do this using the `chmod` ("change mode") command and subtracting (`-`) the write permission `-w`. 
 
 ```bash
 $ chmod -w SRR097977.fastq SRR098026.fastq
-$ ls -l 
+$ ls -l
+```
+
+```
 drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 backup
 drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 other_backup
 -r--r--r--+ 1 dwaite comm00008 47552 Jun 25  2021 SRR097977.fastq
 -r--r--r--+ 1 dwaite comm00008 43332 Jun 25  2021 SRR098026.fastq
 ```
 
-You can see that the write permissions for these files have been removed. For other users, they will not be completely unable to remove or modify these files. For you, *as the file owner* it is still possible to delete the file, but now we get a confirmation asking if we wish to proceed:
+You can see that the write permissions for these files have been removed. For other users, they will be completely unable to remove or modify these files. For you, *as the file owner* it is still possible to delete the file, but you will first get a confirmation asking if we wish to proceed:
 
 ```bash
 $ rm SRR098026.fastq
+```
+
+```
 rm: remove write-protected regular file ‘SRR098026.fastq’?
 ```
 
