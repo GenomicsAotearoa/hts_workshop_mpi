@@ -62,7 +62,7 @@ That said, you can also scroll forward and back theough the file using the mouse
 
 `less` can also be used to search through files. Use the <kbd>/</kbd> key to begin a search. Enter the word you would like to search for and press <kbd>Enter</kbd>. The screen will jump to the next location where that word is found. You can seach for the next word by pressing <kbd>/</kbd> repeatedly. Each time, `less` searches from the current location forward. If you need to go back one entry, use <kbd>?</kbd>.
 
-> ### Exercise
+> **Exercise**
 >
 > As an example, let's search forward for the sequence `TTTTT` in our file What are the next three nucleotides (characters) after the first instance of this sequence?
 > 

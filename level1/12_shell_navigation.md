@@ -184,7 +184,7 @@ $ pwd
 $ ls
 ```
 
-> ### Exercise
+> **Exercise**
 >
 > Using the filesystem diagram below, if `pwd` displays `/Users/thing`, what will `ls ../backup` display?
 > 1.  `../backup: No such file or directory`

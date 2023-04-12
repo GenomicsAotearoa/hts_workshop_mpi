@@ -92,7 +92,7 @@ CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ```
 
-> ### Exercise
+> **Exercise**
 >
 > 1. Search for the sequence `GNATNACCACTTCC` in the `SRR098026.fastq` file. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
 > 
@@ -163,7 +163,7 @@ $ rm -r shell_data_backup/
 
 This is subject to the usual `bash` warning that contents removed in this way is not recoverable. If you try to perform this operation on a folder with contents which have had their write permissions removed you will receive a confirmation prompt for each file in the directory. This may or may no be a problem depending on the number of files that this applies to.
 
-> ### Exercise
+> **Exercise**
 >
 > Use the `rm` help content to find the way to delete a folder of files bypassign the need to approach each file for detetion.
 > 

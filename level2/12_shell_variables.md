@@ -241,7 +241,7 @@ If you are in the correct directory, when you execute the loop you should see ou
 
 That's great. We now have a loop that will check a specific fastq file for a set of nucleotide sequences but the output is a bit sparse.
 
-> ### Exercise
+> **Exercise**
 >
 > Extend this loop so that the value of the `${MOTIF}` variable is also printed to the console, so that we can track which nucleotide sequence each number corresponds to.
 > 
