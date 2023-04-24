@@ -1,6 +1,6 @@
 # Overview of mapping sequences to a reference genome
 
-* Teaching: 20 minutes
+* Teaching: 30 minutes
 
 #### Objectives
 
@@ -24,6 +24,7 @@
 1. [Overview of the mapping process](#overview-of-the-mapping-process)
 1. [Storing read mapping information](#storing-read-mapping-information)
 1. [Different tools for the job](#different-tools-for-the-job)
+1. [Obtaining a reference sequence](#obtaining-a-reference-sequence)
 
 ---
 
@@ -127,5 +128,39 @@ As a starting point, some of the most popular mapping tools and their uses inclu
   * Short read mapping
   * DNA mapping applications
   * Long read mapping settings exist, but have been superceded by `minimap2`
+
+---
+
+## Obtaining a reference sequence
+
+In order to perform read mapping we need to have a downloaded copy of the sequence we wish to map against. Generally this will be either a completed or near-complete reference genome of the species/strain of interest, or a closely related organism. In this exercise, however, we are going to use a single gene so that when we later visualise the results in `Geneious` the display will be easy to navigate.
+
+Performing the reference download will not be performed in this section and you have been provided with a reference sequence for this exercise.
+
+Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping/` folder and check the contents of the `references/` folder to begin.
+
+
+```bash
+$ cd /nesi/project/nesi03181/phel/USERNAME/level2/mapping/
+$ ls references/
+```
+
+There are two sequence files in this directory. The larger of the two is a copy of the representative genome for *Mycoplasmopsis bovis* 8790 (accession NZ_LAUS00000000). Finding the correct reference sequence is less bioinformatics and more a matter of subject expertise so we are not covering the details of how to perform this work. The commands used to produce these reference sequences are provided below in case this is something you wish to repeat in your own work.
+
+> <details>
+> <summary>Downloading the reference sequence</summary>
+>
+> If you are interested in how this sequence was obtained, it was downloaded from the NCBI GenBank database using the `Entrez Direct` toolkit provided by NCBI ([https://www.ncbi.nlm.nih.gov/books/NBK179288/](https://www.ncbi.nlm.nih.gov/books/NBK179288/)). Once the genome was obtained the coordinates of the 16S ribosomal RNA sequence were found by browsing the annotation information for the genome ([available here](https://www.ncbi.nlm.nih.gov/nuccore/1632735866?report=genbank)) by simply searching the web page for the text '16S ribosomal RNA'.
+>
+> The coordinate information for this sequence if given by the line entry `rRNA 41621..43134` which we can use in combination with `seqmagick` to extract just the region of interest for our mapping example.
+>
+> ```
+> $ module load entrez-direct/13.3 seqmagick/0.8.4-gimkl-2020a-Python-3.8.2
+> $
+> $ efetch -format fasta -db sequences -id NZ_LAUS01000004 > Mbovis_87900.genome.fna
+> $ seqmagick convert --cut 41621-43134 Mbovis_87900.genome.fna Mbovis_87900.16S_rRNA.fna
+> ```
+>
+> </details>
 
 ---
