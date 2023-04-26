@@ -11,7 +11,7 @@
 #### Keypoints
 
 * Reads can be mapped to any reference sequence, for example whole genomes or individual genes, to generate a consensus sequence or view the coverage in particular regions.
-* Mapping alignments are stored in the `sam` (text, human-readable) or `bam` (binary, compressed) formats.
+* Mapping alignments are stored in the `sam` format.
 * Different mapping tools work in different ways and make different assumptions when working with your data.
   * Sometimes, a given tool will work better with a given dataset.
   * It is recommended to try a few tools when working with new datasets to see which one produces better results.
@@ -55,7 +55,7 @@ When working with mapped reads it is our job to examine these areas of mismatch 
 
 ## Storing read mapping information
 
-Mapping tools usually produce their output in the `sam` format. This file stores the read sequences, a flag on whether they have been aligned to a reference sequence, and if so, the position on the reference sequence at which they have been aligned. You can view this file using any text viewer, although owing to the file size `less` is generally the best choice. Should you choose to do so, a `sam` file is basically a table of the alignment between each read and the reference and consists of the following columns:
+Mapping tools usually produce their output in the Sequence Alignment/Map (`sam`) format. This file stores the read sequences, a flag on whether they have been aligned to a reference sequence, and if so, the position on the reference sequence at which they have been aligned. You can view this file using any text viewer, although owing to the file size `less` is generally the best choice. Should you choose to do so, a `sam` file is basically a table of the alignment between each read and the reference and consists of the following columns:
 
 |Column|Field|Description|
 |:---|:---|:---|
@@ -93,11 +93,9 @@ Map: --------ECONT--
 Map: -----------NTIG
 ```
 
-Compressing the file to the `bam` format is an important step as `sam` files can be massive and our storage capacity on NeSI is limited.
+The sorted file can then be used as input for downstream processeses in our command line work, or can be imported into GUI programs for a visual analysis. Although we rely on NeSI for performing mapping in these exercises, we will use `Geneious` for visualising the results.
 
-The final output (`bam`) files can be used as input for downstream processeses in our command line work, or can be imported into GUI programs for a visual analysis. Although we rely on NeSI for performing mapping in these exercises, we will use `Geneious` for visualising the results.
-
-There are several ways to import `bam` files into `Geneious` either by using the `Import Files...` option from the `File` menu, or simply dragging and dropping the files into the `Geneious` document table. In either case, it is important that **both** the `bam` file and the reference sequence against which the reads were mapped are imported. If you import the `bam` without the reference, `Geneious` will not know the content of the original reference sequence.
+There are several ways to import `sam` files into `Geneious` either by using the `Import Files...` option from the `File` menu, or simply dragging and dropping the files into the `Geneious` document table. In either case, it is important that **both** the `sam` file and the reference sequence against which the reads were mapped are imported. If you import the `sam` without the reference, `Geneious` will not know the content of the original reference sequence.
 
 ---
 
