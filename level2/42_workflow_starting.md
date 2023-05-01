@@ -5,8 +5,8 @@
 
 #### Objectives
 
-* Build a small workflow in `Nextflow` to map sequences to a reference and produce reports from the execution of the workflow.
-* Know how to produce summary reports and DAG outputs from a `Nextflow` workflow.
+* Build a small workflow in `Nextflow` to map sequences to a reference and produce a mapping report.
+* Know how to organise subunits of work into process blocks and how to link these using the `workflow{}` statement.
 
 #### Keypoints
 
