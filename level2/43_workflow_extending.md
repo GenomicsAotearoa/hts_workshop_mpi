@@ -36,9 +36,9 @@ Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/workflows/` direct
 
 ## Internalising the module load commands
 
-When we first wrote out `Nextflow` command, the `minimap2` and `samtools` modules were loaded outside of the workflow file, alongside the `Nextflow` module itself. While this approach does work, it produces a gap in our reproducibility as the workflow file cannot tell us which version of the mapping tools were used to execute the **_process_** blocks. If the workflow was successfully run we know that *some* version of those tools must have been present but it is anyone's guess which version they were.
+When we first wrote out `Nextflow` command, the `bowtie2` and `samtools` modules were loaded outside of the workflow file, alongside the `Nextflow` module itself. While this approach does work, it produces a gap in our reproducibility as the workflow file cannot tell us which version of the mapping tools were used to execute the **_process_** blocks. If the workflow was successfully run we know that *some* version of those tools must have been present but it is anyone's guess which version they were.
 
-This could potentially also result in a failure of the `Nextflow` workflow to run at all, if the available version of `minimap2` or `samtools` version is not compatible with the commands we provide.
+This could potentially also result in a failure of the `Nextflow` workflow to run at all, if the available version of `bowtie2` or `samtools` version is not compatible with the commands we provide.
 
 To remedy this, we are going to migrate our module load statements for the mapping tools inside the `Nextflow` workflow, so that we only need to load `Nextflow` itself for our workflow to run. To do this, make the following changes to your script.
 
@@ -109,7 +109,7 @@ Not only does this simplify the steps needed to get the workflow up and running,
 
 ## Streamlining the workflow block
 
-The manner in which we wrote the **_workflow_** block in the previous tutorial is functional but not particularly elegant to read. While it does explicitly detail how the input channel is created, and the flow of data from the first process into the second, into the third...
+The manner in which we wrote the **_workflow_** block in the previous tutorial is functional but not particularly elegant to read. While it does explicitly detail how the input channel is created, and the flow of data from the first process into the second and third it's quite dense.
 
 `Nextflow` supports an alternate way of orchestrating the flow of data between processes, which is basically identical to redirection in the shell. Modify your **_workflow_** statement to the following:
 
@@ -185,9 +185,11 @@ workflow {
 }
 ```
 
-With these changes we have declared an optional user input flag called `input`. If the user provides a custom value for this flag then that will be used, otherwise the rule will default to the original `input_files/*.fq.gz` path. To demonstrate this, we will run the rule twice, once with and once without, the new `input` flag and rename the `flagstats.txt` files. If there was a single file in the `input_files/` folder then we would always know which output file corresponded to the input, but we would probably need to manually rename the output after each run so that we knew which input file the output corresponded with. This absolutely could be achieved with a loop but we're aiming for an all-in-one solution here!
+With these changes we have declared an optional user input flag called `input`. If the user provides a custom value for this flag then that will be used, otherwise the rule will default to the original `input_files/*.fq.gz` path. 
 
-We are now going to remedy this by updating the `Nextflow` code to dynamically name its output files, using the input name to provide some uniquely identifying text for each input file. To do this, we unfortunately need to modify each **_process_** block due to the fact that inputs and outputs are chained between processes. Since we now have a fairly long rule, we have to make changes in multiple places. Lesson for the future, always build as you intend to go on!
+Now for the bigger issue. If there was a single file in the `input_files/` folder, and we only ever read inputs from that folder, then we would always know which output file corresponded to the input. We would probably need to manually rename the output after each run so that we knew which input file the output corresponded to, but that's manageable with a simple `mv` command. But we're aiming for an all-in-one solution so will not be doing that!
+
+We are now going to solve this issue by updating the `Nextflow` code to dynamically name its output files, using the input name to provide some uniquely identifying text for each input file. Unfortunately, to do this we need to make a slight modification to each **_process_** block. Since we now have a fairly long rule, we have to make changes in multiple places. Lesson for the future, always build as you intend to go on!
 
 ```diff
 process map_to_reference {
