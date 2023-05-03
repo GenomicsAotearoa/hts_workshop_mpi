@@ -1,7 +1,7 @@
 # Introduction to the Nextflow system
 
-* Teaching: 30 minutes
-* Exercises: 30 minutes
+* Teaching: 60 minutes
+* Exercises: 60 minutes
 
 #### Objectives
 
@@ -11,7 +11,7 @@
 #### Keypoints
 
 * Know that a complex workflow is built from smaller sub-units of work, which are executed sequentially to produce a final outcome.
-* Understand the main sections of the `Nextflow` workflow and how the `workflow{}` block governs the individual processes.
+* Understand the main sections of the `Nextflow` workflow and how the `workflow{}` block governs the flow of data between the individual processes.
 
 ---
 
@@ -31,7 +31,7 @@ For all of the work we do in this session, we require three modules to be loaded
 
 ```bash
 $ module purge
-$ module load minimap2/2.24-GCC-11.3.0
+$ module load Bowtie2/2.4.5-GCC-11.3.0
 $ module load SAMtools/1.16.1-GCC-11.3.0
 $ module load Nextflow/22.10.3
 ```
@@ -46,7 +46,7 @@ In this work, we are going to be using a 'learn by example' approach to teaching
 
 A `Nextflow` workflow comprises two main features, **_processes_** and the **_workflow statement_**. Before we start to build our workflow, produce a small text file using your prefered text editor and enter the follow content into it. You can save this file under whatever name you wish - the traditional ending for a `Nextflow` rule is `.nf` but this is only a recommendation and not enforced by the software.
 
-```bash
+```
 // Configuration
 nextflow.enable.dsl=2
 
@@ -85,21 +85,21 @@ To begin, we are going to modify your basic document to include a single process
 
 To begin, under your comment 'Processes', write the following commands:
 
-```bash
+```diff
 // Processes
-process map_to_reference {
++process map_to_reference {
 
-    input:
-    path fasta_file
++    input:
++    tuple val(sample_id), path(paired_reads)
 
-    output:
-    path "mapping.sam"
++    output:
++    path "mapping.sam"
 
-    script:
-    """
-    minimap2 -ax map-ont ${launchDir}/references/Mbovis_87900.genome.mmi ${fasta_file} > mapping.sam
-    """
-}
++    script:
++    """
++    bowtie2 --sensitive -x ${launchDir}/references/Mbovis_87900.genome -1 ${paired_reads[0]} -2 ${paired_reads[1]} -S mapping.sam
++    """
++}
 ```
 
 Each **_process_** is declared by the statement `process` followed by a unique name used to identify the process block. The process is defined as all file content between the opening and closing curly brace (`{`, and `}`). If you are familiar with programming in a C-like language you will recognise this as very similar to a function declaration.
@@ -107,7 +107,8 @@ Each **_process_** is declared by the statement `process` followed by a unique n
 Within the **_process_** block are three headers, `input`, `output` and `script`. What these refer to should be intuitive by their naming:
 
 * `input:`
-   * This block refers to the input file(s) for the process.
+   * This block refers to the input data for the process.
+    * This block provides two variables to us, the *value* `sample_id` and a list of *file paths* named `paired_reads`.
    * Any entries under the `input` block are provided as variables as we do not know in advance what file names are going to be provided when the workflow is executed.
 * `output:`
   * This block defines the name of any output files which must be produced upon *successful* completion of the **_process_**.
@@ -118,6 +119,7 @@ Within the **_process_** block are three headers, `input`, `output` and `script`
  * `script:`
    * This section is where we write the actual command to be executed.
    * By default this is read as the `bash` language you have been using in the tutorials leading up to this one so you should hopefully recognise the `${fasta_file}` style of accessing variables.
+     * In the case of the `paired_reads` variable this is actually a list of values, where the first position corresponds to the forwards reads and the second position to the reverse reads. We access these using the square brackets in the command above (e.g. `${paired_reads[0]}`).
    * It is possible to replace this block with a different statement, `shell:` which you may see in some online examples.
      * This is mainly done when the code block needs to be written in a language other than `bash`, such as `perl`, `python`, or `R`.
      * Using the `shell:` statement changes the way in which variables are accessed so we will not be using it in these tutorials.
@@ -126,18 +128,18 @@ Within the **_process_** block are three headers, `input`, `output` and `script`
 
 With the **_process_** block completed, we now need to go to the **_workflow_** statement and tell `Nextflow` what to do with this **_process_**. Modify your **_workflow_** block to look like the following:
 
-```bash
+```diff
 // Workflow
 workflow {
 
-    input_files = Channel.fromPath('input_files/*.fna')
-    map_to_reference(input_files)
++    input_files = Channel.fromFilePairs("input_files/*R{1,2}.fq.gz")
++    map_to_reference(input_files)
 }
 ```
 
 This introduces two concepts at once. However, this is the worst part for understanding what is happening - for all subsequent processes the **_workflow_** requires only minor tweaking.
 
-The first line of the command establishes a **_channel_** from a set of input files to be analysed by the workflow. We are ignoring the technical information on what a **_channel_** is (see the documentation if you wish to understand them in detail) but for our purposes all that we need to understand is that the first line of the **_workflow_** is creating a list of files which match the pattern `input_files/*.fna` (i.e. files in the `input_files/` directory which end with the `.fna` extension).
+The first line of the command establishes a **_channel_** from a set of input files to be analysed by the workflow. We are ignoring the technical information on what a **_channel_** is (see the documentation if you wish to understand them in detail) but for our purposes all that we need to understand is that the first line of the **_workflow_** is creating a list of files which match the pattern `input_files/*R{1,2}.fq.gz`. It then organises these into a sequence where the files are grouped according to the sample they represent so that we have an identifying `sample_id` value, and the pairs of sequence files associated with it.
 
 The second line takes the contents of the `input_files` list and applies the `map_to_reference` **_process_** to each entry in the list.
 
@@ -148,7 +150,7 @@ The second line takes the contents of the `input_files` list and applies the `ma
 Once you have completed this workflow, you can execute it from the command line:
 
 ```bash
-$ nextflow run your_command.nf
+$ nextflow run nextflow_example.nf
 ```
 
 This will produce some text on your console which will look something like the following:
@@ -174,10 +176,11 @@ $ ls work/4f/87ba8db01949863c26076aa52ff3b5/
 
 ```
 mapping.sam
-temp.fna
+Mbovis_87900.miseq_R1.fq.gz
+Mbovis_87900.miseq_R2.fq.gz
 ```
 
-You will be able to match the `temp.fna` file to the contents of the `input_files/` folder and the other file is our mapping file. The isolation of the input/outputs of each process execution into a randomly named subdirectory in the `work/` folder is a feature of `Nextflow` used to prevent multiple instances of the same rule from overwriting each others outputs and is also used in resuming aborted runs. We will look at how to extract out results from these randomly generated temporary directories later in this tutorial.
+You will be able to match the fastq files to the contents of the `input_files/` folder. They are coloured in teal which is the shell's way of showing that these are shortcuts to the original files. The other file is our mapping output. The isolation of the input/outputs of each process execution into a randomly named subdirectory in the `work/` folder is a feature of `Nextflow` used to prevent multiple instances of the same rule from overwriting each others outputs. We will look at how to extract results from these randomly generated temporary directories later in this tutorial.
 
 ---
 
@@ -186,40 +189,39 @@ You will be able to match the `temp.fna` file to the contents of the `input_file
 Now that we have our first successful **_process_** lets add another one. We will this time take the sorting, filtering, and compression commands from the [mapping tutorial](./34_mapping_filters.md#sorting-and-compressing-sam-files). Open your `Nextflow` file and add the following process:
 
 
-```bash
-process sort_and_filter {
-
-    input:
-    path sam_file
-
-    output:
-    path "mapping.bam"
-
-    script:
-    """
-    samtools view -bS ${sam_file} | samtools sort -o sorted.bam
-    samtools view -h -F 4 -b sorted.bam > mapping.bam
-    """
+```diff
+// Processes
+process map_to_reference {
+    ...
 }
-```
 
-One you are done, also add the following line to the end of your **_workflow_**. Make sure that this is entered before the closing `}` character of the **_workflow_** block, but after the `map_to_reference(input_files)` line.
++process sort_and_filter {
 
-```bash
-sort_and_filter(map_to_reference.out)
++    input:
++    path sam_file
+
++    output:
++    path "mapped.bam"
+
++    script:
++    """
++    samtools view -bS ${sam_file} | samtools sort -o sorted.bam
++    samtools view -h -F 4 -b sorted.bam > mapped.bam
++    """
++}
 ```
 
 The **_process_** should look familiar, as it is just taking commands we have already used and reproducing them within the `Nextflow` script block. You are hopefully also familiar enough with the form of the `input` and `output` blocks that you can see  that the input file is a variable which we must access in our `script` block and the output declares the name of the file we expect to see when the process is successfully completed.
 
-The more interesting part is what we have added to the **_workflow_** statement. In it's entirety, the **_workflow_** block now looks like:
+The more interesting part is what will add to the **_workflow_** statement:
 
-```bash
+```diff
 // Workflow
 workflow {
 
-    input_files = Channel.fromPath('input_files/*.fna')
+    input_files = Channel.fromFilePairs("input_files/*R{1,2}.fq.gz")
     map_to_reference(input_files)
-    sort_and_filter(map_to_reference.out)
++    sort_and_filter(map_to_reference.out)
 }
 ```
 
@@ -235,7 +237,7 @@ executor >  local (2)
 [db/de7d4e] process > sort_and_filter (1)  [100%] 1 of 1 ✔
 ```
 
-This is basically the same as before, but now we have a second **_process_** run, and a second set output directory created. Check the contents to make sure that `mapping.bam` is present before we continue.
+This is basically the same as before, but now we have a second **_process_** run, and a second set output directory created. Check the contents to make sure that `mapping.bam` is present before we continue. Note that there are two `bam` files in your output directory, but we have only marked the `mapped.bam` as a desired output. The `sorted.bam` file is ignored from this point forward.
 
 ---
 
@@ -243,27 +245,34 @@ This is basically the same as before, but now we have a second **_process_** run
 
 We are now going to take a simple example from the [mapping statistics](./35_mapping_statistics.md) exercise and run the `samtools flagstats` command to produce our final output file. Add the following **_process_** to your workflow:
 
-```bash
-process compute_flagstats {
-
-    publishDir "./", mode: "copy"
-
-    input:
-    path bam_file
-
-    output:
-    path "flagstats.txt"
-
-    script:
-    """
-    samtools flagstat ${bam_file} > flagstats.txt
-    """
+```diff
+// Processes
+process map_to_reference {
+    ...
 }
+
+process sort_and_filter {
+    ...
+}
+
++process compute_flagstats {
+
++    publishDir "./", mode: "copy"
+
++    input:
++    path bam_file
+
++    output:
++    path "flagstats.txt"
+
++    script:
++    """
++    samtools flagstat ${bam_file} > flagstats.txt
++    """
++}
 ```
 
-There is one new line in this statement that we haven't seen before - the `publishDir` line. As we know that this is the final stage of the workflow, we are telling `Nextflow` to make a copy of the output file in the executing directory. Hiding away the intermediate files in subdirectories is great as in this context we don't really need to see the contents of the mapping and filtering commands. However since we are interested in the final mapping statistics it is not ideal that this file is also hidden aawy in a cryptic `work/` directory.
-
-
+There is one new line in this statement that we haven't seen before - the `publishDir` line. As we know that this is the final stage of the workflow, we are telling `Nextflow` to make a copy of the output file in the executing directory. Hiding away the intermediate files in subdirectories is great as in this context we don't really need to see the contents of the mapping and filtering commands. However since we are interested in the final mapping statistics it is not ideal that this file is also hidden away in a cryptic `work/` directory.
 
 > ### Exercise
 >
@@ -272,13 +281,13 @@ There is one new line in this statement that we haven't seen before - the `publi
 > <details>
 > <summary>Solution</summary>
 >
-> ```bash
+> ```diff
 > workflow {
 > 
->     input_files = Channel.fromPath('input_files/*.fna')
+>     input_files = Channel.fromFilePairs("input_files/*R{1,2}.fq.gz")
 >     map_to_reference(input_files)
 >     sort_and_filter(map_to_reference.out)
->     compute_flagstats(sort_and_filter.out)
+> +    compute_flagstats(sort_and_filter.out)
 > }
 > ```
 > </details>
@@ -294,28 +303,25 @@ executor >  local (3)
 [95/275417] process > compute_flagstats (1) [100%] 1 of 1 ✔
 ```
 
-Upon completion we should also have the `flagstats.txt` file in our directory.
+Upon completion we should also have the `flagstats.txt` file in our directory with the following contents:
 
-<details>
-<summary>Contents of `flagstats.txt`</summary>
 ```
-39 + 0 in total (QC-passed reads + QC-failed reads)
-39 + 0 primary
+199983 + 0 in total (QC-passed reads + QC-failed reads)
+199983 + 0 primary
 0 + 0 secondary
 0 + 0 supplementary
 0 + 0 duplicates
 0 + 0 primary duplicates
-39 + 0 mapped (100.00% : N/A)
-39 + 0 primary mapped (100.00% : N/A)
-0 + 0 paired in sequencing
-0 + 0 read1
-0 + 0 read2
-0 + 0 properly paired (N/A : N/A)
-0 + 0 with itself and mate mapped
-0 + 0 singletons (N/A : N/A)
+199983 + 0 mapped (100.00% : N/A)
+199983 + 0 primary mapped (100.00% : N/A)
+199983 + 0 paired in sequencing
+100000 + 0 read1
+99983 + 0 read2
+0 + 0 properly paired (0.00% : N/A)
+199966 + 0 with itself and mate mapped
+17 + 0 singletons (0.01% : N/A)
 0 + 0 with mate mapped to a different chr
 0 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
-</details>
 
 ---
