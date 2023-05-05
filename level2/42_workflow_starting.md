@@ -5,7 +5,7 @@
 
 #### Objectives
 
-* Build a small workflow in `Nextflow` to map sequences to a reference and produce a mapping report.
+* Build a small workflow in `Nextflow` to map sequences to a reference and produce a mapping summary.
 * Know how to organise subunits of work into process blocks and how to link these using the `workflow{}` statement.
 
 #### Keypoints
@@ -61,23 +61,30 @@ workflow {
 
 The lines which behin with `//` are comments - these are statements which are not read by the `Nextflow` engine and exist for our own benefit. Commenting in code is a useful way to break the lines up with notes to yourself or other users. You can use comments to explain what a particular region of a script is used for, or to explain the rationale for a particular implementation over another. In this instance we are using three comments to break our script up into three sections.
 
-The first section is to do with the workflow configuration. We are inserting a single line here, which specifies to `Nextflow` that the workflow must be interpretted using the second release of its *domain-specific language*, which is the language style `Nextflow` uses to express the code blocks and relationships between them. Although the second version of this language has been released for some time, the `Nextflow` engine still defaults to version 1 when interpretting commands so when producing a workflow we need to specify if we are deviating from this. There are three ways to tell `Nextflow` which version of the DSL we are using:
+The first section is to do with the workflow configuration. We are inserting a single line here, which specifies to `Nextflow` that the workflow must be interpretted using the second release of its *domain-specific language*, which is the language style `Nextflow` uses to express the code blocks and relationships between them.
 
-1. Add the `-dsl2` flag to the command line when executing the workflow.
-1. Add the line `nextflow.enable.dsl=2` inside the workflow rule to overwrite the user-provided or default case for DSL interpretation.
-1. Add the statement `nextflow.enable.dsl=2` to a configuration file which sits in the same directory as the `Nextflow` rule being executed.
-   1. A configuration file must have the name `nextflow.config` and reside in the same directory as the `.nf` file to be recognised.
-   1. For large projects, or projects which can work across different server deployments this is the prefered way to address configuration settings but it is overly complex at this stage in our lesson.
+><details>
+><summary>Methods of specifying the DSL version</summary>
+>
+> Although the second version of this language has been released for some time, the `Nextflow` engine still defaults to version 1 when interpretting commands so when producing a workflow we need to specify if we are deviating from this. There are three ways to tell `Nextflow` which version of the DSL we are using:
+>
+> 1. Add the `-dsl2` flag to the command line when executing the workflow.
+> 1. Add the line `nextflow.enable.dsl=2` inside the workflow rule to overwrite the user-provided or default case for DSL interpretation.
+> 1. Add the statement `nextflow.enable.dsl=2` to a configuration file which sits in the same directory as the `Nextflow` rule being executed (used here).
+>    1. A configuration file must have the name `nextflow.config` and reside in the same directory as the `.nf` file to be recognised.
+>    1. For large projects, or projects which can work across different server deployments this is the prefered way to address configuration settings but it is overly complex at this stage in our lesson.
+></details>
+
 
 The second comment is simply a placeholder for where we are going to write **_process_** statements. These are effectively the individual shell commands which we will write to perform steps of our analysis.
 
-The third comment denotes the `workflow{}` statement. The **_workflow_** statement is the brains of the `Nextflow` rule. It assesses which input file(s) are to be analysed and then assembles the individual **_process_** statements in the correct order to achieve their outcome.
+The third comment denotes the `workflow{}` statement. The **_workflow_** statement is the brains of the `Nextflow` rule. It assesses which input file(s) are to be analysed and organises the **_process_** statements to achieve the desired outcome.
 
 ---
 
 ## Writing the first process in the workflow
 
-Now that we have the outline of our workflow we are going to take the `minimap2` reference mapping command from [the previous exercise of Nanopore mapping](./33_nanopore_mapping.md#mapping-reads-with-minimap2) and transcribe it into `Nextflow`.
+Now that we have the outline of our workflow we are going to take the `bowtie2` reference mapping command from [the previous exercise on mapping](./32_illumina_mapping.md#mapping-reads-with-bowtie2) and transcribe it into `Nextflow`.
 
 To begin, we are going to modify your basic document to include a single process, which maps a given input file against a pre-determined reference file.
 
@@ -104,27 +111,27 @@ To begin, under your comment 'Processes', write the following commands:
 
 Each **_process_** is declared by the statement `process` followed by a unique name used to identify the process block. The process is defined as all file content between the opening and closing curly brace (`{`, and `}`). If you are familiar with programming in a C-like language you will recognise this as very similar to a function declaration.
 
-Within the **_process_** block are three headers, `input`, `output` and `script`. What these refer to should be intuitive by their naming:
+Within the **_process_** block are three sections, `input`, `output` and `script`.
 
 * `input:`
    * This block refers to the input data for the process.
     * This block provides two variables to us, the *value* `sample_id` and a list of *file paths* named `paired_reads`.
-   * Any entries under the `input` block are provided as variables as we do not know in advance what file names are going to be provided when the workflow is executed.
 * `output:`
   * This block defines the name of any output files which must be produced upon *successful* completion of the **_process_**.
-  * We have three choices for setting the name of any output files produced.
-    1. Hardcode the names as string values (as done here).
-    1. Infer the output names from the input file (which we will do in the next tutorial)
-    1. Pull the names from user-provided variables.
+  * This *does not* have to capture every file produced as the **_process_** runs, these only the output file(s) which are to be made use of at the end of the **_process_**.
  * `script:`
-   * This section is where we write the actual command to be executed.
+   * This section is where we write the command to be executed.
    * By default this is read as the `bash` language you have been using in the tutorials leading up to this one so you should hopefully recognise the `${fasta_file}` style of accessing variables.
      * In the case of the `paired_reads` variable this is actually a list of values, where the first position corresponds to the forwards reads and the second position to the reverse reads. We access these using the square brackets in the command above (e.g. `${paired_reads[0]}`).
    * It is possible to replace this block with a different statement, `shell:` which you may see in some online examples.
      * This is mainly done when the code block needs to be written in a language other than `bash`, such as `perl`, `python`, or `R`.
      * Using the `shell:` statement changes the way in which variables are accessed so we will not be using it in these tutorials.
 
->**:Note:** Don't worry about the keyword `path` in the above example. This is a keyword used by `Nextflow` to identify particular characteristics and expectations of the input and output file names. While there are other keywords that can be used, we will not be exploring them in these tutorials.
+><details>
+><summary>Variable types - path and tuple</summary>
+>
+> Don't worry about the keywords `path` and `tuple` in the above example. These are a keywords used by `Nextflow` to identify determine characteristics and expectations of the input and output files. This is not something we will be exploring in these tutorials.
+></details>
 
 With the **_process_** block completed, we now need to go to the **_workflow_** statement and tell `Nextflow` what to do with this **_process_**. Modify your **_workflow_** block to look like the following:
 
@@ -139,7 +146,9 @@ workflow {
 
 This introduces two concepts at once. However, this is the worst part for understanding what is happening - for all subsequent processes the **_workflow_** requires only minor tweaking.
 
-The first line of the command establishes a **_channel_** from a set of input files to be analysed by the workflow. We are ignoring the technical information on what a **_channel_** is (see the documentation if you wish to understand them in detail) but for our purposes all that we need to understand is that the first line of the **_workflow_** is creating a list of files which match the pattern `input_files/*R{1,2}.fq.gz`. It then organises these into a sequence where the files are grouped according to the sample they represent so that we have an identifying `sample_id` value, and the pairs of sequence files associated with it.
+The first line of the command establishes a **_channel_** from a set of input files to be analysed by the workflow. We are ignoring the technical information on what a **_channel_** is for these tutorials, but see the documentation if you wish to understand them in detail.
+
+For our purposes the important part is that the first line of the **_workflow_** is creating a list of files which match the shell expression `input_files/*R{1,2}.fq.gz`. Files detected this way are then organised in a manner such that they are grouped according to the sample they represent.
 
 The second line takes the contents of the `input_files` list and applies the `map_to_reference` **_process_** to each entry in the list.
 
@@ -272,7 +281,9 @@ process sort_and_filter {
 +}
 ```
 
-There is one new line in this statement that we haven't seen before - the `publishDir` line. As we know that this is the final stage of the workflow, we are telling `Nextflow` to make a copy of the output file in the executing directory. Hiding away the intermediate files in subdirectories is great as in this context we don't really need to see the contents of the mapping and filtering commands. However since we are interested in the final mapping statistics it is not ideal that this file is also hidden away in a cryptic `work/` directory.
+There is one new line in this statement that we haven't seen before - the `publishDir` line. As we know that this is the final stage of the workflow, we are telling `Nextflow` to make a copy of the output file in the executing directory. Hiding away the intermediate files in subdirectories is great as we usually do not need to see their contents. At some point we need to retrireve *something* from the workflow, or there is no point having run it.
+
+You can add this tag to multiple processes, for example if you also wanted to copy out the `mapping.bam` file so that you had a mapping file and its summarise statistics produced in a single workflow.
 
 > ### Exercise
 >
