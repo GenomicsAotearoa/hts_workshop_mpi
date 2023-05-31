@@ -20,9 +20,13 @@ This is the opening page for the HTS workshop. Content is divided according to t
    1. [*De novo* assembly of sequencing data](./level2/21_assembly_de_novo.md)
    1. [Polishing of genome assemblies](./level2/22_assembly_polishing.md)
    1. [Mapping reads to a reference](./level2/31_coverage_mapping.md)
-   1. [Calculating coverage statistics](./level2/32_coverage_statistics.md)
+      1. [Illumina mapping](./level2/32_illumina_mapping.md)
+      1. [Nanopore mapping](./level2/33_nanopore_mapping.md)
+      1. [Filtering and sorting mapping files](./level2/34_mapping_filters.md)
+      1. [Summarising mapping statistics](./level2/35_mapping_statistics.md)
    1. [Introduction to workflow managers](./level2/41_workflows_introduction.md)
-   1. [Applying a workflow rule to existing data](./level2/42_workflows_applying.md)
+      1. [Building a basic workflow](./level2/42_workflow_starting.md)
+      1. [Extending an existing workflow](./level2/43_workflow_extending.md)
 
 ---
 
@@ -54,21 +58,13 @@ Many of the exercises covered in this training programme are obtained from, or i
 
 ## Background - Data used in training
 
-This workshop provides a basic introduction to working with the `slurm` scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is from a real study - available at the [NCBI website](https://www.ncbi.nlm.nih.gov/) under `BioProject` number [PRJEB38523](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38523).
-
-In particular, we are working with the following data samples:
-
-1. [Run SRR23286833](https://www.ncbi.nlm.nih.gov/sra/SRX19230161[accn]) - MinION sequences from *Helicobacter pylori*
-1. [Run ERR4179765](https://www.ncbi.nlm.nih.gov/sra/ERX4143189[accn]) - MinION sequences from *Mycoplasma bovis* strains
-1. [Run ERR4179828](https://www.ncbi.nlm.nih.gov/sra/ERX4143252[accn]) - Illumina MiSeq sequences from the same strains
-1. [Run SRR13090255](https://www.ncbi.nlm.nih.gov/sra/SRX9536177[accn]) - DNA-Seq of *Halyomorpha halys* (H1 Haplotype)
-1. [*H. halys* reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_000696795.3) - Hhal_1.1 assembly
+This workshop provides a basic introduction to working with the `slurm` scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is mostly using simulated reads, produced using `InSilicoSeq`[^2] from the *Mycoplasma bovis* 8790 reference genome [NZ_LAUS01000004.1](https://www.ncbi.nlm.nih.gov/nuccore/NZ_LAUS01000004.1). We also make use of publicly available sequencing data from the study 'asdasd' ([PRJNA813586](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA813586)).
 
 Additional teaching materials were sourced from:
 
-1. Genomics Aoteoroa Metagenomic Summer School workshop[^2].
-1. Long-Read, long reach Bioinformatics Tutorial[^3].
-1. Galaxy Training! seuqence analysis resources[^4].
+1. Genomics Aoteoroa Metagenomic Summer School workshop[^3].
+1. Long-Read, long reach Bioinformatics Tutorial[^4].
+1. Galaxy Training! seuqence analysis resources[^5].
 
 ---
 
@@ -76,8 +72,10 @@ Additional teaching materials were sourced from:
 
 [^1]: Erin Alison Becker, Anita Schürch, Tracy Teal, Sheldon John McKay, Jessica Elizabeth Mizzi, François Michonneau, *et al.* (2019, June). datacarpentry/shell-genomics: Data Carpentry: Introduction to the shell for genomics data, June 2019 (Version v2019.06.1). Zenodo. [http://doi.org/10.5281/zenodo.3260560](http://doi.org/10.5281/zenodo.3260560).
 
-[^2]: Jian Sheng Boey, Dinindu Senanayake, Michael Hoggard *et al.* (2022). Metagenomics Summer School [https://github.com/GenomicsAotearoa/metagenomics_summer_school](https://github.com/GenomicsAotearoa/metagenomics_summer_school).
+[^2] Hadrien Gourlé, Oskar Karlsson-Lindsjö, Juliette Hayer, Erik Bongcam-Rudloff (2019). Simulating Illumina metagenomic data with InSilicoSeq. Bioinformatics 35(3), 521-522.
 
-[^3]: Tim Kahlke (2021). Long-Read Data Analysis [https://timkahlke.github.io/LongRead_tutorials/](https://timkahlke.github.io/LongRead_tutorials/).
+[^3]: Jian Sheng Boey, Dinindu Senanayake, Michael Hoggard *et al.* (2022). Metagenomics Summer School [https://github.com/GenomicsAotearoa/metagenomics_summer_school](https://github.com/GenomicsAotearoa/metagenomics_summer_school).
 
-[^4]: Joachim Wolff, Bérénice Batut, Helena Rasche (2023). Sequence Analysis (revision 96e01807afff10d6060ac0691d004f0469676534). [https://training.galaxyproject.org/training-material/topics/sequence-analysis/](https://training.galaxyproject.org/training-material/topics/sequence-analysis/).
+[^4]: Tim Kahlke (2021). Long-Read Data Analysis [https://timkahlke.github.io/LongRead_tutorials/](https://timkahlke.github.io/LongRead_tutorials/).
+
+[^5]: Joachim Wolff, Bérénice Batut, Helena Rasche (2023). Sequence Analysis (revision 96e01807afff10d6060ac0691d004f0469676534). [https://training.galaxyproject.org/training-material/topics/sequence-analysis/](https://training.galaxyproject.org/training-material/topics/sequence-analysis/).
