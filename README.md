@@ -58,7 +58,7 @@ Many of the exercises covered in this training programme are obtained from, or i
 
 ## Background - Data used in training
 
-This workshop provides a basic introduction to working with the `slurm` scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is mostly using simulated reads, produced using `InSilicoSeq`[^2] from the *Mycoplasma bovis* 8790 reference genome [NZ_LAUS01000004.1](https://www.ncbi.nlm.nih.gov/nuccore/NZ_LAUS01000004.1). We also make use of publicly available sequencing data from the study 'asdasd' ([PRJNA813586](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA813586)).
+This workshop provides a basic introduction to working with the `slurm` scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is mostly using simulated reads, produced using `InSilicoSeq`[^2] from the *Mycoplasma bovis* 8790 reference genome [NZ_LAUS01000004.1](https://www.ncbi.nlm.nih.gov/nuccore/NZ_LAUS01000004.1). We also make use of publicly available sequencing data from the studies [PRJNA813586](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA813586) and [PRJEB38441](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38441).
 
 Additional teaching materials were sourced from:
 

@@ -5,11 +5,14 @@
 
 #### Objectives
 
-* ...
+* Extend our basic workflow to be more self-sufficient and flexible for future use.
+* Explore alternative options for orchestrating the individual processes within the `workflow{}` block.
+* Know how to produce run reports when a `Nextflow` workflow is executed.
 
 #### Keypoints
 
-* ...
+* `Nextflow` scripts can be modified in many ways to make them more portable, or flexible to different input cases.
+* There are a number of built in reporting tools to evaluate the performance and coverage of individual `Nextflow` runs.
 
 ---
 
@@ -20,7 +23,6 @@
 1. [Streamlining the workflow block](#streamlining-the-workflow-block)
 1. [Allowing dynamic input files](#allowing-dynamic-input-files)
 1. [Generating output reports](#generating-output-reports)
-1. [Other useful modifications](#other-useful-modifications)
 
 ---
 
@@ -45,17 +47,17 @@ To remedy this, we are going to migrate our module load statements for the mappi
 ```diff
 process map_to_reference {
 
-+    module "Bowtie2/2.4.5-GCC-11.3.0"
++    module "minimap2/2.24-GCC-11.3.0"
 
     input:
-    tuple val(sample_id), path(paired_reads)
+    path fq_file
 
     output:
     path "mapping.sam"
 
     script:
     """
-    bowtie2 --sensitive -x ${launchDir}/references/Mbovis_87900.genome -1 ${paired_reads[0]} -2 ${paired_reads[1]} -S mapping.sam
+    minimap2 -ax map-ont ${launchDir}/references/Mbovis_87900.genome.mmi ${fq_file} > mapping.sam
     """
 }
 
@@ -116,11 +118,11 @@ The manner in which we wrote the **_workflow_** block in the previous tutorial i
 ```diff
 workflow {
 
--    input_files = Channel.fromFilePairs("input_files/*R{1,2}.fq.gz")
+-    input_files = Channel.fromPath("input_files/*.fq.gz")
 -    map_to_reference(input_files)
 -    sort_and_filter(map_to_reference.out)
 -    compute_flagstats(sort_and_filter.out)
-+    Channel.fromFilePairs("input_files/*R{1,2}.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
++    Channel.fromPath("input_files/*.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
 }
 ```
 
@@ -134,7 +136,7 @@ One feature of the workflow we are currently working with is that the rule has a
 
 This is limiting, as we may not want to be copying our data all around our file system when we need to perform mapping. We also probably don't want to be copying the workflow file into many different locations either. To avoid these workarounds, we are going to modify the workflow to allow for a user-provided input path. This requires that we change the workflow in two stages.
 
-The first change we need to make is that we need to replace the `Channel.fromFilePairs('input_files/*R{1,2}.fq.gz')` to something which is influenced by user-specified input rather than set with a predetermined value. There is also a second set of changes we need to make.
+The first change we need to make is that we need to replace the `Channel.fromPath("input_files/*.fq.gz")` to something which is influenced by user-specified input rather than set with a predetermined value. There is also a second set of changes we need to make.
 
 > **Exercise**
 >
@@ -174,13 +176,13 @@ To begin, we are going to ignore the file naming issue and just focus on changin
 ```diff
 // Configuration
 nextflow.enable.dsl=2
-+params.input = "input_files/*R{1,2}.fq.gz"
++params.input = "input_files/*.fq.gz"
 ```
 
 ```diff
 workflow {
 
--    Channel.fromFilePairs("input_files/*R{1,2}.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
+-    Channel.fromFilePairs("input_files/*.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
 +    Channel.fromFilePairs(params.input) | map_to_reference | sort_and_filter | compute_flagstats
 }
 ```
@@ -194,18 +196,19 @@ We are now going to solve this issue by updating the `Nextflow` code to dynamica
 ```diff
 process map_to_reference {
 
-    module "Bowtie2/2.4.5-GCC-11.3.0"
+    module "minimap2/2.24-GCC-11.3.0"
 
     input:
-    tuple val(sample_id), path(paired_reads)
+    path fq_file
 
     output:
 +    val sample_id
     path "mapping.sam"
 
     script:
++    sample_id = "${fq_file.simpleName}"
     """
-    bowtie2 --sensitive -x ${launchDir}/references/Mbovis_87900.genome -1 ${paired_reads[0]} -2 ${paired_reads[1]} -S mapping.sam
+    minimap2 -ax map-ont ${launchDir}/references/Mbovis_87900.genome.mmi ${fq_file} > mapping.sam
     """
 }
 ```
@@ -258,29 +261,39 @@ What we are really doing here is making use of the unique identifying `sample_id
 
 >**Note:** In practice it is often helpful to use variables to name the output file of each process as we did in the `compute_flagstats` command above. This makes it easier to trace errors and avoids transcription mistakes which can happen when updating the `Nextflow` code. We are avoiding this today to minimise the changes necessary to get a working example but remember this is writing your own workflows.
 
+<details>
+<summary>A note on the simpleName command</summary>
+
+The syntax `${fq_file.simpleName}` is a handy command to remove trailing information from a file name, when you are trying to extract the unique part of the name for some purpose. However, the command itself is a bit limited and simply takes all text in the file name before the first <kdb>.</kdb> character in the name. This works in our case, as we do not use this character to separate information, only the file extensions.
+
+However, if you were to name files with a <kdb>.</kdb> in the name, either to separate information or to represent a decimal place, then this would cut your file name at the wrong place. There are ways around this - `simpleName` is not the only way to extract this sort of information from the input file - but just be aware of this behaviour if you are writing your own pipeline.
+
+</details>
+
+<br />
+
 If everything is successful, we should now be able to just do the following:
 
 ```bash
 $ nextflow run nextflow_example.nf
 $ ls *.txt
 ```
-
 ```
-Mbovis_87900.miseq.flagstats.txt
+Mbovis_87900.flagstats.txt
 ```
 
-Running that `ls` command you should now see that rather an `flagstats.txt`, the output file is called `Mbovis_87900.miseq.flagstats.txt`. This gets even better though because now, if we make use of the `input` parameter we created, we can point the command towards a directory with multiple sequence files and get an output for each one with a single command:
+Running that `ls` command you should now see that rather an `flagstats.txt`, the output file is called `Mbovis_87900.flagstats.txt`. This gets even better though because now, if we make use of the `input` parameter we created, we can point the command towards a directory with multiple sequence files and get an output for each one with a single command:
 
 ```bash
-$ nextflow run nextflow_example.nf --input 'other_input_files/*R{1,2}.fq.gz'
+$ nextflow run nextflow_example.nf --input 'other_input_files/*.fq.gz'
 $ ls *.txt
 ```
-
 ```
-Mbovis_87900.miseq.flagstats.txt
-Mbovis.SRR20305625.flagstats.txt
-Mbovis.SRR20305628.flagstats.txt
-Mbovis.SRR20305631.flagstats.txt
+Mbovis_87900.flagstats.txt
+Mbovis_ERR4173912.flagstats.txt
+Mbovis_ERR4173913.flagstats.txt
+Mbovis_ERR4173915.flagstats.txt
+Mbovis_ERR4173916.flagstats.txt
 ```
 
 Note that to do this, we wrap the search pattern with quotation marks. This is so that the input is passed directly into `Nextflow` as an expression to be evaluated. Without the quotes, the shell would expand the command into a list of files, which do not get handled the same way.
@@ -289,32 +302,28 @@ Note that to do this, we wrap the search pattern with quotation marks. This is s
 
 ## Generating output reports
 
->TO DO - Easily achieved on the command line or with a config file, but looking for a way to internalise this into the workflow itself
+For long running or complex workflows, it is sometimes helpful to produce reports of the `Nextflow` run so that you can identify where system resources are being tied up, or how the **_processes_** are being navigated. There are three easy-to-add reporting tools that we can request then running a `Nextflow` job:
+
+1. Report
+   * The overview of how the `Nextflow` run was executed, run time, and success/fail state.
+   * Provides a detailed breakdown of system resources used in each step of the workflow.
+1. Timeline
+   * A Gantt chart-like view of how long each **_process_** ran for, and when each **_process_** started and finished relative to each other.
+1. Directed acyclic graph (DAG) schematic
+   * This sounds complex, but it is really just a map showing how each input was passed through each **_process_** in the workflow.
+   * The DAG is mostly used as a visualisation tool to record which analyses were performed on each input, but can also be helpful when debugging a workflow to ensure each sample goes to the correct **_processes_** in the overall workflow.
 
 ```bash
-$ nextflow run nextflow_example.nf -with-timeline other_input_files.timeline.html -with-reportother_input_files.report.html -with-dag other_input_files.dag.png
+$ nextflow run nextflow_example.nf --input 'other_input_files/*.fq.gz' \
+    -with-timeline other_input_files.timeline.html \
+    -with-report other_input_files.report.html \
+    -with-dag other_input_files.dag.svg
 ```
 
-```
-config:
-timeline {
-  enabled = true
-  file = "$params.outdir/timeline.html"
-}
+You can open these files in the JupyterHub browser to view, or click the links here to see the outputs:
 
-report {
-  enabled = true
-  file = "$params.outdir/report.html"
-}
-```
-
----
-
-## Other useful modifications
-
-1. Generalising the input expression further
-1. Adding adjustable CPU counts to the command
-1. Using variables to name output files in processes rather than hardcoding until the final step
-1. Adding multiple reference files for mapping?
+* [Report output](../resources/level2_43_nextflow_report.html)
+* [Timeline output](../resources/level2_43_nextflow_timeline.html)
+* [DAG output](../img/level2_43_nextflow_dag.svg)
 
 ---

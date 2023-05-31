@@ -10,8 +10,8 @@
 
 #### Keypoints
 
-* Know that a complex workflow is built from smaller sub-units of work, which are executed sequentially to produce a final outcome.
-* Understand the main sections of the `Nextflow` workflow and how the `workflow{}` block governs the flow of data between the individual processes.
+* A complex workflow is built from smaller sub-units of work, which are executed sequentially to produce a final outcome.
+* The main sections of a `Nextflow` file are the `process{}` statements and the `workflow{}` block which governs the flow of data between the processes.
 
 ---
 
@@ -31,7 +31,7 @@ For all of the work we do in this session, we require three modules to be loaded
 
 ```bash
 $ module purge
-$ module load Bowtie2/2.4.5-GCC-11.3.0
+$ module load minimap2/2.24-GCC-11.3.0
 $ module load SAMtools/1.16.1-GCC-11.3.0
 $ module load Nextflow/22.10.3
 ```
@@ -84,7 +84,7 @@ The third comment denotes the `workflow{}` statement. The **_workflow_** stateme
 
 ## Writing the first process in the workflow
 
-Now that we have the outline of our workflow we are going to take the `bowtie2` reference mapping command from [the previous exercise on mapping](./32_illumina_mapping.md#mapping-reads-with-bowtie2) and transcribe it into `Nextflow`.
+Now that we have the outline of our workflow we are going to take the `minimap2` reference mapping command from [the previous exercise on mapping](./33_nanopore_mapping.md) and transcribe it into `Nextflow`.
 
 To begin, we are going to modify your basic document to include a single process, which maps a given input file against a pre-determined reference file.
 
@@ -97,14 +97,14 @@ To begin, under your comment 'Processes', write the following commands:
 +process map_to_reference {
 
 +    input:
-+    tuple val(sample_id), path(paired_reads)
++    path fq_file
 
 +    output:
 +    path "mapping.sam"
 
 +    script:
 +    """
-+    bowtie2 --sensitive -x ${launchDir}/references/Mbovis_87900.genome -1 ${paired_reads[0]} -2 ${paired_reads[1]} -S mapping.sam
++    minimap2 -ax map-ont ${launchDir}/references/Mbovis_87900.genome.mmi ${fq_file} > mapping.sam
 +    """
 +}
 ```
@@ -139,7 +139,7 @@ With the **_process_** block completed, we now need to go to the **_workflow_** 
 // Workflow
 workflow {
 
-+    input_files = Channel.fromFilePairs("input_files/*R{1,2}.fq.gz")
++    input_files = Channel.fromPath("input_files/*.fq.gz")
 +    map_to_reference(input_files)
 }
 ```
@@ -182,11 +182,9 @@ Then use tab-completion to fill out the command:
 ```bash
 $ ls work/4f/87ba8db01949863c26076aa52ff3b5/
 ```
-
 ```
 mapping.sam
-Mbovis_87900.miseq_R1.fq.gz
-Mbovis_87900.miseq_R2.fq.gz
+Mbovis_87900.nanopore.fq.gz
 ```
 
 You will be able to match the fastq files to the contents of the `input_files/` folder. They are coloured in teal which is the shell's way of showing that these are shortcuts to the original files. The other file is our mapping output. The isolation of the input/outputs of each process execution into a randomly named subdirectory in the `work/` folder is a feature of `Nextflow` used to prevent multiple instances of the same rule from overwriting each others outputs. We will look at how to extract results from these randomly generated temporary directories later in this tutorial.
@@ -228,7 +226,7 @@ The more interesting part is what will add to the **_workflow_** statement:
 // Workflow
 workflow {
 
-    input_files = Channel.fromFilePairs("input_files/*R{1,2}.fq.gz")
+    input_files = Channel.fromPath("input_files/*.fq.gz")
     map_to_reference(input_files)
 +    sort_and_filter(map_to_reference.out)
 }
@@ -295,7 +293,7 @@ You can add this tag to multiple processes, for example if you also wanted to co
 > ```diff
 > workflow {
 > 
->     input_files = Channel.fromFilePairs("input_files/*R{1,2}.fq.gz")
+>     input_files = Channel.fromPath("input_files/*.fq.gz")
 >     map_to_reference(input_files)
 >     sort_and_filter(map_to_reference.out)
 > +    compute_flagstats(sort_and_filter.out)
@@ -317,20 +315,20 @@ executor >  local (3)
 Upon completion we should also have the `flagstats.txt` file in our directory with the following contents:
 
 ```
-199983 + 0 in total (QC-passed reads + QC-failed reads)
-199983 + 0 primary
+1733 + 0 in total (QC-passed reads + QC-failed reads)
+1725 + 0 primary
 0 + 0 secondary
-0 + 0 supplementary
+8 + 0 supplementary
 0 + 0 duplicates
 0 + 0 primary duplicates
-199983 + 0 mapped (100.00% : N/A)
-199983 + 0 primary mapped (100.00% : N/A)
-199983 + 0 paired in sequencing
-100000 + 0 read1
-99983 + 0 read2
-0 + 0 properly paired (0.00% : N/A)
-199966 + 0 with itself and mate mapped
-17 + 0 singletons (0.01% : N/A)
+1733 + 0 mapped (100.00% : N/A)
+1725 + 0 primary mapped (100.00% : N/A)
+0 + 0 paired in sequencing
+0 + 0 read1
+0 + 0 read2
+0 + 0 properly paired (N/A : N/A)
+0 + 0 with itself and mate mapped
+0 + 0 singletons (N/A : N/A)
 0 + 0 with mate mapped to a different chr
 0 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
