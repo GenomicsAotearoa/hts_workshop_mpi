@@ -47,7 +47,7 @@ To remedy this, we are going to migrate our module load statements for the mappi
 ```diff
 process map_to_reference {
 
-+    module "minimap2/2.24-GCC-11.3.0"
++   module "minimap2/2.24-GCC-11.3.0"
 
     input:
     path fq_file
@@ -63,7 +63,7 @@ process map_to_reference {
 
 process sort_and_filter {
 
-+    module "SAMtools/1.16.1-GCC-11.3.0"
++   module "SAMtools/1.16.1-GCC-11.3.0"
 
     input:
     path sam_file
@@ -80,7 +80,7 @@ process sort_and_filter {
 
 process compute_flagstats {
 
-+    module "SAMtools/1.16.1-GCC-11.3.0"
++   module "SAMtools/1.16.1-GCC-11.3.0"
     publishDir "./", mode: "copy"
 
     input:
@@ -118,11 +118,11 @@ The manner in which we wrote the **_workflow_** block in the previous tutorial i
 ```diff
 workflow {
 
--    input_files = Channel.fromPath("input_files/*.fq.gz")
--    map_to_reference(input_files)
--    sort_and_filter(map_to_reference.out)
--    compute_flagstats(sort_and_filter.out)
-+    Channel.fromPath("input_files/*.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
+-   input_files = Channel.fromPath("input_files/*.fq.gz")
+-   map_to_reference(input_files)
+-   sort_and_filter(map_to_reference.out)
+-   compute_flagstats(sort_and_filter.out)
++   Channel.fromPath("input_files/*.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
 }
 ```
 
@@ -163,7 +163,7 @@ The first change we need to make is that we need to replace the `Channel.fromPat
 >
 >    script:
 >    """
->-    samtools flagstat ${bam_file} > flagstats.txt
+>-   samtools flagstat ${bam_file} > flagstats.txt
 >    """
 > }
 > ```
@@ -182,8 +182,8 @@ nextflow.enable.dsl=2
 ```diff
 workflow {
 
--    Channel.fromFilePairs("input_files/*.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
-+    Channel.fromFilePairs(params.input) | map_to_reference | sort_and_filter | compute_flagstats
+-   Channel.fromFilePairs("input_files/*.fq.gz") | map_to_reference | sort_and_filter | compute_flagstats
++   Channel.fromFilePairs(params.input) | map_to_reference | sort_and_filter | compute_flagstats
 }
 ```
 
@@ -202,11 +202,11 @@ process map_to_reference {
     path fq_file
 
     output:
-+    val sample_id
++   val sample_id
     path "mapping.sam"
 
     script:
-+    sample_id = "${fq_file.simpleName}"
++   sample_id = "${fq_file.simpleName}"
     """
     minimap2 -ax map-ont ${launchDir}/references/Mbovis_87900.genome.mmi ${fq_file} > mapping.sam
     """
@@ -219,11 +219,11 @@ process sort_and_filter {
     module "SAMtools/1.16.1-GCC-11.3.0"
 
     input:
-+    val sample_id
++   val sample_id
     path sam_file
 
     output:
-+    val sample_id
++   val sample_id
     path "mapping.bam"
 
     script:
@@ -241,18 +241,18 @@ process compute_flagstats {
     publishDir "./", mode: "copy"
 
     input:
-+    val sample_id
++   val sample_id
     path bam_file
 
     output:
--    path "flagstats.txt"
-+    path flagstats_file
+-   path "flagstats.txt"
++   path flagstats_file
 
     script:
-+    flagstats_file = "${sample_id}.flagstats.txt"
++   flagstats_file = "${sample_id}.flagstats.txt"
     """
--    samtools flagstat ${bam_file} > flagstats.txt
-+    samtools flagstat ${bam_file} > ${flagstats_file}
+-   samtools flagstat ${bam_file} > flagstats.txt
++   samtools flagstat ${bam_file} > ${flagstats_file}
     """
 }
 ```
