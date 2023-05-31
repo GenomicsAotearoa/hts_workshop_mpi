@@ -96,16 +96,16 @@ To begin, under your comment 'Processes', write the following commands:
 // Processes
 +process map_to_reference {
 
-+    input:
-+    path fq_file
++   input:
++   path fq_file
 
-+    output:
-+    path "mapping.sam"
++   output:
++   path "mapping.sam"
 
-+    script:
-+    """
-+    minimap2 -ax map-ont ${launchDir}/references/Mbovis_87900.genome.mmi ${fq_file} > mapping.sam
-+    """
++   script:
++   """
++   minimap2 -ax map-ont ${launchDir}/references/Mbovis_87900.genome.mmi ${fq_file} > mapping.sam
++   """
 +}
 ```
 
@@ -139,8 +139,8 @@ With the **_process_** block completed, we now need to go to the **_workflow_** 
 // Workflow
 workflow {
 
-+    input_files = Channel.fromPath("input_files/*.fq.gz")
-+    map_to_reference(input_files)
++   input_files = Channel.fromPath("input_files/*.fq.gz")
++   map_to_reference(input_files)
 }
 ```
 
@@ -204,17 +204,17 @@ process map_to_reference {
 
 +process sort_and_filter {
 
-+    input:
-+    path sam_file
++   input:
++   path sam_file
 
-+    output:
-+    path "mapped.bam"
++   output:
++   path "mapped.bam"
 
-+    script:
-+    """
-+    samtools view -bS ${sam_file} | samtools sort -o sorted.bam
-+    samtools view -h -F 4 -b sorted.bam > mapped.bam
-+    """
++   script:
++   """
++   samtools view -bS ${sam_file} | samtools sort -o sorted.bam
++   samtools view -h -F 4 -b sorted.bam > mapped.bam
++   """
 +}
 ```
 
@@ -228,7 +228,7 @@ workflow {
 
     input_files = Channel.fromPath("input_files/*.fq.gz")
     map_to_reference(input_files)
-+    sort_and_filter(map_to_reference.out)
++   sort_and_filter(map_to_reference.out)
 }
 ```
 
@@ -264,18 +264,18 @@ process sort_and_filter {
 
 +process compute_flagstats {
 
-+    publishDir "./", mode: "copy"
++   publishDir "./", mode: "copy"
 
-+    input:
-+    path bam_file
++   input:
++   path bam_file
 
-+    output:
-+    path "flagstats.txt"
++   output:
++   path "flagstats.txt"
 
-+    script:
-+    """
-+    samtools flagstat ${bam_file} > flagstats.txt
-+    """
++   script:
++   """
++   samtools flagstat ${bam_file} > flagstats.txt
++   """
 +}
 ```
 
@@ -296,7 +296,7 @@ You can add this tag to multiple processes, for example if you also wanted to co
 >     input_files = Channel.fromPath("input_files/*.fq.gz")
 >     map_to_reference(input_files)
 >     sort_and_filter(map_to_reference.out)
-> +    compute_flagstats(sort_and_filter.out)
+> +   compute_flagstats(sort_and_filter.out)
 > }
 > ```
 > </details>
