@@ -1,3 +1,19 @@
+# Assesing sequence quality and filtering Oxford Nanopore data
+
+* Teaching: 30 minutes
+* Exercises: 15 minutes
+
+#### Objectives
+
+* Know how to assess the quality of Oxford Nanopore data using visualization tools such as pycoQC
+* Be able to perform quality filtering of nanopore data and to remove short reads
+
+#### Keypoints
+
+* `pycoQC` is a great tool for generating interactive reports to explore key aspects of a Nanopore sequencing dataset
+* Sequences can be filtered to remove low quality reads and short reads using `nanofilt`
+
+
 ## Assessing sequence quality
 
 The initial step for every sequencing project is quality control to assess the quality of your data. This will give you some statistics of your sequencing data, such as length and quality score distributions, as well as highlight potential problems with your input DNA/RNA, the sequencing run or the output itself.
@@ -47,18 +63,18 @@ $ pycoQC -f data/nanopore_data/sequencing_summary.txt -o results/pycoQC_report.h
 > <summary>Solution</summary>
 >
 > 1. ~270k reads in total (see the Basecall summary of `pycoQC`'s output page)
-> ![](../img/02_pycoqc_basecall_summary.png)
+> ![01](https://github.com/lrigano/hts_workshop_mpi/assets/131924419/a157eed9-13b7-4f0e-9641-d3901a66c811)
 > 1. The median read length can also be found in the same place. The median length is 3,890 bp for all reads, or 4,070 for those that passed `MinKNOW`'s quality filtering. To find the minimum and maximum read lengths look at the 'Basecalled read lengths' plot. If you hover over the start and the end of the plotted length distribution you will see the length followed by the number of reads. The minimum read length for the passed reads is about 200 bp, the maximum length ~130,000 bp.
-> ![](../img/02_pycoqc_basecall_read_lengths.png)
+> ![02](https://github.com/lrigano/hts_workshop_mpi/assets/131924419/10beafda-ff5b-4dd4-8e9a-3391755ed716)
 > 1. The median quality of the reads can be found in the basecall summary, and the distribution in the 'Basecalled reads PHRED quality plot'. The majority of the reads has a Q-score below 10, i.e., an error rate of >10%. These results can be considered normal although it is possible to obtain better quality.
-> ![](../img/02_pycoqc_basecall_phred.png)
+> ![03](https://github.com/lrigano/hts_workshop_mpi/assets/131924419/44e80c59-37fc-4a4e-a667-fc6d91274873)
 > </details>
 
 In addition to read statistics, `pycoQC` also gives a lot of information about the sequencing run and the flowcell itself such as sequencing run, yield over time, number of active pores, etc. One of the strengths of `pycoQC` is that it is interactive and highly customisable. Plots can be cropped, you can zoom in and out, sub-select areas and export figures. For detailed usage and examples see the `pycoQC` documentation: [https://a-slide.github.io/pycoQC/](https://a-slide.github.io/pycoQC/).
 
 ---
 
-## Removing short and low quality reads
+## Filtering short and low quality reads
 
 Removing short reads and eliminating low quality data can improve your downstream analysis. For example, it can be beneficial to remove short reads for whole genome sequencing projects. `Nanofilt` is a tool that can filter reads by quality score and length. It is also capable of cropping a specified number of bases from the start or the end of a read, which can be useful sometimes.
 
