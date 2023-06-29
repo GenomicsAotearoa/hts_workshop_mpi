@@ -85,7 +85,6 @@ $ bowtie2 --sensitive \
 >       -1 reads/Mbovis_87900.miseq_R1.fq.gz \
 >       -2 reads/Mbovis_87900.miseq_R2.fq.gz \
 >       -S Mbovis_87900.genome.bowtie2.sam
-> done
 > ```
 >
 > </details>
