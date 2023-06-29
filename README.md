@@ -10,7 +10,7 @@ This is the opening page for the HTS workshop. Content is divided according to t
    1. [Connecting to NeSI](./level1/11_nesi_connection.md)
    1. [Navigation on the command line](./level1/12_shell_navigation.md)
    1. [Working with files on the command line](./level1/13_shell_manipulation.md)
-   1. [Quality filtering Nanopore data](./level1/2X_quality_filter_nanopore.md)
+   1. [Quality filtering Nanopore data](./level1/21_quality_filter_nanopore.md)
    1. [Quality filtering Illumina data](./level1/3X_quality_filter_illumina.md)
    1. [Annotating sequences with BLAST](./level1/4X_blastn_annotation.md)
 1. Level 2 - Advanced
