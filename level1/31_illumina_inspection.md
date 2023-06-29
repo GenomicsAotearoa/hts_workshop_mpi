@@ -1,19 +1,16 @@
-
-# Assesing sequence quality and filtering Illumina data
+# Assesing sequence quality of Illumina data
 
 * Teaching: 45 minutes
 * Exercises: 15 minutes
 
 #### Objectives
 
-* Know how to assess the quality of Illumina sequence data using visualisation tools such as `FastQC`
-* Be able to perform quality filtering to remove adapter and barcode regions, as well as low quality sequence regions
+* Know how to assess the quality of Illumina sequence data using visualisation tools such as `FastQC`.
 
 #### Keypoints
 
 * Raw sequencing data is usually not appropriate for immediate analysis.
 * `FastQC` is a powerful tool for quickly generating visual reports to summarise key aspects of Illumina data.
-* Sequences can be filtered to remove low quality sequences and sequencing artefacts using `fastp`.
 
 ---
 
