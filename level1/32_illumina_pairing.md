@@ -1,7 +1,6 @@
 # Key points before filtering and trimming Illumina data
 
-* Teaching: 45 minutes
-* Exercises: 15 minutes
+* Teaching: 30 minutes
 
 #### Objectives
 

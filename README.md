@@ -11,7 +11,10 @@ This is the opening page for the HTS workshop. Content is divided according to t
    1. [Navigation on the command line](./level1/12_shell_navigation.md)
    1. [Working with files on the command line](./level1/13_shell_manipulation.md)
    1. [Quality filtering Nanopore data](./level1/21_quality_filter_nanopore.md)
-   1. [Quality filtering Illumina data](./level1/3X_quality_filter_illumina.md)
+   1. Quality filtering Illumina data
+      1. [Inpecting reads](./level1/31_illumina_inspection.md)
+      1. [Issues with paired-end data](./level1/32_illumina_pairing.md)
+      1. [Trimming paired-end reads](./level1/33_illumina_filtering.md)
    1. [Annotating sequences with BLAST](./level1/4X_blastn_annotation.md)
 1. Level 2 - Advanced
    1. [Shell navigation (advanced)](./level2/11_shell_manipulation.md)
@@ -58,7 +61,7 @@ Many of the exercises covered in this training programme are obtained from, or i
 
 ## Background - Data used in training
 
-This workshop provides a basic introduction to working with the `slurm` scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is mostly using simulated reads, produced using `InSilicoSeq`[^2] from the *Mycoplasma bovis* 8790 reference genome [NZ_LAUS01000004.1](https://www.ncbi.nlm.nih.gov/nuccore/NZ_LAUS01000004.1). We also make use of publicly available sequencing data from the studies [PRJNA813586](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA813586) and [PRJEB38441](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38441).
+This workshop provides a basic introduction to working with the `slurm` scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is mostly using simulated reads, produced using `InSilicoSeq`[^2] from the *Mycoplasma bovis* 8790 reference genome [NZ_LAUS01000004.1](https://www.ncbi.nlm.nih.gov/nuccore/NZ_LAUS01000004.1). We also make use of publicly available sequencing data from the studies [PRJNA813586](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA813586), [PRJEB38441](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38441), and [PRJEB38523](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38523).
 
 Additional teaching materials were sourced from:
 
