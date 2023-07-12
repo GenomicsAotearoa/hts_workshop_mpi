@@ -14,7 +14,6 @@
 
 * You can view file contents using `less`, `cat`, `head` or `tail`.
 * The commands `cp`, `mv`, and `mkdir` are useful for manipulating existing files and creating new directories.
-* You can view file permissions using `ls -l` and change permissions using `chmod`.
 * The `history` command and the up arrow on your keyboard can be used to repeat recently used commands.
 
 ---
@@ -23,7 +22,6 @@
 
 1. [Viewing the contents of files](#viewing-the-contents-of-files)
 1. [Basic file manipulation](#basic-file-manipulation)
-1. [Setting file permissions](#setting-file-permissions)
 1. [Command history](#command-history)
 
 ---
@@ -197,55 +195,6 @@ $ rm other_backup/SRR097977.fq_bkup
 Boom. It's gone. There is no Recycle Bin on the command line and there is no way to get that file back...
 
 We need to be really careful with the `rm` command and be very sure of which files you are removing. To try and avoid unwanted loss of data, the `rmdir` command only removes empty directories and by default the `rm` command will not delete directories either. At this level, we will not expand upon this further.
-
----
-
-## Setting file permissions
-
-If it's that easy to permanently delete a file, how can be put some checks in place to prevent it from happening accidentally? The answer to this is through file permissions. In your `shell_data/` folder, run the following command:
-
-```bash
-$ ls -l
-```
-
-This should return a view similar to:
-
-```
-drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 backup
-drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 other_backup
--rw-rw-r--+ 1 dwaite comm00008 47552 Jun 25  2021 SRR097977.fastq
--rw-rw-r--+ 1 dwaite comm00008 43332 Jun 25  2021 SRR098026.fastq
-```
-
-What we interested in is the first part of the output, the strings of characters which look like `-rw-rw-r--+`. This represents the current permission state of the file. If we ignore the first and last characters, what we are left with are 9 characters, which represent 3 file permissions for 3 different user groups, like so:
-
-![Permissions breakdown](../img/level1_13_rwx_figure.svg)
-
-We're going to concentrate on the three positions that deal with your permissions (as the file owner), which will have the values `rw-`. This shows that you have permission to read (`r`) the file as well as edit the contents (write, `w`). The third position is set to `-`, indicating that you don't have permission to carry out the ability encoded by that space. This is the space where the ability to execute the file (`x`) is set, we'll talk more about this in a later lesson.
-
-Our goal for now is to change permissions on this file so that you no longer have `w` or write permissions. We can do this using the `chmod` ("change mode") command and subtracting (`-`) the write permission `-w`. 
-
-```bash
-$ chmod -w SRR097977.fastq SRR098026.fastq
-$ ls -l
-```
-
-```
-drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 backup
-drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 other_backup
--r--r--r--+ 1 dwaite comm00008 47552 Jun 25  2021 SRR097977.fastq
--r--r--r--+ 1 dwaite comm00008 43332 Jun 25  2021 SRR098026.fastq
-```
-
-You can see that the write permissions for these files have been removed. For other users, they will be completely unable to remove or modify these files. For you, *as the file owner* it is still possible to delete the file, but you will first get a confirmation asking if we wish to proceed:
-
-```bash
-$ rm SRR098026.fastq
-```
-
-```
-rm: remove write-protected regular file ‘SRR098026.fastq’?
-```
 
 ---
 
