@@ -11,8 +11,8 @@ repo_url: https://github.com/GenomicsAotearoa/hts_workshop_mpi
 
 theme:
   name: material
-  logo: images/nesi_ga.png
-  favicon: images/nesi_ga.png
+  logo: theme_images/mpi_logo.png
+  favicon: theme_images/mpi_logo.png
    # 404 page
   static_templates:
     - 404.html
