@@ -326,7 +326,7 @@ $ nextflow run nextflow_example.nf --input 'other_input_files/*.fq.gz' \
 
 You can open these files in the JupyterHub browser to view, or download the files from the links below to see the outputs:
 
-* [Report output](../../resources/level2_43_nextflow_report.htmll)
+* [Report output](../../resources/level2_43_nextflow_report.html)
 * [Timeline output](../../resources/level2_43_nextflow_timeline.html)
 * [DAG output](../img/level2_43_nextflow_dag.svg)
 

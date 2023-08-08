@@ -4,7 +4,7 @@
 </center>
 
 !!! rectangle-list "Content"
-
+    
     ## Level 1 - Beginner
        1. [Connecting to NeSI](./level1/11_nesi_connection.md)
        1. [Navigation on the command line](./level1/12_shell_navigation.md)
@@ -29,6 +29,7 @@
        1. [Introduction to workflow managers](./level2/41_workflows_introduction.md)
           1. [Building a basic workflow](./level2/42_workflow_starting.md)
           1. [Extending an existing workflow](./level2/43_workflow_extending.md)
+      
     
 
 !!! database "Data used in training"
