@@ -18,7 +18,7 @@
     ## Level 2 - Advanced
        1. [Shell navigation (advanced)](./level2/11_shell_manipulation.md)
        1. [Loops and variables in the command line](./level2/12_shell_variables.md)
-       1. [Redirection in the command line](./level2/13_shell_redirection.mdd)
+       1. [Redirection in the command line](./level2/13_shell_redirection.md)
        1. [*De novo* assembly of sequencing data](./level2/21_assembly_de_novo.md)
        1. [Polishing of genome assemblies](./level2/22_assembly_polishing.md)
        1. [Mapping reads to a reference](./level2/31_coverage_mapping.md)

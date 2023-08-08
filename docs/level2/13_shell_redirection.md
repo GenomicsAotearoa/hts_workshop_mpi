@@ -92,7 +92,7 @@ However, this is not a very useful way of reporting the bad sequences, so you're
 >
 > Search through the `grep` manual to find the commands you will need to extract a complete sequence record from entries in the `SRR098026.fastq` file which match the `${MOTIF}`. Apply these to your `grep` command and verify if your output file is correct or not.
 >
-> *__Hint 1:__ There is a primer on the structure of a `fastq` file available in the course notes [here](../docs/fastq_format.md).*
+> *__Hint 1:__ There is a primer on the structure of a `fastq` file available in the course notes [here](../supplementary/fastq_format.md).*
 >
 > *__Hint 2:__ Remember that you can use the command `man grep` to get the full user manual for the `grep` command.*
 >
