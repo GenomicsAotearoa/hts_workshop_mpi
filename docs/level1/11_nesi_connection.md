@@ -1,7 +1,9 @@
 # Connecting to NeSI
 
-* Teaching: 20 minutes
-* Exercises: 10 minutes
+!!! clock "time"
+
+    * Teaching: 20 minutes
+    * Exercises: 10 minutes
 
 #### Objectives
 

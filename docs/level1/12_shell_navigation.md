@@ -1,7 +1,9 @@
 # Introducing the shell
 
-* Teaching: 40 minutes
-* Exercises: 20 minutes
+!!! clock "time"
+
+    * Teaching: 40 minutes
+    * Exercises: 20 minutes
 
 #### Objectives
 
