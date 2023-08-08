@@ -52,7 +52,8 @@ theme:
     - navigation.footer
     - content.code.copy
     - content.code.annotate
-
+    - navigation.tabs
+    - navigation.tabs.sticky
 
   # Necessary for search to work properly
   include_search_page: false
