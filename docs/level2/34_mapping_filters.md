@@ -1,18 +1,22 @@
 # Mapping Oxford Nanopore sequences to a reference
 
-* Teaching: 20 minutes
-* Exercises: 20 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 20 minutes
+    * Exercises: 20 minutes
 
-* Use `samtools` to sort and compress a raw `sam` file into the `bam` format.
-* Use `samtools` to filter a `bam` file into either the successfully mapped, or unmapped reads.
-* Use `samtools` to recover reads in `fastq` format from a `bam` file.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* Understand the reasons for sorting and compressing files in the `sam` and `bam` formats.
-* Understand the situations in which you may wish to filtering a `sam`/`bam` file and what the downstream applications of the output would be.
+    #### Objectives
+    
+    * Use `samtools` to sort and compress a raw `sam` file into the `bam` format.
+    * Use `samtools` to filter a `bam` file into either the successfully mapped, or unmapped reads.
+    * Use `samtools` to recover reads in `fastq` format from a `bam` file.
+    
+    #### Keypoints
+    
+    * Understand the reasons for sorting and compressing files in the `sam` and `bam` formats.
+    * Understand the situations in which you may wish to filtering a `sam`/`bam` file and what the downstream applications of the output would be.
 
 ---
 

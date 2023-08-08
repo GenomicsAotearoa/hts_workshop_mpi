@@ -1,17 +1,20 @@
 # Polishing of Oxford Nanopore assemblies
 
-* Teaching: 20 minutes
-* Exercises: 40 minutes
+!!! clock "time"
 
-#### Objectives
-
-* Use `racon` and `medaka` to polish an assembly
-* Compare the outputs of several assemblies using `QUAST`
-
-#### Keypoints
-
-* Rounds of refinement are sometimes required to reduce error and can improve the initial assembly
-* Sometimes the above sentence does not apply and polishing does not really improve the assembly. The only way to know is trying!
+    * Teaching: 20 minutes
+    * Exercises: 40 minutes
+    
+!!! circle-info "Objectives and Key points"
+    #### Objectives
+    
+    * Use `racon` and `medaka` to polish an assembly
+    * Compare the outputs of several assemblies using `QUAST`
+    
+    #### Keypoints
+    
+    * Rounds of refinement are sometimes required to reduce error and can improve the initial assembly
+    * Sometimes the above sentence does not apply and polishing does not really improve the assembly. The only way to know is trying!
 
 ---
 

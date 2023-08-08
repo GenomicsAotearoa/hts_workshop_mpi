@@ -1,17 +1,21 @@
 # Introduction to the Nextflow system
 
-* Teaching: 60 minutes
-* Exercises: 60 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 60 minutes
+    * Exercises: 60 minutes
 
-* Build a small workflow in `Nextflow` to map sequences to a reference and produce a mapping summary.
-* Know how to organise subunits of work into process blocks and how to link these using the `workflow{}` statement.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* A complex workflow is built from smaller sub-units of work, which are executed sequentially to produce a final outcome.
-* The main sections of a `Nextflow` file are the `process{}` statements and the `workflow{}` block which governs the flow of data between the processes.
+    #### Objectives
+    
+    * Build a small workflow in `Nextflow` to map sequences to a reference and produce a mapping summary.
+    * Know how to organise subunits of work into process blocks and how to link these using the `workflow{}` statement.
+    
+    #### Keypoints
+    
+    * A complex workflow is built from smaller sub-units of work, which are executed sequentially to produce a final outcome.
+    * The main sections of a `Nextflow` file are the `process{}` statements and the `workflow{}` block which governs the flow of data between the processes.
 
 ---
 

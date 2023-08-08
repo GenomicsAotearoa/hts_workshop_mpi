@@ -1,16 +1,20 @@
 # Mapping Illumina sequences to a reference
 
-* Teaching: 10 minutes
-* Exercises: 20 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 10 minutes
+    * Exercises: 20 minutes
 
-* Use `bowtie2` to index a reference genome and map DNA paired-end reads against a reference genome.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* Understand how to index a reference sequence for mapping.
-* Understand how to apply `bowtie2` to map a set of DNA paired-end reads to the reference.
+    #### Objectives
+    
+    * Use `bowtie2` to index a reference genome and map DNA paired-end reads against a reference genome.
+    
+    #### Keypoints
+    
+    * Understand how to index a reference sequence for mapping.
+    * Understand how to apply `bowtie2` to map a set of DNA paired-end reads to the reference.
 
 ---
 

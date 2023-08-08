@@ -1,16 +1,20 @@
 # Mapping Oxford Nanopore sequences to a reference
 
-* Teaching: 10 minutes
-* Exercises: 20 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 10 minutes
+    * Exercises: 20 minutes
 
-* Use `minimap2` to index a reference genome and map long-read data produced with Oxford Nanopore sequencing technology to a reference genome.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* Understand how to index a reference sequence for mapping with `minimap2`, and know when you may need to perform this step.
-* Understand how to apply `minimap2` to map a set of DNA paired-end reads to the reference.
+    #### Objectives
+    
+    * Use `minimap2` to index a reference genome and map long-read data produced with Oxford Nanopore sequencing technology to a reference genome.
+    
+    #### Keypoints
+    
+    * Understand how to index a reference sequence for mapping with `minimap2`, and know when you may need to perform this step.
+    * Understand how to apply `minimap2` to map a set of DNA paired-end reads to the reference.
 
 ---
 

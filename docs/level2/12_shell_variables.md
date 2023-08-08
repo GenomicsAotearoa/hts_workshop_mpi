@@ -1,17 +1,21 @@
 # Working with variables and loops
 
-* Teaching: 30 minutes
-* Exercises: 30 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 30 minutes
+    * Exercises: 30 minutes
 
-* Understand how to declare and print variables in the `bash` environment.
-* Create a simple loop that performs an operation on a set of files or variables.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* Variables are used when we require the computer to temporarily store a piece of information, particularly in the value of the information can change over time.
-* `for` loops can be used to automatically repeat a command, or set of commands, over a set of input values or files.
+    #### Objectives
+    
+    * Understand how to declare and print variables in the `bash` environment.
+    * Create a simple loop that performs an operation on a set of files or variables.
+    
+    #### Keypoints
+    
+    * Variables are used when we require the computer to temporarily store a piece of information, particularly in the value of the information can change over time.
+    * `for` loops can be used to automatically repeat a command, or set of commands, over a set of input values or files.
 
 ---
 

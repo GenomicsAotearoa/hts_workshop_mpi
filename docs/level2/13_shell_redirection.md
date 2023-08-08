@@ -1,20 +1,24 @@
 # Working with redirection
 
-* Teaching: 30 minutes
-* Exercises: 30 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 30 minutes
+    * Exercises: 30 minutes
 
-* Understand the basic idea or shell redirection and what can be done with it.
-* Understand the differences between redirecting to a file and another command.
-* Know that different command line tools can be linked together to produce complex operations.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* When a command on the shell is printing information to the terminal, we can capture and redirect that information to a new location or into a new command.
-* When redirecting to a file, we can create a new file, overwrite an existing file, or append to an existing file.
-* Each channel can be independently captured and directed to a new location. SUch locations include:
-
+    #### Objectives
+    
+    * Understand the basic idea or shell redirection and what can be done with it.
+    * Understand the differences between redirecting to a file and another command.
+    * Know that different command line tools can be linked together to produce complex operations.
+    
+    #### Keypoints
+    
+    * When a command on the shell is printing information to the terminal, we can capture and redirect that information to a new location or into a new command.
+    * When redirecting to a file, we can create a new file, overwrite an existing file, or append to an existing file.
+    * Each channel can be independently captured and directed to a new location. SUch locations include:
+    
 ---
 
 ## Contents

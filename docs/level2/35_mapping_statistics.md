@@ -1,18 +1,22 @@
 # Summarising coverage information from a mapping file
 
-* Teaching: 20 minutes
-* Exercises: 20 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 20 minutes
+    * Exercises: 20 minutes
 
-* Use `samtools flagstat` to get an overview of a `bam` file content.
-* Use `samtools depth` to produce a coverage table from the complete `bam` record.
-* Use `samtools depth` to produce a coverage table from a subsection of a complete `bam` record.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* Understand the reasons for summarising a `bam` file without digging into the contents in detail.
-* Understand the situations in which you might require the coverage information, either in its entirity or for a specific genomic region.
+    #### Objectives
+    
+    * Use `samtools flagstat` to get an overview of a `bam` file content.
+    * Use `samtools depth` to produce a coverage table from the complete `bam` record.
+    * Use `samtools depth` to produce a coverage table from a subsection of a complete `bam` record.
+    
+    #### Keypoints
+    
+    * Understand the reasons for summarising a `bam` file without digging into the contents in detail.
+    * Understand the situations in which you might require the coverage information, either in its entirity or for a specific genomic region.
 
 ---
 

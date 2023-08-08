@@ -1,20 +1,24 @@
 # Manipulating files in the shell
 
-* Teaching: 30 minutes
-* Exercises: 30 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 30 minutes
+    * Exercises: 30 minutes
+    
+!!! circle-info "Objectives and Key points"
 
-* Search the contents of basic text files for specific strings.
-* Copy and remove directories, create tarballs and compress files.
-
-#### Keypoints
-
-* You can view search file contents within a `less` instance, or using the `grep` command.
-* The commands `cp` and `rm` can be applied to directories, with the correct parameters.
-* You can stitch multiple files together using the `tar` command. This is useful when you have to upload or download a lot of files in a single command.
-* You can compress files using the `gzip` and `zip` commands, and decompress them using the `gunzip` and `unzip` commands.
-* You can view file permissions using `ls -l` and change permissions using `chmod`.
+    #### Objectives
+    
+    * Search the contents of basic text files for specific strings.
+    * Copy and remove directories, create tarballs and compress files.
+    
+    #### Keypoints
+    
+    * You can view search file contents within a `less` instance, or using the `grep` command.
+    * The commands `cp` and `rm` can be applied to directories, with the correct parameters.
+    * You can stitch multiple files together using the `tar` command. This is useful when you have to upload or download a lot of files in a single command.
+    * You can compress files using the `gzip` and `zip` commands, and decompress them using the `gunzip` and `unzip` commands.
+    * You can view file permissions using `ls -l` and change permissions using `chmod`.
 
 ---
 

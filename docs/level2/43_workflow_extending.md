@@ -1,19 +1,23 @@
 # Extending upon the Nextflow system
 
-* Teaching: 60 minutes
-* Exercises: 60 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 60 minutes
+    * Exercises: 60 minutes
 
-* Extend our basic workflow to be more self-sufficient and flexible for future use.
-* Explore alternative options for orchestrating the individual processes within the `workflow{}` block.
-* Know how to produce run reports when a `Nextflow` workflow is executed.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* `Nextflow` scripts can be modified in many ways to make them more portable, or flexible to different input cases.
-* There are a number of built in reporting tools to evaluate the performance and coverage of individual `Nextflow` runs.
-
+    #### Objectives
+    
+    * Extend our basic workflow to be more self-sufficient and flexible for future use.
+    * Explore alternative options for orchestrating the individual processes within the `workflow{}` block.
+    * Know how to produce run reports when a `Nextflow` workflow is executed.
+    
+    #### Keypoints
+    
+    * `Nextflow` scripts can be modified in many ways to make them more portable, or flexible to different input cases.
+    * There are a number of built in reporting tools to evaluate the performance and coverage of individual `Nextflow` runs.
+    
 ---
 
 ## Contents

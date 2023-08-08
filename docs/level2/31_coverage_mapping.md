@@ -1,20 +1,24 @@
 # Overview of mapping sequences to a reference genome
 
-* Teaching: 30 minutes
+!!! clock "time"
 
-#### Objectives
+    * Teaching: 30 minutes
 
-* Understand the fundamental process of mapping reads to a reference sequence.
-* Understand the output files from mapping tools.
-* Learn how to import mapping results into GUI programs such as `Geneious` for further analysis.
+!!! circle-info "Objectives and Key points"
 
-#### Keypoints
-
-* Reads can be mapped to any reference sequence, for example whole genomes or individual genes, to generate a consensus sequence or view the coverage in particular regions.
-* Mapping alignments are stored in the `sam` format.
-* Different mapping tools work in different ways and make different assumptions when working with your data.
-  * Sometimes, a given tool will work better with a given dataset.
-  * It is recommended to try a few tools when working with new datasets to see which one produces better results.
+    #### Objectives
+    
+    * Understand the fundamental process of mapping reads to a reference sequence.
+    * Understand the output files from mapping tools.
+    * Learn how to import mapping results into GUI programs such as `Geneious` for further analysis.
+    
+    #### Keypoints
+    
+    * Reads can be mapped to any reference sequence, for example whole genomes or individual genes, to generate a consensus sequence or view the coverage in particular regions.
+    * Mapping alignments are stored in the `sam` format.
+    * Different mapping tools work in different ways and make different assumptions when working with your data.
+      * Sometimes, a given tool will work better with a given dataset.
+      * It is recommended to try a few tools when working with new datasets to see which one produces better results.
 
 ---
 
