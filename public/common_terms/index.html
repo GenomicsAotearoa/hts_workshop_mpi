@@ -1,0 +1,925 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="MPI, Genomics Aotearoa &amp; NeSI" name="author"/>
+<link href="https://genomicsaotearoa.github.io/hts_workshop_mpi/common_terms/" rel="canonical"/>
+<link href=".." rel="prev"/>
+<link href="../fastq_format/" rel="next"/>
+<link href="../theme_images/mpi_logo.png" rel="icon"/>
+<meta content="mkdocs-1.4.3, mkdocs-material-9.1.15" name="generator"/>
+<title>Common terms - High Throughput Sequencing</title>
+<link href="../assets/stylesheets/main.26e3688c.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.ecc896b0.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+<link href="../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            
+                .gscrollbar-fixer { padding-right: 15px; }
+                .gdesc-inner { font-size: 0.75rem; }
+                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+                </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body data-md-color-accent="indigo" data-md-color-primary="custom" data-md-color-scheme="default" dir="ltr">
+<script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#glossary">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="High Throughput Sequencing" class="md-header__button md-logo" data-md-component="logo" href=".." title="High Throughput Sequencing">
+<img alt="logo" src="../theme_images/mpi_logo.png"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            High Throughput Sequencing
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Common terms
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme)" data-md-color-primary="custom" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_3" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="custom" data-md-color-scheme="default" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+</label>
+<input aria-label="Switch to system preference" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="custom" data-md-color-scheme="slate" id="__palette_3" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to system preference">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+</label>
+</form>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="High Throughput Sequencing" class="md-nav__button md-logo" data-md-component="logo" href=".." title="High Throughput Sequencing">
+<img alt="logo" src="../theme_images/mpi_logo.png"/>
+</a>
+    High Throughput Sequencing
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+        Home
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          Common terms
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+        Common terms
+      </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#glossary">
+    Glossary
+  </a>
+<nav aria-label="Glossary" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#absolute-path">
+    Absolute path
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#argument">
+    Argument
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-shell">
+    Command shell
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-line-interface">
+    Command-line interface
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#comment">
+    Comment
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#current-working-directory">
+    Current working directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-system">
+    File system
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#filename-extension">
+    Filename extension
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#filter">
+    Filter
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flag">
+    Flag
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-loop">
+    For loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#graphical-user-interface">
+    Graphical user interface
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#home-directory">
+    Home directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#loop">
+    Loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#loop-body">
+    Loop body
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mime-type">
+    MIME type
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#operating-system">
+    Operating system
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#parameter">
+    Parameter
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#parent-directory">
+    Parent directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#path">
+    Path
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipe">
+    Pipe
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#process">
+    Process
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#prompt">
+    Prompt
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quoting">
+    Quoting
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#read-evaluate-print-loop">
+    Read-evaluate-print loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#redirect">
+    Redirect
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#regular-expression">
+    Regular expression
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#relative-path">
+    Relative path
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#root-directory">
+    Root directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#shell">
+    Shell
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#shell-script">
+    Shell script
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#standard-input">
+    Standard input
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#standard-output">
+    Standard output
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sub-directory">
+    Sub-directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tab-completion">
+    Tab completion
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#variable">
+    Variable
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#while-loop">
+    While loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#wildcard">
+    Wildcard
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#external-references">
+    External references
+  </a>
+<nav aria-label="External references" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#opening-a-terminal">
+    Opening a terminal
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#manuals">
+    Manuals
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fastq-files">
+    FASTQ files
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../fastq_format/">
+        The FASTQ file format
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../slurm_module_guide/">
+        Slurm module guide
+      </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#glossary">
+    Glossary
+  </a>
+<nav aria-label="Glossary" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#absolute-path">
+    Absolute path
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#argument">
+    Argument
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-shell">
+    Command shell
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-line-interface">
+    Command-line interface
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#comment">
+    Comment
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#current-working-directory">
+    Current working directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-system">
+    File system
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#filename-extension">
+    Filename extension
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#filter">
+    Filter
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#flag">
+    Flag
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-loop">
+    For loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#graphical-user-interface">
+    Graphical user interface
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#home-directory">
+    Home directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#loop">
+    Loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#loop-body">
+    Loop body
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mime-type">
+    MIME type
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#operating-system">
+    Operating system
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#parameter">
+    Parameter
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#parent-directory">
+    Parent directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#path">
+    Path
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pipe">
+    Pipe
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#process">
+    Process
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#prompt">
+    Prompt
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quoting">
+    Quoting
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#read-evaluate-print-loop">
+    Read-evaluate-print loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#redirect">
+    Redirect
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#regular-expression">
+    Regular expression
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#relative-path">
+    Relative path
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#root-directory">
+    Root directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#shell">
+    Shell
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#shell-script">
+    Shell script
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#standard-input">
+    Standard input
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#standard-output">
+    Standard output
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sub-directory">
+    Sub-directory
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tab-completion">
+    Tab completion
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#variable">
+    Variable
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#while-loop">
+    While loop
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#wildcard">
+    Wildcard
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#external-references">
+    External references
+  </a>
+<nav aria-label="External references" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#opening-a-terminal">
+    Opening a terminal
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#manuals">
+    Manuals
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fastq-files">
+    FASTQ files
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1>Common terms</h1>
+<h2 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">¶</a></h2>
+<h4 id="absolute-path">Absolute path<a class="headerlink" href="#absolute-path" title="Permanent link">¶</a></h4>
+<ul>
+<li>A <a href="#path">path</a> that refers to a particular location in a file system.</li>
+<li>Absolute paths are usually written with respect to the file system's <a href="#root-directory">root directory</a>, and begin with <code>/</code> (<code>\\</code> on Microsoft Windows).</li>
+<li><em>See also: <a href="#relative-path">relative path</a></em></li>
+</ul>
+<h4 id="argument">Argument<a class="headerlink" href="#argument" title="Permanent link">¶</a></h4>
+<ul>
+<li>A value given to a function or program when it runs.</li>
+<li>The term is often used interchangeably (and inconsistently) with <a href="#parameter">parameter</a>.</li>
+</ul>
+<h4 id="command-shell">Command shell<a class="headerlink" href="#command-shell" title="Permanent link">¶</a></h4>
+<ul>
+<li>See <a href="#shell">shell</a></li>
+</ul>
+<h4 id="command-line-interface">Command-line interface<a class="headerlink" href="#command-line-interface" title="Permanent link">¶</a></h4>
+<ul>
+<li>A user interface based on typing commands, usually at a <a href="#read-evaluate-print-loop">REPL</a>.</li>
+<li><em>See also: <a href="#graphical-user-interface">graphical user interface</a></em></li>
+</ul>
+<h4 id="comment">Comment<a class="headerlink" href="#comment" title="Permanent link">¶</a></h4>
+<ul>
+<li>A remark in a program that is intended to help human readers understand what is going on, but is ignored by the computer.</li>
+<li>Comments in <code>Python</code>, <code>R</code>, and the Unix shell start with a <code>#</code> character and run to the end of the line, other languages have other conventions.</li>
+</ul>
+<h4 id="current-working-directory">Current working directory<a class="headerlink" href="#current-working-directory" title="Permanent link">¶</a></h4>
+<ul>
+<li>The directory that <a href="#relative-path">relative paths</a> are calculated from.</li>
+<li>Equivalently, the place where files referenced by name only are searched for.</li>
+<li>Every <a href="#process">process</a> has a current working directory.</li>
+<li>The current working directory is usually referred to using the shorthand notation <code>.</code> (pronounced "dot").</li>
+</ul>
+<h4 id="file-system">File system<a class="headerlink" href="#file-system" title="Permanent link">¶</a></h4>
+<ul>
+<li>A set of files, directories, and I/O devices (such as keyboards and screens).</li>
+<li>A file system may be spread across many physical devices, or many file systems may be stored on a single physical device; the <a href="#operating-system">operating system</a> manages access.</li>
+</ul>
+<h4 id="filename-extension">Filename extension<a class="headerlink" href="#filename-extension" title="Permanent link">¶</a></h4>
+<ul>
+<li>The portion of a file's name that comes after the final "." character.</li>
+<li>By convention this identifies the file's type.</li>
+<li>For example, <code>.txt</code> means "text file", <code>.png</code> means "Portable Network Graphics file"</li>
+<li>These conventions are not enforced by most operating systems and it is perfectly possible (but confusing!) to name an MP3 sound file <code>homepage.html</code>.</li>
+<li>Many applications use filename extensions to identify the <a href="#mime-type">MIME type</a> of the file, so misnaming files may cause those applications to fail.</li>
+</ul>
+<h4 id="filter">Filter<a class="headerlink" href="#filter" title="Permanent link">¶</a></h4>
+<ul>
+<li>A program that transforms a stream of data.</li>
+<li>Many Unix command-line tools are written as filters - they read data from <a href="#standard-input">standard input</a>, process it, and write the result to <a href="#standard-output">standard output</a>.</li>
+</ul>
+<h4 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">¶</a></h4>
+<ul>
+<li>A terse way to specify an option or setting to a command-line program.</li>
+<li>Conventions for flags vary between operating systems.</li>
+<li>Unix applications use a dash followed by a single letter, such as <code>-v</code>, or two dashes followed by a word, such as <code>--verbose</code>.</li>
+<li>DOS applications use a slash, such as <code>/V</code>.</li>
+<li>Depending on the application, a flag may be followed by a single argument, as in <code>-o /tmp/output.txt</code>.</li>
+</ul>
+<h4 id="for-loop">For loop<a class="headerlink" href="#for-loop" title="Permanent link">¶</a></h4>
+<ul>
+<li>A loop that is executed once for each value in some kind of set, list, or range.</li>
+<li><em>See also: <a href="#loop">loop</a>, <a href="#while-loop">while loop</a></em></li>
+</ul>
+<h4 id="graphical-user-interface">Graphical user interface<a class="headerlink" href="#graphical-user-interface" title="Permanent link">¶</a></h4>
+<ul>
+<li>A user interface based on selecting items and actions from a graphical display, usually controlled by using a mouse.</li>
+<li><em>See also: <a href="#command-line-interface">command-line interface</a></em></li>
+</ul>
+<h4 id="home-directory">Home directory<a class="headerlink" href="#home-directory" title="Permanent link">¶</a></h4>
+<ul>
+<li>The default directory associated with an account on a computer system.</li>
+<li>By convention, all of a user's files are stored in or below her home directory.</li>
+</ul>
+<h4 id="loop">Loop<a class="headerlink" href="#loop" title="Permanent link">¶</a></h4>
+<ul>
+<li>A set of instructions to be executed multiple times. Consists of a <a href="#loop-body">loop body</a> and (usually) a condition for exiting the loop.</li>
+<li><em>See also <a href="#for-loop">for loop</a> and <a href="#while-loop">while loop</a></em></li>
+</ul>
+<h4 id="loop-body">Loop body<a class="headerlink" href="#loop-body" title="Permanent link">¶</a></h4>
+<ul>
+<li>The set of statements or commands that are repeated inside a <a href="#for-loop">for loop</a> or <a href="#while-loop">while loop</a>.</li>
+</ul>
+<h4 id="mime-type">MIME type<a class="headerlink" href="#mime-type" title="Permanent link">¶</a></h4>
+<p>*MIME (Multi-Purpose Internet Mail Extensions) types describe different file types for exchange on the Internet, for example images, audio, and documents.</p>
+<h4 id="operating-system">Operating system<a class="headerlink" href="#operating-system" title="Permanent link">¶</a></h4>
+<ul>
+<li>Software that manages interactions between users, hardware, and software <a href="#process">processes</a>. Common examples are Linux, OS X, and Windows.</li>
+</ul>
+<h4 id="parameter">Parameter<a class="headerlink" href="#parameter" title="Permanent link">¶</a></h4>
+<ul>
+<li>A variable named in a function's declaration that is used to hold a value passed into the call.</li>
+<li>The term is often used interchangeably (and inconsistently) with <a href="#argument">argument</a>.</li>
+</ul>
+<h4 id="parent-directory">Parent directory<a class="headerlink" href="#parent-directory" title="Permanent link">¶</a></h4>
+<ul>
+<li>The directory that "contains" the one in question.</li>
+<li>Every directory in a file system except the <a href="#root-directory">root directory</a> has a parent.</li>
+<li>A directory's parent is usually referred to using the shorthand notation <code>..</code> (pronounced "dot dot").</li>
+</ul>
+<h4 id="path">Path<a class="headerlink" href="#path" title="Permanent link">¶</a></h4>
+<ul>
+<li>A description that specifies the location of a file or directory within a <a href="#file-system">file system</a>.</li>
+<li><em>See also: <a href="#absolute-path">absolute path</a>, <a href="#relative-path">relative path</a></em></li>
+</ul>
+<h4 id="pipe">Pipe<a class="headerlink" href="#pipe" title="Permanent link">¶</a></h4>
+<ul>
+<li>A connection from the output of one program to the input of another.</li>
+<li>When two or more programs are connected in this way, they are called a "pipeline".</li>
+</ul>
+<h4 id="process">Process<a class="headerlink" href="#process" title="Permanent link">¶</a></h4>
+<ul>
+<li>A running instance of a program, containing code, variable values, open files and network connections, and so on.</li>
+<li>Processes are the "actors" that the <a href="#operating-system">operating system</a> manages.</li>
+<li>The <a href="#operating-system">operating system</a> typically runs many process at once, allowing each to run for a few milliseconds at a time to give the impression that they are executing simultaneously.</li>
+</ul>
+<h4 id="prompt">Prompt<a class="headerlink" href="#prompt" title="Permanent link">¶</a></h4>
+<ul>
+<li>A character or characters display by a <a href="#read-evaluate-print-loop">REPL</a> to show that it is waiting for its next command.</li>
+</ul>
+<h4 id="quoting">Quoting<a class="headerlink" href="#quoting" title="Permanent link">¶</a></h4>
+<ul>
+<li>Using quotation marks of various kinds to prevent the shell from interpreting special characters.</li>
+<li>For example, to pass the string <code>*.txt</code> to a program, it is usually necessary to write it as <code>'*.txt'</code> so that the shell will not try to expand the <code>*</code> wildcard.</li>
+</ul>
+<h4 id="read-evaluate-print-loop">Read-evaluate-print loop<a class="headerlink" href="#read-evaluate-print-loop" title="Permanent link">¶</a></h4>
+<ul>
+<li>(REPL): A <a href="#command-line-interface">command-line interface</a> that reads a command from the user, executes it, prints the result, and waits for another command.</li>
+</ul>
+<h4 id="redirect">Redirect<a class="headerlink" href="#redirect" title="Permanent link">¶</a></h4>
+<ul>
+<li>To send a command's output to a file rather than to the screen or another command, or equivalently to read a command's input from a file.</li>
+</ul>
+<h4 id="regular-expression">Regular expression<a class="headerlink" href="#regular-expression" title="Permanent link">¶</a></h4>
+<ul>
+<li>A pattern that specifies a set of character strings.</li>
+<li>REs are most often used to find sequences of characters in strings.</li>
+</ul>
+<h4 id="relative-path">Relative path<a class="headerlink" href="#relative-path" title="Permanent link">¶</a></h4>
+<ul>
+<li>A <a href="#path">path</a> that specifies the location of a file or directory with respect to the <a href="#current-working-directory">current working directory</a>.</li>
+<li>Any path that does not begin with a separator character (<code>/</code> or <code>\\</code>) is a relative path.</li>
+<li><em>See also: <a href="#absolute-path">absolute path</a></em></li>
+</ul>
+<h4 id="root-directory">Root directory<a class="headerlink" href="#root-directory" title="Permanent link">¶</a></h4>
+<ul>
+<li>The top-most directory in a <a href="#file-system">file system</a>.</li>
+<li>Its name is <code>/</code> on Unix (including Linux and Mac OS X) and <code>\\</code> on Microsoft Windows.</li>
+</ul>
+<h4 id="shell">Shell<a class="headerlink" href="#shell" title="Permanent link">¶</a></h4>
+<ul>
+<li>A <a href="#command-line interface">command-line interface</a> such as Bash (the Bourne-Again Shell) or the Microsoft Windows DOS shell that allows a user to interact with the <a href="#operating-system">operating system</a>.</li>
+</ul>
+<h4 id="shell-script">Shell script<a class="headerlink" href="#shell-script" title="Permanent link">¶</a></h4>
+<ul>
+<li>A set of <a href="#shell">shell</a> commands stored in a file for re-use.</li>
+<li>A shell script is a program executed by the shell; the name "script" is used for historical reasons.</li>
+</ul>
+<h4 id="standard-input">Standard input<a class="headerlink" href="#standard-input" title="Permanent link">¶</a></h4>
+<ul>
+<li>A process's default input stream.</li>
+<li>In interactive command-line applications, it is typically connected to the keyboard.</li>
+<li>In a <a href="#pipe">pipe</a>, it receives data from the <a href="#standard-output">standard output</a> of the preceding process.</li>
+</ul>
+<h4 id="standard-output">Standard output<a class="headerlink" href="#standard-output" title="Permanent link">¶</a></h4>
+<ul>
+<li>A process's default output stream.</li>
+<li>In interactive command-line applications, data sent to standard output is displayed on the screen.</li>
+<li>In a <a href="#pipe">pipe</a>, it is passed to the <a href="#standard-input">standard input</a> of the next process.</li>
+</ul>
+<h4 id="sub-directory">Sub-directory<a class="headerlink" href="#sub-directory" title="Permanent link">¶</a></h4>
+<ul>
+<li>A directory contained within another directory.</li>
+</ul>
+<h4 id="tab-completion">Tab completion<a class="headerlink" href="#tab-completion" title="Permanent link">¶</a></h4>
+<ul>
+<li>A feature provided by many interactive systems in which pressing the Tab key triggers automatic completion of the current word or command.</li>
+</ul>
+<h4 id="variable">Variable<a class="headerlink" href="#variable" title="Permanent link">¶</a></h4>
+<ul>
+<li>A name in a program that is associated with a value or a collection of values.</li>
+</ul>
+<h4 id="while-loop">While loop<a class="headerlink" href="#while-loop" title="Permanent link">¶</a></h4>
+<ul>
+<li>A loop that keeps executing as long as some condition is true.</li>
+<li><em>See also: <a href="#loop">loop</a>, <a href="#for-loop">for loop</a></em></li>
+</ul>
+<h4 id="wildcard">Wildcard<a class="headerlink" href="#wildcard" title="Permanent link">¶</a></h4>
+<ul>
+<li>A character used in pattern matching.</li>
+<li>In the Unix shell, the wildcard <code>*</code> matches zero or more characters, so that <code>*.txt</code> matches all files whose names end in <code>.txt</code>.</li>
+</ul>
+<hr/>
+<h2 id="external-references">External references<a class="headerlink" href="#external-references" title="Permanent link">¶</a></h2>
+<h3 id="opening-a-terminal">Opening a terminal<a class="headerlink" href="#opening-a-terminal" title="Permanent link">¶</a></h3>
+<ul>
+<li><a href="http://faculty.smu.edu/reynolds/unixtut/windows.html">Using a UNIX/Linux emulator (Cygwin) or Secure Shell (SSH) client (Putty)</a></li>
+<li><a href="http://www.biorxiv.org/content/early/2017/04/07/122424.full.pdf+html">Addressing the digital divide in contemporary biology: Lessons from teaching UNIX</a></li>
+<li><a href="https://files.fosswire.com/2007/08/fwunixref.pdf">Unix cheat sheet</a></li>
+</ul>
+<h3 id="manuals">Manuals<a class="headerlink" href="#manuals" title="Permanent link">¶</a></h3>
+<ul>
+<li><a href="https://www.gnu.org/software/bash/manual/html_node/index.html">GNU BASH reference</a></li>
+<li><a href="http://www.gnu.org/manual/manual.html">GNU manual</a></li>
+<li><a href="http://www.gnu.org/software/coreutils/manual/coreutils.html">Core GNU utilities</a></li>
+</ul>
+<h3 id="fastq-files">FASTQ files<a class="headerlink" href="#fastq-files" title="Permanent link">¶</a></h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Phred_quality_score">Phred quality score</a></li>
+<li><a href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ format</a></li>
+</ul>
+</article>
+</div>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Back to top
+          </button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Home" class="md-footer__link md-footer__link--prev" href=".." rel="prev">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Home
+              </div>
+</div>
+</a>
+<a aria-label="Next: The FASTQ file format" class="md-footer__link md-footer__link--next" href="../fastq_format/" rel="next">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                The FASTQ file format
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Intermediate Shell for Bioinformatics workshop material is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" rel="noopener" target="_blank">GNU General Public License v3.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../assets/javascripts/bundle.b4d07000.min.js"></script>
+<script src="../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
