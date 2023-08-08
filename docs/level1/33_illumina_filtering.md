@@ -1,7 +1,9 @@
 # Filtering and trimming Illumina data
 
-* Teaching: 30 minutes
-* Exercises: 15 minutes
+!!! clock "time"
+
+    * Teaching: 30 minutes
+    * Exercises: 15 minutes
 
 #### Objectives
 

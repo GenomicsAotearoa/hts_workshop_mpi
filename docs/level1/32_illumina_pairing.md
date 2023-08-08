@@ -1,6 +1,8 @@
 # Key points before filtering and trimming Illumina data
 
-* Teaching: 30 minutes
+!!! clock "time"
+
+    * Teaching: 30 minutes
 
 #### Objectives
 

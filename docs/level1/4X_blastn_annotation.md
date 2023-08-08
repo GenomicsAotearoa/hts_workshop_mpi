@@ -1,7 +1,9 @@
 # Annotation of sequences
 
-* Teaching: 30 minutes
-* Exercises: 30 minutes
+!!! clock "time"
+
+    * Teaching: 30 minutes
+    * Exercises: 30 minutes
 
 #### Objectives
 

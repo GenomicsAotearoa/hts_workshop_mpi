@@ -1,7 +1,9 @@
 # Manipulating files in the shell
 
-* Teaching: 30 minutes
-* Exercises: 30 minutes
+!!! clock "time"
+
+    * Teaching: 30 minutes
+    * Exercises: 30 minutes
 
 #### Objectives
 

@@ -1,7 +1,8 @@
 # Assesing sequence quality of Illumina data
 
-* Teaching: 45 minutes
-* Exercises: 15 minutes
+!!! clock "time"
+    * Teaching: 45 minutes
+    * Exercises: 15 minutes
 
 #### Objectives
 
