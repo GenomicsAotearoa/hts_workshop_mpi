@@ -30,3 +30,25 @@
           1. [Building a basic workflow](./level2/42_workflow_starting.md)
           1. [Extending an existing workflow](./level2/43_workflow_extending.md)
     
+
+!!! database "Data used in training"
+    This workshop provides a basic introduction to working with the slurm scheduling system, and begins working with Illumina MiSeq and Oxford Nanopore Technology sequence data. The data used in this workshop is mostly using simulated reads, produced using InSilicoSeq[^2] from the Mycoplasma bovis 8790 reference genome NZ_LAUS01000004.1. We also make use of publicly available sequencing data from the studies PRJNA813586, PRJEB38441, and PRJEB38523.
+
+    Additional teaching materials were sourced from:
+
+    - Genomics Aoteoroa Metagenomic Summer School workshop2.
+    - Long-Read, long reach Bioinformatics Tutorial3.
+    - Galaxy Training! seuqence analysis resources4.
+
+!!! book-atlas "Citations"
+
+     1. Erin Alison Becker, Anita Schürch, Tracy Teal, Sheldon John McKay, Jessica Elizabeth Mizzi, François Michonneau, *et al.* (2019, June). datacarpentry/shell-genomics: Data Carpentry: Introduction to the shell for genomics data, June 2019 (Version v2019.06.1). Zenodo. [http://doi.org/10.5281/zenodo.3260560](http://doi.org/10.5281/zenodo.3260560).
+     
+     2. Hadrien Gourlé, Oskar Karlsson-Lindsjö, Juliette Hayer, Erik Bongcam-Rudloff (2019). Simulating Illumina metagenomic data with InSilicoSeq. Bioinformatics 35(3), 521-522.
+     
+     3. Jian Sheng Boey, Dinindu Senanayake, Michael Hoggard *et al.* (2022). Metagenomics Summer School [https://github.com/GenomicsAotearoa/metagenomics_summer_school](https://github.com/GenomicsAotearoa/metagenomics_summer_school).
+     
+     4. Tim Kahlke (2021). Long-Read Data Analysis [https://timkahlke.github.io/LongRead_tutorials/](https://timkahlke.github.io/LongRead_tutorials/).
+     
+     5. Joachim Wolff, Bérénice Batut, Helena Rasche (2023). Sequence Analysis (revision 96e01807afff10d6060ac0691d004f0469676534). [https://training.galaxyproject.org/training-material/topics/sequence-analysis/](https://training.galaxyproject.org/training-material/topics/sequence-analysis/).
+     
