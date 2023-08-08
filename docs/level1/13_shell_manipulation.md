@@ -122,7 +122,7 @@ $ tail -n1 SRR098026.fastq
 A!@B!BBB@ABAB#########!!!!!!!######
 ```
 
->If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../docs/fastq_format.md)
+>If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../supplementary/fastq_format.md)
 
 ---
 
