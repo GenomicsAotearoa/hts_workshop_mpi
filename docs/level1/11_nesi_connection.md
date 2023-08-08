@@ -5,14 +5,15 @@
     * Teaching: 20 minutes
     * Exercises: 10 minutes
 
-#### Objectives
-
-* Understand how to connect to NeSI using the JupyterHub web portal.
-
-#### Key points
-
-* You can connect to NeSI from any computer with internet access using the [NeSI JupyterHub portal](https://jupyter.nesi.org.nz/).
-* This allocates a small server instance from which you can perform simple operations, or prepare larger analysis scripts for deployment.
+!!! circle-info "Objectives and Key points"
+    #### Objectives
+    
+    * Understand how to connect to NeSI using the JupyterHub web portal.
+    
+    #### Key points
+    
+    * You can connect to NeSI from any computer with internet access using the [NeSI JupyterHub portal](https://jupyter.nesi.org.nz/).
+    * This allocates a small server instance from which you can perform simple operations, or prepare larger analysis scripts for deployment.
 
 ---
 

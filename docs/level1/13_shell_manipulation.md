@@ -5,18 +5,20 @@
     * Teaching: 30 minutes
     * Exercises: 30 minutes
 
-#### Objectives
+!!! circle-info "Objectives and Key points"
 
-* View the contents of basic text files.
-* Copy, move, and rename files and create/remove directories.
-* Make a file read only.
-* Use the `history` command to view and repeat recently used commands.
-
-#### Keypoints
-
-* You can view file contents using `less`, `cat`, `head` or `tail`.
-* The commands `cp`, `mv`, and `mkdir` are useful for manipulating existing files and creating new directories.
-* The `history` command and the up arrow on your keyboard can be used to repeat recently used commands.
+    #### Objectives
+    
+    * View the contents of basic text files.
+    * Copy, move, and rename files and create/remove directories.
+    * Make a file read only.
+    * Use the `history` command to view and repeat recently used commands.
+    
+    #### Keypoints
+    
+    * You can view file contents using `less`, `cat`, `head` or `tail`.
+    * The commands `cp`, `mv`, and `mkdir` are useful for manipulating existing files and creating new directories.
+    * The `history` command and the up arrow on your keyboard can be used to repeat recently used commands.
 
 ---
 

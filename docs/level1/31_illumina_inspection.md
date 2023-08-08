@@ -4,14 +4,16 @@
     * Teaching: 45 minutes
     * Exercises: 15 minutes
 
-#### Objectives
+!!! circle-info "Objectives and Key points"
 
-* Know how to assess the quality of Illumina sequence data using visualisation tools such as `FastQC`.
-
-#### Keypoints
-
-* Raw sequencing data is usually not appropriate for immediate analysis.
-* `FastQC` is a powerful tool for quickly generating visual reports to summarise key aspects of Illumina data.
+    #### Objectives
+    
+    * Know how to assess the quality of Illumina sequence data using visualisation tools such as `FastQC`.
+    
+    #### Keypoints
+    
+    * Raw sequencing data is usually not appropriate for immediate analysis.
+    * `FastQC` is a powerful tool for quickly generating visual reports to summarise key aspects of Illumina data.
 
 ---
 

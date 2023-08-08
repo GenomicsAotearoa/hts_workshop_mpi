@@ -4,14 +4,16 @@
 
     * Teaching: 30 minutes
 
-#### Objectives
+!!! circle-info "Objectives and Key points"
 
-* Be familiar with the consequences of paired-end sequencing data, compared with single-end sequencing.
-
-#### Keypoints
-
-* When working with paired-end sequence data, maintaining the order of sequences between forward and reverse sequence files is critical.
-* Be aware of how to account for singleton (orphan) sequences when working with paired-end sequencing data.
+    #### Objectives
+    
+    * Be familiar with the consequences of paired-end sequencing data, compared with single-end sequencing.
+    
+    #### Keypoints
+    
+    * When working with paired-end sequence data, maintaining the order of sequences between forward and reverse sequence files is critical.
+    * Be aware of how to account for singleton (orphan) sequences when working with paired-end sequencing data.
 
 ---
 

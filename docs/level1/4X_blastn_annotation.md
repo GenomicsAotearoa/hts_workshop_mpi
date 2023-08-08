@@ -5,19 +5,21 @@
     * Teaching: 30 minutes
     * Exercises: 30 minutes
 
-#### Objectives
+!!! circle-info "Objectives and Key points"
 
-* Understand the differences between nucleotide and protein sequence matching
-* Be aware of which publicly available databases are appropriate for which data
-* Learn how to submit `BLAST` jobs to the NeSI cluster using `slurm`
-* Learn how to interpret `BLAST` results 
-* Understand the meaning of *identity*, *coverage*, *e-value*, and *bitscore* metrics
-
-#### Keypoints
-
-* Annotation is required in order to identify the function and origin of sequences obtained from HTS analysis
-* There are different databases available for annotation and classification
-* Interpreting the results of BLAST alignments requires thought and attention 
+    #### Objectives
+    
+    * Understand the differences between nucleotide and protein sequence matching
+    * Be aware of which publicly available databases are appropriate for which data
+    * Learn how to submit `BLAST` jobs to the NeSI cluster using `slurm`
+    * Learn how to interpret `BLAST` results 
+    * Understand the meaning of *identity*, *coverage*, *e-value*, and *bitscore* metrics
+    
+    #### Keypoints
+    
+    * Annotation is required in order to identify the function and origin of sequences obtained from HTS analysis
+    * There are different databases available for annotation and classification
+    * Interpreting the results of BLAST alignments requires thought and attention 
 
 ---
 

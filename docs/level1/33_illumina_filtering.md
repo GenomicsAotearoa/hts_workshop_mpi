@@ -5,13 +5,15 @@
     * Teaching: 30 minutes
     * Exercises: 15 minutes
 
-#### Objectives
+!!! circle-info "Objectives and Key points"
 
-* Be able to perform quality filtering to remove adapter and barcode regions, as well as low quality sequence regions.
-
-#### Keypoints
-
-* Sequences can be filtered to remove low quality sequences and sequencing artefacts using `fastp`.
+    #### Objectives
+    
+    * Be able to perform quality filtering to remove adapter and barcode regions, as well as low quality sequence regions.
+    
+    #### Keypoints
+    
+    * Sequences can be filtered to remove low quality sequences and sequencing artefacts using `fastp`.
 
 ---
 

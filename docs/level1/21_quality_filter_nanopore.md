@@ -5,16 +5,18 @@
     * Teaching: 30 minutes
     * Exercises: 30 minutes
 
-#### Objectives
+!!! circle-info "Objectives and Key points"
 
-* Know how to assess the quality of Oxford Nanopore data using visualization tools such as `pycoQC`
-* Be able to perform quality filtering of Nanopore data to remove short reads and adapter sequences
-
-#### Keypoints
-
-* Sequences can be filtered to remove low quality reads and short reads using tools such as `Nanofilt`
-* It is important to use tools designed specifically for long read data when performing assessment and trimming of Nanopore reads
-* Identifying and removing residual sequencing adapters is not always necessary, but tools exist for it if required
+    #### Objectives
+    
+    * Know how to assess the quality of Oxford Nanopore data using visualization tools such as `pycoQC`
+    * Be able to perform quality filtering of Nanopore data to remove short reads and adapter sequences
+    
+    #### Keypoints
+    
+    * Sequences can be filtered to remove low quality reads and short reads using tools such as `Nanofilt`
+    * It is important to use tools designed specifically for long read data when performing assessment and trimming of Nanopore reads
+    * Identifying and removing residual sequencing adapters is not always necessary, but tools exist for it if required
 
 ---
 
