@@ -22,15 +22,15 @@
 
 ---
 
-## Contents
+!!! first-order "Contents"
 
-1. [Searching files using `less`](#searching-files-using-less-refresher)
-1. [Searching files using `grep`](#searching-files-using-grep)
-1. [Copying and removing folders of files](#copying-and-removing-folders-of-files)
-1. [Grouping files into tarballs](#grouping-files-into-tarballs)
-1. [Extracting files from a tarball archive](#extracting-files-from-a-tarball-archive)
-1. [Compressing and uncompressing large files](#compressing-and-uncompressing-large-files)
-1. [Setting file permissions](#setting-file-permissions)
+    1. [Searching files using `less`](#searching-files-using-less-refresher)
+    1. [Searching files using `grep`](#searching-files-using-grep)
+    1. [Copying and removing folders of files](#copying-and-removing-folders-of-files)
+    1. [Grouping files into tarballs](#grouping-files-into-tarballs)
+    1. [Extracting files from a tarball archive](#extracting-files-from-a-tarball-archive)
+    1. [Compressing and uncompressing large files](#compressing-and-uncompressing-large-files)
+    1. [Setting file permissions](#setting-file-permissions)
 
 ---
 
@@ -38,26 +38,24 @@
 
 In previous training we have used the `less` command to peak inside text files and read their contents. This is great for small files where we can see the full content in a single terminal but sometimes we need to search larger documents for specific keywords or phrases. If you need a reminder of how this is performed, expand the refresher section below.
 
-> <details>
-> <summary>Refresher for searching with `less`</summary>
-> 
-> Some navigation commands in `less`:
-> 
-> |Key|Action|
-> |:---:|:---|
-> |<kbd>↓</kbd>|Go forward one line|
-> |<kbd>↑</kbd>|Go back one line|
-> |<kbd>Space</kbd>|Go forward one page|
-> |<kbd>b</kbd>|Go back one page|
-> |<kbd>g</kbd>|Return to the beginning of the file|
-> |<kbd>G</kbd>|Jump to the end of the file|
-> |<kbd>q</kbd>|Quit|
-> 
-> We can also use `less` to  search through files. Use the <kbd>/<kbd> key to begin a search. Enter the word you would like to search for and press <kbd>Enter<kbd>. The screen will jump to the next location where that word is found. 
-> 
-> If you hit <kbd>/<kbd> then <kbd>Enter<kbd> again, `less` will  repeat the previous search starting from the current location. This means that if you are near the end of a file and search returns no matches the term may be in your document, just prior to the location you searched from. You can use <kbd>?<kbd> instead of <kbd>/<kbd> if you wish to search backwards through the document.
-> 
-> </details>
+??? backward "Refresher for searching with `less`"
+
+    Some navigation commands in `less`:
+
+    |Key|Action|
+    |:---:|:---|
+    |<kbd>↓</kbd>|Go forward one line|
+    |<kbd>↑</kbd>|Go back one line|
+    |<kbd>Space</kbd>|Go forward one page|
+    |<kbd>b</kbd>|Go back one page|
+    |<kbd>g</kbd>|Return to the beginning of the file|
+    |<kbd>G</kbd>|Jump to the end of the file|
+    |<kbd>q</kbd>|Quit|
+
+    We can also use `less` to  search through files. Use the <kbd>/<kbd> key to begin a search. Enter the word you would like to search for and press <kbd>Enter<kbd>. The screen will jump to the next location where that word is found. 
+
+    If you hit <kbd>/<kbd> then <kbd>Enter<kbd> again, `less` will  repeat the previous search starting from the current location. This means that if you are near the end of a file and search returns no matches the term may be in your document, just prior to the location you searched from. You can use <kbd>?<kbd> instead of <kbd>/<kbd> if you wish to search backwards through the document.
+
 
 ---
 
@@ -98,58 +96,53 @@ CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ```
 
-> **Exercise**
->
-> 1. Search for the sequence `GNATNACCACTTCC` in the `SRR098026.fastq` file. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
-> 
-> <details>
-> <summary>Solution</summary>
->  
-> ```bash
-> grep -B1 GNATNACCACTTCC SRR098026.fastq
-> ```
-> ```
-> @SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
-> GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
-> ```
-> </details>
->
-> 2. Search for the sequence `AAGTT` in both FASTQ files. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
->
-> <details>
-> <summary>Solution</summary>
->  
-> ```bash
-> grep -B1 AAGTT *.fastq
-> ```
-> ```
-> SRR097977.fastq-@SRR097977.11 209DTAAXX_Lenski2_1_7:8:3:247:351 length=36
-> SRR097977.fastq:GATTGCTTTAATGAAAAAGTCATATAAGTTGCCATG
-> --
-> SRR097977.fastq-@SRR097977.67 209DTAAXX_Lenski2_1_7:8:3:544:566 length=36
-> SRR097977.fastq:TTGTCCACGCTTTTCTATGTAAAGTTTATTTGCTTT
-> --
-> SRR097977.fastq-@SRR097977.68 209DTAAXX_Lenski2_1_7:8:3:724:110 length=36
-> SRR097977.fastq:TGAAGCCTGCTTTTTTATACTAAGTTTGCATTATAA
-> --
-> SRR097977.fastq-@SRR097977.80 209DTAAXX_Lenski2_1_7:8:3:258:281 length=36
-> SRR097977.fastq:GTGGCGCTGCTGCATAAGTTGGGTTATCAGGTCGTT
-> --
-> SRR097977.fastq-@SRR097977.92 209DTAAXX_Lenski2_1_7:8:3:353:318 length=36
-> SRR097977.fastq:GGCAAAATGGTCCTCCAGCCAGGCCAGAAGCAAGTT
-> --
-> SRR097977.fastq-@SRR097977.139 209DTAAXX_Lenski2_1_7:8:3:703:655 length=36
-> SRR097977.fastq:TTTATTTGTAAAGTTTTGTTGAAATAAGGGTTGTAA
-> --
-> SRR097977.fastq-@SRR097977.238 209DTAAXX_Lenski2_1_7:8:3:592:919 length=36
-> SRR097977.fastq:TTCTTACCATCCTGAAGTTTTTTCATCTTCCCTGAT
-> --
-> SRR098026.fastq-@SRR098026.158 HWUSI-EAS1599_1:2:1:1:1505 length=35
-> SRR098026.fastq:GNNNNNNNNCAAAGTTGATCNNNNNNNNNTGTGCG
-> ```
-> </details>
+!!! question "Exercise"
+    1. Search for the sequence `GNATNACCACTTCC` in the `SRR098026.fastq` file. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
 
----
+    ??? circle-check "Solution"
+ 
+        ```bash
+        grep -B1 GNATNACCACTTCC SRR098026.fastq
+        ```
+        ```
+        @SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
+        GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
+        ```
+!!! question "Exercice"
+    2. Search for the sequence `AAGTT` in both FASTQ files. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
+
+    ??? circle-check "Solution"
+ 
+        ```bash
+        grep -B1 AAGTT *.fastq
+        ```
+        ```
+        SRR097977.fastq-@SRR097977.11 209DTAAXX_Lenski2_1_7:8:3:247:351 length=36
+        SRR097977.fastq:GATTGCTTTAATGAAAAAGTCATATAAGTTGCCATG
+        --
+        SRR097977.fastq-@SRR097977.67 209DTAAXX_Lenski2_1_7:8:3:544:566 length=36
+        SRR097977.fastq:TTGTCCACGCTTTTCTATGTAAAGTTTATTTGCTTT
+        --
+        SRR097977.fastq-@SRR097977.68 209DTAAXX_Lenski2_1_7:8:3:724:110 length=36
+        SRR097977.fastq:TGAAGCCTGCTTTTTTATACTAAGTTTGCATTATAA
+        --
+        SRR097977.fastq-@SRR097977.80 209DTAAXX_Lenski2_1_7:8:3:258:281 length=36
+        SRR097977.fastq:GTGGCGCTGCTGCATAAGTTGGGTTATCAGGTCGTT
+        --
+        SRR097977.fastq-@SRR097977.92 209DTAAXX_Lenski2_1_7:8:3:353:318 length=36
+        SRR097977.fastq:GGCAAAATGGTCCTCCAGCCAGGCCAGAAGCAAGTT
+        --
+        SRR097977.fastq-@SRR097977.139 209DTAAXX_Lenski2_1_7:8:3:703:655 length=36
+        SRR097977.fastq:TTTATTTGTAAAGTTTTGTTGAAATAAGGGTTGTAA
+        --
+        SRR097977.fastq-@SRR097977.238 209DTAAXX_Lenski2_1_7:8:3:592:919 length=36
+        SRR097977.fastq:TTCTTACCATCCTGAAGTTTTTTCATCTTCCCTGAT
+        --
+        SRR098026.fastq-@SRR098026.158 HWUSI-EAS1599_1:2:1:1:1505 length=35
+        SRR098026.fastq:GNNNNNNNNCAAAGTTGATCNNNNNNNNNTGTGCG
+        ```
+
+        -
 
 ## Copying and removing folders of files
 
@@ -169,17 +162,15 @@ $ rm -r shell_data_backup/
 
 This is subject to the usual `bash` warning that contents removed in this way is not recoverable. If you try to perform this operation on a folder with contents which have had their write permissions removed you will receive a confirmation prompt for each file in the directory. This may or may no be a problem depending on the number of files that this applies to.
 
-> **Exercise**
->
-> Use the `rm` help content to find the way to delete a folder of files bypassign the need to approach each file for detetion.
-> 
-> <details>
-> <summary>Solution</summary>
->  
-> ```bash
-> $ rm -rf shell_data_backup/
-> ```
-> </details>
+!!! question "Exercise"
+    Use the `rm` help content to find the way to delete a folder of files bypassign the need to approach each file for detetion.
+
+    ??? circle-check "Solution"
+ 
+        ```bash
+        $ rm -rf shell_data_backup/
+        ```
+
 
 ---
 
