@@ -20,14 +20,14 @@
 
 ---
 
-## Contents
+!!! first-order "Contents"
 
-1. [Navigating your file system](#navigating-your-file-system)
-1. [Accessing documentation on the command line](#accessing-documentation-on-the-command-line)
-1. [Full versus relative paths](#full-versus-relative-paths)
-1. [Navigational shortcuts](#navigational-shortcuts)
-1. [Speeding up commands with tab completion](#speeding-up-commands-with-tab-completion)
-
+    1. [Navigating your file system](#navigating-your-file-system)
+    1. [Accessing documentation on the command line](#accessing-documentation-on-the-command-line)
+    1. [Full versus relative paths](#full-versus-relative-paths)
+    1. [Navigational shortcuts](#navigational-shortcuts)
+    1. [Speeding up commands with tab completion](#speeding-up-commands-with-tab-completion)
+    
 ---
 
 ## Navigating your file system
