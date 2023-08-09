@@ -113,21 +113,23 @@ If you wish, you can submit your script, but as each ORF takes about 40 mins to 
 
 As well as nucleotide sequences, we can also use amino acid sequences with BLAST to search and identify unknown proteins. In these cases we will use BLASTP. Although BLASTP is less computationaly expensive than BLASTX a ```slurm``` script is still required. 
 
-Copy the template BLASTP slurm script and the two unknown protein sequences from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
 
-Make sure you copy the protein sequences by checking the file suffix is ```.faa``` for protein fasta file. 
+!!! question "Exercise"
 
-> <details>
-> <summary>Solution</summary>
-> 
-> ```bash 
-> #Make sure you are in your dir, if not move there.
-> $ cd /nesi/project/nesi03181/phel/USERNAME/
-> $
-> $ cp ../module_3/5_Gene_annotations/blastp.sl ./5_Gene_annotations/
-> $ cp ../module_3/5_Gene_annotations/M_bovis_ORF_*.faa ./5_Gene_annotations/
-> ```
-> </details>
+    Copy the template BLASTP slurm script and the two unknown protein sequences from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
+
+    Make sure you copy the protein sequences by checking the file suffix is ```.faa``` for protein fasta file. 
+
+    ??? circle-check "Solution"
+
+        ```bash 
+        #Make sure you are in your dir, if not move there.
+        $ cd /nesi/project/nesi03181/phel/USERNAME/
+        $
+        $ cp ../module_3/5_Gene_annotations/blastp.sl ./5_Gene_annotations/
+        $ cp ../module_3/5_Gene_annotations/M_bovis_ORF_*.faa ./5_Gene_annotations/
+        ```
+
 
 We can open the protein blast file in Nano, and adjust it to our data 
 
