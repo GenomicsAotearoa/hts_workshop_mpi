@@ -172,7 +172,9 @@ $ module load nanofilt/2.6.0-gimkl-2020a-Python-3.8.2
 $ NanoFilt -q 15 -l 500 --headcrop 50 < results/nanopore.porechop.fq > results/nanopore.qc.fq
 ```
 
->**Note:** `NanoFilt` behaves a bit strangely in the way it takes input data and writes output. Rather than specifying files with flags such as `-i` and `-o`, it reads a data from a stream called `stdin`, and writes to a separate channel called `stdout`. Working with these channels is part of the Level 2 training, for now you just need to know that the `<` character sets the `stdit` input, and `>` specifies where the `stdout` data will go.
+!!! note "Note"
+
+    `NanoFilt` behaves a bit strangely in the way it takes input data and writes output. Rather than specifying files with flags such as `-i` and `-o`, it reads a data from a stream called `stdin`, and writes to a separate channel called `stdout`. Working with these channels is part of the Level 2 training, for now you just need to know that the `<` character sets the `stdit` input, and `>` specifies where the `stdout` data will go.
 
 We can get a quick estimate for how much data passed our quality requirements by checking the number of lines in the output file. If you have read the [fastq description file](../supplementary/fastq_format.md you will know how data is recorded in the fastq file format. We can quickly use the `wc` command to count the number of lines in the input and output files, to compare how many reads we started with and how many remain after filtering:
 
