@@ -230,13 +230,12 @@ Using the `ls` command with the 'all files' flag (`-a`) you will be able to see 
 
 Sometimes this is not the behaviour we want to see - it may be the case that we only want certain tarball files to be extracted, or we wish to send them to a different output path. Before we demonstrate these alternate behaviours, deleted the `shell_data/` directory and its contents.
 
-> <details>
-> <summary>How do I delete a folder again?</summary>
->  
-> ```bash
-> $ rm -r shell_data/
-> ```
-> </details>
+??? question "How do I delete a folder again ?"
+
+    ```bash
+    $ rm -r shell_data/
+    ```
+
 
 Firstly, lets say that we want to extract just the fastq files from the tarball, but still into a new directory named `shell_data/`. This can be achieved in exactly the same way as creating a tarball from a specific list of files, just swapping the `-c` flag with the `-x` flag:
 
@@ -254,7 +253,9 @@ We have now seen how we can use `tar` to glue multiple files together into a sin
 
 Each of these tools applies a specific compression algorithm to your file contents to create a smaller, less readable, verison of the file. There is no particular preference to use either of these tools on NeSI other than the fact that the `zip` format is used on Windows devices and may be your default compression tool if you are uploading or downloading compressed files to and from NeSI. Alternatively, if you are sourcing files from online the `gzip` compression standard is very popular and you may find that you need to use this tool for reference files you download from resources such as the NCBI Sequence Read Archive.
 
->Note: The file encoding schema used by `gzip` is not compatible with the `zip` standard used by default on your Windows device. If you are uploading compressed file contents from your work computer you may need to use the `zip` and `unzip` tools to compress and extract these files instead of `gzip`.
+!!! note "Note"
+
+    The file encoding schema used by `gzip` is not compatible with the `zip` standard used by default on your Windows device. If you are uploading compressed file contents from your work computer you may need to use the `zip` and `unzip` tools to compress and extract these files instead of `gzip`.
 
 Navigate to the `file_compression/` folder for this set of exercises.
 
