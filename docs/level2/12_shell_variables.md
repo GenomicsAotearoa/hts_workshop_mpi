@@ -221,7 +221,9 @@ The `do` and `done` words denote the start and end of the code block to be execu
 
 Let's start writing the loop, going line by line. Once you have entered the first line of the loop you should notice that the shell prompt changes from `$` to `>`. This change is to show us that we are currently writing an extension of the previous line and that the code will not execute if we were to press <kbd>Enter</kbd>. Only once you complete the loop declaration with the `done` keyword will the console execute the loop and return the prompt to the standard `$` value.
 
->Note: It's really easy to get stuck in a loop declaration if you forget to close off your loop block, or close any quotation marks in your code. At any time you can cancel your current command using <kbd>Ctrl</kbd>+<kbd>C</kbd>. This is helpful if you get stuck in a badly written loop, or notice an obvious error in a previous line which is going to prevent your loop for executing correctly.
+!!! note "Note"
+
+    It's really easy to get stuck in a loop declaration if you forget to close off your loop block, or close any quotation marks in your code. At any time you can cancel your current command using <kbd>Ctrl</kbd>+<kbd>C</kbd>. This is helpful if you get stuck in a badly written loop, or notice an obvious error in a previous line which is going to prevent your loop for executing correctly.
 
 If you are in the correct directory, when you execute the loop you should see output similar to the following:
 
@@ -233,29 +235,27 @@ If you are in the correct directory, when you execute the loop you should see ou
 
 That's great. We now have a loop that will check a specific fastq file for a set of nucleotide sequences but the output is a bit sparse.
 
-> **Exercise**
->
-> Extend this loop so that the value of the `${MOTIF}` variable is also printed to the console, so that we can track which nucleotide sequence each number corresponds to.
-> 
-> <details>
-> <summary>Solution</summary>
-> 
-> ```bash
-> $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
-> > do
-> >     echo ${MOTIF}
-> >     grep -c ${MOTIF} SRR098026.fastq
-> > done
-> ```
-> ```
-> NNNNNNNN
-> 223
-> TGTTACAG
-> 0
-> CTCAAACC
-> 0
-> ```
-> </details>
+!!! question "Exercise"
+    Extend this loop so that the value of the `${MOTIF}` variable is also printed to the console, so that we can track which nucleotide sequence each number corresponds to.
+
+    ??? circle-check "Solution"
+
+        ```bash
+        $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+        > do
+        >     echo ${MOTIF}
+        >     grep -c ${MOTIF} SRR098026.fastq
+        > done
+        ```
+        ```
+        NNNNNNNN
+        223
+        TGTTACAG
+        0
+        CTCAAACC
+        0
+        ```
+
 
 ---
 
@@ -267,53 +267,52 @@ Our loop is now functional, but it is quite narrow in scope. We're now going to 
 $ FILENAME=SRR098026.fastq
 ```
 
-And now we must modify the loop code to point towards the value of `FILENAME` instead of the text `SRR098026.fastq`. Since it's not necesarily clear which file will be searched for these nucleotide sequences, also modify the loop to report the name of the file being searched, as well as the nucleotide sequence and its number of occurences in the input file.
+And now we must modify the loop code to point towards the value of `FILENAME` instead of the text `SRR098026.fastq`. Since it's not necesarily clear which file will be searched for these nucleotide sequences, also modify the loop to report the name of the file being searched, as well as the nucleotide sequence and its number of occurences in the input file
 
-> <details>
-> <summary>Solution</summary>
-> 
-> ```bash
-> $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
-> > do
-> >     echo ${FILENAME}", nucleotide "${MOTIF}
-> >     grep -c ${MOTIF} ${FILENAME}
-> > done
-> ```
-> </details>
+
+??? circle-check "Solution"
+
+    ```bash
+    $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+    > do
+    >     echo ${FILENAME}", nucleotide "${MOTIF}
+    >     grep -c ${MOTIF} ${FILENAME}
+    > done
+    ```
 
 If your code works as expected, you can now change the value of `FILENAME` to any valid file and it will provide the equivalent searches in the next file. Confirm this by changing your `FILENAME` value and repeating the loop.
 
-> <details>
-> <summary>Solution</summary>
-> 
-> ```bash
-> $ FILENAME=SRR098026.fastq
-> $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
-> > do
-> >     echo ${FILENAME}", nucleotide "${MOTIF}
-> >     grep -c ${MOTIF} ${FILENAME}
-> > done
-> $ FILENAME=SRR097977.fastq
-> $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
-> > do
-> >     echo ${FILENAME}", nucleotide "${MOTIF}
-> >     grep -c ${MOTIF} ${FILENAME}
-> > done
-> ```
-> </details>
 
-This is functional, but still quite messy. As a final exercise, we're going to write what is called a 'nested loop', a `for` loop within a `for` loop. The first (outer) loop will iterate through a set of fastq files and assign them to `FILENAME` and the second (inner) loop will perform the `grep` commands.
+??? circle-check "Solution"
 
-```bash
-$ for FILENAME in *.fastq;
-> do
->     echo "File: "${FILENAME}
->     for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
->     do
->         echo "Nucleotide: "${MOTIF}
->         grep -c ${MOTIF} ${FILENAME}
->     done
-> done
-```
+    ```bash
+    $ FILENAME=SRR098026.fastq
+    $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+    > do
+    >     echo ${FILENAME}", nucleotide "${MOTIF}
+    >     grep -c ${MOTIF} ${FILENAME}
+    > done
+    $ FILENAME=SRR097977.fastq
+    $ for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+    > do
+    >     echo ${FILENAME}", nucleotide "${MOTIF}
+    >     grep -c ${MOTIF} ${FILENAME}
+    > done
+    ```
+
+
+!!! terminal-2 "This is functional, but still quite messy. As a final exercise, we're going to write what is called a 'nested loop', a `for` loop within a `for` loop. The first (outer) loop will iterate through a set of fastq files and assign them to `FILENAME` and the second (inner) loop will perform the `grep` commands."
+
+    ```bash
+    $ for FILENAME in *.fastq;
+    > do
+    >     echo "File: "${FILENAME}
+    >     for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+    >     do
+    >         echo "Nucleotide: "${MOTIF}
+    >         grep -c ${MOTIF} ${FILENAME}
+    >     done
+    > done
+    ```
 
 ---
