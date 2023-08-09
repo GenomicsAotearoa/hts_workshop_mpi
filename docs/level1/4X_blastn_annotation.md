@@ -23,12 +23,12 @@
 
 ---
 
-## Contents
+!!! first-order "Contents"
 
-1. [The `BLAST` process](#the-blast-process)
-1. [Submitting a nucleotide `BLAST` job on NeSI](#submitting-a-nucleotide-blast-job-on-nesi)
-1. [Submitting a protein `BLAST` job on NeSI](#submitting-a-protein-blast-job-on-nesi)
-1. [Interpretting the results of BLAST queries](#interpretting-the-results-of-blast-queries)
+    1. [The `BLAST` process](#the-blast-process)
+    1. [Submitting a nucleotide `BLAST` job on NeSI](#submitting-a-nucleotide-blast-job-on-nesi)
+    1. [Submitting a protein `BLAST` job on NeSI](#submitting-a-protein-blast-job-on-nesi)
+    1. [Interpretting the results of BLAST queries](#interpretting-the-results-of-blast-queries)
 ---
 
 ## The `BLAST` process
@@ -39,19 +39,19 @@ BLAST compares novel (query) sequences against a database of reference sequences
 
 `BLAST` works by breaking each query sequence into a set of smaller *seed* sequences, and searching each target in the database for the presence of these seeds.  
 
-<img src='../img/4.Blast_step_1.png' alt='Toy example of the BLAST process in action' width='600' />
+![image](../img/4.Blast_step_1.png){width="600"}
 
 Where matches are found, BLAST then extends the ends of the seed one position at a time and assesses how well the seed continues to match the targets.  
 
-<img src='../img/4.Blast_step_2.png' alt='Toy example of the BLAST process in action' width='600' />
+![image](../img/4.Blast_step_2.png){width="600"}
 
 Matches and mismatches are recorded and the seed extenstion continues.    
 
-<img src='../img/4.Blast_step_3.png' alt='Toy example of the BLAST process in action' width='600' />  
+![image](../img/4.Blast_step_3.png){width="600"} 
 
 BLAST is also able to introduce insertions to preserve a match between query and target sequences.  
 
-<img src='../img/4.Blast_step_4.png' alt='Toy example of the BLAST process in action' width='600' />  
+![image](../img/4.Blast_step_4.png){width="600"} 
 
 The quality of the match between the query and the target are evaluated in terms of how well conserved the sequence composition is between the pair, including how many insertion or deletion events need to be introduced to maintain the matching.
 
@@ -67,25 +67,27 @@ We will use a template today to prepare a ``slurm`` script to use BLAST to annot
 
 There are different types of BLAST we can use depending on the type of sequence data we have as input, and the types of databases we want to search to generate output. 
 
-<img src="../img/blast_types.png" alt="Types of BLAST searches" width='600'/>
+![image](../img/blast_types.png){width="700"}
+
 
 Here we want to predict the proteins associated with the ORFs we predicted from the genome sequence, so we will use BLASTX
 
-Navigate to your working directory on NeSI. Create a folder `5_Gene_annotations` and copy the template blastx slurm script and the two unknown nucleotide open read frames (ORFs) from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
+!!! question "Exercise"
+    Navigate to your working directory on NeSI. Create a folder `5_Gene_annotations` and copy the template blastx slurm script and the two unknown nucleotide open read frames (ORFs) from `/nesi/project/nesi03181/phel/module_3/5_Gene_annotations/` into your folder. 
 
-Make sure you copy the nucleotide sequences for the unknown ORFs by checking the file suffix is ```.fna``` for fasta file. 
+    Make sure you copy the nucleotide sequences for the unknown ORFs by checking the file suffix is ```.fna``` for fasta file. 
 
-> <details>
-> <summary>Solution</summary>
-> 
-> ```bash 
-> $ cd /nesi/project/nesi03181/phel/USERNAME/
-> 
-> $ mkdir 5_Gene_annotations/
-> $ cp ../module_3/5_Gene_annotations/blastx.sl ./5_Gene_annotations/
-> $ cp ../module_3/5_Gene_annotations/M_bovis_ORF_*.fna ./5_Gene_annotations/
-> ``` 
-> </details>
+
+    ??? circle-check "Solution"
+
+        ```bash 
+        $ cd /nesi/project/nesi03181/phel/USERNAME/
+
+        $ mkdir 5_Gene_annotations/
+        $ cp ../module_3/5_Gene_annotations/blastx.sl ./5_Gene_annotations/
+        $ cp ../module_3/5_Gene_annotations/M_bovis_ORF_*.fna ./5_Gene_annotations/
+        ``` 
+
 
 Lets open the template slurm script and adjust it to suit our files. We can use the text editor Nano for this. 
 
