@@ -22,12 +22,12 @@
 
 ---
 
-## Contents
+!!! first-order "Contents"
 
-1. [Viewing the contents of files](#viewing-the-contents-of-files)
-1. [Basic file manipulation](#basic-file-manipulation)
-1. [Command history](#command-history)
-
+    1. [Viewing the contents of files](#viewing-the-contents-of-files)
+    1. [Basic file manipulation](#basic-file-manipulation)
+    1. [Command history](#command-history)
+    
 ---
 
 ## Viewing the contents of files
@@ -64,15 +64,14 @@ That said, you can also scroll forward and back theough the file using the mouse
 
 `less` can also be used to search through files. Use the <kbd>/</kbd> key to begin a search. Enter the word you would like to search for and press <kbd>Enter</kbd>. The screen will jump to the next location where that word is found. You can seach for the next word by pressing <kbd>/</kbd> repeatedly. Each time, `less` searches from the current location forward. If you need to go back one entry, use <kbd>?</kbd>.
 
-> **Exercise**
->
-> As an example, let's search forward for the sequence `TTTTT` in our file What are the next three nucleotides (characters) after the first instance of this sequence?
-> 
-> <details>
-> <summary>Solution</summary
->
-> `CAC`
-> </details>
+!!! question "Exercise"
+
+    As an example, let's search forward for the sequence `TTTTT` in our file What are the next three nucleotides (characters) after the first instance of this sequence?
+ 
+    ??? circle-check "Solution"
+
+        `CAC`
+ 
 
 Sometimes we want to strike a balance between `cat` and `less`. We need to see a bit of the file, but we don't want to look at it line by line. This is uaually when we need to process a file in some way, and we just need to remind outselves how it's formatted.
 
@@ -126,7 +125,10 @@ $ tail -n1 SRR098026.fastq
 A!@B!BBB@ABAB#########!!!!!!!######
 ```
 
->If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../supplementary/fastq_format.md)
+
+!!! note ""
+
+    If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../supplementary/fastq_format.md)
 
 ---
 
@@ -177,7 +179,9 @@ $ mv SRR097977.fq_backup SRR097977.fq_bkup
 
 In this pair on commands, we first create a copy of the file `SRR097977.fastq` with the name `SRR097977.fq_backup`. These are identical in their content. We then move/rename the `SRR097977.fq_backup` file (effectively, moving the contents of the file into a new file) to a different file named `SRR097977.fq_bkup`. If you run the `ls` command you will see that `SRR097977.fastq` is still present, as it was only copied, but `SRR097977.fq_backup` no longer exists.
 
->**Note:** we can also use the `mv` command to rename directories. However, the `cp` command by default does not work for directories, it must be invoked with a specific parameter to copy directory and it's contents.
+!!! note "Note" 
+
+    we can also use the `mv` command to rename directories. However, the `cp` command by default does not work for directories, it must be invoked with a specific parameter to copy directory and it's contents.
 
 The other way we can use these commands is to copy/move one or more files into a different directory. This can be handy when creating backups of data we do not wish to risk losing (copy), or when we want to organise data into different folders to make navigation easier (move).
 
