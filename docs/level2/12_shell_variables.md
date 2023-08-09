@@ -101,82 +101,70 @@ $ echo ${MOTIF}
 
 In this case, the value of the variable `MOTIF` is correctly accessed by the computer, returning the nucleotide motif value instead of the word 'MOTIF'.
 
-> <details>
-> <summary>Notes on naming variables</summary>
-> In these examples we are using uppercase words to represent our variable names but this is not neccessary. `bash` will accept any alphabetical letter (upper or lower case) as well as underscore characters in a variable name. This means that you can name your variables as a single letter, word, or a series of words joined together or separated by underscores with any casing. All of the following examples are valid (from the computer's point of view).
-> 
-> ```bash
-> $ m="NNNNNNNNNN"
-> $ M="NNNNNNNNNN"
-> $ motif="NNNNNNNNNN"
-> $ MOTIF="NNNNNNNNNN"
-> $ mOtIf="NNNNNNNNNN"
-> $ THE_NUCLEOTIDE_MOTIF_I_WANT_TO_USE_IN_MY_BASH_SCRIPT="NNNNNNNNNN"
-> $ The_Nucleotide_Motif_I_Want_To_Use_In_My_Bash_Script="NNNNNNNNNN"
-> $ TheNucleotideMotifIWantToUseInMyBashScript="NNNNNNNNNN"
-> ```
-> 
-> The most important thing is to make sure that your variables are informative when the code is read, and easy to distinguish from each other. Variable names are case sensitive so if you are choosing to use mixed case you must make sure you use the same case when recalling the variable. Also, there is a trade off between making variable names long enough to be informative and so long that they become hard to read and type.
-> 
-> Generally speaking, it is best to keep your varaibles very narrow in scope - that is, you might have a set of variables used in a particular block of code but if you move to a new block you create fresh variables for that task. Keeping variables specific to a purpose reduces the need to complicated naming schemes and avoids issues which might arise when you accidentally access the wrong variable.
-> </details>
 
-> <details>
-> <summary>Notes on accessing variables</summary>
->  
-> When looking online for examples of variables being used, you might notice a few different styles used to call to a variable, such as
->
-> ```bash
-> $ echo $MOTIF
-> $ echo ${MOTIF}
-> $ echo "${MOTIF}"
-> ```
->
-> Technically these all work, but there are subtle differences in how they are interpretted by the computer executing the command. In the first value, everything that follows the <kbd>$</kbd> symbol is interpreted as part of a variable name until some character is encountered to break the name. This will typically be either a space or a quotation mark. In the second example, only the name enclosed by the <kbd>{</kbd> and <kbd>}</kbd> symbols is considered the variable name.
->
-> In these examples it makes no difference but there are sometimes cases where we need to use this notation to explicitly tell the computer where the variable name begins and ends rather than let it work this out itself. The third example is useful if we are trying to access a value with space characters inside it. As we have seen in our examples to date, the `bash` environment uses spaces to separate terms in a command, for example:
->
-> ```
-> grep[space]NNNNNNNNNN[space]SRR098026.fastq
-> |          |                |
-> |          |                |
-> |          |                Third term (file to search)
-> |          Second term (search text)
-> First term (command)
-> ```
->
-> If for some reason we were searching for a piece of text with a space in it, like a binomial species name, the space between the genus and species name would be incorrectly interpreted as the bounds between terms, like so:
->
-> ```bash
-> $ SPECIES="Escherichia coli"
-> $ grep ${SPECIES} target_document.txt
-> ```
->
-> ```
-> grep Escherichia coli target_document.txt
-> |    |           |    |
-> |    |           |    |
-> |    |           |    Fourth term (another file to search)
-> |    |           Third term (file to search)
-> |    Second term (search text)
-> First term (command)
-> ```
->
-> In this instance, wrapping the variable name in quotation marks will expand the command differently:
-> ```bash
-> $ grep "${SPECIES}" target_document.txt
-> ```
->
-> ```
-> grep "Escherichia coli" target_document.txt
-> |    |                  |
-> |    |                  |
-> |    |                  Third term (file to search)
-> |    Second term (search text)
-> First term (command)
-> ```
->
-> </details>
+!!! circle-info "Notes on naming variables"
+    In these examples we are using uppercase words to represent our variable names but this is not neccessary. `bash` will accept any alphabetical letter (upper or lower case) as well as underscore characters in a variable name. This means that you can name your variables as a single letter, word, or a series of words joined together or separated by underscores with any casing. All of the following examples are valid (from the computer's point of view).
+
+    ```bash
+    $ m="NNNNNNNNNN"
+    $ M="NNNNNNNNNN"
+    $ motif="NNNNNNNNNN"
+    $ MOTIF="NNNNNNNNNN"
+    $ mOtIf="NNNNNNNNNN"
+    $ THE_NUCLEOTIDE_MOTIF_I_WANT_TO_USE_IN_MY_BASH_SCRIPT="NNNNNNNNNN"
+    $ The_Nucleotide_Motif_I_Want_To_Use_In_My_Bash_Script="NNNNNNNNNN"
+    $ TheNucleotideMotifIWantToUseInMyBashScript="NNNNNNNNNN"
+    ```
+
+    The most important thing is to make sure that your variables are informative when the code is read, and easy to distinguish from each other. Variable names are case sensitive so if you are choosing to use mixed case you must make sure you use the same case when recalling the variable. Also, there is a trade off between making variable names long enough to be informative and so long that they become hard to read and type.
+
+    Generally speaking, it is best to keep your varaibles very narrow in scope - that is, you might have a set of variables used in a particular block of code but if you move to a new block you create fresh variables for that task. Keeping variables specific to a purpose reduces the need to complicated naming schemes and avoids issues which might arise when you accidentally access the wrong variable.
+
+!!! circle-info "Notes on accessing variables"
+    
+    When looking online for examples of variables being used, you might notice a few different styles used to call to a variable, such as   
+    ```bash
+    $ echo $MOTIF
+    $ echo ${MOTIF}
+    $ echo "${MOTIF}"
+    ``` 
+    Technically these all work, but there are subtle differences in how they are interpretted by the computer executing the command. In the first value, everything that follows the <kbd>$</kbd> symbol is interpreted as part of a variable name until some character is encountered to break the name. This will typically be either a space or a quotation mark. In the second example, only the name enclosed by the <kbd>{</kbd> and <kbd>}</kbd> symbols is considered the variable name.    
+    In these examples it makes no difference but there are sometimes cases where we need to use this notation to explicitly tell the computer where the variable name begins and ends rather than let it work this out itself. The third example is useful if we are trying to access a value with space characters inside it. As we have seen in our examples to date, the `bash` environment uses spaces to separate terms in a command, for example: 
+    ```
+    grep[space]NNNNNNNNNN[space]SRR098026.fastq
+    |          |                |
+    |          |                |
+    |          |                Third term (file to search)
+    |          Second term (search text)
+    First term (command)
+    ``` 
+    If for some reason we were searching for a piece of text with a space in it, like a binomial species name, the space between the genus and species name would be incorrectly interpreted as the bounds between terms, like so:  
+    ```bash
+    $ SPECIES="Escherichia coli"
+    $ grep ${SPECIES} target_document.txt
+    ``` 
+    ```
+    grep Escherichia coli target_document.txt
+    |    |           |    |
+    |    |           |    |
+    |    |           |    Fourth term (another file to search)
+    |    |           Third term (file to search)
+    |    Second term (search text)
+    First term (command)
+    ``` 
+    In this instance, wrapping the variable name in quotation marks will expand the command differently:
+    ```bash
+    $ grep "${SPECIES}" target_document.txt
+    ``` 
+    ```
+    grep "Escherichia coli" target_document.txt
+    |    |                  |
+    |    |                  |
+    |    |                  Third term (file to search)
+    |    Second term (search text)
+    First term (command)
+    ``` 
+    </details>
 
 In the `bash` environment, variables persist until you reset your session. This means that when you log out and log back in, any variables you declare are gone. This is actually a really helpful feature as we do not end up with an ever-expanding list of variables to remember.
 
