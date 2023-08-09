@@ -230,7 +230,7 @@ Using the `ls` command with the 'all files' flag (`-a`) you will be able to see 
 
 Sometimes this is not the behaviour we want to see - it may be the case that we only want certain tarball files to be extracted, or we wish to send them to a different output path. Before we demonstrate these alternate behaviours, deleted the `shell_data/` directory and its contents.
 
-??? question "How do I delete a folder again ?"
+??? clipboard-question "How do I delete a folder again ?"
 
     ```bash
     $ rm -r shell_data/
@@ -288,9 +288,9 @@ $ ls -sh
 
 So we can see that this has reduced the file size sequences by about half. That's a great saving in disk space but what has happened to the original file? If we check the manual for `gzip`, you can see the following text:
 
-> DESCRIPTION
->
-> Gzip reduces the size of the named files using Lempel-Ziv coding (LZ77). Whenever possible, **_each file is replaced_** by one with the extension .gz, while keeping the same ownership modes, access and modification times.
+!!! square-pen "DESCRIPTION"
+
+    Gzip reduces the size of the named files using Lempel-Ziv coding (LZ77). Whenever possible, **_each file is replaced_** by one with the extension .gz, while keeping the same ownership modes, access and modification times.
 
 Is this a problem? It can be. When we run `gzip` it is operating under the assumption that we do not need the original file anymore. This is probably true if we were to compress a tarball file, as producing a tarball leaves the original files in place. However, what if we just wanted to compress the sequence files but then continue to work with them?
 
@@ -311,15 +311,12 @@ $ ls -sh
 
 In either case, we get the same output file.
 
-> <details>
-> <summary>How do I compress a file and leave the original in place?</summary>
-> 
-> In some cases you may wish to compress a file but leave the original untouched. The most common way to achieve this is to run `gzip` with the `-c` flag, which sends the results of the compression algorim to the *stdout* channel rather than to a file. We will explore the *stdout* channel in a [later session](./13_shell_redirection.md), but for now this is the command to create a compressed file alongside the original:
-> 
-> ```bash
-> $ gzip -c SRR23286833.fastq > SRR23286833.fastq.gz
-> ```
-> </details>
+??? clipboard-question "How do I compress a file and leave the original in place ?"
+
+    In some cases you may wish to compress a file but leave the original untouched. The most common way to achieve this is to run `gzip` with the `-c` flag, which sends the results of the compression algorim to the *stdout* channel rather than to a file. We will explore the *stdout* channel in a [later session](./13_shell_redirection.md), but for now this is the command to create a compressed file alongside the original:
+    ``bash
+     gzip -c SRR23286833.fastq > SRR23286833.fastq.gz
+    ``
 
 ---
 
