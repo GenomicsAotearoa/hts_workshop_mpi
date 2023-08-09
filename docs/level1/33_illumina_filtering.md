@@ -96,25 +96,24 @@ $ fastp --detect_adapter_for_pe -i ... -o ...
 
 This is a very helpful feature, but be warned that if your library has already been trimmed of adapters and you force `fastp` to find them, results can be quite weird.
 
-> ### Exercise
->
-> Run `fastp` against the `ERR4179828` files with and without adapter trimming. Run the command again with automatic adapter detection. Look at the outputs in `FastQC` and see how they differ. Don't worry about capturing the singleton sequences for this exercise.
->
-> <details>
-> <summary>Solution</summary>
->
-> ```bash
-> $ fastp --disable_adapter_trimming \
->         -i reads/ERR4179828_1.fq.gz -I reads/ERR4179828_2.fq.gz \
->         -o results/ERR4179828_1.no_trim.fq.gz -O results/ERR4179828_2.no_trim.fq.gz
->
-> $ fastp --detect_adapter_for_pe \
->         -i reads/ERR4179828_1.fq.gz -I reads/ERR4179828_2.fq.gz \
->         -o results/ERR4179828_1.auto_trim.fq.gz -O results/ERR4179828_2.auto_trim.fq.gz
->
-> $ fastqc -O results/ results/ERR4179828_1.*_trim.fq.gz
-> ```
-> </details>
+!!! question "Exercise"
+
+    Run `fastp` against the `ERR4179828` files with and without adapter trimming. Run the command again with automatic adapter detection. Look at the outputs in `FastQC` and see how they differ. Don't worry about capturing the singleton sequences for this exercise.
+
+    ??? circle-check "Solution"
+
+        ```bash
+        $ fastp --disable_adapter_trimming \
+                -i reads/ERR4179828_1.fq.gz -I reads/ERR4179828_2.fq.gz \
+                -o results/ERR4179828_1.no_trim.fq.gz -O results/ERR4179828_2.no_trim.fq.gz
+
+        $ fastp --detect_adapter_for_pe \
+                -i reads/ERR4179828_1.fq.gz -I reads/ERR4179828_2.fq.gz \
+                -o results/ERR4179828_1.auto_trim.fq.gz -O results/ERR4179828_2.auto_trim.fq.gz
+
+        $ fastqc -O results/ results/ERR4179828_1.*_trim.fq.gz
+        ```
+
 
 ---
 
