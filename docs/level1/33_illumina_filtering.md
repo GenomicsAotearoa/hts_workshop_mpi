@@ -134,18 +134,15 @@ After any form of trimming, there is also the option to remove sequences which f
 
 `fastp` does have other ways of trimming low quality regions, in which it begins from the start or end of the sequence and removes nucleotides below the quality threshold until a high quality base is encountered. When working with Illumina data this method is probably not very valuable, as sequence quality usually starts off quite high with Illumina data and tends to degrade ove time. However, there are some sequencing platforms that can yield poor quality at the start of a sequence, so it is worth knowing that this behaviour is possible.
 
-> ### Exercise
->
-> Inspect the help options for `fastp` and formulate a command to perform sliding window filtering with a window length of 8 nucleotides, and a quality threshold of 15.
->
-> <details>
-> <summary>Solution</summary>
->
-> ```bash
-> $ fastp --cut_right --cut_window_size 8 --cut_mean_quality 15 \
->         -i ... -I ... -o ... -O ...
-> ```
-> </details>
+!!! question "Exercise"
+
+    Inspect the help options for `fastp` and formulate a command to perform sliding window filtering with a window length of 8 nucleotides, and a quality threshold of 15.
+
+    ??? circle-check "Solution"
+        ```bash
+        $ fastp --cut_right --cut_window_size 8 --cut_mean_quality 15 \
+                -i ... -I ... -o ... -O ...
+        ```
 
 #### Other features
 
