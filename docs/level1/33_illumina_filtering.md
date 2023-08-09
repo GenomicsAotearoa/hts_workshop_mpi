@@ -27,37 +27,36 @@ The last session was quite a lot of talking, not a lot of typing, so lets start 
 $ module load fastp/0.23.2-GCC-11.3.0
 ```
 
-> ### Exercise
->
-> Load the `fastp` tool and have a quick test run of the different behaviours. Run the tool a few different times to achieve the following outputs with the `miseq_R*.fq.gz` files.
->
-> 1. Filter with default settings, retaining paired outputs only.
-> 1. Filter with default settings, writing unpaired sequences to individual files.
-> 1. Filter with default settings, writing unpaired sequences to the same file.
->
-> <details>
-> <summary>Solution</summary>
->
-> 1)
-> ```bash
-> $ fastp -i reads/miseq_R1.fq.gz -I reads/miseq_R2.fq.gz -o results/ex1_1.fq.gz -O results/ex1_2.fq.gz
-> ```
->
-> 2)
-> ```bash
-> $ fastp -i reads/miseq_R1.fq.gz -I reads/miseq_R2.fq.gz \
->         -o results/ex2_1.fq.gz -O results/ex2_2.fq.gz \
->         --unpaired1 results/ex2_1_single.fq.gz \
->         --unpaired2 results/ex2_2_single.fq.gz
-> ```
->
-> 3)
-> ```bash
-> $ fastp -i reads/miseq_R1.fq.gz -I reads/miseq_R2.fq.gz \
->         -o results/ex3_1.fq.gz -O results/ex3_2.fq.gz \
->         --unpaired1 results/ex3_single.fq.gz
-> ```
-> </details>
+!!! question "Exercise"
+
+    Load the `fastp` tool and have a quick test run of the different behaviours. Run the tool a few different times to achieve the following outputs with the `miseq_R*.fq.gz` files.
+    
+    1. Filter with default settings, retaining paired outputs only.
+    1. Filter with default settings, writing unpaired sequences to individual files.
+    1. Filter with default settings, writing unpaired sequences to the same file.
+
+    ??? circle-check "Solution"
+
+        1)
+        ```bash
+        $ fastp -i reads/miseq_R1.fq.gz -I reads/miseq_R2.fq.gz -o results/ex1_1.fq.gz -O results/ex1_2.fq.gz
+        ```
+
+        2)
+        ```bash
+        $ fastp -i reads/miseq_R1.fq.gz -I reads/miseq_R2.fq.gz \
+                -o results/ex2_1.fq.gz -O results/ex2_2.fq.gz \
+                --unpaired1 results/ex2_1_single.fq.gz \
+                --unpaired2 results/ex2_2_single.fq.gz
+        ```
+
+        3)
+        ```bash
+        $ fastp -i reads/miseq_R1.fq.gz -I reads/miseq_R2.fq.gz \
+                -o results/ex3_1.fq.gz -O results/ex3_2.fq.gz \
+                --unpaired1 results/ex3_single.fq.gz
+        ```
+
 
 ---
 
