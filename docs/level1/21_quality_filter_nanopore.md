@@ -20,13 +20,13 @@
 
 ---
 
-## Contents
+!!! first-order "Contents"
 
-1. [Background](#background)
-1. [Assessing sequence quality](#assessing-sequence-quality)
-1. [Identifying and removing adapters](#identifying-and-removing-adapters)
-1. [Removing short and low quality reads](#removing-short-and-low-quality-reads)
-
+    1. [Background](#background)
+    1. [Assessing sequence quality](#assessing-sequence-quality)
+    1. [Identifying and removing adapters](#identifying-and-removing-adapters)
+    1. [Removing short and low quality reads](#removing-short-and-low-quality-reads)
+    
 ---
 
 ### Background
@@ -41,11 +41,11 @@ When setting up the sequencing run parameters using the sequencing software (`Mi
 
 ![](../img/level1_21_filtering_threshold.png)
 
-However, there are still several cases where we may need to revisit our data and perform filtering. For example;
+!!! square-pen "However, there are still several cases where we may need to revisit our data and perform filtering. For example;"
 
-1. If receiving sequence data from an online source, we may not be able to verify what filtering was applied so need to perform our own to be sure of the data quality.
-1. Quality filtering may have been perofrmed, but it is of a level not appropriate for our work (e.g. the filtering criteria were too lenient and poor quality sequences have still slipped through).
-
+    1. If receiving sequence data from an online source, we may not be able to verify what filtering was applied so need to perform our own to be sure of the data quality.
+    1. Quality filtering may have been perofrmed, but it is of a level not appropriate for our work (e.g. the filtering criteria were too lenient and poor quality sequences have still slipped through).
+    
 ---
 
 ## Assessing sequence quality
