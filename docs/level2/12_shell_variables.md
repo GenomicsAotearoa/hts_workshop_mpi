@@ -19,12 +19,12 @@
 
 ---
 
-## Contents
+!!! first-order "Contents"
 
-1. [What are variables and why do we need them](#what-are-variables-and-why-do-we-need-them)
-1. [Declaring variables and accessing their values](#declaring-variables-and-accessing-their-values)
-1. [Writing loops using variables](#writing-loops-using-variables)
-1. [Extending our loop with multiple variables](#extending-our-loop-with-multiple-variables)
+    1. [What are variables and why do we need them](#what-are-variables-and-why-do-we-need-them)
+    1. [Declaring variables and accessing their values](#declaring-variables-and-accessing-their-values)
+    1. [Writing loops using variables](#writing-loops-using-variables)
+    1. [Extending our loop with multiple variables](#extending-our-loop-with-multiple-variables)
 
 ---
 
