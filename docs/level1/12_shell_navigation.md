@@ -78,16 +78,17 @@ If we want to now navigate into the `shell_data` folder we must once again call 
 $ cd shell_data/
 ```
 
-> **NOTE:** It's easy to get lost in a text-based file system. If you ever get stuck and do not know how to get out of your current location, calling either of:
-> ```bash
-> $ cd ~
-> ```
-> or
-> ```bash
-> $ cd
-> ```
-> Will return you do your **home directory** (`/home/username/`).
+!!! note "Note"
 
+     It's easy to get lost in a text-based file system. If you ever get stuck and do not know how to get out of your current location, calling either of:
+     ```bash
+     $ cd ~
+     ```
+     or
+     ```bash
+     $ cd
+     ```
+     Will return you do your **home directory** (`/home/username/`).
 Let's look at what is in the `shell_data` directory:
 
 ```bash
@@ -187,25 +188,23 @@ $ pwd
 $ ls
 ```
 
-> **Exercise**
->
-> Using the filesystem diagram below, if `pwd` displays `/Users/thing`, what will `ls ../backup` display?
-> 1.  `../backup: No such file or directory`
-> 2.  `2012-12-01 2013-01-08 2013-01-27`
-> 3.  `2012-12-01/ 2013-01-08/ 2013-01-27/`
-> 4.  `original pnas_final pnas_sub`
-> 
-> ![](../img/level1_12_filesystem_challenge.svg)
-> 
-> <details>
-> <summary>Solution</summary>
-> 
-> 1. No: there *is* a directory `backup/` in `/Users`.
-> 2. No: this is the content of `Users/thing/backup`, but with `..` we asked for one level further up.
-> 3. No: see previous explanation. Also, we did not specify `-F` to display `/` at the end of the directory names.
-> 4. Yes: `../backup` refers to `/Users/backup`.
-> 
-> </details>
+!!! question "Exercise"
+
+    Using the filesystem diagram below, if `pwd` displays `/Users/thing`, what will `ls ../backup` display?
+    1.  `../backup: No such file or directory`
+    2.  `2012-12-01 2013-01-08 2013-01-27`
+    3.  `2012-12-01/ 2013-01-08/ 2013-01-27/`
+    4.  `original pnas_final pnas_sub`
+ 
+    ![](../img/level1_12_filesystem_challenge.svg)
+ 
+    ??? circle-check "Solution"
+ 
+        1. No: there *is* a directory `backup/` in `/Users`.
+        2. No: this is the content of `Users/thing/backup`, but with `..` we asked for one level further up.
+        3. No: see previous explanation. Also, we did not specify `-F` to display `/` at the end of the directory names.
+        4. Yes: `../backup` refers to `/Users/backup`.
+        
 
 ---
 
