@@ -133,22 +133,22 @@ $ porechop --threads 2 -i reads/nanopore.fq.gz -o results/nanopore.porechop.fq
 
 Watch the output as `porechop` runs, and see how many residual adapters were found in your mock data set. One of the really nice features of `porechop` is that we do not need to know which adapter sequences were used in library construction - the tool has a built-in reference set of the common adapter sequences and reads are screened for all by default.
 
-> ### Exercise
->
-> From the output of `porechop`, answere the following questions:
-> 
-> 1. Which adapter sets were used to produce this library?
-> 1. How many sequences were flagged as carrying a forward or reverse adapter sequence?
-> 1. How many sequences had mid-sequence adapaters which needed removal?
-> 
-> <details>
-> <summary>Solution</summary>
->
-> 1. The adapters from the **SQK-NSK007** and **1D2** sequencing kits were found in this library. 
-> 1. 3,120 sequences were found to have a forward adapter attached, and 834 sequences had an end adapter attached.
-> 1. 20 of the reads were found ot have a mid-sequence adapter.
->
-> </details>
+!!! question "Exercise"
+
+    From the output of `porechop`, answere the following questions:
+
+    1. Which adapter sets were used to produce this library?
+    1. How many sequences were flagged as carrying a forward or reverse adapter sequence?
+    1. How many sequences had mid-sequence adapaters which needed removal?
+
+    
+    ??? circle-check "Solution"
+
+        1. The adapters from the **SQK-NSK007** and **1D2** sequencing kits were found in this library. 
+        1. 3,120 sequences were found to have a forward adapter attached, and 834 sequences had an end adapter attached.
+        1. 20 of the reads were found ot have a mid-sequence adapter.
+
+
 <br />
 
 ---
