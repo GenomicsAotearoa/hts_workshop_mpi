@@ -61,59 +61,57 @@ $ module load pycoQC/2.5.2-gimkl-2020a-Python-3.8.2
 $ pycoQC -f reads/sequencing_summary.txt -o results/sequencing_report.html
 ```
 
->As the tool runs you might see some output that looks like:
->```
->(base) [dwaite@wbl002 quality_nanopore]$ pycoQC -f reads/sequencing_summary.txt -o results/sequencing_report.html
->/opt/nesi/CS400_centos7_bdw/pycoQC/2.5.2-gimkl-2020a-Python-3.8.2/lib/python3.8/site-packages/plotly-4.1.0-py3.8.egg/_plotly_utils/utils.py:203: SyntaxWarning: "is" with a literal. Did you mean "=="?
->  if (iso_string.split("-")[:3] is "00:00") or (iso_string.split("+")[0] is "00:00"):
->/opt/nesi/CS400_centos7_bdw/pycoQC/2.5.2-gimkl-2020a-Python-3.8.2/lib/python3.8/site-packages/plotly-4.1.0-py3.8.egg/_plotly_utils/utils.py:203: SyntaxWarning: "is" with a literal. Did you mean "=="?
->  if (iso_string.split("-")[:3] is "00:00") or (iso_string.split("+")[0] is "00:00"):
->```
->
->This is fine, just a warning that the way `pycoQC` was written was not best practice in a few areas. It does not affect the performance at all.
+!!! bell "As the tool runs you might see some output that looks like:"
+    ```
+    (base) [dwaite@wbl002 quality_nanopore]$ pycoQC -f reads/sequencing_summary.txt -o results/sequencing_report.html
+    /opt/nesi/CS400_centos7_bdw/pycoQC/2.5.2-gimkl-2020a-Python-3.8.2/lib/python3.8/site-packages/plotly-4.1.0-py3.8.egg/_plotly_utils/utils.py:203: SyntaxWarning: "is" with a literal. Did you mean "=="?
+      if (iso_string.split("-")[:3] is "00:00") or (iso_string.split("+")[0] is "00:00"):
+    /opt/nesi/CS400_centos7_bdw/pycoQC/2.5.2-gimkl-2020a-Python-3.8.2/lib/python3.8/site-packages/plotly-4.1.0-py3.8.egg/_plotly_utils/utils.py:203: SyntaxWarning: "is" with a literal. Did you mean "=="?
+      if (iso_string.split("-")[:3] is "00:00") or (iso_string.split("+")[0] is "00:00"):
+    ```
+
+This is fine, just a warning that the way `pycoQC` was written was not best practice in a few areas. It does not affect the performance at all.
 
 <br />
 
-Once the command is finished, you can load it into yout `JupyterHub` session by nativating to it in the file browser, right-clicking, and selecting `Open in New Browser Tab`
+Once the command is finished, you can load it into yout `JupyterHub` session by navigating to it in the file browser, right-clicking, and selecting `Open in New Browser Tab`
 
-<details>
-<summary>Opening by right-click</summary>
+??? image "Opening by right-click"
 
-![](../img/level1_21_pycoqc_load_correct.png)
+    ![](../img/level1_21_pycoqc_load_correct.png)
 
-</details>
+
 <br />
 
-<details>
-<summary>Opening by double-clicking</summary>
+??? image "Opening by double-clicking"
 
-![](../img/level1_21_pycoqc_load_wrong.png)
+    ![](../img/level1_21_pycoqc_load_wrong.png)
 
-</details>
+
 <br />
 
 `pycoQC`  generates output reports as html files, which we can open the same way as we did for `FastQC`.
 
-> ### Exercise
->
-> Inspect the different plots and statistics to answer the following questions:
-> 
-> 1. How many reads do you have in total?
-> 1. What is the median, minimum, and maximum read length?
-> 1. What do the mean quality and the quality distribution of the run look like? (Remember, Q10 means an error rate of 10%)
-> 
-> <details>
-> <summary>Solution</summary>
->
-> 1. ~270k reads in total (see the Basecall summary of `pycoQC`'s output page)
-> 1. The median read length can also be found in the same place. The median length is 3,890 bp for all reads, or 4,070 for those that passed `MinKNOW`'s quality filtering.
->    1. To find the minimum and maximum read lengths look at the 'Basecalled read lengths' plot.
->    1. If you hover over the start and the end of the plotted length distribution you will see the length followed by the number of reads.
->    1. The minimum read length for the passed reads is about 200 bp, the maximum length ~130,000 bp.
-> 1. The median quality of the reads can be found in the basecall summary, and the distribution in the 'Basecalled reads PHRED quality plot'.
->    1. The majority of the reads has a Q-score below 10, i.e., an error rate of >10%.
->    1. These results can be considered normal although it is possible to obtain better quality.
-> </details>
+!!! question "Exercise"
+
+    Inspect the different plots and statistics to answer the following questions:
+
+    1. How many reads do you have in total?
+    1. What is the median, minimum, and maximum read length?
+    1. What do the mean quality and the quality distribution of the run look like? (Remember, Q10 means an error rate of 10%)
+
+
+    ??? circle-check "Solution"
+
+        1. ~270k reads in total (see the Basecall summary of `pycoQC`'s output page)
+        1. The median read length can also be found in the same place. The median length is 3,890 bp for all reads, or 4,070 for those that passed `MinKNOW`'s quality filtering.
+           1. To find the minimum and maximum read lengths look at the 'Basecalled read lengths' plot.
+           1. If you hover over the start and the end of the plotted length distribution you will see the length followed by the number of reads.
+           1. The minimum read length for the passed reads is about 200 bp, the maximum length ~130,000 bp.
+        1. The median quality of the reads can be found in the basecall summary, and the distribution in the 'Basecalled reads PHRED quality plot'.
+           1. The majority of the reads has a Q-score below 10, i.e., an error rate of >10%.
+           1. These results can be considered normal although it is possible to obtain better quality.
+
 <br />
 
 In addition to read statistics, `pycoQC` also gives a lot of information about the sequencing run and the flowcell itself such as sequencing run, yield over time, number of active pores, and so on. One of the strengths of `pycoQC` is that it is interactive and highly customisable. Plots can be cropped, you can zoom in and out, sub-select areas and export figures. For detailed usage and examples see the `pycoQC` documentation: [https://a-slide.github.io/pycoQC/](https://a-slide.github.io/pycoQC/).

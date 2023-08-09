@@ -646,15 +646,15 @@
   }
   .md-typeset .admonition.image,
   .md-typeset details.image {
-    border-color: rgb(211, 241, 190);
+    border-color: rgb(227, 190, 241);
   }
   .md-typeset .image > .admonition-title,
   .md-typeset .image > summary {
-    background-color: rgba(205, 231, 176, 0.459);
+    background-color: rgba(210, 167, 238, 0.658);
   }
   .md-typeset .image > .admonition-title::before,
   .md-typeset .image > summary::before {
-    background-color: rgb(87, 172, 62);
+    background-color: rgb(110, 13, 236);
     -webkit-mask-image: var(--md-admonition-icon--image);
             mask-image: var(--md-admonition-icon--image);
   }
