@@ -1,27 +1,22 @@
 # Connecting to NeSI
 
+## Overview
+
 !!! clock "time"
 
     * Teaching: 20 minutes
     * Exercises: 10 minutes
 
-!!! circle-info "Objectives and Key points"
-    #### Objectives
+!!! circle-info "Learning objectives"
+
+    **Objectives**
     
     * Understand how to connect to NeSI using the JupyterHub web portal.
     
-    #### Key points
+    **Key points**
     
     * You can connect to NeSI from any computer with internet access using the [NeSI JupyterHub portal](https://jupyter.nesi.org.nz/).
     * This allocates a small server instance from which you can perform simple operations, or prepare larger analysis scripts for deployment.
-
----
-
-!!! first-order "Contents"
-
-    1. [Background](#background)
-    1. [How to access NeSI](#how-to-access-nesi)
-    1. [Uses of JupyterHub](#uses-of-jupyterhub)
 
 ---
 
@@ -73,38 +68,42 @@ To access the shell on your own computer requires platform-specific software. Fo
 
     You need to provide three pieces of information to log in. Your **username** was assigned to you when you registered for your NeSI account. It is *usually* either given as `<First name><Last name>` or `<Last name><First initial>`.
 
-    If you cannot remember your user name,  navigate to the [MyNeSI](https://my.nesi.org.nz/) account management website. Once you have logged in, there is an option on the left-hand menu titled **My HPC Account**. Clicking here will show your user name.
+If you cannot remember your user name, navigate to the [MyNeSI](https://my.nesi.org.nz/) account management website. Once you have logged in, there is an option on the left-hand menu titled **My HPC Account**. Clicking here will show your user name.
 
-    ??? key "Forgotten username"
+??? key "Forgotten username"
 
-        <center>![](../img/level1_11_hpc_account.png)</center>
+    <center>![](../img/level1_11_hpc_account.png)</center>
 
 
-    You will also need to provide your password, and the current two-factor code displayed by the Authenticator app. Once these details are submitted, you will be redirected to a loading page. Click the `Select Project` dropdown box and select project `nesi03181`.
+You will also need to provide your password, and the current two-factor code displayed by the Authenticator app. Once these details are submitted, you will be redirected to a loading page.
+
+!!! jupyter "Launching your NeSI session."
 
     <center>![](../img/level1_11_launch_empty.png){width="600"}</center>
 
-    This is the project we will be working under for training. Select a number of hours appropriate to the training session, and leave the other settings at default.
-    
+    Click the `Select Project` dropdown box and select project `nesi03181`. This is the project we will be working under for training. Select a number of hours appropriate to the training session, and leave the other settings at default.
+
     >Please note that project `nesi03181` is open to all users participating in training projects on NeSI. **DO NOT** use this project for diagnostic work!
-    
+
+!!! jupyter "Loading a shell environment."
+
     After logging in, you will see a screen showing something like this: 
-    
+
     ![](../img/level1_11_jupyter_loading.png)
 
     Once the Jupyter server has finished loading, you will then transfer through to the following view:
-    
+
     ![](../img/level1_11_jupyter_landing.png)
-    
+
     For now, we will just launch a basic terminal environment, so click on the **Terminal** icon. This will lauch the command line interface that we will be using for the remainder of this workshop.
-    
+
     ![](../img/level1_11_jupyter_cli.png)
-    
+
     We will spend most of our time learning about the basics of the shell by manipulating some experimental data. Some of the data we're going to be working with is quite large, so a copy of the data has been placed in your working directory for this workshop. We will now begin to explore the working directory.
     
 ---
 
-### Uses of JupyterHub
+## Uses of JupyterHub
 
 !!! jupyter ""
 
