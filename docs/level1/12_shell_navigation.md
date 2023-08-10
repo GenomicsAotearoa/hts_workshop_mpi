@@ -26,9 +26,9 @@
 ## Navigating your file system
 
 The part of the operating system responsible for managing files and directories is called the **file system**. It organizes our data into files,
-which hold information, and directories (also called "folders"), which hold files or other directories. This is **exactly* the same as what you will be used to using the `File Explorer` on your home and work computers, except that we do not have visual prompts to tell us where we are in the file system.
+which hold information, and directories (also called "folders"), which hold files or other directories. This is *exactly** the same as what you will be used to using the `File Explorer` on your home and work computers, except that we do not have visual prompts to tell us where we are in the file system.
 
-To the left hand side of your terminal cursor is a dollar sign character (`$`). The dollar sign is a **prompt**, which shows us that the shell is waiting for input; your shell may use a different character as a prompt and may add information before the prompt. When typing commands, either from these lessons or from other sources, do not type the prompt, only the commands that follow it.
+To the left hand side of your terminal cursor is a dollar sign character (`$`). The dollar sign is a **prompt**, which shows us that the shell is waiting for input; your shell may use a different character as a prompt and may add information before the prompt.
 
 Let's find out where we are by running a command called `pwd` (which stands for "print working directory"). At any moment, our **current working directory** is our default directory, i.e. the directory that the computer assumes we want to run commands in, unless we explicitly specify something else.
 
@@ -61,6 +61,14 @@ which stands for "listing":
     ls
     ```
 
+    ??? success "Output"
+
+        ```bash
+        alicemerrall  cdel012    dwaite       griffinrlg    jfoxwell        lawrencel      module_1  nepelm               quinnol        taylorr
+        andyzzz       dianaj     egias        gunawardanad  jizhang         lieftingl      module_2  ngoni                rebijithbalan  thangavelr
+        ashathomas    dini       ehollins     hongt         kancdeep        lucianorigano  module_3  peter                santhafrance   toomem
+        ```
+
 `ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command. Once inside, use the `ls` command again to view the contents.
 
 !!! terminal "code"
@@ -73,12 +81,10 @@ which stands for "listing":
     ??? success "Output"
  
         ```
-        shell_data
+        quality_illumina  quality_nanopore  shell_data
         ```
 
-We will be working within the `shell_data` subdirectory, and creating new subdirectories, throughout this workshop.  
-
-If we want to now navigate into the `shell_data` folder we must once again call the `cd` command:
+For today we  will be working within the `shell_data` subdirectory. If we want to now navigate into the `shell_data` folder we must once again call the `cd` command:
 
 !!! terminal "code"
 
@@ -88,23 +94,23 @@ If we want to now navigate into the `shell_data` folder we must once again call 
 
 !!! note "Note"
 
-     It's easy to get lost in a text-based file system. If you ever get stuck and do not know how to get out of your current location, calling either of:
+    It's easy to get lost in a text-based file system. If you ever get stuck and do not know how to get out of your current location, calling either of:
 
-     !!! terminal "code"
+    !!! terminal "code"
 
-         ```bash
-         cd ~
-         ```
+        ```bash
+        cd ~
+        ```
 
-     or
+    or
 
-     !!! terminal "code"
+    !!! terminal "code"
 
-         ```bash
-         cd
-         ```
+        ```bash
+        cd
+        ```
 
-     Will return you do your **home directory**..
+     Will return you do your **home directory**.
 
 Let's look at what is in the `shell_data` directory:
 
@@ -158,8 +164,18 @@ Alternatively, many tools produce a brief help menu if run in one of the followi
 
     ```bash
     ls --help
-    ls -h
     ```
+
+    ??? success "Output"
+
+        ```bash
+        sage: ls [OPTION]... [FILE]...
+        List information about the FILEs (the current directory by default).
+        Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
+
+        Mandatory arguments to long options are mandatory for short options too.
+        ...
+        ```
 
 This help is usually shorter and more concise than what you would get through the `man` command, but often if you're just trying to jog your memory it is sufficient.
 
@@ -267,26 +283,6 @@ In many cases, including when working on NeSI, trying to run commands in root di
 
 Dealing with the home directory is very common. The tilde character, `~`, is a shortcut for your home directory. On a Linux operating system the root directory is **two** levels above our home directory, so `cd` or `cd ~` will take you to `/home/<username>/` and `cd /` will take you to `/`.
 
-We can also move up from our current directory by one level with a special `cd` command:
-
-
-!!! terminal "code"
-
-    ```bash
-    cd /nesi/project/nesi03181/phel/<username>/
-    pwd
-
-    cd ..
-    pwd
-    ```
-
-    ??? success "Output"
-
-        ```bash
-        /nesi/project/nesi03181/phel/<username>/
-        /nesi/project/nesi03181/phel/
-        ```
-
 ---
 
 ## Speeding up commands with tab completion
@@ -338,7 +334,7 @@ The shell auto-completes your command to `SRR09`, because all file names in the 
 !!! terminal "code"
 
     ```bash
-    ls SR<tab>
+    ls SR<tab><tab>
     ```
 
     ??? success "Output"
