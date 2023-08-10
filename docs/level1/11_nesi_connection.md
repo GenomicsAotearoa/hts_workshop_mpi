@@ -4,8 +4,8 @@
 
 !!! clock "time"
 
-    * Teaching: 20 minutes
-    * Exercises: 10 minutes
+    * Teaching: 10 minutes
+    * Exercises: 5 minutes
 
 !!! circle-info "Learning objectives"
 
