@@ -26,7 +26,7 @@
 ## Navigating your file system
 
 The part of the operating system responsible for managing files and directories is called the **file system**. It organizes our data into files,
-which hold information, and directories (also called "folders"), which hold files or other directories. This is *exactly** the same as what you will be used to using the `File Explorer` on your home and work computers, except that we do not have visual prompts to tell us where we are in the file system.
+which hold information, and directories (also called "folders"), which hold files or other directories. This is *exactly* the same as what you will be used to using the `File Explorer` on your home and work computers, except that we do not have visual prompts to tell us where we are in the file system.
 
 To the left hand side of your terminal cursor is a dollar sign character (`$`). The dollar sign is a **prompt**, which shows us that the shell is waiting for input; your shell may use a different character as a prompt and may add information before the prompt.
 
