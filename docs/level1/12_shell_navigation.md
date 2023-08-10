@@ -1,33 +1,26 @@
 # Introducing the shell
 
+## Overview
+
 !!! clock "time"
 
-    * Teaching: 40 minutes
+    * Teaching: 15 minutes
     * Exercises: 20 minutes
 
-!!! circle-info "Objectives and Key points"
-    #### Objectives
+!!! circle-info "Learning objectives"
+
+    **Objectives**
     
     * Understand how to navigate your file system using the command line.
     * Perform basic file operations using the command line.
     * Demonstrate the use of tab completion, and understand its advantages.
     
-    #### Key points
+    **Key points** 
     
     * The shell gives you the ability to work more efficiently by using keyboard commands rather than a GUI.
     * Useful commands for navigating your file system include: `ls`, `pwd`, and `cd`.
     * Tab completion can reduce errors from mistyping and make work more efficient in the shell.
 
----
-
-!!! first-order "Contents"
-
-    1. [Navigating your file system](#navigating-your-file-system)
-    1. [Accessing documentation on the command line](#accessing-documentation-on-the-command-line)
-    1. [Full versus relative paths](#full-versus-relative-paths)
-    1. [Navigational shortcuts](#navigational-shortcuts)
-    1. [Speeding up commands with tab completion](#speeding-up-commands-with-tab-completion)
-    
 ---
 
 ## Navigating your file system
@@ -39,69 +32,107 @@ To the left hand side of your terminal cursor is a dollar sign character (`$`). 
 
 Let's find out where we are by running a command called `pwd` (which stands for "print working directory"). At any moment, our **current working directory** is our default directory, i.e. the directory that the computer assumes we want to run commands in, unless we explicitly specify something else.
 
-```bash
-$ pwd
-```
+!!! terminal "code"
+   
+    ```bash
+    pwd
+    ```
 
-You will see a return line of text, which looks something like the following:
+    ??? success "Output"
 
-```bash
-/home/username
-```
+        ```bash
+        /home/<username>
+        ```
 
 This is your home directory. It is private to you, and has limited file storage space. When working on NeSI we typically want to leave our home directory and navigate to a project directory. We will use the `cd` ("change directory") command to swtich our current working directory to a new location in the NeSI file system.
 
-```bash
-$ cd /nesi/project/nesi03181/phel/
-```
+!!! terminal "code"
+
+    ```bash
+    cd /nesi/project/nesi03181/phel/
+    ```
 
 We are now inside a particular folder on the NeSI system, similar to how you navigate folders in the Windows Explorer program on your desktop. Let's now look at how our file system is organised. We can see what files and subdirectories are in this directory by running `ls`,
 which stands for "listing":
 
-```bash
-$ ls
-```
+!!! terminal "code"
+
+    ```bash
+    ls
+    ```
 
 `ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command. Once inside, use the `ls` command again to view the contents.
 
-```bash
-$ cd USERNAME/
-$ ls
-shell_data
-```
+!!! terminal "code"
+
+    ```bash
+    cd USERNAME/
+    ls
+    ```
+
+    ??? success "Output"
+ 
+        ```
+        shell_data
+        ```
 
 We will be working within the `shell_data` subdirectory, and creating new subdirectories, throughout this workshop.  
 
 If we want to now navigate into the `shell_data` folder we must once again call the `cd` command:
 
-```bash
-$ cd shell_data/
-```
+!!! terminal "code"
+
+    ```bash
+    cd shell_data/
+    ```
 
 !!! note "Note"
 
      It's easy to get lost in a text-based file system. If you ever get stuck and do not know how to get out of your current location, calling either of:
-     ```bash
-     $ cd ~
-     ```
+
+     !!! terminal "code"
+
+         ```bash
+         cd ~
+         ```
+
      or
-     ```bash
-     $ cd
-     ```
-     Will return you do your **home directory** (`/home/username/`).
+
+     !!! terminal "code"
+
+         ```bash
+         cd
+         ```
+
+     Will return you do your **home directory**..
+
 Let's look at what is in the `shell_data` directory:
 
-```bash
-$ ls
-sra_metadata  untrimmed_fastq
-```
+!!! terminal "code"
+
+    ```bash
+    ls
+    ```
+
+    ??? success "Output"
+
+        ```bash
+        sra_metadata  untrimmed_fastq
+        ```
 
 We can make the `ls` output more comprehensible by using the **flag** `-F`, which tells `ls` to add a trailing `/` to the names of directories:
 
-```bash
-$ ls -F
-sra_metadata/  untrimmed_fastq/
-```
+!!! terminal "code"
+
+    ```bash
+    ls -F
+    ```
+
+    ??? success "Output"
+    
+        ```bash
+        sra_metadata/  untrimmed_fastq/
+        ```
 
 Anything with a `/` after it is a directory. Things with a `*` after them are programs. If there are no decorations, it's a file.
 
@@ -111,9 +142,11 @@ Anything with a `/` after it is a directory. Things with a `*` after them are pr
 
 `ls` has lots of other options. To find out what they are, we can type:
 
-```bash
-$ man ls
-```
+!!! terminal "code"
+
+    ```bash
+    man ls
+    ```
 
 `man` (short for manual) displays detailed documentation (also referred as man page or man file) for `bash` commands. It is a powerful resource to explore `bash` commands, understand their usage and flags.
 
@@ -121,10 +154,12 @@ Some manual files are very long. You can scroll through the file using your keyb
 
 Alternatively, many tools produce a brief help menu if run in one of the following ways:
 
-```bash
-$ ls --help
-$ ls -h
-```
+!!! terminal "code"
+
+    ```bash
+    ls --help
+    ls -h
+    ```
 
 This help is usually shorter and more concise than what you would get through the `man` command, but often if you're just trying to jog your memory it is sufficient.
 
@@ -136,31 +171,42 @@ As we have previously seen, the `cd` command takes an directory name which you p
 
 Directories can be specified using either a *relative* path or a full *absolute* path. The directories on the computer are arranged into a hierarchy. The full path tells you where a directory is in that hierarchy. Dependending on where you currently are in the file system when you enter the `pwd` command you will see something like:
 
-```bash
-$ pwd
-/nesi/project/nesi03181/phel/USERNAME/
-```
+!!! terminal "code"
 
-This is the full name of your current directory. Assuming you saw the first output, this tells you that you are in a directory called `username/`, which sits inside a directory called `phel/`, which in turn sits inside a directory `nesi03181/`. At the very top of the hierarchy is a directory called `/` which is usually referred to as the **root directory**.
+    ```bash
+    pwd
+    ```
+    
+    ??? success "Output"
+
+        ```bash
+        /nesi/project/nesi03181/phel/<username>/
+        ```
+
+This is the full name of your current directory. Assuming you saw the first output, this tells you that you are in a directory called `<username>/`, which sits inside a directory called `phel/`, which in turn sits inside a directory `nesi03181/`. At the very top of the hierarchy is a directory called `/` which is usually referred to as the **root directory**.
 
 Return to your home directory, then navigate back to your current location using the following command:
 
-```bash
-$ cd ~
-$ cd /nesi/project/nesi03181/phel/USERNAME/
-```
+!!! terminal "code"
+
+    ```bash
+    cd ~
+    cd /nesi/project/nesi03181/phel/<username>/
+    ```
 
 Now return to your home directory again, and navigate back using the following commands:
 
-```bash
-$ cd ~
-$ cd /
-$ cd nesi/
-$ cd project/
-$ cd nesi03181/
-$ cd phel/
-$ cd USERNAME/
-```
+!!! terminal "code"
+
+    ```bash
+    cd ~
+    cd /
+    cd nesi/
+    cd project/
+    cd nesi03181/
+    cd phel/
+    cd <username>/
+    ```
 
 These two commands have the same effect and take us to the same location. However, the first uses the absolute path, giving the full address from the top of the file system. The second uses a series of relative paths, with the directory specified in each command contingent on the current working directory.
 
@@ -174,19 +220,25 @@ A full path always starts with a `/` (the root directory). A relative path does 
 
 When working with relative paths, there is one other thing which is critical to know - how to move up out of a directory. This can be achieved using a special path `../` which means "move one level higher than the current directory. To see this in action, run the follow commands and note output each time to run `pwd` and `ls`.
 
-```bash
-$ cd /nesi/project/nesi03181/phel/USERNAME/
-$ pwd
-$ ls
+!!! terminal "code"
 
-$ cd ../
-$ pwd
-$ ls
+    ```bash
+    cd /nesi/project/nesi03181/phel/<username>/
+    pwd
+    ls
+    ```
 
-$ cd USERNAME/
-$ pwd
-$ ls
-```
+    ```bash
+    cd ../
+    pwd
+    ls
+    ```
+
+    ```bash
+    cd USERNAME/
+    pwd
+    ls
+    ```
 
 !!! question "Exercise"
 
@@ -204,7 +256,6 @@ $ ls
         2. No: this is the content of `Users/thing/backup`, but with `..` we asked for one level further up.
         3. No: see previous explanation. Also, we did not specify `-F` to display `/` at the end of the directory names.
         4. Yes: `../backup` refers to `/Users/backup`.
-        
 
 ---
 
@@ -214,7 +265,27 @@ The root directory is the highest level directory in your file system and contai
 
 In many cases, including when working on NeSI, trying to run commands in root directories will require special permissions which are not available to you as a regualar user.
 
-Dealing with the home directory is very common. The tilde character, `~`, is a shortcut for your home directory. On a Linux operating system the root directory is **two** levels above our home directory, so `cd` or `cd ~` will take you to `/home/username/` and `cd /` will take you to `/`.
+Dealing with the home directory is very common. The tilde character, `~`, is a shortcut for your home directory. On a Linux operating system the root directory is **two** levels above our home directory, so `cd` or `cd ~` will take you to `/home/<username>/` and `cd /` will take you to `/`.
+
+We can also move up from our current directory by one level with a special `cd` command:
+
+
+!!! terminal "code"
+
+    ```bash
+    cd /nesi/project/nesi03181/phel/<username>/
+    pwd
+
+    cd ..
+    pwd
+    ```
+
+    ??? success "Output"
+
+        ```bash
+        /nesi/project/nesi03181/phel/<username>/
+        /nesi/project/nesi03181/phel/
+        ```
 
 ---
 
@@ -224,41 +295,71 @@ Typing out file or directory names can waste a lot of time and it's easy to make
 
 Return to your working directory:
 
-```bash
-$ cd /nesi/project/nesi03181/phel/USERNAME/
-```
+!!! terminal "code"
 
-Then enter:
+    ```bash
+    cd /nesi/project/nesi03181/phel/<username>/
+    ```
 
-```bash
-$ cd she<tab>
-```
+Then start a new `cd` command and provide it with the first few letters of the `shell_data/` name, then press <kbd>Tab</kbd>.
 
-The shell will fill in the rest of the directory name for `shell_data`. Move into this directory.
+!!! terminal "code"
+
+    ```bash
+    cd she<tab>
+    ```
+
+    ??? success "Output"
+
+        The command will automatically expand to the following text:
+
+        ```bash
+        cd shell_data/
+        ```
 
 Using tab complete can be very helpful. However, it will only autocomplete a file or directory name if you've typed enough characters to provide a unique identifier for the file or directory you are trying to access.
 
-For example, if we now try to list the files which names start with `SR` by using tab complete:  
+For an example of this in action, move into the `shell_data/` directory and we will try to repeat this. Try to list the files which names start with `SR` by using tab complete:  
 
-```bash
-$ ls SR<tab>
-```
+!!! terminal "code"
 
-The shell auto-completes your command to `SRR09`, because all file names in the directory begin with this prefix. Hitting <kbd>Tab</kbd> twice in quick succession will prompt the the shell to list all possible choices.
+    ```bash
+    ls SR<tab>
+    ```
 
-```bash
-$ ls SRR09<tab><tab>
-SRR097977.fastq  SRR098026.fastq
-```
+    ??? success "Output"
 
-Tab completion can also fill in the names of programs, which can be useful if you remember only part  of a program name.
+        ```bash
+        cd SRR09
+        ```
 
-```bash
-$ pw<tab><tab>
-pwck              pwd               pwhistory_helper  pwscore
-pwconv            pwdx              pwmake            pwunconv
-```
+The shell auto-completes your command to `SRR09`, because all file names in the directory begin with this prefix but it does not have enough information to know exactly which file you are trying to identify. Hitting <kbd>Tab</kbd> twice in quick succession will prompt the the shell to list all possible choices.
 
-Displays the name of every program that starts with `pw`.
+!!! terminal "code"
+
+    ```bash
+    ls SR<tab>
+    ```
+
+    ??? success "Output"
+
+        ```bash
+        SRR097977.fastq  SRR098026.fastq
+        ```
+
+Tab completion can also fill in the names of programs, which can be useful if you remember only part  of a program name. For example, if you wished to display the name of every program that starts with `pw`:
+
+!!! terminal "code"
+
+    ```bash
+    pw<tab><tab>
+    ```
+
+    ??? success "Output"
+
+        ```bash
+        pwck              pwd               pwhistory_helper  pwscore
+        pwconv            pwdx              pwmake            pwunconv
+        ```
 
 ---
