@@ -49,12 +49,14 @@ Assuming that we do not know the origin of our data (as you do not in this exerc
 
 We are going ot start with a the tool `pycoQC`. This is a data visualisation and quality control tool for Nanopore data. In contrast to many other assessment tools, it does not take your sequencing files as input but instead requires a Nanopore-specific output file generated during the sequencing run.
 
-To run `pycoQc`, navigate to the `/nesi/project/nesi03181/phel/USERNAME/level1/quality_nanopore/` directory and run the following commands:
+To run `pycoQc`, navigate to your working folder and run the following commands:
 
 !!! terminal "code"
 
     ```bash
     module load pycoQC/2.5.2-gimkl-2020a-Python-3.8.2
+
+    cd  /nesi/project/nesi03181/phel/<username>/level1/quality_nanopore/
     pycoQC -f reads/sequencing_summary.txt -o results/sequencing_report.html
     ```
 
@@ -187,9 +189,9 @@ Unload `porechop`, and load the `NanoFilt` module to:
 
     `NanoFilt` behaves a bit strangely in the way it takes input data and writes output. Rather than specifying files with flags such as `-i` and `-o`, it reads a data from a stream called `stdin`, and writes to a separate channel called `stdout`.
 
-    Working with these channels is part of the Level 2 training, for now you just need to know that the `<` character sets the `stdit` input, and `>` specifies where the `stdout` data will go.
+    Working with these channels is part of the Level 2 training, for now you just need to know that the `<` character sets the `stdin` input, and `>` specifies where the `stdout` data will go.
 
-We can get a quick estimate for how much data passed our quality requirements by checking the number of lines in the output file. If you have read the [fastq description file](../supplementary/fastq_format.md you will know how data is recorded in the fastq file format. We can quickly use the `wc` command to count the number of lines in the input and output files, to compare how many reads we started with and how many remain after filtering:
+We can get a quick estimate for how much data passed our quality requirements by checking the number of lines in the output file. If you have read the [fastq description file](../supplementary/fastq_format.md) you will know how data is recorded in the fastq file format. We can quickly use the `wc` command to count the number of lines in the input and output files, to compare how many reads we started with and how many remain after filtering:
 
 !!! terminal "code"
 
