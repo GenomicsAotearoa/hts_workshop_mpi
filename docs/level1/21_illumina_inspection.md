@@ -42,7 +42,7 @@ Navigate to the `/nesi/project/nesi03181/phel/<username>/level1/quality_illumina
 
     ??? success "Output"
 
-        `bash
+        ```bash
         fastqc -o results/ reads/SRR097977.fq.gz
         ```
 
@@ -60,7 +60,7 @@ Navigate to the `/nesi/project/nesi03181/phel/<username>/level1/quality_illumina
 
 Let's now look at some of the outputs, starting with the summary for sample `SRR097977`.
 
-!!! jupyter ""
+!!! jupyter "FastQC output"
 
     ![](../img/level1_31_overview.png)
  
@@ -74,7 +74,7 @@ From the summary view, the main point of interest is the 'Basic Statistics' tabl
 
 Scrolling down (or clicking on the 'Per base sequence quality' link) will take us to the main piece of information we wish to know about the samples - the overall quality of the sequences.
 
-!!! jupyter ""
+!!! jupyter "FastQC output"
 
     ![](../img/level1_31_quality.png)
 
@@ -94,7 +94,7 @@ This is because most genomes have a bias for a high or low proportion of G-C pai
 
 On average then, when we look to the nulcotide frequency distribution for a random genome we should not expect 25% of each nucleotide in each position, but *we should* see equal frequencies of A/T and G/C.
 
-!!! jupyter ""
+!!! jupyter "FastQC output"
 
     ![](../img/level1_31_seqcontent_1.png)
 
@@ -155,7 +155,7 @@ This is not the case in the `SRR097977` data which we were looking at, but we al
 
 Take a look at the result of the `ERR4179828_1` file. The per base sequence content plot should look similar to this:
 
-!!! jupyter ""
+!!! jupyter "FastQC output"
 
     ![](../img/level1_31_seqcontent_2.png)
 
@@ -173,7 +173,9 @@ This is true for *most* of the sequence, but at the starting nucleotides somethi
 
 ## Adapter content
 
-As you will know from the previous Nanopore exercises, when sequencing is peformed we must add adapter sequences to our extracted DNA (or cDNA) to facilitate sequencing. Because these adapter constructs become part of the DNA sequence, they are also read by the sequencing machine and reported as observed sequence. It is *generally* good practice for a sequencing facility to scrub these adapter sequences from your data before returning it to you, and if you are using a multiplexed (barcoded) method of sequencing this almost certainly must be performed before your sequence is made available.
+As you will know from the previous Nanopore exercises, when sequencing is peformed we must add adapter sequences to our extracted DNA (or cDNA) to facilitate sequencing. Because these adapter constructs become part of the DNA sequence, they are also read by the sequencing machine and reported as observed sequence.
+
+It is *generally* good practice for a sequencing facility to scrub these adapter sequences from your data before returning it to you, and if you are using a multiplexed (barcoded) method of sequencing this almost certainly must be performed before your sequence is made available.
 
 However, this is never guaranteed and it is always good practice to confirm that there are no adapters or barcodes in your library before you attempt to analyse the data. Since adapters are attached to the start of the DNA fragment being sequenced, they will always appear in the starting positions of your reads if not removed.
  
@@ -195,9 +197,9 @@ However, this is never guaranteed and it is always good practice to confirm that
 
 It is important to think carefully about the expected attributes of your sequence data as you work with it. Although there are plenty of tools (`FastQC` included) which can automatically detect the common library adapters, 'common' is a relative term and depends on how frequently updated the tool is compared with the latest sequencing technologies.
 
-Take a look at the adapter content view for the `Mb1_1` library. Are there any adapter or preparation sequences detected in these data? Are they where you would expect them?
+Take a look at the adapter content view for the `ERR4179828_1` library. Are there any adapter or preparation sequences detected in these data? Are they where you would expect them?
 
-!!! jupyter ""
+!!! jupyter "FastQC output"
 
     ![](../img/level1_31_adapters.png)
 
