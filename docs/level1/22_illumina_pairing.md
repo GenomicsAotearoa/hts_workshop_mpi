@@ -17,7 +17,7 @@
 
 ---
 
-## Trimming paired data and preserving read order
+## Trimming data without considering read pairing
 
 Once we have visualised our sequence quality, we need to make some decisions regarding whether we perform quality filering or not, how severely the data must be trimmed, and whether or not we need to remove adapter sequences.
 
@@ -102,6 +102,10 @@ Where there are now some mismatched pairs - `Seq5_R1` pairs with `Seq4_R2`, `Seq
 
     This is just a simple example where a single sequence was removed from each direction. In practice the problem would be much more severe, as there would almost certainly be an uneven number of reads filtered from each direction so the order would almost certainly never recover, as it did in this example.
 
+---
+
+## Accounting for read pairing in Illumina data
+
 Any worthwhile trimming tool is aware of this problem, and has a built-in capacity for filtering these issues. In the case of `fastp`, this is the correct way to filter the sequences:
 
 !!! terminal "code"
@@ -127,6 +131,10 @@ With this usage, `fastp` takes a second input with the `-I` parameter which is u
 
 However, although the `Seq4_R1` and `Seq7_R2` sequence were of poor quality and did not pass quality filtering, their partner sequence did pass. In the usage above, the `Seq4_R2` and `Seq7_R1` sequence are still filtered out of the data even though they are of sufficient quality.
 
+---
+
+## Capturing unpaired reads following quality filtering
+
 This is a fairly common occurance, so filtering tools have an additional output type for these unpaired (also called '*orphan*' or '*singleton*') sequences which pass filtering when their partner do not.
 
 The command is getting a bit long, so we will use the `\` character to break the command over several lines:
@@ -142,21 +150,21 @@ The command is getting a bit long, so we will use the `\` character to break the
 
     ??? success "Output"
 
-        ```
-        out.R1.fq.gz---out.R2.fq.gz
-        @Seq1-----------------@Seq1
-        @Seq2-----------------@Seq2
-        @Seq3-----------------@Seq3
-        @Seq5-----------------@Seq5
-        @Seq6-----------------@Seq6
-        @Seq8-----------------@Seq8
-        @Seq9-----------------@Seq9
+        ```diff
+          out.R1.fq.gz---out.R2.fq.gz
+        + @Seq1-----------------@Seq1
+        + @Seq2-----------------@Seq2
+        + @Seq3-----------------@Seq3
+        + @Seq5-----------------@Seq5
+        + @Seq6-----------------@Seq6
+        + @Seq8-----------------@Seq8
+        + @Seq9-----------------@Seq9
 
-        out.R1.unpaired.fq.gz
-        @Seq7_R1
+          out.R1.unpaired.fq.gz
+        + @Seq7_R1
 
-        out.R2.unpaired.fq.gz
-        @Seq4_R2
+          out.R2.unpaired.fq.gz
+        + @Seq4_R2
         ```
 
 This is a much better solution, as we are now retaining more high quality data. In practice, singleton sequences are rare but they are still valuable data and worth retaining where possible.
@@ -174,18 +182,18 @@ This is a much better solution, as we are now retaining more high quality data. 
     ??? success "Output"
 
         ```
-        out.R1.fq.gz---out.R2.fq.gz
-        @Seq1-----------------@Seq1
-        @Seq2-----------------@Seq2
-        @Seq3-----------------@Seq3
-        @Seq5-----------------@Seq5
-        @Seq6-----------------@Seq6
-        @Seq8-----------------@Seq8
-        @Seq9-----------------@Seq9
+          out.R1.fq.gz---out.R2.fq.gz
+        + @Seq1-----------------@Seq1
+        + @Seq2-----------------@Seq2
+        + @Seq3-----------------@Seq3
+        + @Seq5-----------------@Seq5
+        + @Seq6-----------------@Seq6
+        + @Seq8-----------------@Seq8
+        + @Seq9-----------------@Seq9
 
-        out.unpaired.fq.gz
-        @Seq4_R2
-        @Seq7_R1
+          out.unpaired.fq.gz
+        + @Seq4_R2
+        + @Seq7_R1
         ```
 
 ---
