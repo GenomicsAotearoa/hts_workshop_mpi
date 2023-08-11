@@ -170,7 +170,7 @@ Understanding the resources you have available and how to use them most efficien
 
 ---
 
-??? question "Exercise 5.3" 
+??? question "Exercise (optional)" 
 
 
     Let's submit another slurm job and review its resource utilisation
