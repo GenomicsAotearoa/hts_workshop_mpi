@@ -1,4 +1,4 @@
-# Connecting to NeSI
+# 1.1 - Connecting to NeSI
 
 ## Overview
 

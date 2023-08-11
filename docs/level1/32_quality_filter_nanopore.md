@@ -1,4 +1,4 @@
-# Nanopore - Sequence quality
+# 3.2 - Filtering Nanopore data
 
 !!! clock "time"
 

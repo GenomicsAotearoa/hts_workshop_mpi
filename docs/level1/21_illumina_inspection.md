@@ -1,4 +1,4 @@
-# Assesing sequence quality of Illumina data
+# 2.1 - Assesing Illumina data
 
 !!! clock "time"
     * Teaching: 20 minutes

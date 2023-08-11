@@ -1,4 +1,4 @@
-# Key points before filtering and trimming Illumina data
+# 2.2 - Filtering Illumina data (overview)
 
 !!! clock "time"
 

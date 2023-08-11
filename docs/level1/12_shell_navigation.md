@@ -1,4 +1,4 @@
-# Introducing the shell
+# 1.2 - Introducing the shell
 
 ## Overview
 
