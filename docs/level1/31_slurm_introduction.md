@@ -1,6 +1,6 @@
 # 3.1 - Introduction to slurm
 
-<center>![image](./nesi_images/scheduler_image.png){width="500"}</center>
+<center>![image](../img/level1_31_scheduler_image.png){width="500"}</center>
 
 ## Introduction to slurm scheduler and directives
 
@@ -28,7 +28,7 @@ An HPC system might have thousands of nodes and thousands of users. How do we de
     
     All NeSI clusters use Slurm (Simple Linux Utility for Resource Management) scheduler (or job submission system) to manage resources and how they are made available to users.
 
-    ![image](./nesi_images/slurm_comms2compute.png)
+    ![image](../img/level1_31_slurm_comms2compute.png)
 
     <small>Researchers can not communicate directly to  Compute nodes from the login node. Only way to establish a connection OR send scripts to compute nodes is to use scheduler as the carrier/manager</small>
 
@@ -37,11 +37,11 @@ An HPC system might have thousands of nodes and thousands of users. How do we de
 ## Life cycle of a slurm job
 
 <center>
-![image](./nesi_images/batch_system_flow.png){width="1000"}
+![image](../img/level1_31_batch_system_flow.png){width="1000"}
 </center>
 
 - - -
-!!! clipboard-list "Commonly used Slurm commands"
+!!! hand-holding-dollar "Commonly used Slurm commands"
 
     | Command        | Function                                                                                             |
     |:---------------|:------------------------------------------------------------------------------------------------------|
@@ -54,29 +54,6 @@ An HPC system might have thousands of nodes and thousands of users. How do we de
     | `salloc`       | Submit interactive jobs to the scheduler                                                             |
 
 - - - 
-
-??? question "Exercise 5.1 (Optional) - Check the state of the compute cluster " 
-
-    * summary of current states of compute nodes known to the scheduler
-    ```bash
-    sinfo
-    ```
-
-    * similar to above but expanded
-    ```bash
-    sinfo --format="%16P %.8m %.5a %10T %.5D %80N"
-    ```
-
-    * will print a long output as it is one row per compute node in the cluster
-    ```bash
-    sinfo -N -l
-    ```
-
-     * Explore the capacity of a compute node
-     ```bash
-     sinfo -n wch001 -o "%n %c %m"
-     ```
-
 
 ## Anatomy of a slurm script and submitting first slurm job 🧐
 
