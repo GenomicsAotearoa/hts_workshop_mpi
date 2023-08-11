@@ -61,7 +61,7 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
 
 
 <center>
-![image](./nesi_images/anatomy_of_a_slurm_script.png){width="700"}
+![image](../img/level1_31_anatomy_of_a_slurm_script.png){width="700"}
 </center>
 
 
