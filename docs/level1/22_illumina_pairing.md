@@ -181,7 +181,7 @@ This is a much better solution, as we are now retaining more high quality data. 
 
     ??? success "Output"
 
-        ```
+        ```diff
           out.R1.fq.gz---out.R2.fq.gz
         + @Seq1-----------------@Seq1
         + @Seq2-----------------@Seq2
