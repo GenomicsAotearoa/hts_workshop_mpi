@@ -99,25 +99,6 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
 
     <center>![image](../img/level1_31_slurm_cycle_mini.png)</center>
     
-    * First step is to create new working directories inside the existing `~/scripting_workshop/scheduler` 
-    ```bash
-     cd ~/scripting_workshop/scheduler
-    ```
-
-    * confirm the path is correct 
-    ```bash
-    pwd
-    ```
-
-    * create a new directory for this section and change the directory to it - Check for the follow up not `&&`
-    ```bash
-    mkdir ex_5.2 && cd ex_5.2
-    ```
-    !!! quote ""
-        The meaning of `&&` and `&` are intrinsically different.
-      
-        * **What is `&&` in Bash?** In Bash—and many other programming languages—`&&` means “AND”. And in command execution context like this, it means items to the left as well as right of && should be run in sequence in this case.
-        * **What is & in Bash?** And a single `&`means that the preceding commands—to the immediate left of the &—should simply be run in the background.
 
     * use a text editor of choice to create a file named firstslurm.sl - we will use nano here
     ```bash
@@ -129,7 +110,7 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
     #!/bin/bash 
 
     #SBATCH --job-name      myfirstslurmjob
-    #SBATCH --account       nesi02659
+    #SBATCH --account       nesi03181
     #SBATCH --time          00:02:00                 #Format is DD-HH:MM:SS
     #SBATCH --cpus-per-task 1
     #SBATCH --mem           512                      #Default unit is Megabytes
@@ -139,8 +120,6 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
     sleep 100
 
     echo "I am a slurm job and I slept for 100 seconds"
-  
-    echo "$SLURM_JOB_ID END"
     ```
 
     * **Save** and **Exit**
@@ -234,10 +213,5 @@ Understanding the resources you have available and how to use them most efficien
     * Now review the content of `.err` and `.out` files in */slurmout* directory
 
  
-
-!!! quote ""
-    **Feeling adventurous 🤠 ?** - Refer to [Supplementary material on slurm profiling](https://genomicsaotearoa.github.io/Workshop-Bash_Scripting_And_HPC_Job_Scheduler/7_supplementary_2/)
-
-
 - - -
 
