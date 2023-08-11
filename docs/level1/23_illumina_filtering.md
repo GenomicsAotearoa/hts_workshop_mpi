@@ -83,7 +83,9 @@ There are quite a few options we can modify here, and we are going to ignore mos
 
 ## Adapter removal
 
-Traditionally, sequencing trimming tools require you to provide the adapters in your data set via a fasta file. The sequences in this file are then matched against the start and end of each fastq sequence read by the tool and trimming occurs when there is a match. `fastp` does provide this option, via the `--adapter_fasta` parameter, i.e.:
+Traditionally, sequencing trimming tools require you to provide the adapters in your data set via a fasta file. The sequences in this file are then matched against the start and end of each fastq sequence read by the tool and trimming occurs when there is a match.
+
+`fastp` provides this option via the `--adapter_fasta` parameter, i.e.:
 
 !!! terminal "code"
 
@@ -101,7 +103,9 @@ But it introduces two quality of life improvements that are often easier to work
           -i ... -o ...
     ```
 
-If we do not know what adapters were used, `fastp` has the ability to auto-detect adapters in the sequences. When running in this way, `fastp` will read the first 1,000,000 sequences in the file and search for common nucleotide patterns at the start of the read. The sequences that `fastp` identifies as the adapter are reported as part of the console output, and can then be compared against known lists of sequencing adapters to confirm they are correct.
+If we do not know what adapters were used, `fastp` has the ability to auto-detect adapters in the sequences. When running in this way, `fastp` will read the first 1,000,000 sequences in the file and search for common nucleotide patterns at the start of the read.
+
+The sequences that `fastp` identifies as the adapter are reported as part of the console output, and can then be compared against known lists of sequencing adapters to confirm they are correct.
 
 !!! terminal "code"
 
@@ -173,5 +177,3 @@ There are just a few more features of `fastp` which can be useful to know.
 1. `--n_base_limit`: Discard sequences with more than the specified limit of `N` characters, regardless of the sequence quality.
 
 ---
-
-````
