@@ -87,10 +87,6 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
 
 <br>
 
-??? bell "Assigning values to Slurm variables"
-    <center>![image](./nesi_images/sbtach_def_1.png)</center>
-
-    <center>![image](./nesi_images/sbatch_def_2.png)</center>
 - - -
 
 ??? question "Exercise"
@@ -106,6 +102,12 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
     ```
 
     * Content of `firstslurm.sl` should be as below. Please discuss as you make progress
+
+    ??? bell "Quick Check before compiling the script - Assigning values to Slurm variables"
+        <center>![image](../img/level1_31_sbatch_def_1.png)</center>
+    
+        <center>![image](../img/level1_31_sbatch_def_2.png)</center>
+
     ```bash
     #!/bin/bash 
 
@@ -134,10 +136,6 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
     ```bash
     sacct
     ```
-    ??? hand-holding-dollar "`$SLURM_JOB_ID`"
-        `$SLURM_JOB_ID` is a Slurm environment variable. 
-        - A full list of environment variables for SLURM can be found by visiting the [SLURM page on environment variables](https://slurm.schedmd.com/sbatch.html#SECTION_INPUT-ENVIRONMENT-VARIABLES)
-        - These variables are great for recursive operations. 
 - - - 
  
 !!! magnifying-glass "STDOUT/STDERR from jobs"
