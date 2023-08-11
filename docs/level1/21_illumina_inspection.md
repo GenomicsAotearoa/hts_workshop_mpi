@@ -62,7 +62,7 @@ Let's now look at some of the outputs, starting with the summary for sample `SRR
 
 !!! jupyter "FastQC output"
 
-    ![](../img/level1_31_overview.png)
+    ![](../img/level1_21_overview.png)
  
     This is the basic view for `FastQC` output. At the left-hand side of the tab is a navigation menu, which can move you quickly through the pages of summary information. Alternatively, you can simply scroll down the page to find the section you are most interested in.
 
@@ -76,7 +76,7 @@ Scrolling down (or clicking on the 'Per base sequence quality' link) will take u
 
 !!! jupyter "FastQC output"
 
-    ![](../img/level1_31_quality.png)
+    ![](../img/level1_21_quality.png)
 
 This view provides us with a nice graphical summary of the average sequence quality along the length of our reads. Fastq Q-scores are ranked on the y-axis and the nucleotide position in the read (or range of positions, for reads which are several hundred nucleotides in length) are plotted sequentially along the x-axis.
 
@@ -96,7 +96,7 @@ On average then, when we look to the nulcotide frequency distribution for a rand
 
 !!! jupyter "FastQC output"
 
-    ![](../img/level1_31_seqcontent_1.png)
+    ![](../img/level1_21_seqcontent_1.png)
 
 This is not the case in the `SRR097977` data which we were looking at, but we already know that this is a reasonably low-quality library. For a more realistic result, let's take a look at some better data taken from the Sequence Read Archive.
 
@@ -157,7 +157,7 @@ Take a look at the result of the `ERR4179828_1` file. The per base sequence cont
 
 !!! jupyter "FastQC output"
 
-    ![](../img/level1_31_seqcontent_2.png)
+    ![](../img/level1_21_seqcontent_2.png)
 
 Here we can see a much more realistic result for the sequencing output. These sequencing data are from an *M. bovis* genome (BioProject [PRJEB38523](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38523). *M. bovis* has an average GC richness of ~29%, which is consistent with the results in this figure - both the `C%` and `G%` values are between 15% and 18% for the length of the sequence, and the `A%` and `T%` are slightly over 30%.
 
@@ -201,7 +201,7 @@ Take a look at the adapter content view for the `ERR4179828_1` library. Are ther
 
 !!! jupyter "FastQC output"
 
-    ![](../img/level1_31_adapters.png)
+    ![](../img/level1_21_adapters.png)
 
 It appears that any Illumina sequencing adapters that were used in the library preparation has already been removed from the start of the sequences, but there are Nextera transposase sequences present in the tail end of some sequences.
 

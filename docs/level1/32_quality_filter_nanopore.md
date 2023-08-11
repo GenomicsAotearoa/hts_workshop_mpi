@@ -30,11 +30,11 @@ When setting up the sequencing run parameters using the sequencing software (`Mi
 
 !!! jupyter "Enabling quality filtering in MinKNOW"
 
-    ![](../img/level1_21_filtering_activate.png)
+    ![](../img/level1_32_filtering_activate.png)
 
 !!! jupyter "Configuring quality filtering in MinKNOW"
 
-    ![](../img/level1_21_filtering_threshold.png)
+    ![](../img/level1_32_filtering_threshold.png)
 
 However, there are still several cases where we may need to revisit our data and perform filtering. For example;
 
@@ -75,11 +75,11 @@ Once the command is finished, you can load it into yout `JupyterHub` session by 
 
 ??? image "Opening by double-clicking (incorrect)"
 
-    ![](../img/level1_21_pycoqc_load_wrong.png)
+    ![](../img/level1_32_pycoqc_load_wrong.png)
 
 !!! jupyter "Opening by right-click"
 
-    ![](../img/level1_21_pycoqc_load_correct.png)
+    ![](../img/level1_32_pycoqc_load_correct.png)
 
 `pycoQC`  generates output reports as html files, which we can open the same way as we did for `FastQC`.
 
