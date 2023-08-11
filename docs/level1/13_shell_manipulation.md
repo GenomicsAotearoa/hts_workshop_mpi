@@ -80,18 +80,18 @@ The commands `head` and `tail` are for this task. They let you look at the begin
 
     ??? success "Output"
 
-    ```bash
-    @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-    NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
-    +SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-    !!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
-    @SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
-    NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
-    +SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
-    !!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
-    @SRR098026.3 HWUSI-EAS1599_1:2:1:0:570 length=35
-    NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
-    ```
+        ```bash
+        @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
+        NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
+        +SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
+        !!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
+        @SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
+        NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
+        +SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
+        !!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
+        @SRR098026.3 HWUSI-EAS1599_1:2:1:0:570 length=35
+        NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
+        ```
 
 !!! terminal "code"
 
@@ -101,18 +101,18 @@ The commands `head` and `tail` are for this task. They let you look at the begin
 
     ??? success "Output"
 
-    ```bash
-    +SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35
-    #!##!#################!!!!!!!######
-    @SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
-    GNTGNGGTCATCATACGCGCCCNNNNNNNGGCATG
-    +SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
-    B!;?!A=5922:##########!!!!!!!######
-    @SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
-    CNCTNTATGCGTACGGCAGTGANNNNNNNGGAGAT
-    +SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
-    A!@B!BBB@ABAB#########!!!!!!!######
-    ```
+        ```bash
+        +SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35
+        #!##!#################!!!!!!!######
+        @SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
+        GNTGNGGTCATCATACGCGCCCNNNNNNNGGCATG
+        +SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
+        B!;?!A=5922:##########!!!!!!!######
+        @SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
+        CNCTNTATGCGTACGGCAGTGANNNNNNNGGAGAT
+        +SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
+        A!@B!BBB@ABAB#########!!!!!!!######
+        ```
 
 By default the first/last 10 lines are printed. This can be changed by adding the `-n` option to the command to change the number. 
 
@@ -124,9 +124,9 @@ By default the first/last 10 lines are printed. This can be changed by adding th
 
     ??? success "Output"
  
-    ```bash
-    @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-    ```
+        ```bash
+        @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
+        ```
 
     ```bash
     tail -n1 SRR098026.fastq
@@ -197,7 +197,11 @@ The `cp` ("copy") and `mv` ("move") commands are mostly identical in how they wo
     mv SRR097977.fq_backup SRR097977.fq_bkup
     ```
 
-In this pair on commands, we first create a copy of the file `SRR097977.fastq` with the name `SRR097977.fq_backup`. These are identical in their content. We then move/rename the `SRR097977.fq_backup` file (effectively, moving the contents of the file into a new file) to a different file named `SRR097977.fq_bkup`. If you run the `ls` command you will see that `SRR097977.fastq` is still present, as it was only copied, but `SRR097977.fq_backup` no longer exists.
+In this pair on commands, we first create a copy of the file `SRR097977.fastq` with the name `SRR097977.fq_backup`. These are identical in their content.
+
+We then move/rename the `SRR097977.fq_backup` file (effectively, moving the contents of the file into a new file) to a different file named `SRR097977.fq_bkup`.
+
+If you run the `ls` command you will see that `SRR097977.fastq` is still present, as it was only copied, but `SRR097977.fq_backup` no longer exists.
 
 !!! terminal "code"
 
@@ -217,7 +221,7 @@ In this pair on commands, we first create a copy of the file `SRR097977.fastq` w
 
     !!! terminal "code"
     ```bash
-    cd shell_data/ shell_data_bkup/
+    cp shell_data/ shell_data_bkup/
     ```
 
     ??? failure "Failure"
@@ -259,7 +263,9 @@ Boom. It's gone. There is no Recycle Bin on the command line and there is no way
 
 We've done a lot on the command line, but how do we keep track of everything so far? What if we forget something we've done recently, and want to check exactly what we did?
 
-You can view previous commands using the up arrow on your keyboard to go back through your recent commands. Likewise, the down arrow takes you forward in the command history. If what you're looking for is only a few commands ago this is the best way to see the information. IF you are looking for something from a long time aho, you can view a list of your last ~1,000 commands with the `history` command.
+You can view previous commands using the up arrow on your keyboard to go back through your recent commands. Likewise, the down arrow takes you forward in the command history. If what you're looking for is only a few commands ago this is the best way to see the information.
+
+If you are looking for something from a long time ago, you can view a list of your last ~1,000 commands with the `history` command.
 
 
 !!! terminal "code"
@@ -270,12 +276,12 @@ You can view previous commands using the up arrow on your keyboard to go back th
 
     ??? success "Output"
 
-    ```bash
-    1053  2023-02-24 15:58:35 ll
-    1054  2023-02-24 16:01:35 ls
-    1055  2023-02-24 16:01:42 ls -sh
-    1056  2023-02-24 16:01:45 history
-    ```
+        ```bash
+        1053  2023-02-24 15:58:35 ll
+        1054  2023-02-24 16:01:35 ls
+        1055  2023-02-24 16:01:42 ls -sh
+        1056  2023-02-24 16:01:45 history
+        ```
 
 You can reuse one of these commands directly by referring to the number of that command. For example, if your history looked like above you could repeat command #1055 by entering:
 
