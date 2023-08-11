@@ -85,21 +85,25 @@ You will also need to provide your password, and the current two-factor code dis
 
     >Please note that project `nesi03181` is open to all users participating in training projects on NeSI. **DO NOT** use this project for diagnostic work!
 
-!!! jupyter "Loading a shell environment."
+After logging in, you will see a screen showing something like this: 
 
-    After logging in, you will see a screen showing something like this: 
+!!! jupyter "Loading a shell environment."
 
     ![](../img/level1_11_jupyter_loading.png)
 
-    Once the Jupyter server has finished loading, you will then transfer through to the following view:
+Once the Jupyter server has finished loading, you will then transfer through to the following view:
+
+!!! jupyter "The landing page."
 
     ![](../img/level1_11_jupyter_landing.png)
 
-    For now, we will just launch a basic terminal environment, so click on the **Terminal** icon. This will lauch the command line interface that we will be using for the remainder of this workshop.
+For now, we will just launch a basic terminal environment, so click on the **Terminal** icon. This will lauch the command line interface that we will be using for the remainder of this workshop.
+
+!!! jupyter "Loading a terminal."
 
     ![](../img/level1_11_jupyter_cli.png)
 
-    We will spend most of our time learning about the basics of the shell by manipulating some experimental data. Some of the data we're going to be working with is quite large, so a copy of the data has been placed in your working directory for this workshop. We will now begin to explore the working directory.
+We will spend most of our time learning about the basics of the shell by manipulating some experimental data. Some of the data we're going to be working with is quite large, so a copy of the data has been placed in your working directory for this workshop. We will now begin to explore the working directory.
     
 ---
 
@@ -113,5 +117,4 @@ You will also need to provide your password, and the current two-factor code dis
     
     If you are planning to run a job that takes significantly longer than requested, the JupyterHub portal still acts as a good staging ground to log into NeSI, set up your `slurm` batch file and then submit the job. This is covered in different tutorials, but in these cases it is better to request a minimal number of cores and hours as all you really need to do is set up some directories, and write a few text files.
     
-    
-    
+---
