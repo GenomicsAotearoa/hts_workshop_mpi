@@ -93,7 +93,7 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
     <center>![image](./nesi_images/sbatch_def_2.png)</center>
 - - -
 
-??? question "Exercise 5.2"
+??? question "Exercise"
 
     Let's put these directives together and compile our first slurm script. Below is a abstract version of the slurm life cycle to assist you with the process
 
