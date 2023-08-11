@@ -2,32 +2,24 @@
 
 !!! clock "time"
 
-    * Teaching: 30 minutes
-    * Exercises: 30 minutes
+    * Teaching: 20 minutes
+    * Exercises: 20 minutes
 
-!!! circle-info "Objectives and Key points"
+!!! circle-info "Learning objectives"
 
-    #### Objectives
+    **Objectives**
     
     * View the contents of basic text files.
     * Copy, move, and rename files and create/remove directories.
     * Make a file read only.
     * Use the `history` command to view and repeat recently used commands.
     
-    #### Keypoints
+    **Key points**
     
     * You can view file contents using `less`, `cat`, `head` or `tail`.
     * The commands `cp`, `mv`, and `mkdir` are useful for manipulating existing files and creating new directories.
     * The `history` command and the up arrow on your keyboard can be used to repeat recently used commands.
 
----
-
-!!! first-order "Contents"
-
-    1. [Viewing the contents of files](#viewing-the-contents-of-files)
-    1. [Basic file manipulation](#basic-file-manipulation)
-    1. [Command history](#command-history)
-    
 ---
 
 ## Viewing the contents of files
@@ -36,19 +28,23 @@ From the previous exercises we know how to move around the file system of NeSI, 
 
 To look at a text file, navigate to the `shell_data/` directory in your training folder and try to run the following command:
 
-```bash
-$ cat SRR097977.fastq
-```
+!!! terminal "code"
+
+    ```bash
+    cat SRR097977.fastq
+    ```
 
 That wasn't very helpful. It printed the full file content to the screen. It's a very small file, as bioinformatic files go, but still far to much to scan by eye. For smaller files, `cat` is a terrific tool but when the file is really big, it can be annoying to use.
 
 Fortunately there is another handy tool to read large files in a more manageable way. The command `less` can be used to open a file and navigate through it line by line. Enter the following command:
 
-```bash
-$ less SRR097977.fastq
-```
+!!! terminal "code"
 
-This will load the content of the file into your terminal, but rather than print every line instantly only those that can fit on one page are shown. Since this is a tool designed to run from the command line only we generally need to navigate using the keyboard. Some of the commonly used navigation commands are:
+    ```bash
+    less SRR097977.fastq
+    ```
+
+This will load the content of the file into your terminal, but rather than print every line instantly it will only show those that can fit on one page. Since this is a tool designed to run from the command line only we generally need to navigate using the keyboard. Some of the commonly used navigation commands are:
 
 |Key|Action|
 |:---:|:---|
@@ -71,62 +67,78 @@ That said, you can also scroll forward and back theough the file using the mouse
     ??? circle-check "Solution"
 
         `CAC`
- 
 
 Sometimes we want to strike a balance between `cat` and `less`. We need to see a bit of the file, but we don't want to look at it line by line. This is uaually when we need to process a file in some way, and we just need to remind outselves how it's formatted.
 
 The commands `head` and `tail` are for this task. They let you look at the beginning and end of a file, respectively.
 
-```bash
-$ head SRR098026.fastq
-```
-```
-@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
-+SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
-@SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
-NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
-+SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
-!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
-@SRR098026.3 HWUSI-EAS1599_1:2:1:0:570 length=35
-NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
-```
+!!! terminal "code"
 
-```bash
-$ tail SRR098026.fastq
-```
-```
-+SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35
-#!##!#################!!!!!!!######
-@SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
-GNTGNGGTCATCATACGCGCCCNNNNNNNGGCATG
-+SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
-B!;?!A=5922:##########!!!!!!!######
-@SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
-CNCTNTATGCGTACGGCAGTGANNNNNNNGGAGAT
-+SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
-A!@B!BBB@ABAB#########!!!!!!!######
-```
+    ```bash
+    head SRR098026.fastq
+    ```
+
+    ??? success "Output"
+
+    ```bash
+    @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
+    NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
+    +SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
+    !!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
+    @SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
+    NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
+    +SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35
+    !!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!
+    @SRR098026.3 HWUSI-EAS1599_1:2:1:0:570 length=35
+    NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
+    ```
+
+!!! terminal "code"
+
+    ```bash
+    tail SRR098026.fastq
+    ```
+
+    ??? success "Output"
+
+    ```bash
+    +SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35
+    #!##!#################!!!!!!!######
+    @SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
+    GNTGNGGTCATCATACGCGCCCNNNNNNNGGCATG
+    +SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35
+    B!;?!A=5922:##########!!!!!!!######
+    @SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
+    CNCTNTATGCGTACGGCAGTGANNNNNNNGGAGAT
+    +SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
+    A!@B!BBB@ABAB#########!!!!!!!######
+    ```
 
 By default the first/last 10 lines are printed. This can be changed by adding the `-n` option to the command to change the number. 
 
-```bash
-$ head -n1 SRR098026.fastq
-```
-```
-@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
-```
+!!! terminal "code"
 
-```bash
-$ tail -n1 SRR098026.fastq
-```
-```
-A!@B!BBB@ABAB#########!!!!!!!######
-```
+    ```bash
+    head -n1 SRR098026.fastq
+    ```
 
+    ??? success "Output"
+ 
+    ```bash
+    @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
+    ```
 
-!!! note ""
+    ```bash
+    tail -n1 SRR098026.fastq
+    ```
+
+    ??? success "Output"
+
+        ```bash
+        A!@B!BBB@ABAB#########!!!!!!!######
+        ```
+
+!!! note "Learning what these symbols all mean"
 
     If you want to learn more about the FASTQ file format, and what these symbols mean see the brief description document [here](../supplementary/fastq_format.md)
 
@@ -143,52 +155,85 @@ There are commands available on the command line which do all of these things. T
 |`mkdir`|Make a new directory.|
 |`rmdir`|Remove (delete) an empty directory.|
 |`cp`|Copy a file, either to a new location or into a new file.|
-|`mv`|Move a file from one location to another.<br>Can also be used to rename files by 'moving' them to a file with a different name.|
-|`rm`|Remove a file. This is how you **_permanently_** delete files.|
+|`mv`|Move a file from one location to another.<br />Can also be used to rename files by 'moving' them to a file with a different name.|
+|`rm`|Remove a file.<br />This is how you **_permanently_** delete files.|
 
 ### Creating and removing directories
 
 The `mkdir` ("make directory") command is used to make a new directory. Enter `mkdir` followed by a space, then the directory name you want to create:
 
-```bash
-$ mkdir backup/
-```
+!!! terminal "code"
+
+    ```bash
+    mkdir backup/
+    ```
 
 If you want to create multiple directories at once, you can specify multiple names:
 
-```bash
-$ mkdir other_backup/ another_backup/
-```
+!!! terminal "code"
+
+    ```bash
+    mkdir other_backup/ another_backup/
+    ```
 
 As long as these directories are empty, they can be removed with the `rmdir` ("remove directory") command:
 
-```bash
-$ rmdir another_backup/
-```
+!!! terminal "code"
 
-If you try to remove a directory with files in it, you will recieve an error and the directory will remain intact.
+    ```bash
+    rmdir another_backup/
+    ```
+
+If you try to remove a directory with files in it, you will receive an error and the directory will remain intact.
 
 ### Copying and moving files
 
 The `cp` ("copy") and `mv` ("move") commands are mostly identical in how they work. Each command can be used in one of two ways. We can either copy/move a file from one name to another, or we can copy/move them into a new directory without changing the file names.
 
-```bash
-$ cp SRR097977.fastq SRR097977.fq_backup
-$ mv SRR097977.fq_backup SRR097977.fq_bkup
-```
+!!! terminal "code"
+
+    ```bash
+    cp SRR097977.fastq SRR097977.fq_backup
+    mv SRR097977.fq_backup SRR097977.fq_bkup
+    ```
 
 In this pair on commands, we first create a copy of the file `SRR097977.fastq` with the name `SRR097977.fq_backup`. These are identical in their content. We then move/rename the `SRR097977.fq_backup` file (effectively, moving the contents of the file into a new file) to a different file named `SRR097977.fq_bkup`. If you run the `ls` command you will see that `SRR097977.fastq` is still present, as it was only copied, but `SRR097977.fq_backup` no longer exists.
 
+!!! terminal "code"
+
+    ```bash
+    ls
+    ```
+
+    ??? success "Output"
+
+        ````bash
+        SRR097977.fastq SRR097977.fq_bkup
+        ```
+
 !!! note "Note" 
 
-    we can also use the `mv` command to rename directories. However, the `cp` command by default does not work for directories, it must be invoked with a specific parameter to copy directory and it's contents.
+    We can also use the `mv` command to rename directories. However, the `cp` command by default does not work for directories, it must be invoked with a specific parameter to copy directory and it's contents.
+
+    !!! terminal "code"
+    ```bash
+    cd shell_data/ shell_data_bkup/
+    ```
+
+    ??? failure "Failure"
+
+        ```bash
+        cp: -r not specified; omitting directory 'shell_data/'
+        ```
 
 The other way we can use these commands is to copy/move one or more files into a different directory. This can be handy when creating backups of data we do not wish to risk losing (copy), or when we want to organise data into different folders to make navigation easier (move).
 
-```bash
-$ cp SRR097977.fastq SRR098026.fastq backup/
-$ mv SRR097977.fq_bkup other_backup/
-```
+!!! terminal "code"
+
+    ```bash
+    cp SRR097977.fastq SRR098026.fastq backup/
+    mv SRR097977.fq_bkup other_backup/
+    ```
 
 In these cases, we either create duplicates of the target files in a new location, or move an existing file into a new location.
 
@@ -196,13 +241,17 @@ In these cases, we either create duplicates of the target files in a new locatio
 
 To remove a file, it's super easy. Just use the `rm` ("remove") command:
 
-```bash
-$ rm other_backup/SRR097977.fq_bkup
-```
+!!! terminal "code"
+
+    ```bash
+    rm other_backup/SRR097977.fq_bkup
+    ```
 
 Boom. It's gone. There is no Recycle Bin on the command line and there is no way to get that file back...
 
-We need to be really careful with the `rm` command and be very sure of which files you are removing. To try and avoid unwanted loss of data, the `rmdir` command only removes empty directories and by default the `rm` command will not delete directories either. At this level, we will not expand upon this further.
+!!! note "Note"
+
+    We need to be really careful with the `rm` command and be very sure of which files you are removing. To try and avoid unwanted loss of data, the `rmdir` command only removes empty directories and by default the `rm` command will not delete directories either. At this level, we will not expand upon this further.
 
 ---
 
@@ -210,28 +259,31 @@ We need to be really careful with the `rm` command and be very sure of which fil
 
 We've done a lot on the command line, but how do we keep track of everything so far? What if we forget something we've done recently, and want to check exactly what we did?
 
-You can view previous commands using the up arrow on your keyboard to go back through your recent commands. Likewise, the down arrow takes you forward in the command history. If what you're looking for is only a few commands ago this is the best way to see the information. IF you are looking for something from a long time aho, you can view a list of your last ~1,000 commands with the `history` command:
+You can view previous commands using the up arrow on your keyboard to go back through your recent commands. Likewise, the down arrow takes you forward in the command history. If what you're looking for is only a few commands ago this is the best way to see the information. IF you are looking for something from a long time aho, you can view a list of your last ~1,000 commands with the `history` command.
 
-```bash
-$ history
-```
 
-This will print a numbered list of recent commands. You can reuse one of these commands directly by referring to the number of that command.
+!!! terminal "code"
 
-For example, if your history looked like this:
+    ```bash
+    history
+    ```
 
-```
-1053  2023-02-24 15:58:35 ll
-1054  2023-02-24 16:01:35 ls
-1055  2023-02-24 16:01:42 ls -sh
-1056  2023-02-24 16:01:45 history
-```
+    ??? success "Output"
 
-You could repeat command #1055 by entering:
+    ```bash
+    1053  2023-02-24 15:58:35 ll
+    1054  2023-02-24 16:01:35 ls
+    1055  2023-02-24 16:01:42 ls -sh
+    1056  2023-02-24 16:01:45 history
+    ```
 
-```bash
-$ !1055
-```
+You can reuse one of these commands directly by referring to the number of that command. For example, if your history looked like above you could repeat command #1055 by entering:
+
+!!! terminal "code"
+
+    ```bash
+    !1055
+    ```
 
 This can be really useful when you are taking notes on a complicated set of commands you have run, or if you are trying to remember what you did last time you were logged into NeSI.
 
