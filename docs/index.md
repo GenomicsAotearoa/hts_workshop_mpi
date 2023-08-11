@@ -3,19 +3,22 @@
 # High Throughput Sequencing
 </center>
 
-!!! rectangle-list "Content"
-    
-    ## Level 1 - Beginner
-       1. [Connecting to NeSI](./level1/11_nesi_connection.md)
-       1. [Navigation on the command line](./level1/12_shell_navigation.md)
-       1. [Working with files on the command line](./level1/13_shell_manipulation.md)
-       1. [Quality filtering Nanopore data](./level1/21_quality_filter_nanopore.md)
+!!! rectangle-list "Level 1 - Beginner"
+
+       1. Introduction to NeSI
+          1. [Connecting to NeSI](./level1/11_nesi_connection.md)
+          1. [Navigation on the command line](./level1/12_shell_navigation.md)
+          1. [Working with files on the command line](./level1/13_shell_manipulation.md)
        1. Quality filtering Illumina data
-          1. [Inpecting reads](./level1/31_illumina_inspection.md)
-          1. [Issues with paired-end data](./level1/32_illumina_pairing.md)
-          1. [Trimming paired-end reads](./level1/33_illumina_filtering.md)
+          1. [Inpecting reads](./level1/21_illumina_inspection.md)
+          1. [Issues with paired-end data](./level1/22_illumina_pairing.md)
+          1. [Trimming paired-end reads](./level1/23_illumina_filtering.md)
+       1. [Introduction to slurm](./level1/31_slurm_introduction.md)
+       1. [Quality filtering Nanopore data](./level1/32_quality_filter_nanopore.md)
        1. [Annotating sequences with BLAST](./level1/4X_blastn_annotation.md)
-    ## Level 2 - Advanced
+
+!!! rectangle-list "Level 2 - Advanced"
+
        1. [Shell navigation (advanced)](./level2/11_shell_manipulation.md)
        1. [Loops and variables in the command line](./level2/12_shell_variables.md)
        1. [Redirection in the command line](./level2/13_shell_redirection.md)
