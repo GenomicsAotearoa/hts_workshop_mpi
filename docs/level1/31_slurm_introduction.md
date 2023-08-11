@@ -97,7 +97,7 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
 
     Let's put these directives together and compile our first slurm script. Below is a abstract version of the slurm life cycle to assist you with the process
 
-    <center>![image](./nesi_images/slurm_cycle_mini.png)</center>
+    <center>![image](../img/level1_31_slurm_cycle_mini.png)</center>
     
     * First step is to create new working directories inside the existing `~/scripting_workshop/scheduler` 
     ```bash
