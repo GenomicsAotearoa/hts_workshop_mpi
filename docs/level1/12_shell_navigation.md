@@ -121,42 +121,6 @@ Let's look at what is in the `shell_data` directory:
         ```bash
         SRR097977.fastq  SRR098026.fastq
         ```
----
-
-## Accessing documentation on the command line
-
-`ls` has lots of other options. To find out what they are, we can type:
-
-!!! terminal "code"
-
-    ```bash
-    man ls
-    ```
-
-`man` (short for manual) displays detailed documentation (also referred as man page or man file) for `bash` commands. It is a powerful resource to explore `bash` commands, understand their usage and flags.
-
-Some manual files are very long. You can scroll through the file using your keyboard's down arrow or use the <kbd>Space</kbd> key to go forward one page and the <kbd>b</kbd> key to go backwards one page. When you are done reading, hit <kbd>q</kbd> to quit.
-
-Alternatively, many tools produce a brief help menu if run in one of the following ways:
-
-!!! terminal "code"
-
-    ```bash
-    ls --help
-    ```
-
-    ??? success "Output"
-
-        ```bash
-        sage: ls [OPTION]... [FILE]...
-        List information about the FILEs (the current directory by default).
-        Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
-
-        Mandatory arguments to long options are mandatory for short options too.
-        ...
-        ```
-
-This help is usually shorter and more concise than what you would get through the `man` command, but often if you're just trying to jog your memory it is sufficient.
 
 ---
 
