@@ -20,44 +20,6 @@
 
 ---
 
-## Background
-
-**What is a shell and why should I care?**
-
-A shell is a computer program that presents a command line interface which allows you to control your computer using commands entered with a keyboard instead of controlling graphical user interfaces (GUIs) with a mouse/keyboard combination.
-
-Command line interfaces are very common when working in bioinformatics, as creating a GUI is platform-dependant. To create a tool with a GUI that works on Windows, OS X, and Linux requires at least three different versions of the tool to be written. In contrast, the command line is common to all three platforms.
-
-!!! note "Apart from this practical issue, there are many reasons to learn about the shell:"
-
-    **The shell makes your work less boring**
-    
-    In bioinformatics you often need to do the same set of tasks with a large number of files.
-    
-    Learning the shell will allow you to automate those repetitive tasks and leave you free to do more exciting things.
-    
-    **The shell makes your work less error-prone**
-    
-    When humans do the same thing a hundred different times (or even ten times), they're likely to make a mistake.
-    
-    Your computer can do the same thing a thousand times with no mistakes.
-
-    **The shell makes your work more reproducible**
-    
-    When you carry out your work in the command-line your computer keeps a record of every step that you've carried out, which you can use to re-do your work when you need to.
-    
-    It also gives you a way to communicate unambiguously what you've done, so that others can check your work or apply your process to new data.
-    
-    **Many bioinformatic tasks require large amounts of computing power and can't realistically be run on your own machine**
-    
-    These tasks are best performed using remote computers or cloud computing.
-    
-    These devices require a remote connection which is most stably provided through a command line interface.
-
-In this lesson you will learn how to use the command line interface to move around in your file system.
-
----
-
 ## How to access NeSI
 
 To access the shell on your own computer requires platform-specific software. For all work in this training we will be connecting to the NeSI platform and using their web-based shell environment. We will access this through your web browser, by navigating to NeSI's [JupyterHub](https://jupyter.nesi.org.nz/). 
@@ -117,4 +79,40 @@ We will spend most of our time learning about the basics of the shell by manipul
     
     If you are planning to run a job that takes significantly longer than requested, the JupyterHub portal still acts as a good staging ground to log into NeSI, set up your `slurm` batch file and then submit the job. This is covered in different tutorials, but in these cases it is better to request a minimal number of cores and hours as all you really need to do is set up some directories, and write a few text files.
     
+---
+
+## What is a shell and why should I care?
+
+A shell is a computer program that presents a command line interface which allows you to control your computer using commands entered with a keyboard instead of controlling graphical user interfaces (GUIs) with a mouse/keyboard combination.
+
+Command line interfaces are very common when working in bioinformatics, as creating a GUI is platform-dependant. To create a tool with a GUI that works on Windows, OS X, and Linux requires at least three different versions of the tool to be written. In contrast, the command line is common to all three platforms.
+
+!!! note "Apart from this practical issue, there are many reasons to learn about the shell:"
+
+    **The shell makes your work less boring**
+    
+    In bioinformatics you often need to do the same set of tasks with a large number of files.
+    
+    Learning the shell will allow you to automate those repetitive tasks and leave you free to do more exciting things.
+    
+    **The shell makes your work less error-prone**
+    
+    When humans do the same thing a hundred different times (or even ten times), they're likely to make a mistake.
+    
+    Your computer can do the same thing a thousand times with no mistakes.
+
+    **The shell makes your work more reproducible**
+    
+    When you carry out your work in the command-line your computer keeps a record of every step that you've carried out, which you can use to re-do your work when you need to.
+    
+    It also gives you a way to communicate unambiguously what you've done, so that others can check your work or apply your process to new data.
+    
+    **Many bioinformatic tasks require large amounts of computing power and can't realistically be run on your own machine**
+    
+    These tasks are best performed using remote computers or cloud computing.
+    
+    These devices require a remote connection which is most stably provided through a command line interface.
+
+In the following lessons you will learn how to use the command line interface to move around in your file system.
+
 ---
