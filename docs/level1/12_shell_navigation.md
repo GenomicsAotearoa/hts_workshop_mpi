@@ -61,36 +61,22 @@ which stands for "listing":
     ls
     ```
 
-    ??? success "Output"
+`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command.
 
-        ```bash
-        arshade           colsella  dwaite            griffinrlg  katepitches  mikegemmell  penna      zoila.perez
-        brittanyscouller  deepad    georgia.wakerley  iqram123    kellym       nepelm       subha.das
-        ```
+Once inside, use the `ls` command identify the name of the next folder, and use the `cd` command to enter that folder.
 
-`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command. Once inside, use the `ls` command again to view the contents. Navigate into the folder that is displayed to you, then run `ls` one final time ot see the contents.
+Use the `ls` command one final time to view the ontents.
 
 !!! terminal "code"
 
     ```bash
-    cd USERNAME/
+    cd level1/
     ls
     ```
 
     ??? success "Output"
 
         ```bash
-        level1
-        ```
-
-        !!! terminal "code"
-
-            ```bash
-            cd level1/
-            ls
-            ```
- 
-        ```
         quality_illumina  quality_nanopore  shell_data
         ```
 
