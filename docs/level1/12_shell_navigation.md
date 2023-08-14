@@ -64,12 +64,11 @@ which stands for "listing":
     ??? success "Output"
 
         ```bash
-        alicemerrall  cdel012    dwaite       griffinrlg    jfoxwell        lawrencel      module_1  nepelm               quinnol        taylorr
-        andyzzz       dianaj     egias        gunawardanad  jizhang         lieftingl      module_2  ngoni                rebijithbalan  thangavelr
-        ashathomas    dini       ehollins     hongt         kancdeep        lucianorigano  module_3  peter                santhafrance   toomem
+        arshade           colsella  dwaite            griffinrlg  katepitches  mikegemmell  penna      zoila.perez
+        brittanyscouller  deepad    georgia.wakerley  iqram123    kellym       nepelm       subha.das
         ```
 
-`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command. Once inside, use the `ls` command again to view the contents.
+`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command. Once inside, use the `ls` command again to view the contents. Navigate into the folder that is displayed to you, then run `ls` one final time ot see the contents.
 
 !!! terminal "code"
 
@@ -79,6 +78,17 @@ which stands for "listing":
     ```
 
     ??? success "Output"
+
+        ```bash
+        level1
+        ```
+
+        !!! terminal "code"
+
+            ```bash
+            cd level1/
+            ls
+            ```
  
         ```
         quality_illumina  quality_nanopore  shell_data
@@ -123,25 +133,8 @@ Let's look at what is in the `shell_data` directory:
     ??? success "Output"
 
         ```bash
-        sra_metadata  untrimmed_fastq
+        SRR097977.fastq  SRR098026.fastq
         ```
-
-We can make the `ls` output more comprehensible by using the **flag** `-F`, which tells `ls` to add a trailing `/` to the names of directories:
-
-!!! terminal "code"
-
-    ```bash
-    ls -F
-    ```
-
-    ??? success "Output"
-    
-        ```bash
-        sra_metadata/  untrimmed_fastq/
-        ```
-
-Anything with a `/` after it is a directory. Things with a `*` after them are programs. If there are no decorations, it's a file.
-
 ---
 
 ## Accessing documentation on the command line
