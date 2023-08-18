@@ -28,7 +28,9 @@ There are many tools available for trimming sequence data, and today we are only
 
 Before we actually start to work on our data, there are some important factors of the nature of paired-end sequencing data that we need to consider.
 
-At it's most basic level, a tool like `fastp` simply takes one input sequence file, trims the sequences according to some specifications, then saves the output to a new file. Sequences from the input file are read and trimmed for regions that do or do not match filtering criteria. For example, adapter regions may be removed along with regions where the average sequence quality falls below a required threshold. This means that the entirity of a sequence falls below the selection criteria, the resulting sequence will not be written to the output file. Often, short sequences will also be rejected from the output.
+At it's most basic level, a tool like `fastp` simply takes one input sequence file, trims the sequences according to some specifications, then saves the output to a new file. Sequences from the input file are read and trimmed for regions that do or do not match filtering criteria.
+
+For example, adapter regions may be removed along with regions where the average sequence quality falls below a required threshold. This means that the entirity of a sequence falls below the selection criteria, the resulting sequence will not be written to the output file. Often, short sequences will also be rejected from the output.
 
 When working with Illumina data, each fragment sequenced is read from the forward and reverse direction so we have two corresponding **_paired sequences_** representing each piece of DNA in our library.
 
@@ -40,10 +42,9 @@ When working with this paired data, it is critical to preserve the ordering betw
 
     This is a massive problem, because when we perform tasks like assembly and read mapping, the tools will assume that the sequence order is identical between forward and reverse files and that there is a spatial relationship between these paired sequences. For example, if we have a pair of files where the sequences align like so:
 
-    !!! note "Observed input ordering"
+    !!! file-code "Observed input ordering"
 
         ```
-        R1-----------------------R2
         @Seq1-----------------@Seq1
         @Seq2-----------------@Seq2
         @Seq3-----------------@Seq3
@@ -57,10 +58,9 @@ When working with this paired data, it is critical to preserve the ordering betw
 
     And after filtering we might observe an output like the following, where `Seq4_R1` and `Seq7_R2` are removed.
 
-    !!! note "Expected output ordering"
+    !!! file-code "Expected output ordering"
 
         ```diff
-          R1-----------------------R2
         + @Seq1-----------------@Seq1
         + @Seq2-----------------@Seq2
         + @Seq3-----------------@Seq3
@@ -74,10 +74,9 @@ When working with this paired data, it is critical to preserve the ordering betw
 
     Any downstream analysis tools we use will not be aware of these gaps, and read the pairing information as:
 
-    !!! note "Observed output ordering"
+    !!! file-code "Observed output ordering"
 
         ```diff
-          R1-----------------------R2
         + @Seq1-----------------@Seq1
         + @Seq2-----------------@Seq2
         + @Seq3-----------------@Seq3
@@ -118,7 +117,7 @@ We are going to build a command for filtering the paired files `reads/miseq_R1.f
 
     We have just provided four parameters to `fastp`. There are two conventions you need to be aware of when interpreting these:
 
-    * The `-i` and `-o` flags are used to specify **_i_**nput and **_o_**utput files. The filtered sequences read from the file provided with `-i` will be written to the destination specified with `-o`.
+    * The `-i` and `-o` flags are used to specify _I_nput and _O_utput files. The filtered sequences read from the file provided with `-i` will be written to the destination specified with `-o`.
 
     * The lowercase and uppercase convention is used to signify to `fastp` that these are paired-end files. The file specified with `-I` is understood to be the reverse partner of the file specified with `-i`, and its output is written to `-O`.
 
@@ -151,22 +150,29 @@ This is a fairly common occurance, so filtering tools have an additional output 
 
     Calling back to the description above of the hypothetical data set of 10 sequences, we would now expect our output files to look something like:
 
-    ```diff
-      miseq_R1.fq.gz---miseq_R2.fq.gz
-    + @Seq1---------------------@Seq1
-    + @Seq2---------------------@Seq2
-    + @Seq3---------------------@Seq3
-    + @Seq5---------------------@Seq5
-    + @Seq6---------------------@Seq6
-    + @Seq8---------------------@Seq8
-    + @Seq9---------------------@Seq9
+    !!! file-code "miseq_R1.fq.gz / miseq_R2.fq.gz"
 
-      miseq_R1s.fq.gz
-    + @Seq7_R1
+        ```diff
+        + @Seq1---------------------@Seq1
+        + @Seq2---------------------@Seq2
+        + @Seq3---------------------@Seq3
+        + @Seq5---------------------@Seq5
+        + @Seq6---------------------@Seq6
+        + @Seq8---------------------@Seq8
+        + @Seq9---------------------@Seq9
+        ```
 
-      miseq_R2s.fq.gz
-    + @Seq4_R2
-    ```
+    !!! file-code " miseq_R1s.fq.gz"
+
+        ```diff
+        + @Seq7_R1
+        ```
+
+    !!! file-code "miseq_R2s.fq.gz"
+
+        ```diff
+        + @Seq4_R2
+        ```
 
     We have retained those individual reads, without compromising the pairing order.
 
@@ -180,20 +186,24 @@ This is a fairly common occurance, so filtering tools have an additional output 
 
 ??? note "Schematic of how the output files will be populated"
 
-    ```diff
-      miseq_R1.fq.gz---miseq_R2.fq.gz
-    + @Seq1---------------------@Seq1
-    + @Seq2---------------------@Seq2
-    + @Seq3---------------------@Seq3
-    + @Seq5---------------------@Seq5
-    + @Seq6---------------------@Seq6
-    + @Seq8---------------------@Seq8
-    + @Seq9---------------------@Seq9
+    !!! file-code "miseq_R1.fq.gz / miseq_R2.fq.gz"
 
-      miseq_s.fq.gz
-    + @Seq7_R1
-    + @Seq4_R2
-    ```
+        ```diff
+        + @Seq1---------------------@Seq1
+        + @Seq2---------------------@Seq2
+        + @Seq3---------------------@Seq3
+        + @Seq5---------------------@Seq5
+        + @Seq6---------------------@Seq6
+        + @Seq8---------------------@Seq8
+        + @Seq9---------------------@Seq9
+        ```
+
+    !!! file-code "miseq_s.fq.gz"
+
+        ```diff
+        + @Seq7_R1
+        + @Seq4_R2
+        ```
 
 ---
 
