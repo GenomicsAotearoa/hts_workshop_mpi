@@ -29,7 +29,7 @@ When we obtain data from a sequencing facility, it is always important to check 
 
 A very useful tool for answering these questions is `FastQC`. This tool takes a set of fastq files as input and produces reports for each one to allow us to answer the questions above, as well as examine over features of the sequences such as compositional bias, *k*-mer frequency profiles, and sequence duplication levels.
 
-Navigate to the `/nesi/project/nesi03181/phel/<username>/level1/quality_illumina/` folder, and run `FastQC` on the sample `SRR097977` using the following commands:
+Navigate to your `level1/` folder and then enter the `quality_illumina/` sub-folder. Once you are in the correc tlocation run `FastQC` on the sample `SRR097977` using the following commands:
 
 !!! terminal "code"
 
@@ -43,7 +43,8 @@ Navigate to the `/nesi/project/nesi03181/phel/<username>/level1/quality_illumina
     ??? success "Output"
 
         ```bash
-        fastqc -o results/ reads/SRR097977.fq.gz
+        Started analysis of SRR097977.fq.gz
+        Analysis complete for SRR097977.fq.gz
         ```
 
 `FastQC` generates output reports in `.html` files and a `.zip` file that contains the main display resources. These can be viewed in a standard web browser. Since we are connection to NeSI using the JupyterHub system, we can view these directly:
