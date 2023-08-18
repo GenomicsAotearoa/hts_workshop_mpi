@@ -243,10 +243,10 @@ After any form of trimming, there is also the option to remove sequences which f
 There are just a few more features of `fastp` which can be useful to know.
 
 * `--thread`
-   * Increase the number of computer processes (threads) used to process the sequences. Using more threads typically makes the job faster to complete. The default value is 2.
+  * Increase the number of computer processes (threads) used to process the sequences. Using more threads typically makes the job faster to complete. The default value is 2.
 * `--html`/`--json`
-   * Change the names of the report files generated during a run.
-   * This is very useful when processing many samples, as the default output names (`fastp.html` and `fastp.json`) are recycled on each use and successive runs of `fastp` overwrite the output of previous runs.
+  * Change the names of the report files generated during a run.
+  * This is very useful when processing many samples, as the default output names (`fastp.html` and `fastp.json`) are recycled on each use and successive runs of `fastp` overwrite the output of previous runs.
 * `--length_required`
   * Discard sequences shorter than the specified length (after trimming) regardless of their quality.
 * `--n_base_limit`
