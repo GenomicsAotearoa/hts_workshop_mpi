@@ -56,8 +56,8 @@ Navigate to your `level1/` folder and then enter the `quality_illumina/` sub-fol
 !!! file-code "Open .html"
 
     1. Click on the folder icon in the top left to open the folder navigator pane (if not already open).
-    1. Use the file browsing system to navigate through t your current location.
-    1. Double click on the output `.fastqc.html` files to open them in the a new tab.
+    1. Use the file browsing system to navigate through to your current location.
+    1. Double click on the output `.fastqc.html` files to open them in a new tab.
 
 Let's now look at some of the outputs, starting with the summary for sample `SRR097977`.
 
@@ -67,7 +67,7 @@ Let's now look at some of the outputs, starting with the summary for sample `SRR
  
     This is the basic view for `FastQC` output. At the left-hand side of the tab is a navigation menu, which can move you quickly through the pages of summary information. Alternatively, you can simply scroll down the page to find the section you are most interested in.
 
-From the summary view, the main point of interest is the 'Basic Statistics' table. This gives you some brief summary information for your input file, such as the name of the file read (this can be important if you are working with many files), the fastq encoding, the numbers of sequences and the average length. You should already have a rough expectation for these numbers based from correspondence with your sequencing provider.
+From the summary view, the main point of interest is the 'Basic Statistics' table. This gives you some brief summary information for your input file, such as the name of the file read (this can be important if you are working with many files), the fastq encoding, the numbers of sequences and the average length. You should already have a rough expectation for these numbers based on correspondence with your sequencing provider.
 
 ---
 
@@ -81,7 +81,7 @@ Scrolling down (or clicking on the 'Per base sequence quality' link) will take u
 
 This view provides us with a nice graphical summary of the average sequence quality along the length of our reads. Fastq Q-scores are ranked on the y-axis and the nucleotide position in the read (or range of positions, for reads which are several hundred nucleotides in length) are plotted sequentially along the x-axis.
 
-The sample `SRR097977` shows a severe, but expected pattern of quality, whereby the sequence quality degrades as the reading window moves towards the right-hand side of the sequence.
+The sample `SRR097977` shows a severe, but expected pattern of quality. Sequence quality decreases as the reading window moves towards the right-hand side of the sequence.
 
 This view provides us with two pieces of information - how strictly we need to trim our sequences, and what effect we could expect to see on our number of sequences and sequence length after quality filtering.
 
@@ -174,9 +174,9 @@ This is true for *most* of the sequence, but at the starting nucleotides somethi
 
 ## Adapter content
 
-As you will know from the previous Nanopore exercises, when sequencing is peformed we must add adapter sequences to our extracted DNA (or cDNA) to facilitate sequencing. Because these adapter constructs become part of the DNA sequence, they are also read by the sequencing machine and reported as observed sequence.
+When sequencing is peformed we must add adapter sequences to our extracted DNA (or cDNA) to facilitate sequencing. Because these adapter sequences become part of the DNA sequence, they are read by the sequencer and reported as observed sequence.
 
-It is *generally* good practice for a sequencing facility to scrub these adapter sequences from your data before returning it to you, and if you are using a multiplexed (barcoded) method of sequencing this almost certainly must be performed before your sequence is made available.
+It is *generally* good practice for a sequencing facility to remove these adapter sequences from your data before returning it to you, and if you are using a multiplexed (barcoded) method of sequencing this almost certainly must be performed before your sequence is made available.
 
 However, this is never guaranteed and it is always good practice to confirm that there are no adapters or barcodes in your library before you attempt to analyse the data. Since adapters are attached to the start of the DNA fragment being sequenced, they will always appear in the starting positions of your reads if not removed.
  
