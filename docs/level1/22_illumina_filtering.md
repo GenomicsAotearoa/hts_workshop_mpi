@@ -136,9 +136,7 @@ We are going to build a command for filtering the paired files `reads/miseq_R1.f
 
         The paired-end relationship between sequences in each file will not be maintained. If a sequence passes quality filtering in the forward file, but its partner in the reverse file fails the result ill still be written to the output file (and *vice versa*).
 
-As mentioned above, this will only write out sequences where both the forward and reverse partner made it throug the trimming criteria. In any situation where a read passed filtering but its partner failed, that read is lost even though it contains 'accceptable' data.
-
-This is a fairly common occurance, so filtering tools have an additional output type for these unpaired (also called '*orphan*' or '*singleton*') sequences which pass filtering when their partner do not. We can modify our `fastp` command to retain data when these cases happen, directing the sequences to new files:
+The need to retain paired ordering is is a fairly common requirement, so filtering tools have an additional output type for these unpaired (also called '*orphan*' or '*singleton*') sequences which pass filtering when their partner do not. We can modify our `fastp` command to retain data when these cases happen, directing the sequences to new files:
 
 !!! terminal "code"
 
