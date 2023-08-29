@@ -1,4 +1,4 @@
-# Annotation of sequences
+# 4.1 - Annotating with BLAST
 
 !!! clock "time"
 
