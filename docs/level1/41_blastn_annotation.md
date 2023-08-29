@@ -84,7 +84,7 @@ You should see two files, one with a `.fna` extension which contains the sequenc
     ```bash
     #!/bin/bash -e
     #SBATCH --account nesi03181
-    #SBATCH --job-name level1_blast_%u
+    #SBATCH --job-name level1_blast
     #SBATCH --output=level1_blast.%j.out
     #SBATCH --error=level1_blast.%j.err
     #SBATCH --mail-user <insert email here>
