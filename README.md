@@ -6,16 +6,21 @@ This is the opening page for the HTS workshop. Content is divided according to t
 
 ## Contents
 
-   1. Introduction to NeSI
-      1. [Connecting to NeSI](docs/level1/11_nesi_connection.md)
-      1. [Navigation on the command line](docs/level1/12_shell_navigation.md)
-      1. [Working with files on the command line](docs/level1/13_shell_manipulation.md)
-   1. Quality filtering Illumina data
-      1. [Inspecting reads](docs/level1/21_illumina_inspection.md)
-      1. [Trimming paired-end reads](docs/level1/22_illumina_filtering.md)
-   1. [Introduction to slurm](docs/level1/31_slurm_introduction.md)
-   1. [Quality filtering Nanopore data](docs/level1/32_quality_filter_nanopore.md)
-   1. [Annotating sequences with BLAST](docs/level1/4X_blastn_annotation.md)
+1. Introduction to NeSI
+   1. [Connecting to NeSI](docs/level1/11_nesi_connection.md)
+   1. [Navigation on the command line](docs/level1/12_shell_navigation.md)
+   1. [Working with files on the command line](docs/level1/13_shell_manipulation.md)
+1. Quality filtering Illumina data
+   1. [Inspecting reads](docs/level1/21_illumina_inspection.md)
+   1. [Trimming paired-end reads](docs/level1/22_illumina_filtering.md)
+1. Quality filtering Nanopore data
+   1. [Inspecting reads](docs/level1/31_nanopore_inspection.md)
+   1. [Trimming long-read Nanopore data](docs/level1/32_nanopore_filtering.md)
+1. Annotating sequences with BLAST
+   1. [Submitting a BLAST job to NeSI](docs/level1/41_blastn_annotation.md)
+   1. [Introduction to slurm](docs/level1/42_slurm_introduction.md)
+   1. Interpreting BLAST outputs
+
 1. Level 2 - Advanced
    1. [Shell navigation (advanced)](docs/level2/11_shell_manipulation.md)
    1. [Loops and variables in the command line](docs/level2/12_shell_variables.md)
