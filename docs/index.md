@@ -12,9 +12,13 @@
        1. Quality filtering Illumina data
           1. [Inspecting reads](./level1/21_illumina_inspection.md)
           1. [Trimming paired-end reads](./level1/22_illumina_filtering.md)
-       1. [Introduction to slurm](./level1/31_slurm_introduction.md)
-       1. [Quality filtering Nanopore data](./level1/32_quality_filter_nanopore.md)
-       1. [Annotating sequences with BLAST](./level1/4X_blastn_annotation.md)
+       1. Quality filtering Nanopore data
+          1. [Inspecting reads](./level1/31_nanopore_inspection.md)
+          1. [Trimming long-read Nanopore data](./level1/32_nanopore_filtering.md)
+       1. Annotating sequences with BLAST
+          1. [Submitting a BLAST job to NeSI](./level1/41_blastn_annotation.md)
+          1. [Introduction to slurm](./level1/42_slurm_introduction.md)
+          1. Interpreting BLAST outputs
 
 !!! rectangle-list "Level 2 - Advanced"
 

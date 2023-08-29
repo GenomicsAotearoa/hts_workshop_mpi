@@ -9,7 +9,7 @@ An HPC system might have thousands of nodes and thousands of users. How do we de
 !!! quote ""
 
     * Mechanism to control access by many users to shared computing resources
-    * Queuing / scheduling system for users’ jobs
+    * Queuing / scheduling system for users' jobs
     * Manages the reservation of resources and job execution on these resources 
     * Allows users to “fire and forget” large, long calculations or many jobs (“production runs”)
 
@@ -28,19 +28,18 @@ An HPC system might have thousands of nodes and thousands of users. How do we de
     
     All NeSI clusters use Slurm (Simple Linux Utility for Resource Management) scheduler (or job submission system) to manage resources and how they are made available to users.
 
-    ![image](../img/level1_31_slurm_comms2compute.png)
+    ![image](../img/level1_42_slurm_comms2compute.png)
 
     <small>Researchers can not communicate directly to  Compute nodes from the login node. Only way to establish a connection OR send scripts to compute nodes is to use scheduler as the carrier/manager</small>
 
+---
 
-      
 ## Life cycle of a slurm job
 
 <center>
-![image](../img/level1_31_batch_system_flow.png){width="1000"}
+![image](../img/level1_42_batch_system_flow.png){width="1000"}
 </center>
 
-- - -
 !!! hand-holding-dollar "Commonly used Slurm commands"
 
     | Command        | Function                                                                                             |
@@ -53,12 +52,11 @@ An HPC system might have thousands of nodes and thousands of users. How do we de
     | `sinfo`        | Query the current state of nodes                                                                     |
     | `salloc`       | Submit interactive jobs to the scheduler                                                             |
 
-- - - 
+---
 
 ## Anatomy of a slurm script and submitting first slurm job 🧐
 
 As with most other scheduler systems, job submission scripts in Slurm consist of a header section with the shell specification and options to the submission command (`sbatch` in this case) followed by the body of the script that actually runs the commands you want. In the header section, options to `sbatch` should be prepended with `#SBATCH`.
-
 
 <center>
 ![image](../img/level1_31_anatomy_of_a_slurm_script.png){width="700"}
@@ -69,85 +67,124 @@ As with most other scheduler systems, job submission scripts in Slurm consist of
 
     Commented lines are ignored by the bash interpreter, but they are not ignored by slurm. The `#SBATCH` parameters are read by slurm when we submit the job. When the job starts, the bash interpreter will ignore all lines starting with `#`. This is very similar to the shebang mentioned earlier, when you run your script, the system looks at the `#!`, then uses the program at the subsequent path to interpret the script, in our case `/bin/bash` (the program `bash` found in the */bin* directory
 
--  - - 
+---
 
 ??? circle-info "Slurm variables"
 
     | header          | use                                 | description                                          |
     |:--------------- |:------------------------------------|:-----------------------------------------------------|
-    |--job-name 	  | `#SBATCH --job-name=MyJob` 	        |The name that will appear when using squeue or sacct. |
-    |--account 	      | `#SBATCH --account=nesi12345` 	    |The account your core hours will be 'charged' to.     |
-    |--time 	      | `#SBATCH --time=DD-HH:MM:SS` 	    |Job max walltime.                                     |
-    |--mem 	          | `#SBATCH --mem=512MB` 	            |Memory required per node.                             |
-    |--cpus-per-task  | `#SBATCH --cpus-per-task=10` 	    |Will request 10 logical CPUs per task.                |
-    |--output 	      | `#SBATCH --output=%j_output.out` 	|Path and name of standard output file. `%j` will be replaced by the job ID.         |
+    |--job-name 	  | `#SBATCH --job-name MyJob` 	        |The name that will appear when using squeue or sacct. |
+    |--account 	      | `#SBATCH --account nesi12345` 	    |The account your core hours will be 'charged' to.     |
+    |--time 	      | `#SBATCH --time DD-HH:MM:SS` 	    |Job max walltime.                                     |
+    |--mem 	          | `#SBATCH --mem 512MB` 	            |Memory required per node.                             |
+    |--cpus-per-task  | `#SBATCH --cpus-per-task 10` 	    |Will request 10 logical CPUs per task.                |
+    |--output 	      | `#SBATCH --output %j_output.out` 	|Path and name of standard output file. `%j` will be replaced by the job ID.         |
+    |--error 	      | `#SBATCH --error %j_error.out`    	|Path and name of standard eror file. `%j` will be replaced by the job ID.         |
     |--mail-user 	  | `#SBATCH --mail-user=me23@gmail.com`|address to send mail notifications.                   |
-    |--mail-type 	  | `#SBATCH --mail-type=ALL` 	        |Will send a mail notification at BEGIN END FAIL.      |
-    |                 | `#SBATCH --mail-type=TIME_LIMIT_80` |Will send message at 80% walltime.                    |
+    |--mail-type 	  | `#SBATCH --mail-type ALL` 	        |Will send a mail notification at BEGIN END FAIL.      |
 
-<br>
-
-- - -
-
-??? question "Exercise"
-
-    Let's put these directives together and compile our first slurm script. Below is a abstract version of the slurm life cycle to assist you with the process
-
-    <center>![image](../img/level1_31_slurm_cycle_mini.png)</center>
-    
-
-    * use a text editor of choice to create a file named firstslurm.sl - we will use nano here
-    ```bash
-    nano firstslurm.sl
-    ```
-
-    * Content of `firstslurm.sl` should be as below. Please discuss as you make progress
-
-    ??? bell "Quick Check before compiling the script - Assigning values to Slurm variables"
-        <center>![image](../img/level1_31_sbatch_def_1.png)</center>
-    
-        <center>![image](../img/level1_31_sbatch_def_2.png)</center>
-
-    ```bash
-    #!/bin/bash 
-
-    #SBATCH --job-name      myfirstslurmjob
-    #SBATCH --account       nesi03181
-    #SBATCH --time          00:02:00                 #Format is DD-HH:MM:SS
-    #SBATCH --cpus-per-task 1
-    #SBATCH --mem           512                      #Default unit is Megabytes
-    #SBATCH --output        slurmjob.%j.out
-    #SBATCH --error         slurmjob.%j.err
-
-    sleep 100
-
-    echo "I am a slurm job and I slept for 100 seconds"
-    ```
-
-    * **Save** and **Exit**
-    * Submit the script with `sbatch` command
-    ```bash
-    sbatch firstslurm.sl
-    ```
-    *  Execute `squeue --me` and `sacct`. Discuss the outputs .i.e.
-    ```bash
-    squeue --me
-    ```
-    ```bash
-    sacct
-    ```
-- - - 
- 
-!!! magnifying-glass "STDOUT/STDERR from jobs"
+??? magnifying-glass "STDOUT/STDERR from jobs"
 
     * STDOUT - your process writes conventional output to this file handle
     * STDERR - your process writes diagnostic output to this file handle.
     
     **STDOUT** and **STDERR** from jobs are, by default, written to a file called `slurm-JOBID.out` and `slurm-JOBID.err` in the working directory for the job (unless the job script changes this, this will be the directory where you submitted the job). So for a job with ID 12345 STDOUT and STDERR will be `slurm-12345.out` and `slurm-12345.err`
 
-    - When things go wrong, first step of **debugging** (STORY TIME !) starts with a referral to these files. 
+    - When things go wrong, first step of **debugging** starts with a referral to these files. 
 
+---
 
+## Monitoring a slurm job while it runs
+
+Once your job has been submitted, you might be interested in seeing how it is progressing through the job queue. We can monitor the life of our jobs with two main commands, as indicated above.
+
+You can get a high-level view of all of your currently running jobs using the `squeue` command. By default this command shows all currently running jobs so is not very helpful. You can modify the command to report only your active jobs.
+
+!!! terminal "code"
+
+    ```bash
+    squeue --me
+    ```
+
+    ??? success "Output"
+
+        ```bash
+        JOBID         USER       ACCOUNT   NAME        CPUS MIN_MEM PARTITI START_TIME     TIME_LEFT STATE    NODELIST(REASON)        
+        NNNNNNNN      USERNAME   nesi03181 spawner-jupy   2      4G interac 2023-08-30T1     1:11:58 RUNNING  wbn004              
+        NNNNNNNN      USERNAME   nesi03181 level1_blast  16     30G large   2023-08-30T1       18:05 RUNNING  wbn039 
+        ```
+
+This reveals some information about your **_currently running_** jobs. It tells you the resources allocated to the job (CPUs, memory) as well as when the job started running (if it has), and when it will time out.
+
+If you want more detail about a particular job, you can use the `sacct` command, along with the job ID which was given to you when you submitted your script to see more information.
+
+!!! terminal "code"
+
+    ```bash
+    sacct -j NNNNNNNN
+    ```
+
+    ??? success "Output"
+
+        ```bash
+        JobID           JobName          Alloc     Elapsed     TotalCPU  ReqMem   MaxRSS State      
+        --------------- ---------------- ----- ----------- ------------ ------- -------- ---------- 
+        NNNNNNNN        level1_blast_%u     16    00:14:22     00:00:00     30G          RUNNING    
+        NNNNNNNN.batch  batch               16    00:14:22     00:00:00                  RUNNING    
+        NNNNNNNN.extern extern              16    00:14:22     00:00:00                  RUNNING 
+        ```
+
+This reports any sub-jobs which were launched as part of your slurm request.
+
+---
+
+## Creating ayour own slurm script (optional)
+
+Since you were provided with a pre-written slurm script for the previous exercise, we will have a go at writting a new script from scratch while the `BLAST` job runs.
+
+Below is a abstract version of the slurm life cycle to assist you with the process
+
+<center>![image](../img/level1_31_slurm_cycle_mini.png)</center>
+
+??? question "Exercise"
+
+    Create your own slurm script, which runs the following commands.
+
+    ```bash
+    sleep 100
+    echo "I am a slurm job and I slept for 100 seconds"
+    ```
+    
+    You can either use a command-line text editor, such as `nano` to write your file or use the file explorer to create an empty file when write into it as in the previous exercise. Use the following settings:
+
+    * Use the account `nesi03181`
+    * Set the job to run for 2 minutes
+    * Request 1 CPU, and 512MB of memory
+
+    ??? circle-check "Solution"
+
+        ```bash
+        #!/bin/bash 
+
+        #SBATCH --job-name      myfirstslurmjob
+        #SBATCH --account       nesi03181
+        #SBATCH --time          00:02:00
+        #SBATCH --cpus-per-task 1
+        #SBATCH --mem           512MB
+        #SBATCH --output        myfirstslurmjob.%j.out
+        #SBATCH --error         myfirstslurmjob.%j.err
+
+        sleep 100
+        echo "I am a slurm job and I slept for 100 seconds"
+        ```
+
+??? bell "Quick Check before compiling the script - Assigning values to Slurm variables"
+
+    <center>![image](../img/level1_31_sbatch_def_1.png)</center>
+
+    <center>![image](../img/level1_31_sbatch_def_2.png)</center>
+
+---
 
 ## Assessing resource utilisation (cpu, memory, time)
 
@@ -169,47 +206,3 @@ Understanding the resources you have available and how to use them most efficien
 | Wall time        | (above)                                               | Job will run out of time and get killed                                             |
 
 ---
-
-??? question "Exercise (optional)" 
-
-
-    Let's submit another slurm job and review its resource utilisation
-
-    * Change the working directory to Exercise_5.3
-    ```bash
-    cd ~/scripting_workshop/scheduler/ex_5.3
-    ```
-
-    * Run `ls` command and you should see two files (one .R and one sl) and one directory named slurmout
-    ```bash
-    ls -F
-    ```
-      ```bash
-      bowtie-test.sl*  input_data/  slurmout/
-      ```
-    * Review the slurm script bowtie-test.sl with nano and edit the corresponding sections (hint :email)
-    ```bash
-    sbatch bowtie-test.sl 
-    ```
-
-    * use `squeue --me` and `sacct` again to evaluate the job status
-
-    * Once the job ran into completion, use `nn_seff JOBID` command to print the resource utilisation statistics (Replace **JOBID** with the corresponding number)
-    ```bash
-    $ nn_seff 25222190
-    Job ID: 25222190
-    Cluster: mahuika
-    User/Group: me1234/me1234
-    State: COMPLETED (exit code 0)
-    Cores: 1
-    Tasks: 1
-    Nodes: 1
-    Job Wall-time:  18.33%  00:00:33 of 00:03:00 time limit
-    CPU Efficiency: 93.94%  00:00:31 of 00:00:33 core-walltime
-    Mem Efficiency: 1.33%  13.62 MB of 1.00 GB
-    ```
-    * Now review the content of `.err` and `.out` files in */slurmout* directory
-
- 
-- - -
-
