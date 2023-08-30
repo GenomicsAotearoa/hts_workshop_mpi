@@ -2,8 +2,8 @@
 
 !!! clock "time"
 
-    * Teaching: 30 minutes
-    * Exercises: 30 minutes
+    * Teaching: 15 minutes
+    * Exercises: 15 minutes
 
 !!! circle-info "Objectives and Key points"
 
@@ -65,7 +65,7 @@ Return to your `blast_annotation/` folder, if you left it, and examine the new o
 
     ??? success "Output"
 
-        ```bash
+        ```
         seq1    gi|1607238104|dbj|AP019558.1|   91.750  1794    148     0       1       1794    366818  3650250.0      2494    Mycoplasma bovis KG4397 DNA, complete genome    28903
         seq1    gi|1441442372|gb|CP022588.1|    91.695  1794    149     0       1       1794    690905  6926980.0      2488    Mycoplasmopsis bovis strain MJ4 chromosome, complete genome     28903
         seq1    gi|1315670167|emb|LT578453.1|   91.695  1794    149     0       1       1794    655989  6577820.0      2488    Mycoplasma bovis isolate JF4278 genome assembly, chromosome: I  28903
