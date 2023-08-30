@@ -99,18 +99,20 @@ It looks like a table, but awkwardly there are no column names. However, the nam
 
 Applying these to the layout, we get something more sensible:
 
-|qseqid|sseqid|pident|length|mismatch|gapopen|qstart|qend|sstart|send|evalue|bitscore|salltitles|staxids|
-|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---|
-|seq1|gi\|1607238104\|dbj\|AP019558.1\||91.750|1794|148|0|1|1794|366818|3650250.0|2494|Mycoplasma bovis KG4397 DNA, complete genome|28903|
-|seq1|gi\|1441442372\|gb\|CP022588.1\||91.695|1794|149|0|1|1794|690905|6926980.0|2488|Mycoplasmopsis bovis strain MJ4 chromosome, complete genome|28903|
-|seq1|gi\|1315670167\|emb\|LT578453.1\||91.695|1794|149|0|1|1794|655989|6577820.0|2488|Mycoplasma bovis isolate JF4278 genome assembly, chromosome: I|28903|
-|seq1|gi\|2507795645\|gb\|CP058524.2\||91.695|1794|149|0|1|1794|401349|4031420.0|2488|Mycoplasmopsis bovis strain Mb49 chromosome|28903|
-|seq1|gi\|2507793515\|gb\|CP058496.2\||91.695|1794|149|0|1|1794|320995|3192020.0|2488|Mycoplasmopsis bovis strain Mb222 chromosome|28903|
-|seq1|gi\|2507792460\|gb\|CP058473.2\||91.695|1794|149|0|1|1794|1055619 10574120.0|2488|Mycoplasmopsis bovis strain VK22 chromosome|28903|
-|seq1|gi\|2507791648\|gb\|CP058453.2\||91.695|1794|149|0|1|1794|9966|11759 0.0|2488|Mycoplasmopsis bovis strain Mb287 chromosome|28903|
-|seq1|gi\|2507791648\|gb\|CP058453.2\||91.695|1794|149|0|1|1794|1120377 11221700.0|2488|Mycoplasmopsis bovis strain Mb287 chromosome|28903|
-|seq1|gi\|2506302979\|gb\|CP058448.2\||91.695|1794|149|0|1|1794|763992|7657850.0|2488|Mycoplasmopsis bovis strain Mb1 chromosome|28903|
-|seq1|gi\|2506302187\|gb\|CP058432.2\||91.695|1794|149|0|1|1794|354705|3564980.0|2488|Mycoplasmopsis bovis strain Mb216 chromosome|28903|
+??? abstract "Table layout"
+
+    |qseqid|sseqid|pident|length|mismatch|gapopen|qstart|qend|sstart|send|evalue|bitscore|salltitles|staxids|
+    |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---|
+    |seq1|gi\|1607238104\|dbj\|AP019558.1\||91.750|1794|148|0|1|1794|366818|365025|0.0|2494|Mycoplasma bovis KG4397 DNA, complete genome|28903|
+    |seq1|gi\|1441442372\|gb\|CP022588.1\||91.695|1794|149|0|1|1794|690905|692698|0.0|2488|Mycoplasmopsis bovis strain MJ4 chromosome, complete genome|28903|
+    |seq1|gi\|1315670167\|emb\|LT578453.1\||91.695|1794|149|0|1|1794|655989|657782|0.0|2488|Mycoplasma bovis isolate JF4278 genome assembly, chromosome: I|28903|
+    |seq1|gi\|2507795645\|gb\|CP058524.2\||91.695|1794|149|0|1|1794|401349|403142|0.0|2488|Mycoplasmopsis bovis strain Mb49 chromosome|28903|
+    |seq1|gi\|2507793515\|gb\|CP058496.2\||91.695|1794|149|0|1|1794|320995|319202|0.0|2488|Mycoplasmopsis bovis strain Mb222 chromosome|28903|
+    |seq1|gi\|2507792460\|gb\|CP058473.2\||91.695|1794|149|0|1|1794|1055619|1057412|0.0|2488|Mycoplasmopsis bovis strain VK22 chromosome|28903|
+    |seq1|gi\|2507791648\|gb\|CP058453.2\||91.695|1794|149|0|1|1794|9966|11759|0.0|2488|Mycoplasmopsis bovis strain Mb287 chromosome|28903|
+    |seq1|gi\|2507791648\|gb\|CP058453.2\||91.695|1794|149|0|1|1794|1120377|1122170|0.0|2488|Mycoplasmopsis bovis strain Mb287 chromosome|28903|
+    |seq1|gi\|2506302979\|gb\|CP058448.2\||91.695|1794|149|0|1|1794|763992|765785|0.0|2488|Mycoplasmopsis bovis strain Mb1 chromosome|28903|
+    |seq1|gi\|2506302187\|gb\|CP058432.2\||91.695|1794|149|0|1|1794|354705|356498|0.0|2488|Mycoplasmopsis bovis strain Mb216 chromosome|28903|
 
 !!! question "Exercise"
 
