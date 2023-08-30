@@ -19,7 +19,7 @@ This is the opening page for the HTS workshop. Content is divided according to t
 1. Annotating sequences with BLAST
    1. [Submitting a BLAST job to NeSI](docs/level1/41_blastn_annotation.md)
    1. [Introduction to slurm](docs/level1/42_slurm_introduction.md)
-   1. Interpreting BLAST outputs
+   1. [Interpreting BLAST outputs](docs/level1/43_blast_interpretation.md)
 
 1. Level 2 - Advanced
    1. [Shell navigation (advanced)](docs/level2/11_shell_manipulation.md)
