@@ -118,6 +118,24 @@ We can get a quick estimate for how much data passed our quality requirements by
         20192 total
         ```
 
+A different more informative way of looking at our data before and after filtering is to use a tool called Seqkit. Seqkit has a range of features but the `stats` command gives really good summary statistics for sequencing datasets. Here we are using the flag `-a` to return all the available stats. 
+
+!!! terminal "code"
+
+    ```bash
+    module purge
+    module load SeqKit/2.4.0
+
+    seqkit stats -a results/*.fq
+
+    ??? success "Output"
+
+        ```bash
+        file                          format  type  num_seqs     sum_len  min_len   avg_len  max_len       Q1     Q2      Q3  sum_gap     N50  Q20(%)  Q30(%)  GC(%)
+        results/nanopore.porechop.fq  FASTQ   DNA      3,735  45,214,457        6  12,105.6   82,753  2,723.5  8,489  17,927        0  21,118   69.79   50.97  30.83
+        results/nanopore.qc.fq        FASTQ   DNA      1,313  16,675,742      500  12,700.5   77,866    3,658  9,245  18,869        0  21,365   78.07   58.66  31.03
+        ```
+
 How many sequences did we lose in the process?
 
 ---
