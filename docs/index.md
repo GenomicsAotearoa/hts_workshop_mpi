@@ -5,36 +5,51 @@
 
 !!! rectangle-list "Level 1 - Beginner"
 
-    1. Introduction to NeSI
-       1. [Connecting to NeSI](./level1/11_nesi_connection.md)
-       1. [Navigation on the command line](./level1/12_shell_navigation.md)
-       1. [Working with files on the command line](./level1/13_shell_manipulation.md)
-    1. Quality filtering Illumina data
-       1. [Inspecting reads](./level1/21_illumina_inspection.md)
-       1. [Trimming paired-end reads](./level1/22_illumina_filtering.md)
-    1. Quality filtering Nanopore data
-       1. [Inspecting reads](./level1/31_nanopore_inspection.md)
-       1. [Trimming long-read Nanopore data](./level1/32_nanopore_filtering.md)
-    1. Annotating sequences with BLAST
-       1. [Submitting a BLAST job to NeSI](./level1/41_blastn_annotation.md)
-       1. [Introduction to slurm](./level1/42_slurm_introduction.md)
-       1. [Interpreting BLAST outputs](./level1/43_blast_interpretation.md)
+    **Introduction to NeSI**
+
+    1. [Connecting to NeSI](./level1/11_nesi_connection.md)
+    1. [Navigation on the command line](./level1/12_shell_navigation.md)
+    1. [Working with files on the command line](./level1/13_shell_manipulation.md)
+    
+    **Quality filtering Illumina data**
+
+    1. [Inspecting reads](./level1/21_illumina_inspection.md)
+    1. [Trimming paired-end reads](./level1/22_illumina_filtering.md)
+
+    **Quality filtering Nanopore data**
+
+    1. [Inspecting reads](./level1/31_nanopore_inspection.md)
+    1. [Trimming long-read Nanopore data](./level1/32_nanopore_filtering.md)
+
+    **Annotating sequences with BLAST**
+
+    1. [Submitting a BLAST job to NeSI](./level1/41_blastn_annotation.md)
+    1. [Introduction to slurm](./level1/42_slurm_introduction.md)
+    1. [Interpreting BLAST outputs](./level1/43_blast_interpretation.md)
 
 !!! rectangle-list "Level 2 - Advanced"
 
-    1. [Shell navigation (advanced)](./level2/11_shell_manipulation.md)
-    1. [Loops and variables in the command line](./level2/12_shell_variables.md)
-    1. [Redirection in the command line](./level2/13_shell_redirection.md)
-    1. [*De novo* assembly of sequencing data](./level2/21_assembly_de_novo.md)
+    **Working in the shell**
+
+    1. [Working with files](./level2/11_shell_manipulation.md)
+    1. [Variables and loops](./level2/12_shell_variables.md)
+    1. [Redirection](./level2/13_shell_redirection.md)
+    1. [Understanding the NeSI environment](./level2/14_nesi_environment.md)
+
+    **_De novo_** assembly of sequencing data
+
+    1. [Overview](./level2/21_assembly_de_novo.md)
+    1. [Short read assembly with SPAdes]()
+    1. [Long read assembly with Flye]()
     1. [Polishing of genome assemblies](./level2/22_assembly_polishing.md)
-    1. [Mapping reads to a reference](./level2/31_coverage_mapping.md)
-       1. [Illumina mapping](./level2/32_illumina_mapping.md)
-       1. [Nanopore mapping](./level2/33_nanopore_mapping.md)
-       1. [Filtering and sorting mapping files](./level2/34_mapping_filters.md)
-       1. [Summarising mapping statistics](./level2/35_mapping_statistics.md)
-    1. [Introduction to workflow managers](./level2/41_workflows_introduction.md)
-       1. [Building a basic workflow](./level2/42_workflow_starting.md)
-       1. [Extending an existing workflow](./level2/43_workflow_extending.md)
+
+    **Mapping reads to a reference**
+    
+    1. [Overview](./level2/31_coverage_mapping.md)
+    1. [Illumina mapping with bowtie2](./level2/32_illumina_mapping.md)
+    1. [Nanopore mapping with minimap2](./level2/33_nanopore_mapping.md)
+    1. [Filtering and sorting mapping files](./level2/34_mapping_filters.md)
+    1. [Summarising mapping statistics](./level2/35_mapping_statistics.md)
 
 ---
 

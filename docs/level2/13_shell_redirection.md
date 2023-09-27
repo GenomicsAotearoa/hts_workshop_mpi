@@ -1,9 +1,11 @@
-# Working with redirection
+# 1.3 - Working with redirection
+
+## Overview
 
 !!! clock "time"
 
-    * Teaching: 30 minutes
-    * Exercises: 30 minutes
+    * Teaching: 15 minutes
+    * Exercises: 15 minutes
 
 !!! circle-info "Objectives and Key points"
 
@@ -298,7 +300,7 @@ For example, if we are passing the output of the `grep` command to find lines in
 !!! terminal "code"
 
     ```bash
-    grep "Potyviridae" ncbi_viruses.txt | cut
+    grep "Potyviridae" ncbi_viruses.txt | <next command>
     ```
 
 From there we can provide `cut` with the parameters we need and then either direct its output to a file (`>`) or to another command (`|`). In this instance we only have a single parameter to provide `cut` and that is which column(s) we want it to extract from the input data. This is done with the `-f` parameter which takes the column position (not label) that we want to retain. You can provide multiple values to `-f`, separated with a comma, but in this case we will only need the one.
@@ -307,6 +309,22 @@ From there we can provide `cut` with the parameters we need and then either dire
 
     ```bash
     grep "Potyviridae" ncbi_viruses.txt | cut -f7 | sort
+    ```
+
+
+??? success "Output (last 10 lines)"
+
+    ```
+    Roymovirus
+    Rymovirus
+    Rymovirus
+    Rymovirus
+    Tritimovirus
+    Tritimovirus
+    Tritimovirus
+    Tritimovirus
+    Tritimovirus
+    Tritimovirus
     ```
 
 And that's most of the command we need. The initial file is filtered for lines that contain the text 'Potyviridae', those lines are passed into the `cut` command which extracts just the information in the genus column. The results are then alphabetically sorted and `uniq` reports the unique names found.

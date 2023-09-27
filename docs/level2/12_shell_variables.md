@@ -1,8 +1,10 @@
-# Working with variables and loops
+# 1.2 - Working with variables and loops
+
+## Overview
 
 !!! clock "time"
 
-    * Teaching: 30 minutes
+    * Teaching: 15 minutes
     * Exercises: 30 minutes
 
 !!! circle-info "Objectives and Key points"
@@ -32,6 +34,21 @@ This is the fundamental idea of variables - we are getting the computer to store
     grep NNNNNNNNNN SRR098026.fastq
     ```
 
+??? success "Output (last 10 lines)"
+
+    ```
+    TNNNNNNNNNTAAAATAAANNNNNNNNNNNAANNN
+    CNNNNNNNNNTTGGTGCTGNNNNNNNNNNNAANNN
+    ANNNNNNNNNAAAAAAAAANNNNNNNNNNNAANNN
+    GNNNNNNNNNTGGCACAATNNNNNNNNNNNCGNNN
+    TNNNNNNNNNCGTGGAATTNNNNNNNNNNNATNNN
+    ANNNNNNNNNGCATTAAACGNNNNNNNNNNCANTN
+    GNNNNNNNNNATCAAAAAGCNNNNNNNNNNGTNAN
+    ANNNNNNNNNGTGGCAATATNNNNNNNNNNCCNGN
+    ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN
+    CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+    ```
+
 We could run this command a thousand times and it would always return the same result. If I was instead to create a variable which represented this sequence, I could change the value that it represents and run the command a second time to get a new result. Without worry about the syntax for declaring or accessing the variable (which we will cover in the sections below), consider the following code:
 
 !!! terminal "code"
@@ -39,6 +56,21 @@ We could run this command a thousand times and it would always return the same r
     ```bash
     MOTIF="NNNNNNNNNN"
     grep ${MOTIF} SRR098026.fastq
+    ```
+
+??? success "Output (last 10 lines)"
+
+    ```
+    TNNNNNNNNNTAAAATAAANNNNNNNNNNNAANNN
+    CNNNNNNNNNTTGGTGCTGNNNNNNNNNNNAANNN
+    ANNNNNNNNNAAAAAAAAANNNNNNNNNNNAANNN
+    GNNNNNNNNNTGGCACAATNNNNNNNNNNNCGNNN
+    TNNNNNNNNNCGTGGAATTNNNNNNNNNNNATNNN
+    ANNNNNNNNNGCATTAAACGNNNNNNNNNNCANTN
+    GNNNNNNNNNATCAAAAAGCNNNNNNNNNNGTNAN
+    ANNNNNNNNNGTGGCAATATNNNNNNNNNNCCNGN
+    ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN
+    CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
     ```
 
 While that statement may remain untouched and be reused over time, the line contains a variable called `MOTIF` which represents a dynamic value. This value might change over time, such that the same `grep` command will return different results. For example:
@@ -98,11 +130,11 @@ And it's done. You have now created a variable named 'MOTIF'. This variable repr
     echo MOTIF
     ```
 
-    ??? success "Output"
+??? success "Output"
 
-        ```
-        MOTIF
-        ```
+    ```
+    MOTIF
+    ```
 
 What do you notice when you run this command. You see the word 'MOTIF' (the name of the variable) and not the value 'NNNNNNNNNN' (the value it is meant to contain) printed to the console. This happens because when working from the command line by default everything we enter into the terminal is considered a literal instruction to the computer. There is a specific notation required when we need to computer to understand that we are using a variable:
 
@@ -112,11 +144,11 @@ What do you notice when you run this command. You see the word 'MOTIF' (the name
     echo ${MOTIF}
     ```
 
-    ??? success "Output"
+??? success "Output"
 
-        ```
-        NNNNNNNNNN
-        ```
+    ```
+    NNNNNNNNNN
+    ```
 
 In this case, the value of the variable `MOTIF` is correctly accessed by the computer, returning the nucleotide motif value instead of the word 'MOTIF'.
 
@@ -230,12 +262,12 @@ Finally, if you ever try to access a variable which does not exist, `bash` will 
     echo "The value a nonexistant variable is '${NON_EXISTANT_VARIABLE}'"
     ```
 
-    ??? success "Output"
+??? success "Output"
 
-        ```
-        The value of MOTIF is 'TTTTTTTTTT'
-        The value a nonexistant variable is ''
-        ```
+    ```
+    The value of MOTIF is 'TTTTTTTTTT'
+    The value a nonexistant variable is ''
+    ```
 
 ---
 
@@ -251,11 +283,11 @@ When working with loops, we must make use of variables to identify pieces on inf
     grep -c ${MOTIF} SRR098026.fastq
     ```
 
-    ??? success "Output"
+??? success "Output"
 
-        ```
-        0
-        ```
+    ```
+    0
+    ```
 
 This differs a little bit from the previous `grep` command. By adding the `-c` flag, we are making `grep` print the number of times the search sequence is counted in the file, rather than print the lines which contain the sequence. In practice this can be a useful feature in itself but we are mainly using it to keep the text printed by `grep` minimal.
 
@@ -270,13 +302,13 @@ The first loop we will write looks like this:
     done
     ```
 
-    ??? success "Output"
+??? success "Output"
 
-        ```
-        223
-        0
-        0
-        ```
+    ```
+    223
+    0
+    0
+    ```
 
 Let's look at the what each line and statement actually mean. The loop above can be broken down ito the following model:
 
@@ -354,9 +386,20 @@ Our loop is now functional, but it is quite narrow in scope. We're now going to 
             done
             ```
 
+        ??? success "Output"
+
+            ```
+            SRR098026.fastq, nucleotide NNNNNNNNNN
+            134
+            SRR098026.fastq, nucleotide GCTGGCGNNN
+            1
+            SRR098026.fastq, nucleotide TTTTTTTTTT
+            0
+            ```
+
 If your code works as expected, you can now change the value of `FILENAME` to any valid file and it will provide the equivalent searches in the next file. Confirm this by changing your `FILENAME` value and repeating the loop.
 
-??? terminal "code"
+!!! terminal "code"
 
     ```bash
     FILENAME=SRR098026.fastq
@@ -372,6 +415,24 @@ If your code works as expected, you can now change the value of `FILENAME` to an
         echo ${FILENAME}", nucleotide "${MOTIF}
         grep -c ${MOTIF} ${FILENAME}
     done
+    ```
+
+??? success "Output"
+
+    ```
+    SRR098026.fastq, nucleotide NNNNNNNNNN
+    134
+    SRR098026.fastq, nucleotide GCTGGCGNNN
+    1
+    SRR098026.fastq, nucleotide TTTTTTTTTT
+    0
+
+    SRR097977.fastq, nucleotide NNNNNNNNNN
+    0
+    SRR097977.fastq, nucleotide GCTGGCGNNN
+    0
+    SRR097977.fastq, nucleotide TTTTTTTTTT
+    0
     ```
 
 This is functional, but still quite messy. As a final exercise, we're going to write what is called a 'nested loop', a `for` loop within a `for` loop. The first (outer) loop will iterate through a set of fastq files and assign them to `FILENAME` and the second (inner) loop will perform the `grep` commands.
@@ -390,6 +451,25 @@ We can make use of a *wildcard* here to automatically pick up the names of all f
             grep -c ${MOTIF} ${FILENAME}
         done
     done
+    ```
+
+??? success "Output"
+
+    ```
+    File: SRR097977.fastq
+    Nucleotide: NNNNNNNNNN
+    0
+    Nucleotide: GCTGGCGNNN
+    0
+    Nucleotide: TTTTTTTTTT
+    0
+    File: SRR098026.fastq
+    Nucleotide: NNNNNNNNNN
+    134
+    Nucleotide: GCTGGCGNNN
+    1
+    Nucleotide: TTTTTTTTTT
+    0
     ```
 
 ---

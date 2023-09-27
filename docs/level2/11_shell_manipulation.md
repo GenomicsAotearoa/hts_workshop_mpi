@@ -1,4 +1,6 @@
-# Manipulating files in the shell
+# 1.1 - Manipulating files in the shell
+
+## Overview
 
 !!! clock "time"
 
@@ -44,7 +46,9 @@ Let's search for the string `NNNNNNNNNN` in the `SRR098026.fastq` file:
     grep NNNNNNNNNN SRR098026.fastq
     ```
 
-This command returns a lot of output to the terminal. Every single line in the `SRR098026.fastq` file that contains at least 10 consecutive `N`s is printed to the terminal, regardless of how long or short the file is. We may be interested not only in the actual sequence which contains this string, but in the name (or identifier) of that sequence. We discussed in a previous lesson that the identifier line immediately precedes the nucleotide sequence for each read in a fastq file. We may also want to inspect the quality scores associated with each of these reads. To get all of this information, we will return the line immediately before each match and the two lines immediately after each match (see [this description of the fastq format](../supplementary/fastq_format.md) if you are unsure why we are using these numbers).
+This command returns a lot of output to the terminal. Every single line in the `SRR098026.fastq` file that contains at least 10 consecutive `N`s is printed to the terminal, regardless of how long or short the file is. We may be interested not only in the actual sequence which contains this string, but in the name (or identifier) of that sequence. We discussed in a previous lesson that the identifier line immediately precedes the nucleotide sequence for each read in a fastq file.
+
+We may also want to inspect the quality scores associated with each of these reads. To get all of this information, we will return the line immediately before each match and the two lines immediately after each match (see [this description of the fastq format](../supplementary/fastq_format.md) if you are unsure why we are using these numbers).
 
 We can use the `-B` argument for grep to return a specific number of lines before each match. The `-A` argument returns a specific number of lines after each matching line. Here we want the line *before* and the two lines *after* each matching line, so we add `-B1 -A2` to our grep command:
 
@@ -213,30 +217,30 @@ As a worked example, take a look at the following command:
     sed "s/A/B/" SRR097977.small.fq
     ```
 
-    ??? success "Output"
+??? success "Output"
 
-        ```
-        @SRR097977.1 209DTBAXX_Lenski2_1_7:8:3:710:178 length=36
-        TBTTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
-        +SRR097977.1 209DTBAXX_Lenski2_1_7:8:3:710:178 length=36
-        CCCCCCCCCCCCCCC>CCCCC7CCCCCCBCA?5A5<
-        @SRR097977.2 209DTBAXX_Lenski2_1_7:8:3:365:371 length=36
-        GGTTBCTCTTTTAACCTTGATGTTTCGACGCTGTAT
-        +SRR097977.2 209DTBAXX_Lenski2_1_7:8:3:365:371 length=36
-        CC:?:CC:?CCCCC??C?:?C-&:C:,?<&*?+7?<
-        @SRR097977.3 209DTBAXX_Lenski2_1_7:8:3:663:569 length=36
-        TTGTTCGCTTTTGGTBATTAATCCCGGAAATAATAA
-        +SRR097977.3 209DTBAXX_Lenski2_1_7:8:3:663:569 length=36
-        CCCCCCCCCCCC&9BACCC,C>CCAA&0?4A9&A<6
-        @SRR097977.4 209DTBAXX_Lenski2_1_7:8:3:715:205 length=36
-        TBTCACTAAAGATCAAATCATTGAAGCAGTTGCAGC
-        +SRR097977.4 209DTBAXX_Lenski2_1_7:8:3:715:205 length=36
-        CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
-        @SRR097977.5 209DTBAXX_Lenski2_1_7:8:3:639:209 length=36
-        TBTCTATCAAAGCCAGGCAATGGAAGACCTACTCCC
-        +SRR097977.5 209DTBAXX_Lenski2_1_7:8:3:639:209 length=36
-        CCCCCCCCC?C?CC3C?CC5C?C1C<?CC8BA+AA%
-        ```
+    ```
+    @SRR097977.1 209DTBAXX_Lenski2_1_7:8:3:710:178 length=36
+    TBTTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
+    +SRR097977.1 209DTBAXX_Lenski2_1_7:8:3:710:178 length=36
+    CCCCCCCCCCCCCCC>CCCCC7CCCCCCBCA?5A5<
+    @SRR097977.2 209DTBAXX_Lenski2_1_7:8:3:365:371 length=36
+    GGTTBCTCTTTTAACCTTGATGTTTCGACGCTGTAT
+    +SRR097977.2 209DTBAXX_Lenski2_1_7:8:3:365:371 length=36
+    CC:?:CC:?CCCCC??C?:?C-&:C:,?<&*?+7?<
+    @SRR097977.3 209DTBAXX_Lenski2_1_7:8:3:663:569 length=36
+    TTGTTCGCTTTTGGTBATTAATCCCGGAAATAATAA
+    +SRR097977.3 209DTBAXX_Lenski2_1_7:8:3:663:569 length=36
+    CCCCCCCCCCCC&9BACCC,C>CCAA&0?4A9&A<6
+    @SRR097977.4 209DTBAXX_Lenski2_1_7:8:3:715:205 length=36
+    TBTCACTAAAGATCAAATCATTGAAGCAGTTGCAGC
+    +SRR097977.4 209DTBAXX_Lenski2_1_7:8:3:715:205 length=36
+    CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
+    @SRR097977.5 209DTBAXX_Lenski2_1_7:8:3:639:209 length=36
+    TBTCTATCAAAGCCAGGCAATGGAAGACCTACTCCC
+    +SRR097977.5 209DTBAXX_Lenski2_1_7:8:3:639:209 length=36
+    CCCCCCCCC?C?CC3C?CC5C?C1C<?CC8BA+AA%
+    ```
 
 In that command, there should be two obvious pieces of information - the name of the `sed` tool, and the name of the file we are working with. The remaining part, enclosed by quotation marks, is the expression for what to change. This takes the following form;
 
@@ -266,30 +270,30 @@ If you run any of these, you will probably spot that even though we are specifyi
     sed "s/A/B/g" SRR097977.small.fq
     ```
 
-    ??? success "Output"
+??? success "Output"
 
-        ```
-        @SRR097977.1 209DTBBXX_Lenski2_1_7:8:3:710:178 length=36
-        TBTTCTGCCBTBBTGBBBTTCGCCBCTTGTTBGTGT
-        +SRR097977.1 209DTBBXX_Lenski2_1_7:8:3:710:178 length=36
-        CCCCCCCCCCCCCCC>CCCCC7CCCCCCBCB?5B5<
-        @SRR097977.2 209DTBBXX_Lenski2_1_7:8:3:365:371 length=36
-        GGTTBCTCTTTTBBCCTTGBTGTTTCGBCGCTGTBT
-        +SRR097977.2 209DTBBXX_Lenski2_1_7:8:3:365:371 length=36
-        CC:?:CC:?CCCCC??C?:?C-&:C:,?<&*?+7?<
-        @SRR097977.3 209DTBBXX_Lenski2_1_7:8:3:663:569 length=36
-        TTGTTCGCTTTTGGTBBTTBBTCCCGGBBBTBBTBB
-        +SRR097977.3 209DTBBXX_Lenski2_1_7:8:3:663:569 length=36
-        CCCCCCCCCCCC&9BBCCC,C>CCBB&0?4B9&B<6
-        @SRR097977.4 209DTBBXX_Lenski2_1_7:8:3:715:205 length=36
-        TBTCBCTBBBGBTCBBBTCBTTGBBGCBGTTGCBGC
-        +SRR097977.4 209DTBBXX_Lenski2_1_7:8:3:715:205 length=36
-        CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
-        @SRR097977.5 209DTBBXX_Lenski2_1_7:8:3:639:209 length=36
-        TBTCTBTCBBBGCCBGGCBBTGGBBGBCCTBCTCCC
-        +SRR097977.5 209DTBBXX_Lenski2_1_7:8:3:639:209 length=36
-        CCCCCCCCC?C?CC3C?CC5C?C1C<?CC8BB+BB%
-        ```
+    ```
+    @SRR097977.1 209DTBBXX_Lenski2_1_7:8:3:710:178 length=36
+    TBTTCTGCCBTBBTGBBBTTCGCCBCTTGTTBGTGT
+    +SRR097977.1 209DTBBXX_Lenski2_1_7:8:3:710:178 length=36
+    CCCCCCCCCCCCCCC>CCCCC7CCCCCCBCB?5B5<
+    @SRR097977.2 209DTBBXX_Lenski2_1_7:8:3:365:371 length=36
+    GGTTBCTCTTTTBBCCTTGBTGTTTCGBCGCTGTBT
+    +SRR097977.2 209DTBBXX_Lenski2_1_7:8:3:365:371 length=36
+    CC:?:CC:?CCCCC??C?:?C-&:C:,?<&*?+7?<
+    @SRR097977.3 209DTBBXX_Lenski2_1_7:8:3:663:569 length=36
+    TTGTTCGCTTTTGGTBBTTBBTCCCGGBBBTBBTBB
+    +SRR097977.3 209DTBBXX_Lenski2_1_7:8:3:663:569 length=36
+    CCCCCCCCCCCC&9BBCCC,C>CCBB&0?4B9&B<6
+    @SRR097977.4 209DTBBXX_Lenski2_1_7:8:3:715:205 length=36
+    TBTCBCTBBBGBTCBBBTCBTTGBBGCBGTTGCBGC
+    +SRR097977.4 209DTBBXX_Lenski2_1_7:8:3:715:205 length=36
+    CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
+    @SRR097977.5 209DTBBXX_Lenski2_1_7:8:3:639:209 length=36
+    TBTCTBTCBBBGCCBGGCBBTGGBBGBCCTBCTCCC
+    +SRR097977.5 209DTBBXX_Lenski2_1_7:8:3:639:209 length=36
+    CCCCCCCCC?C?CC3C?CC5C?C1C<?CC8BB+BB%
+    ```
 
 !!! question "Exercise"
 
