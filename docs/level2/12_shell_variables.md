@@ -23,9 +23,11 @@
 
 ## What are variables and why do we need them
 
-Variables are one of the most fundamental aspects of writing code and scripts. Before explaining what one is, think back to our previous exercises in `bash` when we were searching for particular nucleotide sequences in a fastq file using the `grep` tool ([here](./11_shell_manipulation.md#searching-files-using-grep)). The commands we ran were perfectly fine, but would only ever work for that one nucleotide sequence in that one fastq file. If we wanted to search the same file for a different nucleotide pattern, or search multiple files for the same pattern we would have to rewrite the command and change part of the statement to the new requirement. For simple commands, or commands which we only need to perform once, this is fine but as you rely more and more on the command line it's really helpful to outsource as much work as possible to the command line rather then doing it all yourself.
+Variables are one of the most fundamental aspects of writing code and scripts. Before explaining what one is, think back to our previous exercises in `bash` when we were searching for particular nucleotide sequences in a fastq file using the `grep` tool ([here](./11_shell_manipulation.md#searching-files-using-grep)). The commands we ran were perfectly fine, but would only ever work for that one nucleotide sequence in that one fastq file.
 
-This is the fundamental idea of variables - we are getting the computer to store a piece of information (file name, sqeuence motif, number in a sequence) which may change over time to be used or reused over successive commands. What's important about this is that unlike the `grep` examples in the previous exercise, over time the content that the variable represents may change. If we revisit the command from the previous exercise:
+If we wanted to search the same file for a different nucleotide pattern, or search multiple files for the same pattern we would have to rewrite the command and change part of the statement to the new requirement. For simple commands, or commands which we only need to perform once, this is fine but as you rely more and more on the command line it's really helpful to outsource as much work as possible to the command line rather then doing it all yourself.
+
+This is the fundamental idea of variables - we are getting the computer to store a piece of information (file name, sqeuence motif, number) which may change over time to be used or reused over successive commands. What's important about this is that unlike the `grep` examples in the previous exercise, over time the content that the variable represents may change. If we revisit the command from the previous exercise:
 
 !!! terminal "code"
 
@@ -34,7 +36,7 @@ This is the fundamental idea of variables - we are getting the computer to store
     grep NNNNNNNNNN SRR098026.fastq
     ```
 
-??? success "Output (last 10 lines)"
+??? file-code "Output (last 10 lines)"
 
     ```
     TNNNNNNNNNTAAAATAAANNNNNNNNNNNAANNN
@@ -49,7 +51,7 @@ This is the fundamental idea of variables - we are getting the computer to store
     CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
     ```
 
-We could run this command a thousand times and it would always return the same result. If I was instead to create a variable which represented this sequence, I could change the value that it represents and run the command a second time to get a new result. Without worry about the syntax for declaring or accessing the variable (which we will cover in the sections below), consider the following code:
+We could run this command a thousand times and it would always return the same result. If we were instead to create a variable which represented this sequence, the value that it represents could be changed over time, giving a different result each time the command was run. Without worry about the syntax for declaring or accessing the variable (which we will cover in the sections below), consider the following code:
 
 !!! terminal "code"
 
@@ -58,7 +60,7 @@ We could run this command a thousand times and it would always return the same r
     grep ${MOTIF} SRR098026.fastq
     ```
 
-??? success "Output (last 10 lines)"
+??? file-code "Output (last 10 lines)"
 
     ```
     TNNNNNNNNNTAAAATAAANNNNNNNNNNNAANNN
@@ -88,27 +90,9 @@ While that statement may remain untouched and be reused over time, the line cont
     grep ${MOTIF} SRR098026.fastq
     ```
 
-We can use a tool like a Gantt chart to show the lifespan of each of the values being run through the `grep` command over time.
-
-!!! jupyter ""
-
-    ```mermaid
-    gantt
-        title Lifespan of the static text and variable
-        dateFormat YYYY-MM-DD
-
-        section Static text
-        NNNNNNNNNN           :a1, 2023-01-01, 30d
-
-        section MOTIF
-        NNNNNNNNNN           :a1, 2023-01-01, 10d
-        ATCGATCGAT           :a1, 2023-01-11, 10d
-        TTTTTTTTTT           :a1, 2023-01-21, 10d
-    ```
-
 Why we need this technique can seem a little bit abstract at this stage but think of it like this - when you are performing routine diagnostic work, you will refer to the appropriate SOP detailing how a particular test is performed. If it is a PCR, for example, the SOP will detail the exact primer sequences to use, which chemicals to include in the reaction, the cycling conditions (temperatures, durations, and number of cycles).
 
-However, the SOP does not tell you the name of the sample you are using in the test, or what host it comes from. This is obviously because the SOP does not know specifically which sample the diagnostician is going to be working with but the instructions are applicable across many different samples. Using variables allows us to achieve this effect in a coding environment. We can hard specific, unchanging (hardcoded) rules written out as above, but then use variables as placeholder values which can be changed on a per-sample basis.
+However, the SOP does not tell you the name of the sample you are handling or what host it comes from. This is obviously because the SOP does not know specifically which sample the diagnostician is going to be working with but the instructions are applicable across many different samples. Using variables allows us to achieve this effect in a coding environment. We can have specific, unchanging (hardcoded) rules written out as above, but then use variables as placeholder values which can be changed on a per-sample basis.
 
 ---
 
@@ -210,7 +194,7 @@ In this case, the value of the variable `MOTIF` is correctly accessed by the com
         grep ${SPECIES} target_document.txt
         ```
 
-    !!! success "Output"
+    !!! failure "Interpretation"
 
         ```
         grep Escherichia coli target_document.txt
@@ -230,7 +214,7 @@ In this case, the value of the variable `MOTIF` is correctly accessed by the com
         grep "${SPECIES}" target_document.txt
         ``` 
 
-    !!! success "Output"
+    !!! success "Interpretation"
 
         ```
         grep "Escherichia coli" target_document.txt
@@ -273,7 +257,9 @@ Finally, if you ever try to access a variable which does not exist, `bash` will 
 
 ## Writing loops using variables
 
-Loops are key to productivity improvements through automation as they allow us to write commands with repeat themselves a given number of times. This allows us to write a basic set of commands once and then let the computer apply the command(s) to some pre-defined set of values instead of typing out each iteration ourselves. This reduces the amount of typing we need to perform which among other things, reduces our likelihood of making errors. A loop essentially acts as a wrapper around a block of code, taking a list of values and executing the code on each element of the list. They are invaluable when performing the same operation on groups of files, such as compressing or performing quality trimming. 
+Loops are key to productivity improvements through automation as they allow us to write commands with repeat themselves a given number of times. This allows us to write a basic set of commands once and then let the computer apply the command(s) to some pre-defined set of values instead of typing out each iteration ourselves. This reduces the amount of typing we need to perform which among other things, reduces our likelihood of making errors.
+
+A loop essentially acts as a wrapper around a block of code, taking a list of values and executing the code on each element of the list. They are invaluable when performing the same operation on groups of files, such as compressing or performing quality trimming. 
 
 When working with loops, we must make use of variables to identify pieces on information in the command which change with each iteration of the looped code block. We will use the example of `MOTIF` above to create a simple loop which searches through a file multiple times, looking for a different nucleotide sequence each time. The base command we will be using is:
 

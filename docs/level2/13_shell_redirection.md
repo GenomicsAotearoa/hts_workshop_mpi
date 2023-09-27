@@ -29,7 +29,7 @@ In the previous session we were using the `grep` command allowed us to identify 
 
 We can do this with something called **redirection**. The idea is that we are taking what would ordinarily be printed to the terminal screen and redirecting it to another location. In our case, we want to move the information printed on our terminal into a file so that we can look at it later.
 
-Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/redirection/` folder and we'll get started.
+Navigate to the `redirection/` folder and we'll get started.
 
 !!! terminal "code"
 
@@ -60,7 +60,7 @@ This might take a second or two to complete, but when it is done a quick `ls` sh
 
 Comparing the contents of the input and output files from the `grep` command reveals some differences:
 
-??? note "First 10 lines of `SRR098026.fastq`"
+??? file-code "First 10 lines of `SRR098026.fastq`"
 
     ```
     @SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35
@@ -75,7 +75,7 @@ Comparing the contents of the input and output files from the `grep` command rev
     NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN
     ```
 
-??? note "First 10 lines of `my_file.txt`"
+??? file-code "First 10 lines of `my_file.txt`"
 
     ```
     NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN
@@ -90,31 +90,11 @@ Comparing the contents of the input and output files from the `grep` command rev
     NNNNNNNNNNNNNNNNGNNNNNNNNNNNNNNNNNN
     ```
 
-This is not a very useful way of reporting the bad sequences - we can see what they are, but not which sequences in the original file these correspond to
-
-!!! question "Exercise"
-
-    Modify the `grep` command to extract enough information from the `SRR098026.fastq` file that the new file created using the redirection is a valid `fastq` file.
-
-    Search through the `grep` manual to find the commands you will need to extract a complete sequence record from entries in the `SRR098026.fastq` file which match the `${MOTIF}`. Apply these to your `grep` command and verify if your output file is correct or not.
-
-    *__Hint 1:__ There is a primer on the structure of a `fastq` file available in the course notes [here](../supplementary/fastq_format.md).*
-
-    *__Hint 2:__ Remember that you can use the command `man grep` to get the full user manual for the `grep` command.*
-
-    ??? circle-check "Solution"
-
-        !!! terminal "code"
-
-        ```bash
-        grep -B1 -A2 ${MOTIF} SRR098026.fastq > my_file.fastq
-        ```
-
 ---
 
 ### Applying redirection to loops
 
-We have now created a dynamic loop that can search a single, hardcoded file and create new `fastq` files with the contents which match the `${MOTIF}` value. What happens if we start to use a loop to specify changing values for `${MOTIF}`?
+We previously created a dynamic loop that searched a single, hardcoded file and printed the results of a `grep` call. We could use what we have seen above to redirect the outputs of this search to a file, but is this a good idea?
 
 !!! question "Exercise"
 
@@ -311,7 +291,6 @@ From there we can provide `cut` with the parameters we need and then either dire
     grep "Potyviridae" ncbi_viruses.txt | cut -f7 | sort
     ```
 
-
 ??? success "Output (last 10 lines)"
 
     ```
@@ -345,19 +324,19 @@ The only thing we need to do to complete the exercise is to report how many of e
 
         ??? success "Output"
 
-        ```
-        2 Arepavirus
-        1 Bevemovirus
-        1 Brambyvirus
-        7 Bymovirus
-        1 Celavirus
-        9 Ipomovirus
-        14 Macluravirus
-        3 Poacevirus
-        316 Potyvirus
-        2 Roymovirus
-        3 Rymovirus
-        6 Tritimovirus
-        ```
+            ```
+            2 Arepavirus
+            1 Bevemovirus
+            1 Brambyvirus
+            7 Bymovirus
+            1 Celavirus
+            9 Ipomovirus
+            14 Macluravirus
+            3 Poacevirus
+            316 Potyvirus
+            2 Roymovirus
+            3 Rymovirus
+            6 Tritimovirus
+            ```
 
 ---

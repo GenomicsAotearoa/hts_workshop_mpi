@@ -26,7 +26,9 @@
 
 As powerful as `less` can be, at some point it becomes impractical to use it to screen documents as even with the search tools we are retrieving too many search hits, or covering too much content to reasonably interpret it by eye. For such situations, we can use another command line tool to search through documents without opening them and report the matches directory to the terminal. This tool is called `grep`.
 
-`grep` is a command-line utility for searching plain-text files for lines matching a specific set of characters (sometimes called a string) or a particular pattern. We are going to work with one of the fastq files to practice using `grep` and to demonstrate some of the tool features. For these exercises we will searching some fastq files based on theri sequence content. As we are probably all aware, the four nucleotides that appear in DNA are abbreviated `A`, `C`, `T` and `G`. According to the IUPAC (International Union of Pure and Applied Chemistry) code, unknown nucleotides are represented with the letter `N` (a**N**y base). An `N` appearing in a sequencing file represents a position where the sequencing machine was not able to confidently determine the nucleotide in that position.
+`grep` is a command-line utility for searching plain-text files for lines matching a specific set of characters (sometimes called a string) or a particular pattern. We are going to work with one of the fastq files to practice using `grep` and to demonstrate some of the tool features.
+
+For these exercises we will searching some fastq files based on theri sequence content. As we are probably all aware, the four nucleotides that appear in DNA are abbreviated `A`, `C`, `T` and `G`. Using the [IUPAC](https://iupac.org/) code, unknown nucleotides are represented with the letter `N`. An `N` appearing in a sequencing file represents a position where the sequencing machine was not able to confidently determine the nucleotide in that position.
 
 We'll search for strings inside of our fastq files. Let's first make sure we are in the correct directory:
 
@@ -46,9 +48,24 @@ Let's search for the string `NNNNNNNNNN` in the `SRR098026.fastq` file:
     grep NNNNNNNNNN SRR098026.fastq
     ```
 
-This command returns a lot of output to the terminal. Every single line in the `SRR098026.fastq` file that contains at least 10 consecutive `N`s is printed to the terminal, regardless of how long or short the file is. We may be interested not only in the actual sequence which contains this string, but in the name (or identifier) of that sequence. We discussed in a previous lesson that the identifier line immediately precedes the nucleotide sequence for each read in a fastq file.
+??? success "Output (last 10 lines)"
 
-We may also want to inspect the quality scores associated with each of these reads. To get all of this information, we will return the line immediately before each match and the two lines immediately after each match (see [this description of the fastq format](../supplementary/fastq_format.md) if you are unsure why we are using these numbers).
+    ```
+    TNNNNNNNNNTAAAATAAANNNNNNNNNNNAANNN
+    CNNNNNNNNNTTGGTGCTGNNNNNNNNNNNAANNN
+    ANNNNNNNNNAAAAAAAAANNNNNNNNNNNAANNN
+    GNNNNNNNNNTGGCACAATNNNNNNNNNNNCGNNN
+    TNNNNNNNNNCGTGGAATTNNNNNNNNNNNATNNN
+    ANNNNNNNNNGCATTAAACGNNNNNNNNNNCANTN
+    GNNNNNNNNNATCAAAAAGCNNNNNNNNNNGTNAN
+    ANNNNNNNNNGTGGCAATATNNNNNNNNNNCCNGN
+    ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN
+    CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+    ```
+
+This command returns a lot of output to the terminal. Every single line in the `SRR098026.fastq` file that contains at least 10 consecutive `N`s is printed to the terminal, regardless of how long or short the file is. We may be interested not only in the actual sequence which contains this string, but in the name (or identifier) of that sequence.
+
+We discussed in levle 1 training that the identifier line immediately precedes the nucleotide sequence for each read in a fastq file and that the quality scores associated with each of these reads is spread over the third and fourth line (see [this description of the fastq format](../supplementary/fastq_format.md) if you are unsure why we are using these numbers).
 
 We can use the `-B` argument for grep to return a specific number of lines before each match. The `-A` argument returns a specific number of lines after each matching line. Here we want the line *before* and the two lines *after* each matching line, so we add `-B1 -A2` to our grep command:
 
@@ -86,9 +103,7 @@ We can use the `-B` argument for grep to return a specific number of lines befor
             GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
             ```
 
-!!! question "Exercice"
-
-    2. Search for the sequence `AAGTT` in both FASTQ files. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
+    2. Search for the sequence `AAGTT` in both fastq files (use `*.fastq` as your file name). Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
 
     ??? circle-check "Solution"
  
@@ -140,7 +155,9 @@ If you are in a position where you need to copy a directory of files to a new lo
     cp -r shell_data/ shell_data_backup/
     ```
 
-In the level 1 training the way to remove the `shell_data_backup/` folder would be to navigate into the directory, remove all files, then navigate out of the directory and remove it with the `rmdir` command. If you are careful this can be compressed into a single command, by adding the `-r` flag to the remove (`rm`) command.
+In the level 1 training the way to remove the `shell_data_backup/` folder would be to navigate into the directory, remove all files, then navigate out of the directory and remove it with the `rmdir` command.
+
+If you are careful this can be compressed into a single command, by adding the `-r` flag to the remove (`rm`) command.
 
 !!! terminal "code"
 
@@ -149,17 +166,6 @@ In the level 1 training the way to remove the `shell_data_backup/` folder would 
     ```
 
 This is subject to the usual `bash` warning that contents removed in this way is not recoverable. If you try to perform this operation on a folder with contents which have had their write permissions removed you will receive a confirmation prompt for each file in the directory. This may or may no be a problem depending on the number of files that this applies to.
-
-!!! question "Exercise"
-    Use the `rm` help content to find the way to delete a folder of files bypassign the need to approach each file for detetion.
-
-    ??? circle-check "Solution"
-
-        !!! terminal "code"
-
-            ```bash
-            rm -rf shell_data_backup/
-            ```
 
 ??? circle-info "Setting file permissions"
 
@@ -194,7 +200,7 @@ This is subject to the usual `bash` warning that contents removed in this way is
 
 ## Modifying file contents using `sed`
 
-Sometimes making manual changes to text files is tedious, doubly so when working through command line text editors. Fortunately, there is a command line tool available which can do find-and-replace operations on files or data. The tool `sed` (**s**tream **ed**itor) is used to make changes to the contents of files, either in place or by printing the modified contents to a new file.
+Sometimes making manual changes to text files is tedious, doubly so when working through command line text editors. Fortunately, there is a command line tool available which can do find-and-replace operations on files or data. The tool `sed` is used to make changes to the contents of files, either in place or by printing the modified contents to a new file.
 
 Navigate to the `shell_data/` folder, and inspect the contents of the file `SRR097977.small.fq`.
 
@@ -203,6 +209,31 @@ Navigate to the `shell_data/` folder, and inspect the contents of the file `SRR0
     ```bash
     cd /nesi/project/nesi03181/phel/USERNAME/level2/shell_data/
     cat SRR097977.small.fq
+    ```
+
+??? success "Output"
+
+    ```
+    @SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
+    TATTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
+    +SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
+    CCCCCCCCCCCCCCC>CCCCC7CCCCCCACA?5A5<
+    @SRR097977.2 209DTAAXX_Lenski2_1_7:8:3:365:371 length=36
+    GGTTACTCTTTTAACCTTGATGTTTCGACGCTGTAT
+    +SRR097977.2 209DTAAXX_Lenski2_1_7:8:3:365:371 length=36
+    CC:?:CC:?CCCCC??C?:?C-&:C:,?<&*?+7?<
+    @SRR097977.3 209DTAAXX_Lenski2_1_7:8:3:663:569 length=36
+    TTGTTCGCTTTTGGTAATTAATCCCGGAAATAATAA
+    +SRR097977.3 209DTAAXX_Lenski2_1_7:8:3:663:569 length=36
+    CCCCCCCCCCCC&9AACCC,C>CCAA&0?4A9&A<6
+    @SRR097977.4 209DTAAXX_Lenski2_1_7:8:3:715:205 length=36
+    TATCACTAAAGATCAAATCATTGAAGCAGTTGCAGC
+    +SRR097977.4 209DTAAXX_Lenski2_1_7:8:3:715:205 length=36
+    CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
+    @SRR097977.5 209DTAAXX_Lenski2_1_7:8:3:639:209 length=36
+    TATCTATCAAAGCCAGGCAATGGAAGACCTACTCCC
+    +SRR097977.5 209DTAAXX_Lenski2_1_7:8:3:639:209 length=36
+    CCCCCCCCC?C?CC3C?CC5C?C1C<?CC8AA+AA%
     ```
 
 This is just the first 20 lines (5 sequences) from the `SRR097977.fastq` file - we are going to work with this today as we have not yet learned the appropriate commands for saving the output of command line operations in to files, so working with the full verison will be an information overload on the terminal.
@@ -250,7 +281,9 @@ In that command, there should be two obvious pieces of information - the name of
     s/TEXT_TO_BE_REPLACED/TEXT_TO_REPLACE_WITH/
     ```
 
-The `/` characters are used to separate the `s` flag, and the find/replace values. you can use any character here as long as they are used consistently. For example, the following three commands all create the same output:
+The `/` characters are used to separate the `s` flag, and the find/replace values. you can use any character here as long as they are used consistently.
+
+For example, the following three commands all create the same output:
 
 !!! terminal "code"
 
