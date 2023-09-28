@@ -10,11 +10,14 @@
 !!! circle-info "Objectives and Key points"
 
     #### Objectives
-    * ...
     
+    * Perform an assemble of a bacterial genome using the `Flye` assembly tool.
+    * Use `QUAST` to assess the assembly status.
+
     #### Keypoints
-    
-    * ...
+
+    * The `Flye` assembler is one of several very powerful tools for assembling genomes from long read data.
+    * Long read assemblies can be assessed in the exact same way as short read assemblies, through tools like `QUAST` and `Bandage`.
 
 ---
 
