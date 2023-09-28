@@ -1,9 +1,9 @@
-# Summarising coverage information from a mapping file
+# 3.5 - Summarising coverage information from a mapping file
 
 !!! clock "time"
 
-    * Teaching: 20 minutes
-    * Exercises: 20 minutes
+    * Teaching: 10 minutes
+    * Exercises: 15 minutes
 
 !!! circle-info "Objectives and Key points"
 

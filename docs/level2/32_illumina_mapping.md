@@ -1,4 +1,4 @@
-# Mapping Illumina sequences to a reference
+# 3.2 - Mapping Illumina sequences to a reference
 
 !!! clock "time"
 

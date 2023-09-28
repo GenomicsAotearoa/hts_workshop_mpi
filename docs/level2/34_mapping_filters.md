@@ -1,4 +1,4 @@
-# Mapping Oxford Nanopore sequences to a reference
+# 3.4 - Filtering and compressing sam files
 
 !!! clock "time"
 

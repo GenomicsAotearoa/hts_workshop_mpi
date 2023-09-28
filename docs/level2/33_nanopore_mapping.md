@@ -1,4 +1,4 @@
-# Mapping Oxford Nanopore sequences to a reference
+# 3.3 - Mapping Oxford Nanopore sequences to a reference
 
 !!! clock "time"
 

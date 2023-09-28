@@ -1,8 +1,8 @@
-# Overview of mapping sequences to a reference genome
+# 3.1 - Overview of mapping sequences to a reference genome
 
 !!! clock "time"
 
-    * Teaching: 30 minutes
+    * Teaching: 15 minutes
 
 !!! circle-info "Objectives and Key points"
 
