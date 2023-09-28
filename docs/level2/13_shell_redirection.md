@@ -48,7 +48,7 @@ The command for redirecting output to a file is <kbd>></kbd>. Let's revisit our 
 
 This might take a second or two to complete, but when it is done a quick `ls` should show you a new file called `my_file.txt`. This file did not exist before, but the <kbd>></kbd> symbol when performing redirection is understood by the computer to mean that a new file must be created with the name corresponding to the text which follows the <kbd>></kbd> character.
 
-!!! note "Overwriting files"
+!!! warning "Overwriting files"
 
     If you redirect into an existing file using this method, the old file contents will be replaced with the new values. You will lose the data permanently so make sure you are redirecting data to the correct place.
 
