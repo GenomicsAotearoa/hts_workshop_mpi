@@ -5,7 +5,7 @@
 !!! clock "time"
 
     * Teaching: 15 minutes
-    * Exercises: 45 minutes
+    * Exercises: 30 minutes
     
 !!! circle-info "Objectives and Key points"
 
@@ -16,7 +16,9 @@
     
     #### Keypoints
     
-    * ...
+    * The `SPAdes` genome assembler is a powerful tool for assemnling genoms and contigs from a wide range of sampel types.
+    * Tools like `QUAST` can be used to perform quick and easy comparisons between an assembly and a trusted reference genome.
+    * It is important to make sure that your genome is sufficiently resolved to address your need, but we often do not need to go further than what an assembler provides.
 
 ---
 
@@ -85,7 +87,7 @@ Create a `slurm` script with the following contents. Be sure to replace the `YOU
     #!/bin/bash -e
     #SBATCH --account       nesi03181
     #SBATCH --job-name      spades_asm
-    #SBATCH --time          01:00:00
+    #SBATCH --time          00:40:00
     #SBATCH --cpus-per-task 16
     #SBATCH --mem           20G
     #SBATCH --error         spades_asm.%j.err
@@ -100,7 +102,7 @@ Create a `slurm` script with the following contents. Be sure to replace the `YOU
     cd /nesi/project/nesi03181/phel/USERNAME/assembly_illumina/
 
     # Execute SPAdes
-    spades.py --isolate --threads 16 -1 reads/miseq_R1.qc.fq.gz -2 reads/miseq_R2.qc.fq.gz -o assembly/
+    spades.py --isolate --threads ${SLURM_CPUS_PER_TASK} -1 reads/Mbovis_87900.miseq_R1.fq.gz -2 reads/Mbovis_87900.miseq_R2.fq.gz -o assembly/
     ```
 
 Submit this job to `slurm`:
@@ -124,7 +126,7 @@ When this job is complete, we will have a folder named `assembly/` which contain
    1. This is similar to the contigs file, except it will contain sequences where contigs have been joined by an indeterminate piece of sequence.
    1. This occurs when `SPAdes` can tell from the pairing information in our library that two contigs belong adjacent to each other, but it has no information for filling the gap between them.
 1. `spades.log` - the log file of the steps `SPAdes` performed and any warnings which occured during assembly.
-1. `assembly_graph.fastg` - a map of how well the assembyl is resolved.
+1. `assembly_graph.fastg` - a map of how well the assembly is resolved.
    1. This can be useful if we are trying to obtain a complete genome, as it shows us areas which have assembled cleaning and areas which were difficult to resolve.
 
 !!! info "Different modes for running `SPAdes`"
@@ -148,7 +150,7 @@ When this job is complete, we will have a folder named `assembly/` which contain
 
 Once assembly is complete, we have a complex process of determining the quality of the assembly. How 'good' a genome is can be difficult to measure, but as we are mostly working with well characterised pathogens a good starting place is to compare our assembled genome with previously characterised members of the same species to see how well the conserved genomic features have been reconstructed by our assembly tool.
 
-You have been provided with a copy of the *Mycoplasmopsis bovis* PG45 genome in your `assembly_illumina/` folder, and this is the reference we will be comparing against, using a tool called [QUAST](https://github.com/ablab/quast).
+You have been provided with a copy of an *Mycoplasmopsis bovis* genome in your `assembly_illumina/` folder, and this is the reference we will be comparing against, using a tool called [QUAST](https://github.com/ablab/quast).
 
 Running `QUAST` is quite simple:
 
@@ -157,7 +159,7 @@ Running `QUAST` is quite simple:
     ```bash
     module load QUAST/5.2.0-gimkl-2022a
 
-    quast.py -r reference/GCF_000183385.1.fna --gene-finding -o quast/ assembly/contigs.fasta
+    quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ assembly/contigs.fasta
     ```
 
 ??? success "Output"
@@ -203,6 +205,10 @@ Open the resulting `quast/report.pdf` file in Jupyter using the file browser. Ho
 
 ## Concluding comments
 
-...
+As you can see from this exercise, getting a *pretty good* genome assembly is not particularly difficult with the right tools. However, the distance between a draft assembly, which we have produced, and a final completed genome is a very long process and involved multiple rounds of assembly refinement, scaffolding, and often requires the creation of custom primers to perform PCRs to close sequence gaps which were not covered in your HTS library.
+
+It can be hard knowing when the assembly is good enough to move out of the assembly stage and into annotation. In research groups working with genomic data, the yardstick for working with these kinds of data is typically to ask whether the current assembly is sufficient to answer the research question which led to its sequencing in the first place.
+
+We can copy this logic and ask, what was the purpose of sequencing this genome and can we achieve that with the current data. Typically, we are most likely looking to perform a species identification. If we find that the genome assembly contains the right marker genes or operons to perform the identification then, regardless of whether the genome is officially completed or not, it has served it's purpose.
 
 ---

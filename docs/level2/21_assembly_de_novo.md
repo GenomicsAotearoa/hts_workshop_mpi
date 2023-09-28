@@ -33,12 +33,14 @@ The success of a genome assembly project depends on a range of factors including
 
 ## Assembly methods 
 
-Although there is a wide range of genome assembly tools, two main approaches which genome assemblers use depending on the type of data available. These classes are: Overlap Layout Consensus (OLC) and Debruijn Graph (DBG).   
+Although there is a wide range of genome assembly tools, two main approaches which genome assemblers use depending on the type of data available. These classes are: Overlap Layout Consensus (OLC) and De Bruijn Graph (DBG).   
 
-Understanding how each assembly type works is generally beyond the scope of this training, but it is important to use an approriate assembly method for your data type. Therefore, it can be useful to understand that Overlap Layout Consensus methods are best suited to long read sequence data while Debruijn Graph methods are better suited to short read sequence data. 
+Understanding how each assembly type works is generally beyond the scope of this training, but it is important to use an approriate assembly method for your data type. 
 
-In this training we will use short and long read sequence data to familarise ourselves with two popular assemblers **SPAdes** and **Flye**.
+We're not going to dive deeply into the differences between these methods, but as a brief differentiation, OLC methods work by aligning the sequence reads against each other, and trying to build consensus sequences where sequence align and extend upon one another. By contrast DBG methods cut the input sequence data into smaller pieces, and maps the transition from one of these sub-reads to the next. Where common sub-reads are identified in different sequences, a map of how these sub-reads relate to each other is made and eventually a consensus sequence can be extracted.
 
-We will start with a SPades assembly of XXX data 
+The key important distinction between these methods is that OLC is robust to a degree of sequence variation between the reads it is trying to align, whereas DBG methods require very high quality data to keep the map of how sub-reads relate to each other manageable. Therefore, the key takeaway is that Overlap Layout Consensus methods are best suited to long read sequence data while De Bruijn Graph methods are better suited to short read sequence data. 
+
+In this training we will use short and long read sequence data to familarise ourselves with two popular assemblers **SPAdes** (short read) and **Flye** (long read).
 
 ---
