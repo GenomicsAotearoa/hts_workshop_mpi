@@ -38,10 +38,10 @@
 
     **_De novo_** assembly of sequencing data
 
-    1. [Overview](./level2/21_assembly_de_novo.md)
-    1. [Short read assembly with SPAdes]()
-    1. [Long read assembly with Flye]()
-    1. [Polishing of genome assemblies](./level2/22_assembly_polishing.md)
+    1. [Overview](./level2/21_assembly_de_novo.md
+    1. [Short read assembly with SPAdes](./level2/22_assembly_spades.md)
+    1. [Long read assembly with Flye](./level2/23_assembly_flye.md)
+    1. [Polishing of genome assemblies](./level2/24_assembly_polishing.md)
 
     **Mapping reads to a reference**
     
