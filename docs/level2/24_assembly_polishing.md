@@ -2,148 +2,144 @@
 
 !!! clock "time"
 
-    * Teaching: 20 minutes
-    * Exercises: 40 minutes
+    * Teaching: 15 minutes
+    * Exercises: 15 minutes
     
 !!! circle-info "Objectives and Key points"
+
     #### Objectives
-    
-    * Use `racon` and `medaka` to polish an assembly
-    * Compare the outputs of several assemblies using `QUAST`
+
+    * Use `racon` to polish a Nanopore assembly
     
     #### Keypoints
     
-    * Rounds of refinement are sometimes required to reduce error and can improve the initial assembly
+    * Rounds of refinement are sometimes required to reduce error and can improve the initial assembly when working with long rad data.
     * Sometimes the above sentence does not apply and polishing does not really improve the assembly. The only way to know is trying!
 
 ---
 
 ## Preparing to polish our assembly
 
-Once we have our draft assembly, we want to revisit it and attempt to improve regions by aligning the original reads against the assembled contigs and trying to improve regions which might have been modelled incorrectly by ther assembler. We are going to use two tools for performing this polishing process, the first is a tool called `racon` and the second is `medaka`.
+Once we have our draft assembly, we want to revisit it and attempt to improve regions by aligning the original reads against the assembled contigs and trying to improve regions which might have been modelled incorrectly by ther assembler. This is an important process as long read assemblers have to make assumptions about the data they are working with, and do not always make the 'correct' call.
+
+The process of using our raw data to re-call areas of the assembly is called polishing, and there are many tools available for performing this task. Similar to the case with assembly, there are specific tools for using short read or long read data for polishing an assembly.
+
+Today we are going to use a long read polising tool called `racon` ([Vaser *et al.*, 2017](https://doi.org/10.1101/gr.214270.116)).
+
+??? Question "What are our other options?"
+
+    1. medaka ([GitHub](https://github.com/nanoporetech/medaka))
+    1. FMLRC ([Wang *et al.*, 2018](https://doi.org/10.1186/s12859-018-2051-3))
+    1. LoRDEC ([Salmela *et al.*, 2014](https://doi.org/10.1093/bioinformatics/btu538))
+
+    A comprehensive comparison of polishing tools was published in 2019 ([Fu *et al.*, 2019](https://doi.org/10.1186/s13059-018-1605-z)), which is still a useful reference for getting started if you are using short reads to polish a long read assembly. When working with exclusively long read data, `racon` is probably the best (most robust and universally applied) tool for a first attempt at error correction.
 
 Whether or not our assembly will benefit from polishing is hard to predict. When working through this process it is a good idea to make copies of your data as you perform different correction procedures (or combinations of procedures) and to evaluate each outcome.
 
-In theory, good assemblies can be obtained by applying a workflow of `Canu` -> `racon` -> `medaka`, but this is may not be the case for your data.
+In theory, good assemblies can be obtained by applying the workflow;
 
-Before proceding, we will create a directory for all polishing attempts and make a copy of the initial assembly which will form the basis of our polishing steps.
+1. Assemble
+1. Polish with `racon`
+   1. Repeat up to four times
+1. Polish with `medaka`
 
-```bash
-$ mkdir ont_assemblies/
-
-$ cp Mb1_flye/assembly.fasta ont_assemblies/Mb1.flye.fna
-```
+But this is not always the case, and you often need to compare each iteration of the assembly to a reference to see how different regions are affects.
 
 ---
 
-## Performing an initial tidy up with `racon`
+## Performing the first round of polishing
 
-Strictly speaking, `racon` ([source](https://github.com/isovic/racon)) is designed for polishing assemblies which have been obtained from tools that do not perform extensive error correction themselves. However, we are going to apply it to the `Flye` assembly as we have limited time in this workshop. Anecdotally, I have not found any harm in applying `racon` to a `Flye` assembly, although this is not a guarantee.
+Strictly speaking, `racon` is designed for polishing assemblies which have been obtained from tools that do not perform extensive error correction themselves. However, we are going to apply it to the `Flye` assembly as we have limited time in this workshop and it is unlikely to negatively affect our assembly.
 
-Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`:
+Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`.
 
-```bash
-$ module load minimap2/2.17-GCC-9.2.0
+!!! note ""
 
-$ minimap2 -t 10 -ax map-ont ont_assemblies/Mb1.flye.fna ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq > Mb1.sam
-```
+    We will work with `minimap2` more in the third session so will not explain it's parameters and workflow today.
+
+!!! terminal "code"
+
+    ```bash
+    module load minimap2/2.24-GCC-11.3.0
+
+    minimap2 -t 4 -ax map-ont assembly.fasta reads/Mbovis_87900.nanopore.fq.gz > Mb1.sam
+    ```
+
+??? success "Output"
+
+    ```
+    [M::mm_idx_gen::0.023*0.62] collected minimizers
+    [M::mm_idx_gen::0.031*0.79] sorted minimizers
+    [M::main::0.031*0.79] loaded/built the index for 1 target sequence(s)
+    [M::mm_mapopt_update::0.032*0.80] mid_occ = 10
+    [M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 1
+    [M::mm_idx_stat::0.033*0.80] distinct minimizers: 47527 (99.61% are singletons); average occurrences: 1.004; average spacing: 5.316; total length: 253631
+    [M::worker_pipeline::6.513*1.92] mapped 1766 sequences
+    [M::main] Version: 2.24-r1122
+    [M::main] CMD: minimap2 -t 4 -ax map-ont assembly.fasta reads/Mbovis_87900.nanopore.fq.gz
+    [M::main] Real time: 6.517 sec; CPU: 12.478 sec; Peak RSS: 0.187 GB
+    ```
 
 We can then use this mapping file as the input for `racon`:
 
-```bash
-$ module load Racon/1.4.13-GCC-9.2.0
+!!! terminal "code"
 
-$ racon -t 10 ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq Mb1.sam ont_assemblies/Mb1.flye.fna > ont_assemblies/Mb1.racon.fna
-```
+    ```bash
+    module load Racon/1.5.0-GCC-11.3.0
 
->**Note:** It is possible to perform the `racon` process iteratively, remapping reads to the output and then running the polishing cycle again. There is some data ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running a single polishing step. However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your data is unclear, and ultimately it is your decision whether or not to perform this approach.
+    racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb1.sam assembly.fasta > assembly.racon_1.fna
+    ```
+
+??? success "Output"
+
+    ```
+    [racon::Polisher::initialize] loaded target sequences 0.019926 s
+    [racon::Polisher::initialize] loaded sequences 0.415303 s
+    [racon::Polisher::initialize] loaded overlaps 0.360286 s
+    [racon::Polisher::initialize] aligning overlaps [====================] 0.159391 s
+    [racon::Polisher::initialize] transformed data into windows 0.027524 s
+    [racon::Polisher::polish] generating consensus [====================] 21.940342 s
+    [racon::Polisher::] total = 22.926985 s
+    ```
 
 ---
 
-## Performing additional polishing with `medaka`
+## Performing additional rounds of polishing
 
-The `medaka` software is developed by Oxford Nanopore Technologies and claims to provide drastically improved assemblies when used in conjunction with `racon`. The [documentation](https://nanoporetech.github.io/medaka/) for `medaka` recommends using the `Flye` assembler for creating draft assemblies but they also report data showing that `Canu` produces the highest quality assembly.
+It is possible to perform the `racon` process iteratively, remapping reads to the output and then running the polishing cycle again. There is some data ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running a single polishing step.
 
-When working with `medaka` it is important to note that the basecalling model used by `guppy` during sequencing must be provided as a parameter. Unfortunately, as our mock data were obtained from NCBI we do not know for certain which basecalling model was used. According to the project description ([PRJEB38523](https://www.ncbi.nlm.nih.gov/bioproject/PRJEB38523)) for these data, parallel basecalling attempts were made with `guppy` (the data we have) and version 0.1.3 of the `bonito` basecaller. This version was released in [April 2020](https://pypi.org/project/ont-bonito/0.1.3/#history) so with a bit of detective work I *think* that the correct basecalling model for our data should be either **r941_min_high_g351** or **r941_min_high_g360**.
+However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your data is unclear, and ultimately it is your decision whether or not to perform this approach so although this can work, it is a judgement call as to whether or not it is necessary.
 
-In practice we will always know which model was used during basecalling as we provide this parameter to `guppy` as part of basecalling. In addition, if we perform basecalling live, then `MinKNOW` tells us the model used in the run report. This is only an uncertainty in this training exercise as we do not have access to the raw sequencing files.
+!!! question "Exercise"
 
-> <details>
-> <summary>Understanding `medaka` model names</summary>
->
-> The model names might look cryptic, but they are actually extremely informative. The `medaka` [github page](https://github.com/nanoporetech/medaka) explains the naming convention used, which takes the form
-> ```
-> [PORE TYPE]_[SEQUENCING DEVICE]_[CALLING METHOD]_[VERSION]
-> ```
-> The pore type and sequencing device are dictated by the sequencing device we use - generally this would be MinION with either the R9.4.1 or R10.3 pore chemistry. If you are working on the sequencing computers look up the relationship between device, kit, and model using the command:
->
-> ```bash
-> $ guppy_basecaller --print_workflows
-> ```
-> This will show you which model corresponds to which sequencing kit. The version number is taken from the version of `guppy` used during basecalling.
->
-> The only detail which is really in the users control is whether we used the fast, high-accuracy, or super-accuracy (`guppy` v5 only) models for basecalling. This is something that you should know, and will be in the run report if live basecalling was performed by `MinKNOW`.
-> </details>
+    Run a second round of `racon` polishing, using the output of your first iteration as the input for the second polishing round.
 
-For the purposes of this exercise we will assume that the correct model is **r941_min_high_g360**. We can load `medaka` and execute it with the following commands:
+    ??? circle-check "Solution"
 
-```bash
-$ module purge
-$ module load medaka/1.4.3-Miniconda3-4.10.3
+        !!! terminal "code"
 
-$ medaka_consensus -t 10 -m r941_min_high_g360 \
-                   -i ../2_Quality_filtered_data/Mb1.trimmed.minion.fastq \
-                   -d ont_assemblies/Mb1.racon.fna \
-                   -o Mb1_medaka/
+            ```bash
+            minimap2 -t 4 -ax map-ont assembly.racon_1.fna reads/Mbovis_87900.nanopore.fq.gz > Mb2.sam
 
-$ cp Mb1_medaka/consensus.fasta ont_assemblies/Mb1.medaka.fna
-```
+            racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb2.sam assembly.racon_1.fna > assembly.racon_2.fna
+            ```
 
-One important piece on information to note with the polishing process is that `racon` and `medaka` **_do not_** change the names of contigs during polishing. This is helpful, as it allows us to easily compare contigs between different polishing steps but it also means that you have to be careful when importing the data into `Geneious` as it might become hard to track which step of the analysis your contig comes from.
+---
+
+## Post-polishing follow up
+
+One important piece on information to note with the polishing process is that `racon` **_does not_** change the names of contigs during polishing. This is helpful, as it allows us to easily compare contigs between different polishing steps but it also means that you have to be careful when importing the data into `Geneious` as it might become hard to track which step of the analysis your contig comes from.
 
 As an easy solution to this is to rename your contigs using `seqmagick` to append some versioning information to each sequence name:
 
-```bash
-$ module load seqmagick/0.7.0-gimkl-2018b-Python-3.7.3
+!!! terminal "code"
 
-$ seqmagick mogrify --name-suffix _flye ont_assemblies/Mb1.flye.fna
-$ seqmagick mogrify --name-suffix _racon ont_assemblies/Mb1.racon.fna
-$ seqmagick mogrify --name-suffix _medaka ont_assemblies/Mb1.medaka.fna
-```
+    ```bash
+    seqtk/1.4-GCC-11.3.0
 
->**Note:** When running `seqmagick` you will get a warning which looks like:
->
->```bash
->/opt/nesi/CS400_centos7_bdw/Python/3.7.3-gimkl-2018b/lib/python3.7/importlib/_bootstrap.py:219: RuntimeWarning: This module has been deprecated. We encourage users to switch to alternative libraries implementing a trie data structure, for example pygtrie.
->    return f(*args, **kwds)
->/opt/nesi/CS400_centos7_bdw/Python/3.7.3-gimkl-2018b/lib/python3.7/site-packages/Bio/triefind.py:34: BiopythonDeprecationWarning: This module has been deprecated. We encourage users to switch to alternative libraries implementing a trie data structure, for example pygtrie.
->    "for example pygtrie.", BiopythonDeprecationWarning)
->```
->
->Don't worry about this. It is a warning to developers and does not affect our work.
-
----
-
-## Comparing outputs with `QUAST`
-
-To finish this exercise, we will compare out assembly produced using `Flye` to comparable assemblies produced with `Canu` and `Unicycler`.
-
-You will be able to find a copy of these assemblies in the directory `/nesi/project/nesi03181/phel/module_3/3_Assembly-mapping/`. Copy the references to your `ont_assemblies/` folder and run `QUAST` with the following command:
-
-
-```bash
-$ module purge
-$ module load QUAST/5.0.2-gimkl-2018b
-
-$ quast.py -r GCF_000696015.1.fna -o quast/ --gene-finding \
-           ont_assemblies/Mb1.flye.fna \
-           ont_assemblies/Mb1.racon.fna \
-           ont_assemblies/Mb1.unicycler.fna \
-           ont_assemblies/Mb1.canu.fna
-```
-
->**Note:** You may need to change the path to your reference genome `GCF_000696015.1.fna`, depending on where you have downloaded it to.
-
-We can now open the `quast/report.pdf` file in the Jupyter browser to inspect the results.
+    seqtk rename assembly.fasta "BASE_" > assembly.rename.fna
+    seqtk rename assembly.racon_1.fna "RACON1_" > assembly.racon_1.rename.fna
+    seqtk rename assembly.racon_1.fna "RACON2_" > assembly.racon_2.rename.fna
+    ```
 
 ---
