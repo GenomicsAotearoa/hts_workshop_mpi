@@ -10,9 +10,9 @@
     #### Objectives
 
     * Use `racon` to polish a Nanopore assembly
-    
+
     #### Keypoints
-    
+
     * Rounds of refinement are sometimes required to reduce error and can improve the initial assembly when working with long rad data.
     * Sometimes the above sentence does not apply and polishing does not really improve the assembly. The only way to know is trying!
 
@@ -62,7 +62,7 @@ Before running `racon` we must produce a mapping file of the quality filtered se
     ```bash
     module load minimap2/2.24-GCC-11.3.0
 
-    minimap2 -t 4 -ax map-ont assembly.fasta reads/Mbovis_87900.nanopore.fq.gz > Mb1.sam
+    minimap2 -t 4 -ax map-ont reference/flye.fna reads/Mbovis_87900.nanopore.fq.gz > Mb1.sam
     ```
 
 ??? success "Output"
@@ -76,7 +76,7 @@ Before running `racon` we must produce a mapping file of the quality filtered se
     [M::mm_idx_stat::0.033*0.80] distinct minimizers: 47527 (99.61% are singletons); average occurrences: 1.004; average spacing: 5.316; total length: 253631
     [M::worker_pipeline::6.513*1.92] mapped 1766 sequences
     [M::main] Version: 2.24-r1122
-    [M::main] CMD: minimap2 -t 4 -ax map-ont assembly.fasta reads/Mbovis_87900.nanopore.fq.gz
+    [M::main] CMD: minimap2 -t 4 -ax map-ont reference/flye.fna reads/Mbovis_87900.nanopore.fq.gz
     [M::main] Real time: 6.517 sec; CPU: 12.478 sec; Peak RSS: 0.187 GB
     ```
 
@@ -87,7 +87,7 @@ We can then use this mapping file as the input for `racon`:
     ```bash
     module load Racon/1.5.0-GCC-11.3.0
 
-    racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb1.sam assembly.fasta > assembly.racon_1.fna
+    racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb1.sam reference/flye.fna > flye.racon_1.fna
     ```
 
 ??? success "Output"
@@ -119,9 +119,9 @@ However there are costs associated with this approach both in terms of time inve
         !!! terminal "code"
 
             ```bash
-            minimap2 -t 4 -ax map-ont assembly.racon_1.fna reads/Mbovis_87900.nanopore.fq.gz > Mb2.sam
+            minimap2 -t 4 -ax map-ont flye.racon_1.fna reads/Mbovis_87900.nanopore.fq.gz > Mb2.sam
 
-            racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb2.sam assembly.racon_1.fna > assembly.racon_2.fna
+            racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb2.sam flye.racon_1.fna > flye.racon_2.fna
             ```
 
 ---
@@ -137,9 +137,9 @@ As an easy solution to this is to rename your contigs using `seqmagick` to appen
     ```bash
     seqtk/1.4-GCC-11.3.0
 
-    seqtk rename assembly.fasta "BASE_" > assembly.rename.fna
-    seqtk rename assembly.racon_1.fna "RACON1_" > assembly.racon_1.rename.fna
-    seqtk rename assembly.racon_1.fna "RACON2_" > assembly.racon_2.rename.fna
+    seqtk rename reference/flye.fna "BASE_" > flye.base.rename.fna
+    seqtk rename flye.racon_1.fna "RACON1_" > flye.racon_1.rename.fna
+    seqtk rename flye.racon_1.fna "RACON2_" > flye.racon_2.rename.fna
     ```
 
 ---

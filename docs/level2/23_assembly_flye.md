@@ -5,19 +5,18 @@
 !!! clock "time"
 
     * Teaching: 15 minutes
-    * Exercises: 15 minutes
+    * Exercises: 10 minutes
     
 !!! circle-info "Objectives and Key points"
 
     #### Objectives
     
     * Perform an assemble of a bacterial genome using the `Flye` assembly tool.
-    * Use `QUAST` to assess the assembly status.
 
     #### Keypoints
 
     * The `Flye` assembler is one of several very powerful tools for assembling genomes from long read data.
-    * Long read assemblies can be assessed in the exact same way as short read assemblies, through tools like `QUAST` and `Bandage`.
+    * Different tools may be better suited for different data, and long read assembly is still a developing field so if working with these data, make sure to experiment with multiple tools.
 
 ---
 
@@ -93,19 +92,7 @@ When you are ready, submit the job to `slurm`:
 
     If you have some knowledge or suspicion as to the identity of the organism you are sequencing then use the literature to find an average genome size for members of the species or genus that you believe you are working with.
 
-??? note "A word on assembly tools"
-
-    For the exercise today are using the `Flye` assembler with one of the *M. bovis* genomes. Like with other areas of genomics, there are many good options for assembly tools and our usage of `Flye` today is in no way an endorsement that we consider this tool to be the 'best' long read assembler. `Flye` is a very good tool and will give us good results with the data we process today, but when working with real data there are many other good options to try, including:
-
-    1. `UniCycler` (and `TriCycler`) ([Wick *et al.*, 2017](https://doi.org/10.1371/journal.pcbi.1005595)) - [https://github.com/rrwick/Unicycler](https://github.com/rrwick/Unicycler)
-    1. `Canu` ([Koren *et al.*, 2017](http://www.genome.org/cgi/doi/10.1101/gr.215087.116))
-    1. `raven` ([Vaser *et al.*, 2021](https://doi.org/10.1038/s43588-021-00073-4))
-
-    A recent comparison of assembly tools was published by [Wick & Holt (2021)](https://doi.org/10.12688/f1000research.21782.4) which tests some of the options listed above along with several other tools.
-
-    In practice, there are sometimes particular cases where a tool will not be compatible with your data, so it is helpful to be aware of several tools so that you have options if assembly proves problematic for a particular sample.
-
-As with the `SPAdes` session, we now have a folder named `assembly/` which contains a number of files, only some of which we care about. The key files for us are:
+As with the `SPAdes` session, we will end up with a folder named `assembly/` which contains a number of files, only some of which we care about. The key files for us are:
 
 1. `assembly.fasta` - the assembled contigs, as a fasta file.
 1. `flye.log` - the log file of the steps `SPAdes` performed and any warnings which occured during assembly.
@@ -113,59 +100,16 @@ As with the `SPAdes` session, we now have a folder named `assembly/` which conta
 
 ---
 
-## Assessing the results of the assembly
+## A note on assembly tools
 
-Once assembly is complete, we can view the assembly in the same way as we did for the short read data.
+For the exercise today are using the `Flye` assembler with one of the *M. bovis* genomes. Like with other areas of genomics, there are many good options for assembly tools and our usage of `Flye` today is in no way an endorsement that we consider this tool to be the 'best' long read assembler. `Flye` is a very good tool and will give us good results with the data we process today, but when working with real data there are many other good options to try, including:
 
-!!! question "Exercise"
+1. `UniCycler` (and `TriCycler`) ([Wick *et al.*, 2017](https://doi.org/10.1371/journal.pcbi.1005595)) - [https://github.com/rrwick/Unicycler](https://github.com/rrwick/Unicycler)
+1. `Canu` ([Koren *et al.*, 2017](http://www.genome.org/cgi/doi/10.1101/gr.215087.116))
+1. `raven` ([Vaser *et al.*, 2021](https://doi.org/10.1038/s43588-021-00073-4))
 
-    Produce a `QUAST` report on the Oxford Nanopore genome you have created, using the reference genome in the `reference/` folder.
+A recent comparison of assembly tools was published by [Wick & Holt (2021)](https://doi.org/10.12688/f1000research.21782.4) tests some of the options listed above along with several other tools. Their manuscript is a 'living paper', which has been updated several times as new versions of each tool are released. Different assemblers have risen to the top at different time points, so this is very much still an evolving field and it is difficult to say which assembler is the 'best'.
 
-    ??? circle-check "Solution"
-
-        !!! terminal "code"
-
-            ```bash
-            module load QUAST/5.2.0-gimkl-2022a
-
-            quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ assembly/assembly.fasta
-            ```
-
-        ??? success "Output"
-
-            ```
-            Version: 5.2.0
-
-            System information:
-            OS: Linux-3.10.0-693.2.2.el7.x86_64-x86_64-with-glibc2.17 (linux_64)
-            Python version: 3.10.5
-            CPUs number: 2
-
-            Started: 2023-09-28 15:02:30
-
-            # Text omitted...
-
-            Finished: 2023-09-28 15:02:40
-            Elapsed time: 0:00:10.422580
-            NOTICEs: 4; WARNINGs: 1; non-fatal ERRORs: 0
-
-            Thank you for using QUAST!
-            ```
-
-Open the resulting `quast/report.pdf` file in Jupyter using the file browser. How complete does the assembly appear to be, compared with the reference and your previous Illumina assembly?
-
-??? info "Visualising assemblies with `bandage`"
-
-    We can also visualise the assembly by looking at how well the loops and fragments of the assembly graph were resolved. For this, we require only the `assembly_graph.fastg` file from the `SPAdes` output:
-
-    !!! terminal "code"
-
-    ```bash
-    module load Bandage/0.8.1_Centos
-
-    Bandage image assembly/assembly_graph.gfa assembly_bandage.svg
-    ```
-
-    Opening the plot in your browser you will see a different story to what the `SPAdes` assembly provided. The data have assembled cleanly into a single contig, without bubbles, and there are no short fragments plotted.
+In practice, there are sometimes particular cases where a tool will not be compatible with your data, so it is helpful to be aware of several tools so that you have options if assembly proves problematic for a particular sample.
 
 ---

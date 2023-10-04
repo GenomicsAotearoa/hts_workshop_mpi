@@ -4,21 +4,18 @@
 
 !!! clock "time"
 
-    * Teaching: 15 minutes
-    * Exercises: 30 minutes
+    * Teaching: 10 minutes
+    * Exercises: 10 minutes
     
 !!! circle-info "Objectives and Key points"
 
     #### Objectives
     
     * Perform an assemble of a bacterial genome using the `SPAdes` assembly tool.
-    * Use `QUAST` to assess the assembly status.
     
     #### Keypoints
     
     * The `SPAdes` genome assembler is a powerful tool for assemnling genoms and contigs from a wide range of sampel types.
-    * Tools like `QUAST` can be used to perform quick and easy comparisons between an assembly and a trusted reference genome.
-    * It is important to make sure that your genome is sufficiently resolved to address your need, but we often do not need to go further than what an assembler provides.
 
 ---
 
@@ -144,71 +141,6 @@ When this job is complete, we will have a folder named `assembly/` which contain
     1. biosyntheticSPAdes - selective assembly of biosynthetic gene clusters (BCG) from a library
     1. rnaviralSPAdes - selective *de novo* assembly of RNA viruses from transcriptome, metatranscriptome, and metavirome libraries
 
----
-
-## Assessing the results of the assembly
-
-Once assembly is complete, we have a complex process of determining the quality of the assembly. How 'good' a genome is can be difficult to measure, but as we are mostly working with well characterised pathogens a good starting place is to compare our assembled genome with previously characterised members of the same species to see how well the conserved genomic features have been reconstructed by our assembly tool.
-
-You have been provided with a copy of an *Mycoplasmopsis bovis* genome in your `assembly_illumina/` folder, and this is the reference we will be comparing against, using a tool called [QUAST](https://github.com/ablab/quast).
-
-Running `QUAST` is quite simple:
-
-!!! terminal "code"
-
-    ```bash
-    module load QUAST/5.2.0-gimkl-2022a
-
-    quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ assembly/contigs.fasta
-    ```
-
-??? success "Output"
-
-    ```
-    Version: 5.2.0
-
-    System information:
-      OS: Linux-3.10.0-693.2.2.el7.x86_64-x86_64-with-glibc2.17 (linux_64)
-      Python version: 3.10.5
-      CPUs number: 2
-
-    Started: 2023-09-28 15:02:30
-
-    # Text omitted...
-
-    Finished: 2023-09-28 15:02:40
-    Elapsed time: 0:00:10.422580
-    NOTICEs: 4; WARNINGs: 1; non-fatal ERRORs: 0
-
-    Thank you for using QUAST!
-    ```
-
-````
-
-Open the resulting `quast/report.pdf` file in Jupyter using the file browser. How complete does the assembly appear to be, compared with the reference?
-
-??? info "Visualising assemblies with `bandage`"
-
-    We can also visualise the assembly by looking at how well the loops and fragments of the assembly graph were resolved. For this, we require only the `assembly_graph.fastg` file from the `SPAdes` output:
-
-    !!! terminal "code"
-
-    ```bash
-    module load Bandage/0.8.1_Centos
-
-    Bandage image assembly/assembly_graph.fastg assembly_bandage.svg
-    ```
-
-    You can then open the `assembly_bandage.svg` file in the Jupyter browser. Unfortunately, we cannot filter out the short contigs from this result. However, it should be clear that there is one long contig which has been assembled, and then a large number of short fragments.
-
----
-
-## Concluding comments
-
-As you can see from this exercise, getting a *pretty good* genome assembly is not particularly difficult with the right tools. However, the distance between a draft assembly, which we have produced, and a final completed genome is a very long process and involved multiple rounds of assembly refinement, scaffolding, and often requires the creation of custom primers to perform PCRs to close sequence gaps which were not covered in your HTS library.
-
-It can be hard knowing when the assembly is good enough to move out of the assembly stage and into annotation. In research groups working with genomic data, the yardstick for working with these kinds of data is typically to ask whether the current assembly is sufficient to answer the research question which led to its sequencing in the first place.
-
-We can copy this logic and ask, what was the purpose of sequencing this genome and can we achieve that with the current data. Typically, we are most likely looking to perform a species identification. If we find that the genome assembly contains the right marker genes or operons to perform the identification then, regardless of whether the genome is officially completed or not, it has served it's purpose.
+It will take a while for `SPAdes` to complete, so we will move to the next exercise and return to this folder later.
 
 ---

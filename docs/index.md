@@ -41,7 +41,8 @@
     1. [Overview](./level2/21_assembly_de_novo.md
     1. [Short read assembly with SPAdes](./level2/22_assembly_spades.md)
     1. [Long read assembly with Flye](./level2/23_assembly_flye.md)
-    1. [Polishing of genome assemblies](./level2/24_assembly_polishing.md)
+    1. [Assessing the quality of a genome](./level2/24_assembly_assessment.md)
+    1. [Polishing of genome assemblies](./level2/25_assembly_polishing.md)
 
     **Mapping reads to a reference**
     
@@ -61,7 +62,7 @@
 
     - Genomics Aoteoroa Metagenomic Summer School workshop2.
     - Long-Read, long reach Bioinformatics Tutorial3.
-    - Galaxy Training! seuqence analysis resources4.
+    - Galaxy Training! sequence analysis resources4.
 
 !!! book-atlas "Citations"
 
