@@ -43,13 +43,15 @@ In theory, good assemblies can be obtained by applying the workflow;
    1. Repeat up to four times
 1. Polish with `medaka`
 
-But this is not always the case, and you often need to compare each iteration of the assembly to a reference to see how different regions are affects.
+But this is not always the case, and you often need to compare each iteration of the assembly to a reference to see how different regions are affects. For today, we will restrict ourselves to using `racon` as it is a powerful tool and easy to apply to our current data sets.
 
 ---
 
 ## Performing the first round of polishing
 
-Strictly speaking, `racon` is designed for polishing assemblies which have been obtained from tools that do not perform extensive error correction themselves. However, we are going to apply it to the `Flye` assembly as we have limited time in this workshop and it is unlikely to negatively affect our assembly.
+Strictly speaking, `racon` is designed for polishing assemblies which have been obtained from tools that do not perform extensive error correction themselves. In practice, it rarely has a negative impact on assembly quality so while it doesn't hurt to apply it to as assembly from a tool like `Flye`, it is not always worthwhile.
+
+We will start working with one of several draft genome assemblies, of varying quality (in terms of mismatches to the reference). We will start with the `draft_moderate.fna` genome, which has a 2% rate of mismatch with the reference genome.
 
 Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`.
 
@@ -62,7 +64,7 @@ Before running `racon` we must produce a mapping file of the quality filtered se
     ```bash
     module load minimap2/2.24-GCC-11.3.0
 
-    minimap2 -t 4 -ax map-ont reference/flye.fna reads/Mbovis_87900.nanopore.fq.gz > Mb1.sam
+    minimap2 -t 4 -ax map-ont draft_genomes/draft_moderate.fna reads/Mbovis_87900.nanopore.fq.gz > draft_moderate.sam
     ```
 
 ??? success "Output"
@@ -76,7 +78,7 @@ Before running `racon` we must produce a mapping file of the quality filtered se
     [M::mm_idx_stat::0.033*0.80] distinct minimizers: 47527 (99.61% are singletons); average occurrences: 1.004; average spacing: 5.316; total length: 253631
     [M::worker_pipeline::6.513*1.92] mapped 1766 sequences
     [M::main] Version: 2.24-r1122
-    [M::main] CMD: minimap2 -t 4 -ax map-ont reference/flye.fna reads/Mbovis_87900.nanopore.fq.gz
+    [M::main] CMD: minimap2 -t 4 -ax map-ont draft_genomes/draft_moderate.fna reads/Mbovis_87900.nanopore.fq.gz
     [M::main] Real time: 6.517 sec; CPU: 12.478 sec; Peak RSS: 0.187 GB
     ```
 
@@ -87,7 +89,7 @@ We can then use this mapping file as the input for `racon`:
     ```bash
     module load Racon/1.5.0-GCC-11.3.0
 
-    racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb1.sam reference/flye.fna > flye.racon_1.fna
+    racon -t 4 reads/Mbovis_87900.nanopore.fq.gz draft_moderate.sam draft_genomes/draft_moderate.fna > draft_moderate.racon_1.fna
     ```
 
 ??? success "Output"
@@ -102,6 +104,24 @@ We can then use this mapping file as the input for `racon`:
     [racon::Polisher::] total = 22.926985 s
     ```
 
+Before we assess the results of this, we will run `racon` over a few different genomes, so that when we assess the final qualities we can generate a single report for all genomes.
+
+!!! question "Exercise"
+
+    Run `racon` polishing on either the `draft_mild.fna` or `draft_severe.fna` genome (or both!).
+
+    ??? circle-check "Solution"
+
+        !!! terminal "code"
+
+            ```bash
+            for assembly in draft_mild draft_severe;
+            do
+                minimap2 -t 4 -ax map-ont draft_genomes/${assembly}.fna reads/Mbovis_87900.nanopore.fq.gz > ${assembly}.sam
+                racon -t 4 reads/Mbovis_87900.nanopore.fq.gz ${assembly}.sam draft_genomes/${assembly}.fna > ${assembly}.racon_1.fna
+            done
+            ```
+
 ---
 
 ## Performing additional rounds of polishing
@@ -110,36 +130,87 @@ It is possible to perform the `racon` process iteratively, remapping reads to th
 
 However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your data is unclear, and ultimately it is your decision whether or not to perform this approach so although this can work, it is a judgement call as to whether or not it is necessary.
 
+Running `racon` the second time is pretty much the same as the first time, except that instead of mapping to the original draft genome, we now map our reads to the output of the first `racon` run and use that alignment for correction.
+
+!!! terminal "code"
+
+    ```bash
+    # Map the reads, overwriting our previous sam file
+    minimap2 -t 4 -ax map-ont draft_moderate.racon_1.fna reads/Mbovis_87900.nanopore.fq.gz > draft_moderate.sam
+
+    # Perform correction, creating a new output file for the polished genome
+    racon -t 4 reads/Mbovis_87900.nanopore.fq.gz draft_moderate.sam draft_moderate.racon_1.fna > draft_moderate.racon_2.fna
+    ```
+
 !!! question "Exercise"
 
-    Run a second round of `racon` polishing, using the output of your first iteration as the input for the second polishing round.
+    Complete the second rounds of `racon` polishing for the `draft_mild` and/or `draft_severe` genomes.
 
     ??? circle-check "Solution"
 
         !!! terminal "code"
 
             ```bash
-            minimap2 -t 4 -ax map-ont flye.racon_1.fna reads/Mbovis_87900.nanopore.fq.gz > Mb2.sam
-
-            racon -t 4 reads/Mbovis_87900.nanopore.fq.gz Mb2.sam flye.racon_1.fna > flye.racon_2.fna
+            for assembly in draft_mild draft_severe;
+            do
+                minimap2 -t 4 -ax map-ont ${assembly}.racon_1.fna reads/Mbovis_87900.nanopore.fq.gz > ${assembly}.sam
+                racon -t 4 reads/Mbovis_87900.nanopore.fq.gz ${assembly}.sam ${assembly}.racon_1.fna > ${assembly}.racon_2.fna
+            done
             ```
+
+??? info "Post-polishing follow up"
+
+    One important piece on information to note with the polishing process is that `racon` **_does not_** change the names of contigs during polishing. This is helpful, as it allows us to easily compare contigs between different polishing steps but it also means that you have to be careful when importing the data into `Geneious` as it might become hard to track which step of the analysis your contig comes from.
+
+    As an easy solution to this is to rename your contigs using a tool like `seqtk` to add some versioning information to each sequence name:
+
+    !!! terminal "code"
+
+        ```bash
+        seqtk/1.4-GCC-11.3.0
+
+        seqtk rename draft_genomes/draft_moderate.fna "BASE_" > draft_moderate.rename.fna
+        seqtk rename draft_moderate.racon_1.fna "RACON1_" > draft_moderate.racon_1.rename.fna
+        seqtk rename draft_moderate.racon_2.fna "RACON2_" > draft_moderate.racon_2.rename.fna
+        ```
 
 ---
 
-## Post-polishing follow up
+## Assessig the results with `QUAST`
 
-One important piece on information to note with the polishing process is that `racon` **_does not_** change the names of contigs during polishing. This is helpful, as it allows us to easily compare contigs between different polishing steps but it also means that you have to be careful when importing the data into `Geneious` as it might become hard to track which step of the analysis your contig comes from.
+As a quick confirmtion of how how successful the cleaning step was, we will use `QUAST` to compare our raw and polished genomes to the reference genome.
 
-As an easy solution to this is to rename your contigs using `seqmagick` to append some versioning information to each sequence name:
+When running this command, modify it to include the genomes your polished as part of the exercises above.
 
 !!! terminal "code"
 
     ```bash
-    seqtk/1.4-GCC-11.3.0
+    module load QUAST/5.2.0-gimkl-2022a
 
-    seqtk rename reference/flye.fna "BASE_" > flye.base.rename.fna
-    seqtk rename flye.racon_1.fna "RACON1_" > flye.racon_1.rename.fna
-    seqtk rename flye.racon_1.fna "RACON2_" > flye.racon_2.rename.fna
+    quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ draft_genomes/draft_mild.fna draft_mild.racon_1.fna draft_mild.racon_2.fna # ...plus your genomes
     ```
+
+??? success "Output"
+
+    ```
+    Version: 5.2.0
+
+    System information:
+      OS: Linux-3.10.0-693.2.2.el7.x86_64-x86_64-with-glibc2.17 (linux_64)
+      Python version: 3.10.5
+      CPUs number: 2
+
+    Started: 2023-09-28 15:02:30
+
+    # Text omitted...
+
+    Finished: 2023-09-28 15:02:40
+    Elapsed time: 0:00:10.422580
+    NOTICEs: 4; WARNINGs: 1; non-fatal ERRORs: 0
+
+    Thank you for using QUAST!
+    ```
+
+Compare the results of the before and after of polishing. Did this process improve the quality of your genome(s)?
 
 ---
