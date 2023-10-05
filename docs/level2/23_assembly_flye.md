@@ -24,11 +24,11 @@
 
 Although the gap is closing rapidly, Oxford Nanopore sequences are fundamentally more error prone than the sequences we obtain through Illumina sequencing and a considerable amount of assembly is spent identifying and correcting errors to produce high-quality contigs from a comparably low-quality set of reads.
 
-!!! jupyter ""
+!!! jupyter "Comparison of average sequence qualities on different platforms"
 
     <center>![](../img/level2_23_quality_plot.svg)</center>
 
-The median sequence quality for the Nanopore data produced using the (now retired 9.4 chemistry) data sits around Q20 for most of the sequence. This corresponds to 99% accuracy which might sound good but by definition half of the sequences have lower quality than this. At the low end of this plot the sequences are slightly above Q10, which denotes 90% accuracy.
+The median sequence quality for the Nanopore data produced using the (now retired 9.4 chemistry) data sits around Q20 for most of the sequence. This corresponds to 99% accuracy which might sound good, but by definition half of the sequences have lower quality than this. At the low end of this plot the sequences are slightly above Q10, which denotes 90% accuracy.
 
 Finding consensus regions between pairs of reads, when one of them might differ by up to 10% of it's composition **_just due to sequencing error alone_** makes assembly a complicated process and assembly tools which are aware of the error profiles of our long read data are essential.
 
@@ -67,7 +67,10 @@ To run `Flye`, navigate to your `assembly_nanopore/` directory, and prepare the 
     cd /nesi/project/nesi03181/phel/USERNAME/assembly_nanopore/
 
     # Execute SPAdes
-    flye --threads ${SLURM_CPUS_PER_TASK} --genome-size 1m --nano-raw reads/Mbovis_87900.nanopore.fq.gz --out-dir assembly/
+    flye --threads ${SLURM_CPUS_PER_TASK} \
+        --genome-size 1m \
+        --nano-raw reads/Mbovis_87900.nanopore.fq.gz \
+        --out-dir assembly/
     ```
 
 When you are ready, submit the job to `slurm`:
@@ -86,11 +89,13 @@ When you are ready, submit the job to `slurm`:
 
 !!! warning "How do I know my genome size!?"
 
-    One of the frustrating things with a lot of long read assembly tools is that they ask you to provide an estimate of your genome size when performing assembly but this can be a bit of a problem if you don't know what you're sequencing, so you don't know the genome size...
+    One of the frustrating things with a lot of long read assembly tools is that they ask you to provide an estimate of your genome size when performing assembly.
+    
+    This can be a bit of a problem because if you don't know what you're sequencing, you don't know what genome size to expect...
 
     This parameter is mostly used for the tool to gauge coverage over the assembly as it is operating, so it is not critical that you provide an exact value. In our case above, the *M. bovis* genome is about 1.1 million nucleotides long but we submitted the assembly with an expected genome size of 1 million.
 
-    If you have some knowledge or suspicion as to the identity of the organism you are sequencing then use the literature to find an average genome size for members of the species or genus that you believe you are working with.
+    If you have some knowledge or suspicion as to the identity of the organism you are sequencing then use the literature to find an average genome size for members of the species or genus that you believe you are working with. There are tools we will cover later in the level 2 training which could help you deduce some information as to the identity of the organism you are working with prior to assembly.
 
 As with the `SPAdes` session, we will end up with a folder named `assembly/` which contains a number of files, only some of which we care about. The key files for us are:
 

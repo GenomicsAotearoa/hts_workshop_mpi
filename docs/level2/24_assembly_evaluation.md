@@ -82,8 +82,6 @@ Running `QUAST` is quite simple:
     Thank you for using QUAST!
     ```
 
-````
-
 Open the resulting `quast/report.pdf` file in Jupyter using the file browser. Take a look through the report and see if you can get a feel for how well your assemblies compare to the reference.
 
 How do the Illumina and Nanopore assemblies differ, if at all?
@@ -106,6 +104,8 @@ We can also visualise the assemblies by looking at how well the loops and fragme
             cp ../assembly_illumina/assembly/assembly_graph.fastg assemblies/
             cp ../assembly_nanopore/assembly/assembly_graph.gfa assemblies/
             ```
+
+Running the tool is then a matter of:
 
 !!! terminal "code"
 

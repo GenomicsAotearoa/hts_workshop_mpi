@@ -23,13 +23,12 @@
 
 The `SPAdes` assembler is a very powerful and popular assembler which utilises de Bruijn graphs to assemble short read sequence data into larger contigs.
 
-SPAdes is particularly good at:
+!!! note "SPAdes is particularly good at..."
 
-* *De novo* assembly of short read sequences (i.e. Illumina or IonTorrent)
-* Assembling small genomes (ideally <100 Mb, such as bacterial, viral, fungal, mitochondrial genomes)
-  * Despite this, it is possible to apply `SPAdes` to larger genomes and obtain very good results.
+    * *De novo* assembly of short read sequences (i.e. Illumina or IonTorrent)
+    * Assembling small genomes (ideally <100 Mb, such as bacterial, viral, fungal, mitochondrial genomes)
 
-Before beginning to work with `SPAdes` we need to ensure that our data is free from adapter sequences. The main reason for doing this is when we assemble sequences to form a genome, the assembler is looking for spans of nucleic acid sequence which are common to multiple reads, so that those reads can be joined together to create longer contigs. As the adapater sequence is an identical tag added to every read, these create regions of artificial homology between sequences which have no real connection to each other. Before we attempt assembly it is critical to remove these from our data.
+    Despite this, it is possible to apply `SPAdes` to larger genomes and obtain very good results.
 
 In order to begin, we must first find the versions of `SPAdes` installed on NeSI and load the module of interest.
 
@@ -38,6 +37,12 @@ $ module load SPAdes/3.15.2-gimkl-2020a
 
 $ spades.py -h
 ```
+
+!!! warning "Remember to filter your data prior to assembly!"
+
+    Before beginning to work with `SPAdes` we need to ensure that our data is free from adapter sequences. The main reason for doing this is when we assemble sequences to form a genome, the assembler is looking for spans of nucleic acid sequence which are common to multiple reads, so that those reads can be joined together to create longer contigs. As the adapater sequence is an identical tag added to every read, these create regions of artificial homology between sequences which have no real connection to each other.
+
+    Before we attempt assembly it is critical to remove these from our data but as this was covered in the level 1 training we will not be revisiting the process here.
 
 ---
 
@@ -99,7 +104,10 @@ Create a `slurm` script with the following contents. Be sure to replace the `YOU
     cd /nesi/project/nesi03181/phel/USERNAME/assembly_illumina/
 
     # Execute SPAdes
-    spades.py --isolate --threads ${SLURM_CPUS_PER_TASK} -1 reads/Mbovis_87900.miseq_R1.fq.gz -2 reads/Mbovis_87900.miseq_R2.fq.gz -o assembly/
+    spades.py --isolate --threads ${SLURM_CPUS_PER_TASK} \
+        -1 reads/Mbovis_87900.miseq_R1.fq.gz \
+        -2 reads/Mbovis_87900.miseq_R2.fq.gz \
+        -o assembly/
     ```
 
 Submit this job to `slurm`:

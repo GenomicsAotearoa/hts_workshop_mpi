@@ -34,16 +34,9 @@ Today we are going to use a long read polising tool called `racon` ([Vaser *et a
 
     A comprehensive comparison of polishing tools was published in 2019 ([Fu *et al.*, 2019](https://doi.org/10.1186/s13059-018-1605-z)), which is still a useful reference for getting started if you are using short reads to polish a long read assembly. When working with exclusively long read data, `racon` is probably the best (most robust and universally applied) tool for a first attempt at error correction.
 
-Whether or not our assembly will benefit from polishing is hard to predict. When working through this process it is a good idea to make copies of your data as you perform different correction procedures (or combinations of procedures) and to evaluate each outcome.
+!!! question "Do we always need to polish an assembly?"
 
-In theory, good assemblies can be obtained by applying the workflow;
-
-1. Assemble
-1. Polish with `racon`
-   1. Repeat up to four times
-1. Polish with `medaka`
-
-But this is not always the case, and you often need to compare each iteration of the assembly to a reference to see how different regions are affects. For today, we will restrict ourselves to using `racon` as it is a powerful tool and easy to apply to our current data sets.
+    Whether or not our assembly will benefit from polishing is hard to predict. When working through this process it is a good idea to make copies of your data as you perform different correction procedures (or combinations of procedures) and to evaluate each outcome. You often need to compare each iteration of the assembly to a reference to see how different regions are affects.
 
 ---
 
@@ -53,11 +46,7 @@ Strictly speaking, `racon` is designed for polishing assemblies which have been 
 
 We will start working with one of several draft genome assemblies, of varying quality (in terms of mismatches to the reference). We will start with the `draft_moderate.fna` genome, which has a 2% rate of mismatch with the reference genome.
 
-Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`.
-
-!!! note ""
-
-    We will work with `minimap2` more in the third session so will not explain it's parameters and workflow today.
+Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`. We will work with `minimap2` more in the mapping exercises in the next session, so will not explain it's parameters and workflow today.
 
 !!! terminal "code"
 
@@ -176,7 +165,7 @@ Running `racon` the second time is pretty much the same as the first time, excep
 
 ---
 
-## Assessig the results with `QUAST`
+## Assessing the results with `QUAST`
 
 As a quick confirmtion of how how successful the cleaning step was, we will use `QUAST` to compare our raw and polished genomes to the reference genome.
 
@@ -187,7 +176,10 @@ When running this command, modify it to include the genomes your polished as par
     ```bash
     module load QUAST/5.2.0-gimkl-2022a
 
-    quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ draft_genomes/draft_mild.fna draft_mild.racon_1.fna draft_mild.racon_2.fna # ...plus your genomes
+    quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ \
+        draft_genomes/draft_mild.fna \
+        draft_mild.racon_1.fna \
+        draft_mild.racon_2.fna # ...plus your genomes
     ```
 
 ??? success "Output"

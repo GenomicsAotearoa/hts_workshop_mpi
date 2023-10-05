@@ -41,11 +41,11 @@ In constrast, files written to the `nobackup/` directory do not last forever. Fi
 
 There are many tools we work with which create a lot of intermediate files as they run, and realisatically we do not need to keep everything that produce. In particular, assembly tools such as `SPAdes` and `Canu` create a lot of temporary files as they move through rounds of data cleaning, assembly, and refinement but in the end only a handful of the outputs are actually useful for the end user.
 
-When working with large projects, it is best practice to keep your raw data in the `project/` directory but perform your day to day work in the `nobackup/` side. Only copy the crtiical outputs back to the `project/` side.
+When working with large projects, it is best practice to keep your raw data in the `project/` directory but perform your day to day work in the `nobackup/` side. Only copy the critical outputs back to the `project/` side.
 
 ---
 
-## Searching and load software with the `module` system
+## Search and load software with the `module` system
 
 Up until this point we have worked exclusively with software that is avilable by default in `bash` environments. For biology-related tasks though, these tools alone are not sufficient and we must use specialised software for performing analyses.
 
@@ -275,10 +275,6 @@ In most situations we would want to be working with the most recent version of t
 
 One major benefit of working with the module system is that it allows us to avoid conflicts between tools which were written in different programming environments. When we write software, it is very rare to write the entire program from scratch. There are a wealth of publicly available resources which can be used when developing a tool which saves the developer from writing every single line of code they need to achieve their intent. This saves time and leads to more stable and robust code but can be a problem if we are trying to use tools with incompatible dependencies.
 
-An example of this issue can be found with the popular `python` scripting language. When the language was updated from version `2.7` to version `3.0` in 2006, there were fundamental changes to how the language was used so that code written in version `2.7` could not run in version `3.0+`. In order to save the global `python` community from having to rebuild all their work, version `2.7` was maintained and updated in parallel to the newer releases of `3.0+`.
-
-Unfortunately, because people didn't *need* to swap to the newer version, a situation arose in which even in 2019 tools were still being developed in the older version and users needed to implement complicated work arounds to run both `python2.7` and `python3` code in parallel as pipelines often consisted of a mixture of tools written in both versions.
-
 For a common example of clashing dependencies, we can try to load the `BLAST/2.6.0-gimkl-2017a` and `SAMtools/1.8-gimkl-2018b` modules in the same NeSI session.
 
 !!! terminal "code"
@@ -299,7 +295,9 @@ This cannot be done. The first module can be loaded without issue, but the secon
 
 This issue occurs because these two different tools were created using a different set of development tools, and both sets of code cannot be active in parallel.
 
-This is one of the key considerations we must keep in mind when working with NeSI. Ideally, our worksessions will be minimalistic and only load a single module for each job, as in order to keep our resource usage minimal and efficient we will use resource requests tailored for the specific job. When we **_need_** to perform multiple commands in a single script we must make sure that all modules can be loaded together, or make use of the `module purge` command to isolate the software at each step of the script.
+This is one of the key considerations we must keep in mind when working with NeSI.
+
+Ideally, our sessions will be minimalistic and only load a single module for each job, as in order to keep our resource usage minimal and efficient we will use resource requests tailored for the specific job. When we **_need_** to perform multiple commands in a single script we must make sure that all modules can be loaded together, or make use of the `module purge` command to isolate the software at each step of the script.
 
 !!! terminal "code"
 
