@@ -63,10 +63,10 @@ To run `Flye`, navigate to your `assembly_nanopore/` directory, and prepare the 
     module purge
     module load Flye/2.9.1-gimkl-2022a-Python-3.10.5
 
-    # Set the path from which the script will execute SPAdes
-    cd /nesi/project/nesi03181/phel/USERNAME/assembly_nanopore/
+    # Set the path from which the script will execute Flye
+    cd /nesi/project/nesi03181/phel/USERNAME/level2/assembly_nanopore/
 
-    # Execute SPAdes
+    # Execute Flye
     flye --threads ${SLURM_CPUS_PER_TASK} \
         --nano-raw reads/Mbovis_87900.nanopore.fq.gz \
         --out-dir assembly/

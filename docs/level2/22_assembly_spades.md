@@ -101,7 +101,7 @@ Create a `slurm` script with the following contents. Be sure to replace the `YOU
     module load SPAdes/3.15.4-gimkl-2022a-Python-3.10.5
 
     # Set the path from which the script will execute SPAdes
-    cd /nesi/project/nesi03181/phel/USERNAME/assembly_illumina/
+    cd /nesi/project/nesi03181/phel/USERNAME/level2/assembly_illumina/
 
     # Execute SPAdes
     spades.py --isolate --threads ${SLURM_CPUS_PER_TASK} \
