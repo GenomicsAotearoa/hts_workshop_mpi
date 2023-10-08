@@ -68,7 +68,6 @@ To run `Flye`, navigate to your `assembly_nanopore/` directory, and prepare the 
 
     # Execute SPAdes
     flye --threads ${SLURM_CPUS_PER_TASK} \
-        --genome-size 1m \
         --nano-raw reads/Mbovis_87900.nanopore.fq.gz \
         --out-dir assembly/
     ```
@@ -87,16 +86,6 @@ When you are ready, submit the job to `slurm`:
     Submitted batch job ########
     ```
 
-!!! warning "How do I know my genome size!?"
-
-    One of the frustrating things with a lot of long read assembly tools is that they ask you to provide an estimate of your genome size when performing assembly.
-    
-    This can be a bit of a problem because if you don't know what you're sequencing, you don't know what genome size to expect...
-
-    This parameter is mostly used for the tool to gauge coverage over the assembly as it is operating, so it is not critical that you provide an exact value. In our case above, the *M. bovis* genome is about 1.1 million nucleotides long but we submitted the assembly with an expected genome size of 1 million.
-
-    If you have some knowledge or suspicion as to the identity of the organism you are sequencing then use the literature to find an average genome size for members of the species or genus that you believe you are working with. There are tools we will cover later in the level 2 training which could help you deduce some information as to the identity of the organism you are working with prior to assembly.
-
 As with the `SPAdes` session, we will end up with a folder named `assembly/` which contains a number of files, only some of which we care about. The key files for us are:
 
 1. `assembly.fasta` - the assembled contigs, as a fasta file.
@@ -113,7 +102,7 @@ For the exercise today are using the `Flye` assembler with one of the *M. bovis*
 1. `Canu` ([Koren *et al.*, 2017](http://www.genome.org/cgi/doi/10.1101/gr.215087.116))
 1. `raven` ([Vaser *et al.*, 2021](https://doi.org/10.1038/s43588-021-00073-4))
 
-A recent comparison of assembly tools was published by [Wick & Holt (2021)](https://doi.org/10.12688/f1000research.21782.4) tests some of the options listed above along with several other tools. Their manuscript is a 'living paper', which has been updated several times as new versions of each tool are released. Different assemblers have risen to the top at different time points, so this is very much still an evolving field and it is difficult to say which assembler is the 'best'.
+A recent comparison of assembly tools was published by [Wick & Holt (2021)](https://doi.org/10.12688/f1000research.21782.4) tests some of the options listed above along with several other tools. Their manuscript is a 'living paper', which has been updated several times as new versions of each tool are released. Different assemblers have risen to the top at different time points, so this is very much still an evolving field, and it is difficult to say which assembler is the 'best'.
 
 In practice, there are sometimes particular cases where a tool will not be compatible with your data, so it is helpful to be aware of several tools so that you have options if assembly proves problematic for a particular sample.
 

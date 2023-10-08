@@ -19,7 +19,7 @@
 ## The assembly process
 
 Genome assembly is the act of organising sequencing data to produce a representation of the complete genome sequence of an organism (ie a plant, fungus, bacterium or virus). 
-An assembled genome can then be used to perform down stream analysis such as annotation of coding regions, BLAST analysis or comparasion with known or reference material. 
+An assembled genome can then be used to perform down stream analysis such as annotation of coding regions, BLAST analysis or comparison with known or reference material. 
 
 The success of a genome assembly project depends on a range of factors including;
 
@@ -43,6 +43,6 @@ By contrast DBG methods cut the input sequence data into smaller pieces, and map
 
 The key important distinction between these methods is that OLC is robust to a degree of sequence variation between the reads it is trying to align, whereas DBG methods require very high quality data to keep the map of how sub-reads relate to each other manageable. Therefore, the key takeaway is that Overlap Layout Consensus methods are best suited to long read sequence data while De Bruijn Graph methods are better suited to short read sequence data. 
 
-In this training we will use short and long read sequence data to familarise ourselves with two popular assemblers **SPAdes** (short read) and **Flye** (long read).
+In this training we will use short and long read sequence data to familiarise ourselves with two popular assemblers **SPAdes** (short read) and **Flye** (long read).
 
 ---

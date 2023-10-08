@@ -37,9 +37,9 @@ When working on NeSI there are two locations we can use to store our data; the `
 
 There are important differences between them. Data on the `project/` directory is *persistent*, backed up, and a billed resource. Anything you place in the `project/` directory will stay there until it is deleted.
 
-In constrast, files written to the `nobackup/` directory do not last forever. Files that have not been modified (a proxy for 'used') in the last three months are automatically removed from the system. The benefit of this directory though is that we are not charged for our usage of the `nobackup/` directory.
+In contrast, files written to the `nobackup/` directory do not last forever. Files that have not been modified (a proxy for 'used') in the last three months are automatically removed from the system. The benefit of this directory though is that we are not charged for our usage of the `nobackup/` directory.
 
-There are many tools we work with which create a lot of intermediate files as they run, and realisatically we do not need to keep everything that produce. In particular, assembly tools such as `SPAdes` and `Canu` create a lot of temporary files as they move through rounds of data cleaning, assembly, and refinement but in the end only a handful of the outputs are actually useful for the end user.
+There are many tools we work with which create a lot of intermediate files as they run, and realistically we do not need to keep everything that produce. In particular, assembly tools such as `SPAdes` and `Canu` create a lot of temporary files as they move through rounds of data cleaning, assembly, and refinement but in the end only a handful of the outputs are actually useful for the end user.
 
 When working with large projects, it is best practice to keep your raw data in the `project/` directory but perform your day to day work in the `nobackup/` side. Only copy the critical outputs back to the `project/` side.
 
@@ -47,7 +47,7 @@ When working with large projects, it is best practice to keep your raw data in t
 
 ## Search and load software with the `module` system
 
-Up until this point we have worked exclusively with software that is avilable by default in `bash` environments. For biology-related tasks though, these tools alone are not sufficient and we must use specialised software for performing analyses.
+Up until this point we have worked exclusively with software that is available by default in `bash` environments. For biology-related tasks though, these tools alone are not sufficient and we must use specialised software for performing analyses.
 
 While we are free to install new software into NeSI there are many common bioinformatics tools already available on the platform, we just need to know how to access them. The most user-friendly option for finding pre-installed software is the NeSI [Supported Applications](https://support.nesi.org.nz/hc/en-gb/sections/360000040076-Supported-Applications) web page. This provides an up to date list of everything available on NeSI. Each piece of software lists the versions installed and links to the software documentation, and every entry is tagged with some handy keywords to enable quick searching.
 

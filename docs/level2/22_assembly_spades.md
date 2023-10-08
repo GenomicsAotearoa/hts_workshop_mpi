@@ -40,7 +40,7 @@ $ spades.py -h
 
 !!! warning "Remember to filter your data prior to assembly!"
 
-    Before beginning to work with `SPAdes` we need to ensure that our data is free from adapter sequences. The main reason for doing this is when we assemble sequences to form a genome, the assembler is looking for spans of nucleic acid sequence which are common to multiple reads, so that those reads can be joined together to create longer contigs. As the adapater sequence is an identical tag added to every read, these create regions of artificial homology between sequences which have no real connection to each other.
+    Before beginning to work with `SPAdes` we need to ensure that our data is free from adapter sequences. The main reason for doing this is when we assemble sequences to form a genome, the assembler is looking for spans of nucleic acid sequence which are common to multiple reads, so that those reads can be joined together to create longer contigs. As the adapter sequence is an identical tag added to every read, these create regions of artificial homology between sequences which have no real connection to each other.
 
     Before we attempt assembly it is critical to remove these from our data but as this was covered in the level 1 training we will not be revisiting the process here.
 
@@ -130,7 +130,7 @@ When this job is complete, we will have a folder named `assembly/` which contain
 1. `scaffolds.fasta` - the scaffolded contigs, as a fasta file.
    1. This is similar to the contigs file, except it will contain sequences where contigs have been joined by an indeterminate piece of sequence.
    1. This occurs when `SPAdes` can tell from the pairing information in our library that two contigs belong adjacent to each other, but it has no information for filling the gap between them.
-1. `spades.log` - the log file of the steps `SPAdes` performed and any warnings which occured during assembly.
+1. `spades.log` - the log file of the steps `SPAdes` performed and any warnings which occurred during assembly.
 1. `assembly_graph.fastg` - a map of how well the assembly is resolved.
    1. This can be useful if we are trying to obtain a complete genome, as it shows us areas which have assembled cleaning and areas which were difficult to resolve.
 

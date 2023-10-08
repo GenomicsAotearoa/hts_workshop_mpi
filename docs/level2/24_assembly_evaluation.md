@@ -139,6 +139,6 @@ As you can see from this exercise, getting a *pretty good* genome assembly is no
 
 It can be hard knowing when the assembly is good enough to move out of the assembly stage and into annotation. In research groups working with genomic data, the yardstick for working with these kinds of data is typically to ask whether the current assembly is sufficient to answer the research question which led to its sequencing in the first place.
 
-We can copy this logic and ask, what was the purpose of sequencing this genome and can we achieve that with the current data. Typically, we are most likely looking to perform a species identification. If we find that the genome assembly contains the right marker genes or operons to perform the identification then, regardless of whether the genome is officially completed or not, it has served it's purpose.
+We can copy this logic and ask, what was the purpose of sequencing this genome and can we achieve that with the current data. Typically, we are most likely looking to perform a species identification. If we find that the genome assembly contains the right marker genes or operons to perform the identification then, regardless of whether the genome is officially completed or not, it has served its purpose.
 
 ---

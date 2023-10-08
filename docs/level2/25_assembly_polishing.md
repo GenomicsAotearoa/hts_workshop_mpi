@@ -24,7 +24,7 @@ Once we have our draft assembly, we want to revisit it and attempt to improve re
 
 The process of using our raw data to re-call areas of the assembly is called polishing, and there are many tools available for performing this task. Similar to the case with assembly, there are specific tools for using short read or long read data for polishing an assembly.
 
-Today we are going to use a long read polising tool called `racon` ([Vaser *et al.*, 2017](https://doi.org/10.1101/gr.214270.116)).
+Today we are going to use a long read polishing tool called `racon` ([Vaser *et al.*, 2017](https://doi.org/10.1101/gr.214270.116)).
 
 ??? Question "What are our other options?"
 
@@ -46,7 +46,7 @@ Strictly speaking, `racon` is designed for polishing assemblies which have been 
 
 We will start working with one of several draft genome assemblies, of varying quality (in terms of mismatches to the reference). We will start with the `draft_moderate.fna` genome, which has a 2% rate of mismatch with the reference genome.
 
-Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`. We will work with `minimap2` more in the mapping exercises in the next session, so will not explain it's parameters and workflow today.
+Before running `racon` we must produce a mapping file of the quality filtered sequences against the assembly. We can do this with `minimap2`. We will work with `minimap2` more in the mapping exercises in the next session, so will not explain its parameters and workflow today.
 
 !!! terminal "code"
 
@@ -93,7 +93,7 @@ We can then use this mapping file as the input for `racon`:
     [racon::Polisher::] total = 22.926985 s
     ```
 
-Before we assess the results of this, we will run `racon` over a few different genomes, so that when we assess the final qualities we can generate a single report for all genomes.
+Before we assess the results of this, we will run `racon` over a few different genomes, so that when we assess the final qualities, we can generate a single report for all genomes.
 
 !!! question "Exercise"
 
@@ -117,7 +117,7 @@ Before we assess the results of this, we will run `racon` over a few different g
 
 It is possible to perform the `racon` process iteratively, remapping reads to the output and then running the polishing cycle again. There is some data ([link here](https://nanoporetech.github.io/medaka/draft_origin.html#discussion)) which suggests that up to four rounds of `racon` polishing, in conjunction with `medaka`, produces better quality output than running a single polishing step.
 
-However there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your data is unclear, and ultimately it is your decision whether or not to perform this approach so although this can work, it is a judgement call as to whether or not it is necessary.
+However, there are costs associated with this approach both in terms of time invested and over-zealous correction to repeat regions. Whether or not improvement with multiple rounds will be seen in your data is unclear, and ultimately it is your decision whether or not to perform this approach so although this can work, it is a judgement call as to whether or not it is necessary.
 
 Running `racon` the second time is pretty much the same as the first time, except that instead of mapping to the original draft genome, we now map our reads to the output of the first `racon` run and use that alignment for correction.
 
@@ -167,7 +167,7 @@ Running `racon` the second time is pretty much the same as the first time, excep
 
 ## Assessing the results with `QUAST`
 
-As a quick confirmtion of how how successful the cleaning step was, we will use `QUAST` to compare our raw and polished genomes to the reference genome.
+As a quick confirmation of how successful the cleaning step was, we will use `QUAST` to compare our raw and polished genomes to the reference genome.
 
 When running this command, modify it to include the genomes your polished as part of the exercises above.
 
