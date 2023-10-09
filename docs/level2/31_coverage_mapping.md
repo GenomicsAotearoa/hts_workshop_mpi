@@ -22,16 +22,6 @@
 
 ---
 
-## Contents
-
-1. [Introduction to mapping](#introduction-to-mapping)
-1. [Overview of the mapping process](#overview-of-the-mapping-process)
-1. [Storing read mapping information](#storing-read-mapping-information)
-1. [Different tools for the job](#different-tools-for-the-job)
-1. [Obtaining a reference sequence](#obtaining-a-reference-sequence)
-
----
-
 ## Introduction to mapping
 
 Sequencing produces a collection of sequences without genomic context - as the sequencing process reads genomic fragments in a random order we do not know the region of the genome to which each sequence corresponds. Mapping the reads of an experiment to a reference genome or a reference gene is a key step for resolving this issue. After mapping, the reads are assigned to a specific location in the genome/gene and a consensus file can be generated that reconstructs the sequence of that region on the organism that provided the reads.

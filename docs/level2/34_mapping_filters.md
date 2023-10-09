@@ -20,14 +20,6 @@
 
 ---
 
-## Contents
-
-1. [Why we need to compress and filter `sam` files](#why-we-need-to-compress-and-filter-sam-files)
-1. [Sorting and compressing `sam` files](#sorting-and-compressing-sam-files)
-1. [Splitting `bam` files to separate mapped and unmapped reads](#splitting-bam-files-to-separate-mapped-and-unmapped-reads)
-
----
-
 ## Why we need to compress and filter `sam` files
 
 Now that we have created some basic mapping data in the `sam` files from the last exercises([here](./32_illumina_mapping.md) and [here](./33_nanopore_mapping.md)), let's take a look at the size of these files. Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping/` directory and run the following command:

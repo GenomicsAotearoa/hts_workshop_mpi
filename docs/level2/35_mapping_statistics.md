@@ -20,14 +20,6 @@
 
 ---
 
-## Contents
-
-1. [Summarising the contents of a `bam` file](#summarising-the-contents-of-a-bam-file)
-1. [Producing a coverage table from a complete alignment](#producing-a-coverage-table-from-a-complete-alignment)
-1. [Producing a coverage table from a specific region of an alignment](#producing-a-coverage-table-from-a-specific-region-of-an-alignment)
-
----
-
 ### Summarising the contents of a `bam` file
 
 This section will start with a new mapping file, although you could apply these commands to anything produced as part of the [filtering exercises](./34_mapping_filters.md) instead. Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping_statistics/` directory and view the contents.

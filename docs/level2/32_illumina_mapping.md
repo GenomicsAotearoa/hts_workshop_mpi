@@ -18,13 +18,6 @@
 
 ---
 
-## Contents
-
-1. [Indexing the reference sequence](#indexing-the-reference-sequence)
-1. [Mapping reads with `bowtie2`](#mapping-reads-with-bowtie2)
-
----
-
 ## Indexing the reference sequence
 
 Before we can map our sequence data to the reference genome (or gene sequence) obtained in the [previous exercise](./31_coverage_mapping.md#obtaining-a-reference-sequence) we need to perform a step known as *indexing*. How this process works is well beyond the scope of this tutorial, but it is a process of performing a scan of the reference sequence and transforming it into an organised format amenable to the `bowtie2` rapid mapping algorithm.

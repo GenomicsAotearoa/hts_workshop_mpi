@@ -18,14 +18,6 @@
 
 ---
 
-## Contents
-
-1. [Indexing the reference sequence](#indexing-the-reference-sequence)
-1. [Mapping reads with `minimap2`](#mapping-reads-with-minimap2)
-1. [Differences in sequence quality between short- and long-read platforms](#differences-in-sequence-quality-between-short--and-long-read-platforms)
-
----
-
 ## Indexing the reference sequence
 
 Similar to `bowtie2`, it is possible to create a pre-computed index file for performing mapping using `minimap2`. However this is not strictly necessary when using `minimap2` - the tool will automatically read the reference file provided and determine if the file is already indexed or not. If the file is in a native state such as the `fasta` format `minimap2` will produce an index file on the fly for performing the alignment operations. If the index file is already indexed, this step is skipped.
