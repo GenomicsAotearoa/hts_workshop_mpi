@@ -73,7 +73,7 @@ The main tool used for handling sam and bam files is called `samtools`. Load the
     samtools view -bS Mbovis_87900.16S_rRNA.bowtie2.sam | samtools sort -o Mbovis_87900.16S_rRNA.bowtie2.bam
     ```
 
-??? question "What is the `|` for?
+??? question "What is the pipe for?
 
     This is redirection, taking the output of the first `samtools` command and passing it as input into the second command.
 
