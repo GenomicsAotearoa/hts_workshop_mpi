@@ -2,8 +2,8 @@
 
 !!! clock "time"
 
-    * Teaching: 10 minutes
-    * Exercises: 15 minutes
+    * Teaching: 15 minutes
+    * Exercises: 20 minutes
 
 !!! circle-info "Objectives and Key points"
 
@@ -26,34 +26,41 @@ This section will start with a new mapping file, although you could apply these 
 
 We wil take a look at the high-level summary of the contents of these files with the `samtools flagstat` command:
 
-```bash
-$ module load SAMtools/1.16.1-GCC-11.3.0
+!!! terminal "code"
 
-$ samtools flagstat SRR18260232.raw_reads.bam
-```
+    ```bash
+    module purge
+    module load SAMtools/1.16.1-GCC-11.3.0
 
-This will produce a brief report to the terminal, which should look like:
+    samtools flagstat SRR18260232.raw_reads.bam
+    ```
 
-```
-8630882 + 0 in total (QC-passed reads + QC-failed reads)
-8629544 + 0 primary
-1338 + 0 secondary
-0 + 0 supplementary
-0 + 0 duplicates
-0 + 0 primary duplicates
-3236663 + 0 mapped (37.50% : N/A)
-3235325 + 0 primary mapped (37.49% : N/A)
-8629544 + 0 paired in sequencing
-4314772 + 0 read1
-4314772 + 0 read2
-3040828 + 0 properly paired (35.24% : N/A)
-3049552 + 0 with itself and mate mapped
-185773 + 0 singletons (2.15% : N/A)
-0 + 0 with mate mapped to a different chr
-0 + 0 with mate mapped to a different chr (mapQ>=5)
-```
+    ??? success "Output"
 
-This is not exactly easy to interpret. The documentation is [here](http://www.htslib.org/doc/samtools-flagstat.html) and requires you to look through the [`sam` file specification](http://samtools.github.io/hts-specs/SAMv1.pdf) to understand the fields. In brief, tghe pairs of numbers on each line represent the number of mappings with passed/failed the alignment quality conditions. This is not the same thing as the fastq quality score - when we map reads there is a scoring system used to assess how well a read sticks to the reference at a given position. Depending on how mapping is performed there may be reads which do align to a region, but too poorly for `samtools` to consider them a likely match.
+        ```
+        8630882 + 0 in total (QC-passed reads + QC-failed reads)
+        8629544 + 0 primary
+        1338 + 0 secondary
+        0 + 0 supplementary
+        0 + 0 duplicates
+        0 + 0 primary duplicates
+        3236663 + 0 mapped (37.50% : N/A)
+        3235325 + 0 primary mapped (37.49% : N/A)
+        8629544 + 0 paired in sequencing
+        4314772 + 0 read1
+        4314772 + 0 read2
+        3040828 + 0 properly paired (35.24% : N/A)
+        3049552 + 0 with itself and mate mapped
+        185773 + 0 singletons (2.15% : N/A)
+        0 + 0 with mate mapped to a different chr
+        0 + 0 with mate mapped to a different chr (mapQ>=5)
+        ```
+
+??? info ""
+
+    This is not exactly easy to interpret. The documentation is [here](http://www.htslib.org/doc/samtools-flagstat.html) and requires you to look through the [`sam` file specification](http://samtools.github.io/hts-specs/SAMv1.pdf) to understand the fields.
+
+In brief, the pairs of numbers on each line represent the number of mappings with passed/failed the alignment quality conditions. This is not the same thing as the fastq quality score - when we map reads there is a scoring system used to assess how well a read sticks to the reference at a given position. Depending on how mapping is performed there may be reads which do align to a region, but too poorly for `samtools` to consider them a likely match.
 
 Going through the lines of the output, the most important parts are:
 
@@ -67,9 +74,14 @@ Going through the lines of the output, the most important parts are:
 |`X + Y properly paired (Z% : N/A)`|Number of instances where paired reads are mapped together in the correct orientation|
 |`X + Y singletons (Z% : N/A)`|Number of instances of a read mapping when its paired partner failed to do so|
 
->**Note:** The term duplicates is used to represent instances where two or more **_identical_** sequences mapped to the region, not different reads mapping to the same region in a manner that overlaps. In these instances, it is phenominally rare to see two identical reads produced as part of library preparation and they are much more commonly due to PCR artefacts which occur during library preparation, or some form of read duplication during sequencing. In some instances it is worth identifying and removing these duplication events using a tool like `picard` ([documentation](https://broadinstitute.github.io/picard/)).
->
->If you are working with amplicon sequence, where you have produced a PCR product which is then sent for sequencing your duplication rate will be high but this is an expected consequence of the method used to produce your input DNA. In such cases a high duplication rate is expected.
+
+!!! info "Understanding the 'duplicates' term"
+
+    The term duplicates is used to represent instances where two or more *identical* sequences mapped to the region, not different reads mapping to the same region in a manner that overlaps. In these instances, it is phenominally rare to see two identical reads produced as part of library preparation and they are much more commonly due to PCR artefacts which occur during library preparation, or some form of read duplication during sequencing.
+
+    In some instances it is worth identifying and removing these duplication events using a tool like `picard` ([documentation](https://broadinstitute.github.io/picard/)).
+
+    If you are working with amplicon sequence, where you have produced a PCR product which is then sent for sequencing your duplication rate will be high but this is an expected consequence of the method used to produce your input DNA. In such cases a high duplication rate is expected.
 
 ---
 
@@ -77,50 +89,62 @@ Going through the lines of the output, the most important parts are:
 
 Now that we have seen a high-level overview of the mapping in the table, how do we get something actionable out of this? One of the common tasks we need to perform with a mapping file is to assess the depth of coverage over the reference sequence to determine
 
-1. Is there sufficient depth of coverage to be confident in the consensus sequence of our reads?
-1. Is the mapping depth even across the reference sequence, or does it pile up in hotspots?
-   1. Piling into hotspots can be indicative of poor mapping, where a low complexity region of a sequence (like the poly-A tail on a virus) is attracting a lot of non-specific binding.
-   1. In this instance, you would not want to infer the average coverage by dividing the number of mapped reads by the reference length as there are likely to be spots with no mapping.
+!!! question "Is there sufficient depth of coverage to be confident in the consensus sequence of our reads?"
 
-One of the simplest ways to view this is to use the `samtools depth` command, which reads through the `bam` file and reports the number of nucleotides mapped at each position of the reference sequence. It is very quick to run, and the output is a simple text table which can be imported into `Excel` or `R` to calculate statistics.
+!!! question "Is the mapping depth even across the reference sequence, or does it pile up in hotspots?"
+
+    Piling into hotspots can be indicative of poor mapping, where a low complexity region of a sequence (like the poly-A tail on a virus) is attracting a lot of non-specific binding.
+
+    In a case like this you would not want to infer the average coverage by dividing the number of mapped reads by the reference length as there are likely to be spots with no mapping.
+
+One of the simplest ways to view the per-position coverage of a mapping result is to use the `samtools depth` command, which reads through the `bam` file and reports the number of nucleotides mapped at each position of the reference sequence. It is very quick to run, and the output is a simple text table which can be imported into `Excel` or `R` to calculate statistics.
 
 By default the tool prints to the command line which is not ideal, so we will capture the results with a redirection.
 
-```bash
-$ samtools depth -a SRR18260232.clean_reads.bam > SRR18260232.clean_reads.txt
-$ head SRR18260232.clean_reads.txt
-```
+!!! terminal "code"
+
+    ```bash
+    samtools depth -a SRR18260232.clean_reads.bam > SRR18260232.clean_reads.txt
+    ```
 
 Running the `head` command should print the first 10 lines of the file to the command line. This is enough to see the structure of the file.
 
-```
-NZ_LAUS01000004.1       1       6
-NZ_LAUS01000004.1       2       9
-NZ_LAUS01000004.1       3       9
-NZ_LAUS01000004.1       4       9
-NZ_LAUS01000004.1       5       9
-NZ_LAUS01000004.1       6       9
-NZ_LAUS01000004.1       7       9
-NZ_LAUS01000004.1       8       9
-NZ_LAUS01000004.1       9       9
-NZ_LAUS01000004.1       10      9
-```
+!!! file-code "First 10 lines of `SRR18260232.clean_reads.txt`"
+
+    ```
+    NZ_LAUS01000004.1       1       6
+    NZ_LAUS01000004.1       2       9
+    NZ_LAUS01000004.1       3       9
+    NZ_LAUS01000004.1       4       9
+    NZ_LAUS01000004.1       5       9
+    NZ_LAUS01000004.1       6       9
+    NZ_LAUS01000004.1       7       9
+    NZ_LAUS01000004.1       8       9
+    NZ_LAUS01000004.1       9       9
+    NZ_LAUS01000004.1       10      9
+    ```
 
 Although there are no column headers, there are only three columns in the file so it is easy to just describe the contents. The first column is the name of the sequence in the reference file which is being reported. If you have a single sequence in your reference then this will be a single value throughout the file. If you are mapping to a draft reference genome, or a genome with plasmids or other non-chromosomal elements, the content of this column will change as you move through the file.
 
 The second column is the nucleotide position in the reference sequence, and the third column is the number of nucleotides mapped against that position. From the command line it is hard to see the maximum depth, but we can use a quick combination of command line tools to tell us something of the mapping:
 
-```bash
-$ cut -f3 SRR18260232.clean_reads.txt | sort | uniq -c | head -n1
-```
+!!! terminal "code"
 
-What this command does is take the third column of the table (`cut`), sort the values (`sort`), and then tally up the unique instances and count them (`uniq -c`). The output that this provides is:
+    ```bash
+    cut -f3 SRR18260232.clean_reads.txt | sort | uniq -c | head -n1
+    ```
 
-```
-27988 0
-```
+    ??? success "Output"
 
-Which means that there are 27,988 positions in the reference with 0 nucleotides mapped. This tells us that there are some gaps in our mapping. Given that the reference sequence is 254,357 nucleotides long this means that about 11% of our genome does not have reads that correspond to it. If you wanted to push this further, you could import the summary table into a tool like `Excel` and plot the depth of coverage along the genome or calculate the average depth and variance to decide if you wanted to trust this alignment for generating a consensus sequence or reporting your depth of coverage as a measure of genome quality.
+        ```
+        27988 0
+        ```
+
+What this command does is take the third column of the table (`cut`), sort the values (`sort`), and then tally up the unique instances and count them (`uniq -c`).
+
+Which means that there are 27,988 positions in the reference with 0 nucleotides mapped. This tells us that there are some gaps in our mapping. Given that the reference sequence is 254,357 nucleotides long this means that about 11% of our genome does not have reads that correspond to it.
+
+If you wanted to push this further, you could import the summary table into a tool like `Excel` or `R` and plot the depth of coverage along the genome or calculate the average depth and variance to decide if you wanted to trust this alignment.
 
 We will not be pursuring this further in this workshop, as plotting is a fairly easy task which you can perform by yourself if you are interested.
 
@@ -146,51 +170,62 @@ For now, we are going to extract the depth information over two genes of the ref
 
 The syntax for performing this kind of depth summary is to add a parameter specifying the name of the sequence carrying the region, followed by the start and stop coordinates to be reported in the form `SEQUENCE:START-STOP`. We must also *index* the `bam` file, so that `samtools` is able to quickly parse the file, skipping the regions we are not interested in. Indexing will produce a file with the extension `bai`. We do not need to hold onto this file for long, it is quick to generate and not very large on disk space.
 
->**Note:** In our case there is only a single sequence in the reference genome, so all mapping must be to this lone sequence. Nevertheless, we must still specify the sequence as part of the command.
+!!! info ""
 
-```bash
-$ samtools index SRR18260232.clean_reads.bam
-$ samtools depth -a -r NZ_LAUS01000004.1:94986-96779 SRR18260232.clean_reads.bam  > SRR18260232.clean_reads.tef4.txt
-$ wc -l SRR18260232.clean_reads.txt SRR18260232.clean_reads.tef4.txt
-```
-```
-254357 SRR18260232.clean_reads.txt
-1794 SRR18260232.clean_reads.tef4.txt
-256151 total
-```
+    In our case there is only a single sequence in the reference genome, so all mapping must be to this lone sequence. Nevertheless, we must still specify the sequence as part of the command
+
+!!! terminal "code"
+
+    ```bash
+    samtools index SRR18260232.clean_reads.bam
+    samtools depth -a -r NZ_LAUS01000004.1:94986-96779 SRR18260232.clean_reads.bam  > SRR18260232.clean_reads.tef4.txt
+
+    wc -l SRR18260232.clean_reads.txt SRR18260232.clean_reads.tef4.txt
+    ```
+
+    ??? success "Output"
+
+        ```
+        254357 SRR18260232.clean_reads.txt
+        1794 SRR18260232.clean_reads.tef4.txt
+        256151 total
+        ```
 
 As you can see, this has cut the mapping space down considerably. It is now of a size that, if this was your marker of interest, you could easily plot this information and see the mapping depth along the TEF4 gene:
 
-<details>
-<summary>Plotting code (interest only)</summary>
+??? info "Plotting code (interest only)"
 
-```python
-import plotly.express as px
-import pandas as pd
+    Here's a short snippet of `python` code to create a plot of the depth along the positions in the **tef4** file.
 
-df = pd.read_csv("SRR18260232.clean_reads.tef4.txt", sep="\t", names=["Chr", "Position", "Depth"])
+    !!! terminal "code"
 
-fig = px.area(df, x="Position", y="Depth")
-fig.write_image("SRR18260232.clean_reads.tef4.svg")
-```
+        ```python
+        import plotly.express as px
+        import pandas as pd
 
-</details>
+        df = pd.read_csv("SRR18260232.clean_reads.tef4.txt", sep="\t", names=["Chr", "Position", "Depth"])
 
-![SRR18260232 TEF4 depth across gene](../img/level2_35_tef4.svg)
+        fig = px.area(df, x="Position", y="Depth")
+        fig.write_image("SRR18260232.clean_reads.tef4.svg")
+        ```
 
-> ### Exercise
->
-> Create a 16S rRNA sequence coverage report using the `SRR18260232.raw_reads.bam` mapping file as your starting point.
->
-> If you're interested, also produce a small plot of the results.
->
-> <details>
-> <summary>Solution</summary>
->
-> ```bash
-> $ samtools index SRR18260232.raw_reads.bam
-> $ samtools depth -a -r NZ_LAUS01000004.1:41621-43134 SRR18260232.raw_reads.bam  > SRR18260232.raw_reads.16s_rrna.txt
-> ```
-> </details>
+        ??? success "Output"
+
+            <center>![SRR18260232 TEF4 depth across gene](../img/level2_35_tef4.svg)</center>
+
+!!! question "Exercise"
+
+    Create a 16S rRNA sequence coverage report using the `SRR18260232.raw_reads.bam` mapping file as your starting point.
+
+    If you're interested, also produce a small plot of the results.
+
+    ??? circle-check "Solution"
+
+        !!! terminal "code"
+
+            ```bash
+            samtools index SRR18260232.raw_reads.bam
+            samtools depth -a -r NZ_LAUS01000004.1:41621-43134 SRR18260232.raw_reads.bam  > SRR18260232.raw_reads.16s_rrna.txt
+            ```
 
 ---
