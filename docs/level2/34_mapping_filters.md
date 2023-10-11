@@ -56,7 +56,7 @@ The first step of reducing the file size is to efficienctly compress the content
 
 When performing this compression from sam to bam we also use this opportunity to sort the mapped reads in terms of their starting position in the reference sequence. This sorting is important as it increases the speed of many of the operations we need to perform using a `sam` file, particular when producing coverage statistics. Because the sorting and compression can be performed in a single command line operation we tend to do these things together once and never worry about it again.
 
-!!! info "We should always sort our sequences!"\
+!!! info "We should always sort our sequences!"
 
     In the situations where you need your mapped reads sorted, operations will fail if the reads are not sorted. In situations where you do not need them sorted, operations will succeed.
 
