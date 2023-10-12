@@ -1,4 +1,4 @@
-# 2.4 - Polishing of Oxford Nanopore assemblies
+# 2.5 - Polishing of Oxford Nanopore assemblies
 
 !!! clock "time"
 

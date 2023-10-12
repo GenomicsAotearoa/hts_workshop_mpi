@@ -1,4 +1,4 @@
-# 2.2 - Evaluating the results of an assembly
+# 2.3 - Evaluating the results of an assembly
 
 ## Overview
 
