@@ -56,7 +56,7 @@ We wil take a look at the high-level summary of the contents of these files with
         0 + 0 with mate mapped to a different chr (mapQ>=5)
         ```
 
-??? info ""
+??? info "Interpreting the flagstat output"
 
     This is not exactly easy to interpret. The documentation is [here](http://www.htslib.org/doc/samtools-flagstat.html) and requires you to look through the [`sam` file specification](http://samtools.github.io/hts-specs/SAMv1.pdf) to understand the fields.
 
