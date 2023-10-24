@@ -175,6 +175,6 @@ In this case we are expecting only a handful of reads to have actually mapped to
                 samtools view -h -F 4 -b Mbovis_87900.genome.${i}.bam > Mbovis_87900.genome.${i}.mapped.bam
                 samtools view -h -f 4 -b Mbovis_87900.genome.${i}.bam > Mbovis_87900.genome.${i}.unmapped.bam
             done
-            ````
+            ```
 
 ---
