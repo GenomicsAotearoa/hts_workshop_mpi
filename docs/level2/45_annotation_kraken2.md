@@ -24,14 +24,18 @@
 
 As we saw in the level 1 training, running `BLASTn` to classify sequences is a good way to get annotation information about a sequence, and from this we can infer taxonomic origin of the sequence. However, obtaining classification information is not the primary purpose of `BLASTn` so we need to perform some manual inspection of the output to make a call on the classification of each sequence.
 
-When we do not care about functional information, and *only* want classification of sequences, there are a suite of tools designed specifically with this purpose in mind. Rather than perform pairwise sequence alignment between query and target sequences, these tools process their reference database into a compressed form containing sequence fingerprints. Query sequences are fingerprinted and the results compared to the database providing the most likely, **_lowest common ancestor_** for each query sequence.
+When we do not care about functional information, and *only* want classification of sequences, there are a suite of tools designed specifically with this purpose in mind. Rather than perform pairwise sequence alignment between query and target sequences, these tools process their reference database into a compressed form containing sequence fingerprints.
 
-How this fingerprinting is done is tool specific, and goes outside the realm of biology. There are a number of tools developed for this kind of work, including;
+Query sequences are fingerprinted and the results compared to the database providing the most likely, **_lowest common ancestor_** for each query sequence.
 
-1. [kraken2](https://github.com/DerrickWood/kraken2/) ([Wood *et al*., 2019](https://doi.org/10.1186/s13059-019-1891-0))
-1. [CLARK](http://clark.cs.ucr.edu/) ([Ounit *et al*., 2015](https://doi.org/10.1186/s12864-015-1419-2))
-1. [MetaCache](https://github.com/muellan/metacache) ([Müller *et al*., 2017](https://doi.org/10.1093/bioinformatics/btx520))
-1. [ganon](https://gitlab.com/rki_bioinformatics/ganon) ([Piro *et al*., 2020](https://doi.org/10.1093/bioinformatics/btaa458))
+!!! note "Options for *k*-mer classification"
+
+    How this fingerprinting is done is tool specific, and goes outside the realm of biology. There are a number of tools developed for this kind of work, including;
+
+    1. [kraken2](https://github.com/DerrickWood/kraken2/) ([Wood *et al*., 2019](https://doi.org/10.1186/s13059-019-1891-0))
+    1. [CLARK](http://clark.cs.ucr.edu/) ([Ounit *et al*., 2015](https://doi.org/10.1186/s12864-015-1419-2))
+    1. [MetaCache](https://github.com/muellan/metacache) ([Müller *et al*., 2017](https://doi.org/10.1093/bioinformatics/btx520))
+    1. [ganon](https://gitlab.com/rki_bioinformatics/ganon) ([Piro *et al*., 2020](https://doi.org/10.1093/bioinformatics/btaa458))
 
 We will be using `kraken2` today, as it is a tool which is used often within our operations.
 
@@ -104,7 +108,7 @@ Navigate to `/nesi/project/nesi03181/phel/USERNAME/level2/annotation_kraken2/` a
 
 One of the nice perks of working with `kraken2` is that the maintainers of the tool provide pre-computed, up-to-date [databases for classification](https://benlangmead.github.io/aws-indexes/k2). These are released in many different variants - some for use of HPCs and some for local machines, and databases which cover a range of target organisms.
 
-!!! info "We have a current release of the `PlusPFP` database, which contains the following lineages:"
+!!! info "We use `PlusPFP` database, which contains the following lineages:"
 
     1. Archaea
     1. Bacteria
@@ -116,7 +120,9 @@ One of the nice perks of working with `kraken2` is that the maintainers of the t
     1. Plasmid sequences
     1. Sequencing and transformation vectors (UniVec)
 
-    For training, we are using a reduced version of this database (`PlusPFP-16`) so that our jobs do not need to queue as long, but the lineages represented in each is the same.
+    ---
+
+    For training, we are using a reduced version of this database (`PlusPFP-16`) so that our jobs do not need to queue as long, but the same lineages are represented in this smaller database.
 
 This makes it a comprehensive database for most purposes, but if you are tring to annotate insect sequences this is not the right database for you. For training purposes, a copy of this database can be found at `/nesi/project/nesi03181/phel/databases/` and we also have a copy in our diagnostic workspace.
 
@@ -150,7 +156,9 @@ Complete the following script, then submit your `slurm` job.
     cd /nesi/project/nesi03181/phel/USERNAME/level2/annotation_kraken2/
 
     PFP_DB="/nesi/project/nesi03181/phel/databases/k2_pluspfp_16gb_20231009"
-    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --use-names --output outputs/input_seqs.out input/input_seqs.fna
+    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --use-names \
+        --output outputs/input_seqs.out \
+        input/input_seqs.fna
     ```
 
 !!! note "No email block in the `slurm` script"
@@ -171,27 +179,46 @@ Complete the following script, then submit your `slurm` job.
 
 This will not take long to run.
 
+---
+
+## The `kraken2` output format
+
 One the job is complete, use `less` or `head` to take a look at the output file. The output file is a tab-delimited table with the following columns:
 
-1. A single letter (C or U) designating whether the sequence was classified or not.
-1. The sequence name.
-1. The [NCBI taxonomy ID](https://www.ncbi.nlm.nih.gov/taxonomy) applied to the sequence (0 if unclassified).
-   1. Because we used the `--use-names` flag, this takes the form `TAXONOMY NAME (TAXONOMY ID)`.
-   1. By default this is just the numeric value.
-1. The sequence length.
-   1. For paired-end data, this will be in the form `FORWARD|REVERSE`.
-1. A list of how many *k*-mers mapped to each taxonomy ID.
-   1. Results are reported as colon-delimited pairings of `TAXID:NUMBER`.
+!!! file-code "kraken2_basic.sl"
 
-It is also possible to generate a report file that summarises the number of sequences classified to each taxonomy/rank. Depending on your situation, this may be more useful.
+    |Column|Content|
+    |:---:|:---|
+    |1|A single letter (C or U) designating whether the sequence was classified or not|
+    |2|Sequence name|
+    |3|The [NCBI taxonomy ID](https://www.ncbi.nlm.nih.gov/taxonomy) applied to the sequence (0 if unclassified)<br />Because we used the `--use-names` flag, this takes the form `TAXONOMY NAME (TAXONOMY ID)`<br />By default this is just the numeric value|
+    |4|Sequence length<br />For paired-end data, this will be in the form `FORWARD|REVERSE`|
+    |5|A list of how many *k*-mers mapped to each taxonomy ID<br />Results are reported as colon-delimited pairings of `TAXID:NUMBER`|
 
-!!! info "When would you need the per-sequence output"
+It is also possible to generate a report file that summarises the number of sequences classified to each taxonomy/rank, using the modified command:
+
+!!! terminal "code"
+
+    ```bash
+    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --use-names \
+        --output outputs/input_seqs.out \
+        --report outputs/input_seqs.report.txt \
+        input/input_seqs.fna
+    ```
+
+Depending on your situation, this may be more useful.
+
+!!! info "Classification output versus report"
+
+    **When would you need the per-sequence output**
 
     If you are screening a sequence set for the specific reads obtained from a particular organism, or are trying to remove contamination from a sample, having the per-sequence results are invaluable.
 
     The content of this file can be easily parsed with the `cut` and `grep` tools to extract lists of sequences match or failing to match different search criteria.
 
-!!! info "When would you need the high-level report"
+    ---
+    
+    **When would you need the high-level report**
 
     If you trust that your data is uncontaminated, you might be trying ot achive one of the following:
     
@@ -199,30 +226,27 @@ It is also possible to generate a report file that summarises the number of sequ
     1. Confirming the identity of a pure culture.
        1. In this case you might be comfortable taking a majority-rules approach to your data - if most of the sequences are classified as a single species, this is likely the identity of your culture.
 
-    !!! terminal "code"
-
-        ```bash
-        kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --use-names \
-            --output outputs/input_seqs.out \
-            --report outputs/input_seqs.report.txt \
-            input/input_seqs.fna
-        ```
-
 ---
 
 ## Refining the `kraken2` classification
 
-By default `kraken2` does not apply any filtering to the classification data. Reads are classified based on the most commonly reported taxonomy for a sequence, with no regard for how good the evidence for this classification can be.
+By default `kraken2` does not apply any filtering to the classification data. Reads are classified based on the most commonly reported taxonomy for a sequence, with no regard for how good the evidence for this classification can be. There is a built-in parameter to increase the stringency of classification. The filter is applied during classification and cannot be run after the fact.
 
-There is a built-in parameter to increase the stringency of classification, which we will use now. The filter is applied during classification and cannot be run after the fact. This means that if you want to change your filtering criteria you must perform classification again.
+This means that if you want to change your filtering criteria you must perform classification again. This differs from tools like `BLAST`, where a more stringent filter can be applied after running classification.
 
->This is in contrast to `BLAST`, where we can always apply more stringent filtering to the output after running classification (e.g. if we run a `BLAST` search looking to report all hits with greater than 30% identity, we can later filter the table to keep results with greater than 50% identity by filtering the appropriate column).
+>For example, if we run a `BLAST` search looking to report all hits with greater than 30% identity, we can later filter the table to keep results with greater than 50% identity by filtering the appropriate column.
 
 !!! warning "Limitations with the `kraken2` filtering"
 
-    It is also difficult to interpret the numeric values of filters. According to the `kraken2` manual, the confidence scoring does not have a simple interpretation. For example, with a `BLAST` identitiy of 90%, we can infer that 90% of positions are identical between query and target match, or a bootstrap support of 90% would mean that 90% of the resamplings agree with the full result. However, there is no such interpretation of what a `0.9` confidence value in `kraken2` means, other than it is more strict that a value of `0.5`.
+    It is also difficult to interpret the numeric values of filters.
 
-We generally don't need to apply much of a cutoff to `kraken2` - the tool is already good at identifying sequences which cna't be reliably classified.
+    According to the `kraken2` manual, the confidence scoring does not have a simple interpretation.
+
+    For example, with a `BLAST` identitiy of 90%, we can infer that 90% of positions are identical between query and target match, or a bootstrap support of 90% would mean that 90% of the resamplings agree with the full result.
+
+    However, there is no such interpretation of what a `0.9` confidence value in `kraken2` means, other than it is more strict that a value of `0.5`.
+
+We generally don't need to apply much of a cutoff to `kraken2` - the tool is already good at identifying sequences which can't be reliably classified.
 
 !!! file-code "kraken2_refined.sl"
 
@@ -242,7 +266,9 @@ We generally don't need to apply much of a cutoff to `kraken2` - the tool is alr
     cd /nesi/project/nesi03181/phel/USERNAME/level2/annotation_kraken2/
 
     PFP_DB="/nesi/project/nesi03181/phel/databases/k2_pluspfp_16gb_20231009"
-    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --confidence 0.1 --use-names --output outputs/input_seqs.conf_0.1.out input/input_seqs.fna
+    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --confidence 0.1 --use-names \
+        --output outputs/input_seqs.conf_0.1.out \
+        input/input_seqs.fna
     ```
 
 !!! terminal "code"
@@ -312,6 +338,7 @@ If we point this towards the correct column, we can count how many sequences wer
         The first column (C or U values) is the easiest one to work with, although you could also get the same result from column 3.
 
         ```bash
+        n=1
         cut -f ${n} outputs/input_seqs.out | sort | uniq -c
         cut -f ${n} outputs/input_seqs.conf_0.1.out | sort | uniq -c
         ```
@@ -332,9 +359,9 @@ As you can see, even a small degree of filtering has a drastic impact on the cla
 
 ---
 
-## How reliable are these outputs?
+## How reliable are these results?
 
-The input sequences in this exercise are simulated Oxfird Nanopore reads from the following organisms;
+The input sequences in this exercise are simulated Oxford Nanopore reads from the following organisms;
 
 1. Tomato (*Solanum lycopersicum*) (5,447 sequences)
 1. *Xyllela fastidiosa* (166 sequences)
@@ -374,7 +401,7 @@ If you skim through the results of both output files, you should note the follow
 
 What should be apparent here is that while filtering did remove a lot of the noise from our sample (we lost species we know are not truly present) we also lost a signal that **_was_** in the sample.
 
-!!! warninng "Recommendation for `kraken2`"
+!!! warning "Recommendation for `kraken2`"
 
     Don't let this put you off using `kraken2` - it is an excellent tool for rapidly sifting through HTS data for quick summaries. However, results should only be considered indicative in nature, not definitive.
 

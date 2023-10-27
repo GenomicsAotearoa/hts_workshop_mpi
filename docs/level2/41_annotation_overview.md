@@ -15,8 +15,7 @@
 
     * *De novo* protein sequence prediction is a good starting point, but proper annotation will require significant manual curation
     * Not all tools are able to predict gene boundaries over splice junctions - be careful when interpreting predictions
-    * Protein sequence prediction does not predict all informative genetic elements - additional tools are required for a complete annotation
-      * For example, the tools used in this workshop cannot identify rRNA, tRNA, or ncRNA elements
+    * Protein sequence prediction does not predict all informative genetic elements - additional tools are required for features such as rRNA, tRNA, or ncRNA elements
 
 ---
 
@@ -34,12 +33,6 @@ Simply translating the nucleotide sequence between a start/stop pairing is not s
 
 Furthermore, if our genome assembly is not complete we run the risk of encountering partial coding sequeences in which either the 5' or 3' region of the sequence were not assembled. In these cases, a simple search for ORFs will fail to detect the partial sequence. The prediction of protein coding sequences must be achieved using more complicated techniques than a simple `grep` search for the start and stop codon(s).
 
-!!! info "Annotating non-coding sequences"
-
-    Depending on the work that you are doing, you may be most interested in identifying protein coding regions or untranslated genetic elements such as ribosomal and transfer RNA sequences (rRNA and tRNAs, respectively).
-
-    For features such as these, which are functional but not not translated, a different set of tools is required for prediction. These will be mentioned later in this section but we will not be working with them today.
-
 Similar to assembly we can perform gene prediction in either a reference-guided manner or through the use of *ab initio* prediction tools. We will not be covering the reference-guided approach, as it is quite simple to perform in `Geneious`, but it is not to be underestimated as a technique - particularly when working with viruses or other organisms with complex read-through or splicing properties.
 
 *Ab initio* prediction is akin to *de novo* assembly - the tool is created with some internal models for what coding regions look like, which are then applied to query sequences to find putative coding regions.
@@ -52,7 +45,9 @@ Depending on the intended use of the tool, each prediction tool may be better tu
 
 As you will see from both examples above, protein coding prediction is at best a good starting point for identifying genes. Careful validation of each sequence needs to be performed if you are trying to produce a comprehensive annotation.
 
-In addition, these tools are **_only_** for prediction of protein coding sequences. There are many other genomic features you may need to find in order to find your markers of interest. Some additional tools to examine if you are looking for a complete annotation:
+In addition, these tools are **_only_** for prediction of protein coding sequences so if you're trying to recover a particular element from your data make sure that the tool you are using is suitable for the job.
+
+There are many other genomic features you may need to look for - some additional tools to examine if you are looking for a complete annotation:
 
 1. [Metaxa2](https://microbiology.se/software/metaxa2/) ([Bengtsson-Palme *et al*, 2015](http://dx.doi.org/10.1111/1755-0998.12399)) - Prediction of small and large subunit ribosomal RNA sequences
 1. [Barrnap](https://github.com/tseemann/barrnap) - Prediction of small and large subunit ribosomal RNA sequences

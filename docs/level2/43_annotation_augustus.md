@@ -20,7 +20,9 @@
 
 ## Getting started with the tool
 
-Unlike prokaryotic genomes, the genes of eukaryotes carry intronic sequences which need to be spliced out of the gene sequence before undergoing translation. The detection of splicing boundaries is a difficult task, as there are many organism-specific patterns used to mark splice sites. Protein prediction tools for this purpose typically come with  number of pre-trained models for finding protein domains within contigs, but if there is no model for your organism, or a closely related lineage, then results may not be ideal.
+Unlike prokaryotic genomes, the genes of eukaryotes carry intronic sequences which need to be spliced out of the gene sequence before undergoing translation. The detection of splicing boundaries is a difficult task, as there are many organism-specific patterns used to mark splice sites.
+
+Protein prediction tools for this purpose typically come with  number of pre-trained models for finding protein domains within contigs, but if there is no model for your organism, or a closely related lineage, then results may not be ideal.
 
 A recently published article ([Scalzitti *et al.*, 2020](https://doi.org/10.1186/s12864-020-6707-9)) which profiled a number of these tools found `AUGUSTUS` to be one of the best performing tools for gene prediction in eukaryotic organisms, so this is what we will use today.
 
@@ -103,7 +105,10 @@ We will first run `AUGUSTUS` using the *Apis mellifera** (honey bee) model.
 !!! terminal "code"
 
     ```bash
-    augustus --genemodel=partial --protein=on --codingseq=on --species=honeybee1 input/NW_020110202.fna > outputs/NW_020110202.aug_hb1.gff
+    augustus --genemodel=partial --protein=on --codingseq=on \
+        --species=honeybee1 \
+        input/NW_020110202.fna \
+        > outputs/NW_020110202.aug_hb1.gff
     ```
 
 This will take about 15 minutes to run, so while it is running set up the following exercise as well:
@@ -117,14 +122,17 @@ This will take about 15 minutes to run, so while it is running set up the follow
         !!! terminal "code"
 
             ```bash
-            augustus --genemodel=partial --protein=on --codingseq=on --species=E_coli_K12 input/NW_020110202.fna > outputs/NW_020110202.aug_ecoli.gff
+            augustus --genemodel=partial --protein=on --codingseq=on \
+                --species=E_coli_K12 \
+                input/NW_020110202.fna \
+                > outputs/NW_020110202.aug_ecoli.gff
             ```
 
 ---
 
 ## Extracting sequences from prediction files
 
-Once your jobs have finished (about 15 minutes per attempt), we need to run a helper scfript that bundles with `AUGUSTUS` to extract the gene and coding sequence predicitons from the output file.
+Once your jobs have finished (about 15 minutes per attempt), we need to run a helper script that comes with `AUGUSTUS` to extract the gene and coding sequence predicitons from the output file.
 
 !!! terminal "code"
 
@@ -174,6 +182,7 @@ There are a few steps we need to perform in advance of the new model training. T
 
     # Update the `AUGUSTUS_CONFIG_PATH` variable to point to the new location
     AUGUSTUS_CONFIG_PATH="/your/location/to/store/data"
+    ```
 
 Now we just need to obtain a reference genome to train against. For *H. halys*, this can found on the [NCBI website](https://www.ncbi.nlm.nih.gov/assembly/GCA_000696795.3) and downloaded from the command line:
 
@@ -197,7 +206,7 @@ We could then perform prediction using the new model as usual. Note that if this
 !!! terminal "code"
 
     ```bash
-    augustus --AUGUSTUS_CONFIG_PATH=/your/location/to/store/data --genemodel=partial --protein=on --codingseq=on --species=hhalys ...
+    augustus --AUGUSTUS_CONFIG_PATH=/your/location/to/store/data --species=hhalys --genemodel=partial ...
     ```
 
 ---
