@@ -36,7 +36,7 @@
     1. [Redirection](./level2/13_shell_redirection.md)
     1. [Understanding the NeSI environment](./level2/14_nesi_environment.md)
 
-    **_De novo_** assembly of sequencing data
+    **_De novo_ assembly of sequencing data**
 
     1. [Overview](./level2/21_assembly_de_novo.md)
     1. [Short read assembly with SPAdes](./level2/22_assembly_spades.md)
@@ -45,12 +45,20 @@
     1. [Polishing of genome assemblies](./level2/25_assembly_polishing.md)
 
     **Mapping reads to a reference**
-    
+
     1. [Overview](./level2/31_coverage_mapping.md)
     1. [Illumina mapping with bowtie2](./level2/32_illumina_mapping.md)
     1. [Nanopore mapping with minimap2](./level2/33_nanopore_mapping.md)
     1. [Filtering and sorting mapping files](./level2/34_mapping_filters.md)
     1. [Summarising mapping statistics](./level2/35_mapping_statistics.md)
+
+    **Performing gene prediction and classification**
+
+    1. [Overview](./level2/41_annotation_overview.md)
+    1. [Prediction with `prodigal`](./level2/42_annotation_prodigal.md)
+    1. [Prediction with `AUGUSTUS`](./level2/43_annotation_augustus.md)
+    1. [Protein annotation with `BLAST`-like tools](./level2/44_annotation_protein.md)
+    1. [Classification with `kraken2`](./level2/45_annotation_kraken2.md)
 
 ---
 
