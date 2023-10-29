@@ -1,9 +1,9 @@
-# 4.3 - Classification of sequences with *k*-mer composition profiles
+# 4.5 - Classification of sequences with *k*-mer composition profiles
 
 !!! clock "time"
 
-    * Teaching: 30 minutes
-    * Teaching: 30 minutes
+    * Teaching: 15 minutes
+    * Teaching: 15 minutes
 
 !!! circle-info "Objectives and Key points"
 
@@ -128,13 +128,13 @@ This makes it a comprehensive database for most purposes, but if you are tring t
 
 !!! warning "Make sure you have the right database for your work"
 
-    It is critical to know what it in your classification database, as a failure to include the correct reference material in the database will result in sequences being either misclassified, or not classified at all.
+    It is critical to know what is in your classification database, as a failure to include the correct reference material in the database will result in sequences being either misclassified, or not classified at all.
 
 ---
 
 ## Performing basic classification with `kraken2`
 
-do begin, we are going to write a `slurm` script to run `kraken2` with a fairly minimal set in input parameters just to see the tool in action. Although `kraken2` is very fast to run, it requires a lot of memory (RAM) to run so we cannot run it from the command line in most cases.
+To begin, we are going to write a `slurm` script to run `kraken2` with a fairly minimal set in input parameters just to see the tool in action. Although `kraken2` is very fast to run, it requires a lot of memory (RAM) to run so we cannot run it from the command line in most cases.
 
 Complete the following script, then submit your `slurm` job.
 
@@ -183,7 +183,7 @@ This will not take long to run.
 
 ## The `kraken2` output format
 
-One the job is complete, use `less` or `head` to take a look at the output file. The output file is a tab-delimited table with the following columns:
+Once the job is complete, use `less` or `head` to take a look at the output file. The output file is a tab-delimited table with the following columns:
 
 !!! file-code "kraken2_basic.sl"
 

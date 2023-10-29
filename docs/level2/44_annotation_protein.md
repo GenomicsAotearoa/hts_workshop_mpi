@@ -1,8 +1,8 @@
-# 4.2 - Protein annotation with `BLAST`-like methods
+# 4.4 - Protein annotation with `BLAST`-like methods
 
 !!! clock "time"
 
-    * Teaching: 30 minutes
+    * Teaching: 20 minutes
     * Teaching: 30 minutes
 
 !!! circle-info "Objectives and Key points"
@@ -109,7 +109,7 @@ Given the time required to produce results with the `BLASTp` approach, a lot of 
 
 ??? warning "Producing a `diamond` database"
 
-    Unfortunately, `diamond` requires us to create out own classification database - there is no NCBI-supported release. However, `diamond` has a built-in method to modify an existing `BLAST` database to be compatible with `diamond`.
+    Unfortunately, `diamond` requires us to create our own classification database - there is no NCBI-supported release. However, `diamond` has a built-in method to modify an existing `BLAST` database to be compatible with `diamond`.
 
     You will probably not ever need to perform this operation yourself, but the database we are using today was produced using the following commands:
 
@@ -126,7 +126,7 @@ Given the time required to produce results with the `BLASTp` approach, a lot of 
         diamond prepdb -d diamond_nr/nr
         ```
 
-With out database in place, the command for running `diamond` is very similar (by design) to `BLASTp`:
+With our database in place, the command for running `diamond` is very similar (by design) to `BLASTp`:
 
 !!! file-code "level2_blast.sl"
 
@@ -245,7 +245,7 @@ Comparing the outputs, you can see that `diamond` produced slightly fewer hits t
 |sp\|Q07630\|RDRP_PVXHB|83.449|0|1,256|83.4|0|1,197|
 |sp\|P22591\|RDRP_PVXCP|82.476|0|1,237|82.5|0|1,179|
 
-We can check the  to determine the function of this protein, and organism from where it most likely originated.
+We can check the complete annotation of this protein to determine its function and organism from which the reference sequence originated.
 
 !!! question "Exercise"
 

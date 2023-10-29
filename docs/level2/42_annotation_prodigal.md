@@ -213,7 +213,7 @@ There is quite a lot to unpack here - some is quite important to know and other 
 
     **Contig name** and **Gene suffix**
 
-    As `prodigal` is only concerned with *predicting* sequences, not annotating them, there is no functional imformation which can be used to guide the name of each prediction. For simplicity, protein predictions are simply named as `[CONTIG NAME]_[PREDICTION]`. This has some nice implications when we want to study gene synteny but for the most part numbering off the predicitons in the order they are made is the simpliest way to generate names.
+    As `prodigal` is only concerned with *predicting* sequences, not annotating them, there is no functional information which can be used to guide the name of each prediction. For simplicity, protein predictions are simply named as `[CONTIG NAME]_[PREDICTION]`. This has some nice implications when we want to study gene synteny but for the most part numbering off the predicitons in the order they are made is the simpliest way to generate names.
 
     ---
 

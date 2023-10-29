@@ -3,7 +3,7 @@
 !!! clock "time"
 
     * Teaching: 10 minutes
-    * Exercises: 15 minutes
+    * Exercises: 30 minutes
 
 !!! circle-info "Objectives and Key points"
 
@@ -69,9 +69,7 @@ A recently published article ([Scalzitti *et al.*, 2020](https://doi.org/10.1186
 
 ## Predicting protein coding regions
 
-The sequence(s) we have to work with today are from the brown marmorated stink bug (*Halyomorpha halys*) and if we use the prompt from the exercise above to view the available species models you will see that there is no good model for this organism, or even a closely related species from the *Pentatomidae*.
-
-We will use two different models for an initial round of prediction on the *Halyomorpha halys* sequences - one insect and one bacterial species. To begin, run `AUGUSTUS` with the following prompt to view the list of available prediction models.
+The sequence(s) we have to work with today are from the brown marmorated stink bug (*Halyomorpha halys*). Run `AUGUSTUS` with the prompt below to see what species models are available for prediction.
 
 !!! terminal "code"
 
@@ -100,7 +98,9 @@ We will use two different models for an initial round of prediction on the *Haly
         (maize5)                                 | Zea mays
         ```
 
-We will first run `AUGUSTUS` using the *Apis mellifera** (honey bee) model.
+As you will see, there is no good model for *H. halys*, or even a closely related species from the *Pentatomidae*. 
+
+We will use two different models for an initial round of prediction on the *Halyomorpha halys* sequences - one insect and one bacterial species. We will first run `AUGUSTUS` using the *Apis mellifera** (honey bee) model.
 
 !!! terminal "code"
 
@@ -171,7 +171,7 @@ Similar to when running predictions with `prodigal`, you can see that neither of
 
 ## Creating a custom species profile for gene prediciton (optional)
 
-Creating a new model is a slow process so we will not be runing through it today, but if this is something you ned to do in your own work then use the steps below to get started.
+Creating a new model is a slow process so we will not be running through it today, but if this is something you need to do in your own work then use the steps below to get started.
 
 There are a few steps we need to perform in advance of the new model training. The first is to do with file permissions - the location of the prediction databases that `AUGUSTUS` uses for gene prediction are not writable to us, so we cannot add new data into them. We must create our own copy of the configuration information and point `AUGUSTUS` towards this new location in order to create new models
 
