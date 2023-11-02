@@ -60,6 +60,10 @@
     1. [Protein annotation with `BLAST`-like tools](./level2/44_annotation_protein.md)
     1. [Classification with `kraken2`](./level2/45_annotation_kraken2.md)
 
+    **Proficiency testing**
+
+    * [Test exercises](./level2/51_proficiency.md)
+
 ---
 
 !!! database "Data used in training"
