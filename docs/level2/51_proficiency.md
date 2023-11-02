@@ -63,6 +63,7 @@ Navigate to your instance of the `02_mapping/` folder. You have been provided wi
     reads/illumina_R1.fq.gz
     reads/illumina_R2.fq.gz
     reference/reference.fna
+    reference/mapping.sam
     ```
 
 !!! question "Part 1"
@@ -72,6 +73,8 @@ Navigate to your instance of the `02_mapping/` folder. You have been provided wi
 !!! question "Part 2"
 
     1. Once you have completed mapping your reads, sort and compress the mapping information from your output **sam** file.
+
+    >If you are unable to complete your mapping job for any reason, use the supplied file at `reference/mapping.sam`.
 
     2. Produce a depth report from the compressed mapping file.
 
