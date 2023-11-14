@@ -62,7 +62,7 @@
 
     **Proficiency testing**
 
-    * [Test exercises](./level2/51_proficiency.md)
+    * [Test exercises](./level2/52_proficiency.md)
 
 ---
 
