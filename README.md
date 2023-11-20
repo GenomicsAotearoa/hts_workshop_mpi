@@ -7,34 +7,36 @@ This is the opening page for the HTS workshop. Content is divided according to t
 ## Contents
 
 1. Introduction to NeSI
-   1. [Connecting to NeSI](docs/level1/11_nesi_connection.md)
-   1. [Navigation on the command line](docs/level1/12_shell_navigation.md)
-   1. [Working with files on the command line](docs/level1/13_shell_manipulation.md)
+   1. [Connecting to NeSI](./docs/level1/11_nesi_connection.md)
+   1. [Navigation on the command line](./docs/level1/12_shell_navigation.md)
+   1. [Working with files on the command line](./docs/level1/13_shell_manipulation.md)
 1. Quality filtering Illumina data
-   1. [Inspecting reads](docs/level1/21_illumina_inspection.md)
-   1. [Trimming paired-end reads](docs/level1/22_illumina_filtering.md)
+   1. [Inspecting reads](./docs/level1/21_illumina_inspection.md)
+   1. [Trimming paired-end reads](./docs/level1/22_illumina_filtering.md)
 1. Quality filtering Nanopore data
-   1. [Inspecting reads](docs/level1/31_nanopore_inspection.md)
-   1. [Trimming long-read Nanopore data](docs/level1/32_nanopore_filtering.md)
+   1. [Inspecting reads](./docs/level1/31_nanopore_inspection.md)
+   1. [Trimming long-read Nanopore data](./docs/level1/32_nanopore_filtering.md)
 1. Annotating sequences with BLAST
-   1. [Submitting a BLAST job to NeSI](docs/level1/41_blastn_annotation.md)
-   1. [Introduction to slurm](docs/level1/42_slurm_introduction.md)
-   1. [Interpreting BLAST outputs](docs/level1/43_blast_interpretation.md)
+   1. [Submitting a BLAST job to NeSI](./docs/level1/41_blastn_annotation.md)
+   1. [Introduction to slurm](./docs/level1/42_slurm_introduction.md)
+   1. [Interpreting BLAST outputs](./docs/level1/43_blast_interpretation.md)
 
 1. Level 2 - Advanced
-   1. [Shell navigation (advanced)](docs/level2/11_shell_manipulation.md)
-   1. [Loops and variables in the command line](docs/level2/12_shell_variables.md)
-   1. [Redirection in the command line](docs/level2/13_shell_redirection.mdd)
-   1. [*De novo* assembly of sequencing data](docs/level2/21_assembly_de_novo.md)
-   1. [Polishing of genome assemblies](docs/level2/22_assembly_polishing.md)
-   1. [Mapping reads to a reference](docs/level2/31_coverage_mapping.md)
-      1. [Illumina mapping](docs/level2/32_illumina_mapping.md)
-      1. [Nanopore mapping](docs/level2/33_nanopore_mapping.md)
-      1. [Filtering and sorting mapping files](docs/level2/34_mapping_filters.md)
-      1. [Summarising mapping statistics](docs/level2/35_mapping_statistics.md)
-   1. [Introduction to workflow managers](docs/level2/41_workflows_introduction.md)
-      1. [Building a basic workflow](docs/level2/42_workflow_starting.md)
-      1. [Extending an existing workflow](docs/level2/43_workflow_extending.md)
+   1. [Shell navigation (advanced)](./docs/level2/11_shell_manipulation.md)
+   1. [Loops and variables in the command line](./docs/level2/12_shell_variables.md)
+   1. [Redirection in the command line](./docs/level2/13_shell_redirection.mdd)
+   1. [*De novo* assembly of sequencing data](./docs/level2/21_assembly_de_novo.md)
+   1. [Polishing of genome assemblies](./docs/level2/22_assembly_polishing.md)
+   1. [Mapping reads to a reference](./docs/level2/31_coverage_mapping.md)
+      1. [Illumina mapping](./docs/level2/32_illumina_mapping.md)
+      1. [Nanopore mapping](./docs/level2/33_nanopore_mapping.md)
+      1. [Filtering and sorting mapping files](./docs/level2/34_mapping_filters.md)
+      1. [Summarising mapping statistics](./docs/level2/35_mapping_statistics.md)
+   1. [Annotation and classification refresher](./docs/level2/41_annotation_overview.md)
+      1. [Gene prediction with prodigal](./docs/level2/42_annotation_prodigal.md)
+      1. [Gene prediction with AUGUSTUS](./docs/level2/43_annotation_augustus.md)
+      1. [Annotation with diamond BLASTp](./docs/level2/44_annotation_protein.md)
+      1. [Classification with kraken2](./docs/level2/45_annotation_kraken2.md)
 
 ---
 

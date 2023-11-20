@@ -1,4 +1,4 @@
-# 5.2 - Level 2 proficiency testing (alternate version)
+# 2023 Level 2 proficiency testing (version 2)
 
 !!! clock "time"
 

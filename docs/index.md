@@ -60,10 +60,10 @@
     1. [Protein annotation with `BLAST`-like tools](./level2/44_annotation_protein.md)
     1. [Classification with `kraken2`](./level2/45_annotation_kraken2.md)
 
-!!! rectangle-list "Level 2 - Proficiency testing"
+!!! rectangle-list "Proficiency testing"
 
-    1. [Primary test materials](./proficiency/2023_proficiency.md)
-    1. [Alternate test materials](./proficiency/2023_proficiency_alternate.md)
+    1. [Primary test materials (2023)](./proficiency/2023_proficiency.md)
+    1. [Alternate test materials (2023)](./proficiency/2023_proficiency_alternate.md)
 
 ---
 
