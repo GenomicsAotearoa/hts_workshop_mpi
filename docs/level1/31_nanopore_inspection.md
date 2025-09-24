@@ -47,24 +47,20 @@ Assuming that we do not know the origin of our data (as you do not in this exerc
 
 We are going ot start with a the tool `pycoQC`. This is a data visualisation and quality control tool for Nanopore data. In contrast to many other assessment tools, it does not take your sequencing files as input but instead requires a Nanopore-specific output file generated during the sequencing run.
 
-To run `pycoQc`, navigate to your working folder and run the following commands:
+To run `pycoQc`, navigate to your `quality_nanopore`/ folder and run the following command:
 
 !!! terminal "code"
 
     ```bash
-    module load pycoQC/2.5.2-gimkl-2020a-Python-3.8.2
-
-    cd  /nesi/project/nesi03181/phel/<username>/level1/quality_nanopore/
     pycoQC -f reads/sequencing_summary.txt -o results/sequencing_report.html
     ```
 
 !!! bell "As the tool runs you might see some output that looks like:"
     ```
-    (base) [dwaite@wbl002 quality_nanopore]$ pycoQC -f reads/sequencing_summary.txt -o results/sequencing_report.html
-    /opt/nesi/CS400_centos7_bdw/pycoQC/2.5.2-gimkl-2020a-Python-3.8.2/lib/python3.8/site-packages/plotly-4.1.0-py3.8.egg/_plotly_utils/utils.py:203: SyntaxWarning: "is" with a literal. Did you mean "=="?
-      if (iso_string.split("-")[:3] is "00:00") or (iso_string.split("+")[0] is "00:00"):
-    /opt/nesi/CS400_centos7_bdw/pycoQC/2.5.2-gimkl-2020a-Python-3.8.2/lib/python3.8/site-packages/plotly-4.1.0-py3.8.egg/_plotly_utils/utils.py:203: SyntaxWarning: "is" with a literal. Did you mean "=="?
-      if (iso_string.split("-")[:3] is "00:00") or (iso_string.split("+")[0] is "00:00"):
+    module 'numpy' has no attribute 'int'.
+    `np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g.     `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+    The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+        https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
     ```
 
 This is fine, just a warning that the way `pycoQC` was written was not best practice in a few areas. It does not affect the performance at all.
