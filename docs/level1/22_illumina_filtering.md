@@ -100,9 +100,7 @@ We are going to use the tool `fastp` to practice filtering some Illumina sequenc
 !!! terminal "code"
 
     ```bash
-    module load fastp/0.23.2-GCC-11.3.0
-
-    cd /nesi/project/nesi03181/phel/<username>/level1/quality_illumina/
+    cd /nesi/shared/<username>/level1/quality_illumina/
     ```
 
 We are going to build a command for filtering the paired files `reads/miseq_R1.fq.gz` and `reads/miseq_R2.fq.gz`. The most basic implementation of `fastp` is to take the input sequences, apply and trimming, and then save the paired sequences where **_both forward and reverse sequence_** passed the filtering criteria.
