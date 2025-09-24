@@ -66,7 +66,7 @@ Navigate to the `blast_annotation/` folder and see what files have been placed t
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/<username>/level1/blast_annotation/
+    cd /home/shared/<username>/level1/blast_annotation/
 
     ls
     ```
@@ -96,7 +96,7 @@ You should see two files, one with a `.fna` extension which contains the sequenc
     module load BLAST/2.13.0-GCC-11.3.0
     module load BLASTDB/2023-07
 
-    cd /nesi/project/nesi03181/phel/<username>/level1/blast_annotation/
+    cd /home/shared/<username>/level1/blast_annotation/
 
     blastn -num_threads ${SLURM_CPUS_PER_TASK} -db ${BLASTDB}/nt \
            -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore salltitles staxids" \
@@ -112,7 +112,7 @@ This is our first example of a `slurm` script. We will discuss the contents of t
     1. Replace the value `<insert email here>` with your email address.
     1. Replace the value `<username>` with your login name, completing the path in the `cd` command.
 
-Once you are happy with the content of your script, you can 'submit' the job request to the NeSI cluster using the command:
+Once you are happy with the content of your script, you would normally 'submit' the job request to the NeSI cluster using the command below. However, because we are working in a training environment we do not have access to the usual `slurm` tools.
 
 !!! terminal "code"
 
@@ -125,9 +125,5 @@ Once you are happy with the content of your script, you can 'submit' the job req
         ```bash
         Submitted batch job ########
         ```
-
-If everything was correct, you should see feedback similar to the example above. Keep a copy of your job number, as we will use this later.
-
-This `BLAST` job will run for approximately 20 minutes, so while it runs we will talk about the `slurm` system and what our script actually does.
 
 ---
