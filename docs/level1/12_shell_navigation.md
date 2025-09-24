@@ -41,19 +41,12 @@ Let's find out where we are by running a command called `pwd` (which stands for 
     ??? success "Output"
 
         ```bash
-        /home/<username>
+        /home/shared/<username>
         ```
 
-This is your home directory. It is private to you, and has limited file storage space. When working on NeSI we typically want to leave our home directory and navigate to a project directory. We will use the `cd` ("change directory") command to swtich our current working directory to a new location in the NeSI file system.
+This is your home directory. It is private to you, and has limited file storage space. When working on NeSI properly we typically want to leave our home directory and navigate to a shared project directory. However, for the training today we will be working from this location.
 
-!!! terminal "code"
-
-    ```bash
-    cd /nesi/project/nesi03181/phel/
-    ```
-
-We are now inside a particular folder on the NeSI system, similar to how you navigate folders in the Windows Explorer program on your desktop. Let's now look at how our file system is organised. We can see what files and subdirectories are in this directory by running `ls`,
-which stands for "listing":
+Let's now look at how our file system is organised. We can see what files and subdirectories are in this directory by running `ls`, which stands for "listing":
 
 !!! terminal "code"
 
@@ -61,11 +54,15 @@ which stands for "listing":
     ls
     ```
 
-`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. Identify the folder that corresponds to your user name, then navigate into that folder using the `cd` command.
+    ??? success "Output"
 
-Once inside, use the `ls` command identify the name of the next folder, and use the `cd` command to enter that folder.
+        ```bash
+        level1  ondemand
+        ```
 
-Use the `ls` command one final time to view the ontents.
+`ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns. We can navigate into one of these directories using the `cd` command.
+
+Once inside, use `ls` command one final time to view the contents.
 
 !!! terminal "code"
 
@@ -77,10 +74,10 @@ Use the `ls` command one final time to view the ontents.
     ??? success "Output"
 
         ```bash
-        quality_illumina  quality_nanopore  shell_data
+        blast_annotation  quality_illumina  quality_nanopore  shell_data
         ```
 
-For today we  will be working within the `shell_data` subdirectory. If we want to now navigate into the `shell_data` folder we must once again call the `cd` command:
+We will be starting with the `shell_data` subdirectory. If we want to now navigate into the `shell_data` folder we must once again call the `cd` command:
 
 !!! terminal "code"
 
@@ -139,18 +136,17 @@ Directories can be specified using either a *relative* path or a full *absolute*
     ??? success "Output"
 
         ```bash
-        /nesi/project/nesi03181/phel/<username>/
+        /home/shared/<username>/level1/shell_data
         ```
 
-This is the full name of your current directory. Assuming you saw the first output, this tells you that you are in a directory called `<username>/`, which sits inside a directory called `phel/`, which in turn sits inside a directory `nesi03181/`. At the very top of the hierarchy is a directory called `/` which is usually referred to as the **root directory**.
+This is the full name of your current directory. Assuming you saw the first output, this tells you that you are in a directory called `<username>/`, which sits inside a directory called `shared/`, which in turn sits inside a directory `home/`. At the very top of the hierarchy is a directory called `/` which is usually referred to as the **root directory**.
 
-Return to your home directory, then navigate back to your current location using the following command:
+You can navigate to your current location using the following command:
 
 !!! terminal "code"
 
     ```bash
-    cd ~
-    cd /nesi/project/nesi03181/phel/<username>/
+    cd /home/shared/<username>/level1/shell_data/
     ```
 
 Now return to your home directory again, and navigate back using the following commands:
@@ -158,13 +154,12 @@ Now return to your home directory again, and navigate back using the following c
 !!! terminal "code"
 
     ```bash
-    cd ~
     cd /
-    cd nesi/
-    cd project/
-    cd nesi03181/
-    cd phel/
+    cd home/
+    cd shared/
     cd <username>/
+    cd level1/
+    cd shell_data/
     ```
 
 These two commands have the same effect and take us to the same location. However, the first uses the absolute path, giving the full address from the top of the file system. The second uses a series of relative paths, with the directory specified in each command contingent on the current working directory.
@@ -182,7 +177,7 @@ When working with relative paths, there is one other thing which is critical to 
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/<username>/
+    cd /home/shared/<username>/
     pwd
     ls
     ```
@@ -194,7 +189,7 @@ When working with relative paths, there is one other thing which is critical to 
     ```
 
     ```bash
-    cd USERNAME/
+    cd <username>/
     pwd
     ls
     ```
@@ -223,9 +218,9 @@ When working with relative paths, there is one other thing which is critical to 
 
 The root directory is the highest level directory in your file system and contains files that are important for your computer to perform its daily work. While you will be using the root (`/`) at the beginning of your absolute paths, it is important that you avoid working with data in these higher-level directories, as your commands can permanently alter files that the operating system needs to function.
 
-In many cases, including when working on NeSI, trying to run commands in root directories will require special permissions which are not available to you as a regualar user.
+In many cases, including when working on NeSI, trying to run commands in root directories will require special permissions which are not available to you as a regular user.
 
-Dealing with the home directory is very common. The tilde character, `~`, is a shortcut for your home directory. On a Linux operating system the root directory is **two** levels above our home directory, so `cd` or `cd ~` will take you to `/home/<username>/` and `cd /` will take you to `/`.
+Dealing with the home directory is very common. The tilde character, `~`, is a shortcut for your home directory. On a Linux operating system either `cd` or `cd ~` will take you to your home directory, and `cd /` will take you to `/`.
 
 ---
 
@@ -238,7 +233,7 @@ Return to your working directory:
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/<username>/
+    cd /home/shared/<username>/level1/
     ```
 
 Then start a new `cd` command and provide it with the first few letters of the `shell_data/` name, then press <kbd>Tab</kbd>.
@@ -298,8 +293,7 @@ Tab completion can also fill in the names of programs, which can be useful if yo
     ??? success "Output"
 
         ```bash
-        pwck              pwd               pwhistory_helper  pwscore
-        pwconv            pwdx              pwmake            pwunconv
+        pwck      pwconv    pwd       pwdx      pwunconv
         ```
 
 ---
