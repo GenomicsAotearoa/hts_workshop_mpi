@@ -29,14 +29,11 @@ When we obtain data from a sequencing facility, it is always important to check 
 
 A very useful tool for answering these questions is `FastQC`. This tool takes a set of fastq files as input and produces reports for each one to allow us to answer the questions above, as well as examine over features of the sequences such as compositional bias, *k*-mer frequency profiles, and sequence duplication levels.
 
-Navigate to your `level1/` folder and then enter the `quality_illumina/` sub-folder. Once you are in the correc tlocation run `FastQC` on the sample `SRR097977` using the following commands:
+Navigate to your `level1/` folder and then enter the `quality_illumina/` sub-folder. Once you are in the correct location run `FastQC` on the sample `SRR097977` using the following commands:
 
 !!! terminal "code"
 
     ```bash
-    module load FastQC/0.11.9
-
-    cd /nesi/project/nesi03181/phel/USERNAME/level1/quality_illumina/
     fastqc -o results/ reads/SRR097977.fq.gz
     ```
 
