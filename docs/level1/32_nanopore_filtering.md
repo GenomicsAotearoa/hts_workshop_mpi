@@ -32,7 +32,6 @@ Like quality filtering, adapater removal (including mid-sequence adapters) can b
 !!! terminal "code"
 
     ```bash
-    module load Porechop/0.2.4-gimkl-2020a-Python-3.8.2
     porechop --threads 2 -i reads/nanopore.fq.gz -o results/nanopore.porechop.fq
     ```
 
@@ -81,7 +80,7 @@ Finally, we need to remove low quality data from the sequencing library. It can 
 
 `NanoFilt` is a tool that can filter reads by quality score and length. It is also capable of cropping a specified number of bases from the start or the end of a read, which can be useful sometimes as read quality is not uniform along the sequences - in Nanopore data it is common to see that the average quality score in the first few dozen nucleotides is significantly worse than the rest of the sequence.
 
-Unload `porechop`, and load the `NanoFilt` module to:
+We will not apply `NanoFilt` to:
 
 * Remove all reads with quality scores under 15
 * Remove all reads shorter than 500 bp
@@ -90,9 +89,6 @@ Unload `porechop`, and load the `NanoFilt` module to:
 !!! terminal "code"
 
     ```bash
-    module purge
-    module load nanofilt/2.6.0-gimkl-2020a-Python-3.8.2
-
     NanoFilt -q 15 -l 500 --headcrop 50 < results/nanopore.porechop.fq > results/nanopore.qc.fq
     ```
 
@@ -114,7 +110,7 @@ We can get a quick estimate for how much data passed our quality requirements by
 
         ```bash
         14940 results/nanopore.nanopore_porechop.fq
-        5252 results/nanopore.qc.fq
+         5252 results/nanopore.qc.fq
         20192 total
         ```
 
@@ -123,9 +119,6 @@ A different more informative way of looking at our data before and after filteri
 !!! terminal "code"
 
     ```bash
-    module purge
-    module load SeqKit/2.4.0
-
     seqkit stats -a results/*.fq
     ```
 
