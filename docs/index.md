@@ -1,7 +1,8 @@
 <center>![image](./theme_images/mpi_logo.png){width="400"}</center>
-<center>
-# High Throughput Sequencing
-</center>
+
+<br />
+
+<center># High Throughput Sequencing</center>
 
 !!! rectangle-list "Level 1 - Beginner"
 
