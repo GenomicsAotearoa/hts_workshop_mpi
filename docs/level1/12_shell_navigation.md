@@ -196,7 +196,12 @@ When working with relative paths, there is one other thing which is critical to 
 
 !!! question "Exercise"
 
-    Using the filesystem diagram below, if `pwd` displays `/Users/thing`, what will `ls ../backup` display?
+    Using the filesystem diagram below, if `pwd` displays `/Users/thing`, what would be displayed after entering the following commands?
+
+    ```bash
+    cd ../
+    ls backup/
+    ```
 
     1.  `../backup: No such file or directory`
     2.  `2012-12-01 2013-01-08 2013-01-27`
