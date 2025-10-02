@@ -1,0 +1,2024 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="MPI, Genomics Aotearoa &amp; NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/hts_workshop_mpi/level2/11_shell_manipulation/">
+      
+      
+        <link rel="prev" href="../../level1/43_blast_interpretation/">
+      
+      
+        <link rel="next" href="../12_shell_variables/">
+      
+      
+      <link rel="icon" href="../../theme_images/icon_fig.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>1.1 - Manipulating files in the shell - High Throughput Sequencing</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#11-manipulating-files-in-the-shell" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="High Throughput Sequencing" class="md-header__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            High Throughput Sequencing
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.1 - Manipulating files in the shell
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../level1/11_nesi_connection/" class="md-tabs__link">
+          
+  
+  
+  Level1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Level2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../proficiency/2023_proficiency/" class="md-tabs__link">
+          
+  
+  
+  Proficiency
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../supplementary/common_terms/" class="md-tabs__link">
+          
+  
+  
+  Supplementary
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="High Throughput Sequencing" class="md-nav__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    High Throughput Sequencing
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level1
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Level1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/11_nesi_connection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Connecting to NeSI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/12_shell_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Introducing the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/13_shell_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/21_illumina_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Assesing Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/22_illumina_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Filtering Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/31_nanopore_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Assesing Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/32_nanopore_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Filtering Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/41_blastn_annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Annotating with BLAST
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/42_slurm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Introduction to slurm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/43_blast_interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Interpreting BLAST results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level2
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Level2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Manipulating files in the shell
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-files-using-grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      Searching files using grep
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copying-and-removing-folders-of-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copying and removing folders of files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modifying-file-contents-using-sed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifying file contents using sed
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_shell_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Working with variables and loops
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_shell_redirection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Working with redirection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_nesi_environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.4 - The NeSI computing environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21_assembly_de_novo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Genome Assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22_assembly_spades/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Assembling short-read Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23_assembly_flye/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Assembling Oxford Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24_assembly_evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Evaluating the results of an assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25_assembly_polishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.5 - Polishing of Oxford Nanopore assemblies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../31_coverage_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.1 - Overview of mapping sequences to a reference genome
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32_illumina_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Mapping Illumina sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33_nanopore_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.3 - Mapping Oxford Nanopore sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34_mapping_filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.4 - Filtering and compressing sam files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35_mapping_statistics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.5 - Summarising coverage information from a mapping file
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41_annotation_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Prediction of protein coding sequences
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../42_annotation_prodigal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Prediction with prodigal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43_annotation_augustus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Prediction with AUGUSTUS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44_annotation_protein/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.4 - Protein annotation with BLAST-like methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../45_annotation_kraken2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.5 - Classification of sequences with k-mer composition profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Proficiency
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Proficiency
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 1)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency_alternate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 2)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Supplementary
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Supplementary
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/common_terms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common terms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/fastq_format/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The FASTQ file format
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/slurm_module_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Slurm module guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-files-using-grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      Searching files using grep
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copying-and-removing-folders-of-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copying and removing folders of files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modifying-file-contents-using-sed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifying file contents using sed
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="11-manipulating-files-in-the-shell">1.1 - Manipulating files in the shell<a class="headerlink" href="#11-manipulating-files-in-the-shell" title="Permanent link">¶</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
+<div class="admonition clock">
+<p class="admonition-title">time</p>
+<ul>
+<li>Teaching: 15 minutes</li>
+<li>Exercises: 15 minutes</li>
+</ul>
+</div>
+<div class="admonition circle-info">
+<p class="admonition-title">Objectives and Key points</p>
+<h4 id="objectives">Objectives<a class="headerlink" href="#objectives" title="Permanent link">¶</a></h4>
+<ul>
+<li>Search the contents of basic text files for specific strings.</li>
+<li>Copy and remove directories, create tarballs and compress files.</li>
+</ul>
+<h4 id="keypoints">Keypoints<a class="headerlink" href="#keypoints" title="Permanent link">¶</a></h4>
+<ul>
+<li>You can view search file contents using the <code>grep</code> command.</li>
+<li>The commands <code>cp</code> and <code>rm</code> can be applied to directories, with the correct parameters.</li>
+<li>You can perform find and replace operations in files using the <code>sed</code> command.</li>
+</ul>
+</div>
+<hr>
+<h2 id="searching-files-using-grep">Searching files using <code>grep</code><a class="headerlink" href="#searching-files-using-grep" title="Permanent link">¶</a></h2>
+<p>As powerful as <code>less</code> can be, at some point it becomes impractical to use it to screen documents as even with the search tools we are retrieving too many search hits, or covering too much content to reasonably interpret it by eye. For such situations, we can use another command line tool to search through documents without opening them and report the matches directory to the terminal. This tool is called <code>grep</code>.</p>
+<p><code>grep</code> is a command-line utility for searching plain-text files for lines matching a specific set of characters (sometimes called a string) or a particular pattern. We are going to work with one of the fastq files to practice using <code>grep</code> and to demonstrate some of the tool features.</p>
+<p>For these exercises we will searching some fastq files based on theri sequence content. As we are probably all aware, the four nucleotides that appear in DNA are abbreviated <code>A</code>, <code>C</code>, <code>T</code> and <code>G</code>. Using the <a href="https://iupac.org/">IUPAC</a> code, unknown nucleotides are represented with the letter <code>N</code>. An <code>N</code> appearing in a sequencing file represents a position where the sequencing machine was not able to confidently determine the nucleotide in that position.</p>
+<p>We'll search for strings inside of our fastq files. Let's first make sure we are in the correct directory:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>/nesi/project/nesi03181/phel/USERNAME/level2/shell_data/
+</code></pre></div>
+</div>
+<p>Suppose we want to see how many reads in our file have really bad segments containing 10 consecutive unknown nucleotides (<code>N</code>s).</p>
+<p>Let's search for the string <code>NNNNNNNNNN</code> in the <code>SRR098026.fastq</code> file:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>grep<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output (last 10 lines)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>TNNNNNNNNNTAAAATAAANNNNNNNNNNNAANNN
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>CNNNNNNNNNTTGGTGCTGNNNNNNNNNNNAANNN
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>ANNNNNNNNNAAAAAAAAANNNNNNNNNNNAANNN
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>GNNNNNNNNNTGGCACAATNNNNNNNNNNNCGNNN
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>TNNNNNNNNNCGTGGAATTNNNNNNNNNNNATNNN
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>ANNNNNNNNNGCATTAAACGNNNNNNNNNNCANTN
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>GNNNNNNNNNATCAAAAAGCNNNNNNNNNNGTNAN
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>ANNNNNNNNNGTGGCAATATNNNNNNNNNNCCNGN
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+</code></pre></div>
+</details>
+<p>This command returns a lot of output to the terminal. Every single line in the <code>SRR098026.fastq</code> file that contains at least 10 consecutive <code>N</code>s is printed to the terminal, regardless of how long or short the file is. We may be interested not only in the actual sequence which contains this string, but in the name (or identifier) of that sequence.</p>
+<p>We discussed in levle 1 training that the identifier line immediately precedes the nucleotide sequence for each read in a fastq file and that the quality scores associated with each of these reads is spread over the third and fourth line (see <a href="../../supplementary/fastq_format/">this description of the fastq format</a> if you are unsure why we are using these numbers).</p>
+<p>We can use the <code>-B</code> argument for grep to return a specific number of lines before each match. The <code>-A</code> argument returns a specific number of lines after each matching line. Here we want the line <em>before</em> and the two lines <em>after</em> each matching line, so we add <code>-B1 -A2</code> to our grep command:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+</code></pre></div>
+</details>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<ol>
+<li>Search for the sequence <code>GNATNACCACTTCC</code> in the <code>SRR098026.fastq</code> file. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.</li>
+</ol>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>grep<span class="w"> </span>-B1<span class="w"> </span>GNATNACCACTTCC<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>@SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
+</code></pre></div>
+</details>
+</details>
+<ol>
+<li>Search for the sequence <code>AAGTT</code> in both fastq files (use <code>*.fastq</code> as your file name). Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.</li>
+</ol>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>grep<span class="w"> </span>-B1<span class="w"> </span>AAGTT<span class="w"> </span>*.fastq
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>SRR097977.fastq-@SRR097977.11 209DTAAXX_Lenski2_1_7:8:3:247:351 length=36
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>SRR097977.fastq:GATTGCTTTAATGAAAAAGTCATATAAGTTGCCATG
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>--
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>SRR097977.fastq-@SRR097977.67 209DTAAXX_Lenski2_1_7:8:3:544:566 length=36
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>SRR097977.fastq:TTGTCCACGCTTTTCTATGTAAAGTTTATTTGCTTT
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>--
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>SRR097977.fastq-@SRR097977.68 209DTAAXX_Lenski2_1_7:8:3:724:110 length=36
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>SRR097977.fastq:TGAAGCCTGCTTTTTTATACTAAGTTTGCATTATAA
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>--
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>SRR097977.fastq-@SRR097977.80 209DTAAXX_Lenski2_1_7:8:3:258:281 length=36
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>SRR097977.fastq:GTGGCGCTGCTGCATAAGTTGGGTTATCAGGTCGTT
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>--
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>SRR097977.fastq-@SRR097977.92 209DTAAXX_Lenski2_1_7:8:3:353:318 length=36
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>SRR097977.fastq:GGCAAAATGGTCCTCCAGCCAGGCCAGAAGCAAGTT
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>--
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>SRR097977.fastq-@SRR097977.139 209DTAAXX_Lenski2_1_7:8:3:703:655 length=36
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>SRR097977.fastq:TTTATTTGTAAAGTTTTGTTGAAATAAGGGTTGTAA
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>--
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>SRR097977.fastq-@SRR097977.238 209DTAAXX_Lenski2_1_7:8:3:592:919 length=36
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>SRR097977.fastq:TTCTTACCATCCTGAAGTTTTTTCATCTTCCCTGAT
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>--
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>SRR098026.fastq-@SRR098026.158 HWUSI-EAS1599_1:2:1:1:1505 length=35
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>SRR098026.fastq:GNNNNNNNNCAAAGTTGATCNNNNNNNNNTGTGCG
+</code></pre></div>
+</details>
+</details>
+</div>
+<hr>
+<h2 id="copying-and-removing-folders-of-files">Copying and removing folders of files<a class="headerlink" href="#copying-and-removing-folders-of-files" title="Permanent link">¶</a></h2>
+<p>In the level 1 training we covered how to copy files and remove empty folders (directories), but it was noted that the copy operation would not work on folders and the <code>rmdir</code> command did not work on folders containing files.</p>
+<p>If you are in a position where you need to copy a directory of files to a new location, such as when creating backups this can be achieved by adding the <code>-r</code> (recursive) flag to the copy (<code>cp</code>) command:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cp<span class="w"> </span>-r<span class="w"> </span>shell_data/<span class="w"> </span>shell_data_backup/
+</code></pre></div>
+</div>
+<p>In the level 1 training the way to remove the <code>shell_data_backup/</code> folder would be to navigate into the directory, remove all files, then navigate out of the directory and remove it with the <code>rmdir</code> command.</p>
+<p>If you are careful this can be compressed into a single command, by adding the <code>-r</code> flag to the remove (<code>rm</code>) command.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>rm<span class="w"> </span>-r<span class="w"> </span>shell_data_backup/
+</code></pre></div>
+</div>
+<p>This is subject to the usual <code>bash</code> warning that contents removed in this way is not recoverable. If you try to perform this operation on a folder with contents which have had their write permissions removed you will receive a confirmation prompt for each file in the directory. This may or may no be a problem depending on the number of files that this applies to.</p>
+<details class="circle-info">
+<summary>Setting file permissions</summary>
+<p>If it's that easy to permanently delete a file, how can be put some checks in place to prevent it from happening accidentally? The answer to this is through file permissions. In computer systems such as NeSI, the ability to read and write files is stored as metadata in each file. This can be viewed and modified using the appropriate commands.</p>
+<p>For example, you can run a modified version of the <code>ls</code> command to see the permissions of files:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>ls<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 backup
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>drwxrws---+ 2 dwaite comm00008  4096 Feb 24 15:50 other_backup
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>-rw-rw-r--+ 1 dwaite comm00008 47552 Jun 25  2021 SRR097977.fastq
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>-rw-rw-r--+ 1 dwaite comm00008 43332 Jun 25  2021 SRR098026.fastq
+</code></pre></div>
+</details>
+<p>What we interested in is the first part of the output, the strings of characters which look like <code>-rw-rw-r--+</code>. This represents the current permission state of the file. If we ignore the first and last characters, what we are left with are 9 characters, which represent 3 file permissions for 3 different user groups, like so:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../img/level2_11_rwx_figure.svg" data-desc-position="bottom"><img alt="Permissions breakdown" src="../../img/level2_11_rwx_figure.svg"></a></p>
+<p>We're going to concentrate on the three positions that deal with your permissions (as the file owner), which will have the values <code>rw-</code>. This shows that you have permission to read (<code>r</code>) the file as well as edit the contents (write, <code>w</code>). The third position is set to <code>-</code>, indicating that you don't have permission to carry out the ability encoded by that space. This is the space where the ability to execute the file (<code>x</code>) is set.</p>
+<p>It is possible to modify these permissions, to expand the read/write access to other groups, or restrict the ability to read or write a file using the <code>chmod</code> command. However, we generally discourage the use of this within the PHEL environment as our data are a shared resource and restricting the ability of others to work with out data can lead to problems when handing over data related to diagnostic work.</p>
+</details>
+<hr>
+<h2 id="modifying-file-contents-using-sed">Modifying file contents using <code>sed</code><a class="headerlink" href="#modifying-file-contents-using-sed" title="Permanent link">¶</a></h2>
+<p>Sometimes making manual changes to text files is tedious, doubly so when working through command line text editors. Fortunately, there is a command line tool available which can do find-and-replace operations on files or data. The tool <code>sed</code> is used to make changes to the contents of files, either in place or by printing the modified contents to a new file.</p>
+<p>Navigate to the <code>shell_data/</code> folder, and inspect the contents of the file <code>SRR097977.small.fq</code>.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>/nesi/project/nesi03181/phel/USERNAME/level2/shell_data/
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>cat<span class="w"> </span>SRR097977.small.fq
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>@SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>TATTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>+SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>CCCCCCCCCCCCCCC&gt;CCCCC7CCCCCCACA?5A5&lt;
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>@SRR097977.2 209DTAAXX_Lenski2_1_7:8:3:365:371 length=36
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>GGTTACTCTTTTAACCTTGATGTTTCGACGCTGTAT
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>+SRR097977.2 209DTAAXX_Lenski2_1_7:8:3:365:371 length=36
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>CC:?:CC:?CCCCC??C?:?C-&amp;:C:,?&lt;&amp;*?+7?&lt;
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>@SRR097977.3 209DTAAXX_Lenski2_1_7:8:3:663:569 length=36
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>TTGTTCGCTTTTGGTAATTAATCCCGGAAATAATAA
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>+SRR097977.3 209DTAAXX_Lenski2_1_7:8:3:663:569 length=36
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>CCCCCCCCCCCC&amp;9AACCC,C&gt;CCAA&amp;0?4A9&amp;A&lt;6
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>@SRR097977.4 209DTAAXX_Lenski2_1_7:8:3:715:205 length=36
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>TATCACTAAAGATCAAATCATTGAAGCAGTTGCAGC
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>+SRR097977.4 209DTAAXX_Lenski2_1_7:8:3:715:205 length=36
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>@SRR097977.5 209DTAAXX_Lenski2_1_7:8:3:639:209 length=36
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>TATCTATCAAAGCCAGGCAATGGAAGACCTACTCCC
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>+SRR097977.5 209DTAAXX_Lenski2_1_7:8:3:639:209 length=36
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>CCCCCCCCC?C?CC3C?CC5C?C1C&lt;?CC8AA+AA%
+</code></pre></div>
+</details>
+<p>This is just the first 20 lines (5 sequences) from the <code>SRR097977.fastq</code> file - we are going to work with this today as we have not yet learned the appropriate commands for saving the output of command line operations in to files, so working with the full verison will be an information overload on the terminal.</p>
+<p>When running <code>sed</code>, there are two pieces of information we need - the file stream to be modified, and an <em>expression</em> telling the tool how to make the replacement. This expression is the most complicated part of working with <code>sed</code>, but it is a very powerful tool when mastered. For this exercise we are going to just change a few pieces of information in the sequence headers just to get a feel for how the tool operates.</p>
+<p>As a worked example, take a look at the following command:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>sed<span class="w"> </span><span class="s2">"s/A/B/"</span><span class="w"> </span>SRR097977.small.fq
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>@SRR097977.1 209DTBAXX_Lenski2_1_7:8:3:710:178 length=36
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>TBTTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>+SRR097977.1 209DTBAXX_Lenski2_1_7:8:3:710:178 length=36
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>CCCCCCCCCCCCCCC&gt;CCCCC7CCCCCCBCA?5A5&lt;
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>@SRR097977.2 209DTBAXX_Lenski2_1_7:8:3:365:371 length=36
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>GGTTBCTCTTTTAACCTTGATGTTTCGACGCTGTAT
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>+SRR097977.2 209DTBAXX_Lenski2_1_7:8:3:365:371 length=36
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>CC:?:CC:?CCCCC??C?:?C-&amp;:C:,?&lt;&amp;*?+7?&lt;
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>@SRR097977.3 209DTBAXX_Lenski2_1_7:8:3:663:569 length=36
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>TTGTTCGCTTTTGGTBATTAATCCCGGAAATAATAA
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>+SRR097977.3 209DTBAXX_Lenski2_1_7:8:3:663:569 length=36
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>CCCCCCCCCCCC&amp;9BACCC,C&gt;CCAA&amp;0?4A9&amp;A&lt;6
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>@SRR097977.4 209DTBAXX_Lenski2_1_7:8:3:715:205 length=36
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>TBTCACTAAAGATCAAATCATTGAAGCAGTTGCAGC
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>+SRR097977.4 209DTBAXX_Lenski2_1_7:8:3:715:205 length=36
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>@SRR097977.5 209DTBAXX_Lenski2_1_7:8:3:639:209 length=36
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>TBTCTATCAAAGCCAGGCAATGGAAGACCTACTCCC
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>+SRR097977.5 209DTBAXX_Lenski2_1_7:8:3:639:209 length=36
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>CCCCCCCCC?C?CC3C?CC5C?C1C&lt;?CC8BA+AA%
+</code></pre></div>
+</details>
+<p>In that command, there should be two obvious pieces of information - the name of the <code>sed</code> tool, and the name of the file we are working with. The remaining part, enclosed by quotation marks, is the expression for what to change. This takes the following form;</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>s/TEXT_TO_BE_REPLACED/TEXT_TO_REPLACE_WITH/
+</code></pre></div>
+</div>
+<p>The <code>/</code> characters are used to separate the <code>s</code> flag, and the find/replace values. you can use any character here as long as they are used consistently.</p>
+<p>For example, the following three commands all create the same output:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sed<span class="w"> </span><span class="s2">"s/A/B/"</span><span class="w"> </span>SRR097977.small.fq
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sed<span class="w"> </span><span class="s2">"s|A|B|"</span><span class="w"> </span>SRR097977.small.fq
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>sed<span class="w"> </span><span class="s2">"s,A,B,"</span><span class="w"> </span>SRR097977.small.fq
+</code></pre></div>
+</div>
+<p>The <code>/</code> character is typically used in online examples, but it can be useful to know it can be replaced if you find the notation confusing or are ever in a situation when you need to find and replace a <code>/</code> character.</p>
+<p>If you run any of these, you will probably spot that even though we are specifying that the <code>A</code> character be replaced with <code>B</code>, there are plenty of <code>A</code>s in each line of the output. By default, <code>sed</code> only replaces the first instance of the text it is searching for. We can modify the expression to include all instances by making it the following:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sed<span class="w"> </span><span class="s2">"s/A/B/g"</span><span class="w"> </span>SRR097977.small.fq
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>@SRR097977.1 209DTBBXX_Lenski2_1_7:8:3:710:178 length=36
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>TBTTCTGCCBTBBTGBBBTTCGCCBCTTGTTBGTGT
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>+SRR097977.1 209DTBBXX_Lenski2_1_7:8:3:710:178 length=36
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>CCCCCCCCCCCCCCC&gt;CCCCC7CCCCCCBCB?5B5&lt;
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>@SRR097977.2 209DTBBXX_Lenski2_1_7:8:3:365:371 length=36
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>GGTTBCTCTTTTBBCCTTGBTGTTTCGBCGCTGTBT
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>+SRR097977.2 209DTBBXX_Lenski2_1_7:8:3:365:371 length=36
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>CC:?:CC:?CCCCC??C?:?C-&amp;:C:,?&lt;&amp;*?+7?&lt;
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>@SRR097977.3 209DTBBXX_Lenski2_1_7:8:3:663:569 length=36
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>TTGTTCGCTTTTGGTBBTTBBTCCCGGBBBTBBTBB
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>+SRR097977.3 209DTBBXX_Lenski2_1_7:8:3:663:569 length=36
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>CCCCCCCCCCCC&amp;9BBCCC,C&gt;CCBB&amp;0?4B9&amp;B&lt;6
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>@SRR097977.4 209DTBBXX_Lenski2_1_7:8:3:715:205 length=36
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>TBTCBCTBBBGBTCBBBTCBTTGBBGCBGTTGCBGC
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>+SRR097977.4 209DTBBXX_Lenski2_1_7:8:3:715:205 length=36
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>@SRR097977.5 209DTBBXX_Lenski2_1_7:8:3:639:209 length=36
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>TBTCTBTCBBBGCCBGGCBBTGGBBGBCCTBCTCCC
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>+SRR097977.5 209DTBBXX_Lenski2_1_7:8:3:639:209 length=36
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>CCCCCCCCC?C?CC3C?CC5C?C1C&lt;?CC8BB+BB%
+</code></pre></div>
+</details>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<ol>
+<li>Create a <code>sed</code> expression to replace the <code>SRR097977</code> text in each line with your name in the <code>SRR097977.small.fq</code> file.</li>
+</ol>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sed<span class="w"> </span><span class="s2">"s/SRR097977/Bob/"</span><span class="w"> </span>SRR097977.small.fq
+</code></pre></div>
+</div>
+</details>
+<ol>
+<li>Create a <code>sed</code> expression to replace the <code>length=36</code> text with nothing.</li>
+</ol>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>sed<span class="w"> </span><span class="s2">"s/ length=36//"</span><span class="w"> </span>SRR097977.small.fq
+</code></pre></div>
+</div>
+</details>
+</div>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../../level1/43_blast_interpretation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4.3 - Interpreting BLAST results">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                4.3 - Interpreting BLAST results
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../12_shell_variables/" class="md-footer__link md-footer__link--next" aria-label="Next: 1.2 - Working with variables and loops">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                1.2 - Working with variables and loops
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Intermediate Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
