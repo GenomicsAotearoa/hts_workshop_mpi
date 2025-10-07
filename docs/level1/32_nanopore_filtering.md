@@ -98,23 +98,7 @@ We will not apply `NanoFilt` to:
 
     Working with these channels is part of the Level 2 training, for now you just need to know that the `<` character sets the `stdin` input, and `>` specifies where the `stdout` data will go.
 
-We can get a quick estimate for how much data passed our quality requirements by checking the number of lines in the output file. If you have read the [fastq description file](../supplementary/fastq_format.md) you will know how data is recorded in the fastq file format. We can quickly use the `wc` command to count the number of lines in the input and output files, to compare how many reads we started with and how many remain after filtering:
-
-!!! terminal "code"
-
-    ```bash
-    wc -l results/*
-    ```
-
-    ??? success "Output"
-
-        ```bash
-        14940 results/nanopore.nanopore_porechop.fq
-         5252 results/nanopore.qc.fq
-        20192 total
-        ```
-
-A different more informative way of looking at our data before and after filtering is to use a tool called Seqkit. Seqkit has a range of features but the `stats` command gives really good summary statistics for sequencing datasets. Here we are using the flag `-a` to return all the available stats. 
+We can get a quick estimate for how much data passed our quality requirements by checking the number of sequences in the input and output files using Seqkit. Seqkit has a range of features but the `stats` command gives really good summary statistics for sequencing datasets. Here we are using the flag `-a` to return all the available stats. 
 
 !!! terminal "code"
 
