@@ -1,0 +1,1839 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="MPI, Genomics Aotearoa &amp; NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/hts_workshop_mpi/level2/34_mapping_filters/">
+      
+      
+        <link rel="prev" href="../33_nanopore_mapping/">
+      
+      
+        <link rel="next" href="../35_mapping_statistics/">
+      
+      
+      <link rel="icon" href="../../theme_images/icon_fig.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>3.4 - Filtering and compressing sam files - High Throughput Sequencing</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#34-filtering-and-compressing-sam-files" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="High Throughput Sequencing" class="md-header__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            High Throughput Sequencing
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.4 - Filtering and compressing sam files
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../level1/11_nesi_connection/" class="md-tabs__link">
+          
+  
+  
+  Level1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../11_shell_manipulation/" class="md-tabs__link">
+          
+  
+  
+  Level2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../proficiency/2023_proficiency/" class="md-tabs__link">
+          
+  
+  
+  Proficiency
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../supplementary/common_terms/" class="md-tabs__link">
+          
+  
+  
+  Supplementary
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="High Throughput Sequencing" class="md-nav__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    High Throughput Sequencing
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level1
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Level1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/11_nesi_connection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Connecting to NeSI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/12_shell_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Introducing the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/13_shell_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/21_illumina_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Assesing Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/22_illumina_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Filtering Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/31_nanopore_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Assesing Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/32_nanopore_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Filtering Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/41_blastn_annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Annotating with BLAST
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/42_slurm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Introduction to slurm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/43_blast_interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Interpreting BLAST results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level2
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Level2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_shell_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_shell_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Working with variables and loops
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_shell_redirection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Working with redirection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_nesi_environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.4 - The NeSI computing environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21_assembly_de_novo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Genome Assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22_assembly_spades/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Assembling short-read Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23_assembly_flye/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Assembling Oxford Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24_assembly_evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Evaluating the results of an assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25_assembly_polishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.5 - Polishing of Oxford Nanopore assemblies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../31_coverage_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.1 - Overview of mapping sequences to a reference genome
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32_illumina_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Mapping Illumina sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33_nanopore_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.3 - Mapping Oxford Nanopore sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    3.4 - Filtering and compressing sam files
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.4 - Filtering and compressing sam files
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-we-need-to-compress-and-filter-sam-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why we need to compress and filter sam files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sorting-and-compressing-sam-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sorting and compressing sam files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#splitting-bam-files-to-separate-mapped-and-unmapped-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Splitting bam files to separate mapped and unmapped reads
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35_mapping_statistics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.5 - Summarising coverage information from a mapping file
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41_annotation_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Prediction of protein coding sequences
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../42_annotation_prodigal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Prediction with prodigal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43_annotation_augustus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Prediction with AUGUSTUS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44_annotation_protein/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.4 - Protein annotation with BLAST-like methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../45_annotation_kraken2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.5 - Classification of sequences with k-mer composition profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Proficiency
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Proficiency
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 1)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency_alternate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 2)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Supplementary
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Supplementary
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/common_terms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common terms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/fastq_format/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The FASTQ file format
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/slurm_module_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Slurm module guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-we-need-to-compress-and-filter-sam-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why we need to compress and filter sam files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sorting-and-compressing-sam-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sorting and compressing sam files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#splitting-bam-files-to-separate-mapped-and-unmapped-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Splitting bam files to separate mapped and unmapped reads
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="34-filtering-and-compressing-sam-files">3.4 - Filtering and compressing sam files<a class="headerlink" href="#34-filtering-and-compressing-sam-files" title="Permanent link">¶</a></h1>
+<div class="admonition clock">
+<p class="admonition-title">time</p>
+<ul>
+<li>Teaching: 20 minutes</li>
+<li>Exercises: 20 minutes</li>
+</ul>
+</div>
+<div class="admonition circle-info">
+<p class="admonition-title">Objectives and Key points</p>
+<h4 id="objectives">Objectives<a class="headerlink" href="#objectives" title="Permanent link">¶</a></h4>
+<ul>
+<li>Use <code>samtools</code> to sort and compress a raw <code>sam</code> file into the <code>bam</code> format.</li>
+<li>Use <code>samtools</code> to filter a <code>bam</code> file into either the successfully mapped, or unmapped reads.</li>
+<li>Use <code>samtools</code> to recover reads in <code>fastq</code> format from a <code>bam</code> file.</li>
+</ul>
+<h4 id="keypoints">Keypoints<a class="headerlink" href="#keypoints" title="Permanent link">¶</a></h4>
+<ul>
+<li>Understand the reasons for sorting and compressing files in the <code>sam</code> and <code>bam</code> formats.</li>
+<li>Understand the situations in which you may wish to filtering a <code>sam</code>/<code>bam</code> file and what the downstream applications of the output would be.</li>
+</ul>
+</div>
+<hr>
+<h2 id="why-we-need-to-compress-and-filter-sam-files">Why we need to compress and filter <code>sam</code> files<a class="headerlink" href="#why-we-need-to-compress-and-filter-sam-files" title="Permanent link">¶</a></h2>
+<p>Now that we have created some basic mapping data in the <code>sam</code> files , let's take a look at the size of these files. Navigate to the <code>/nesi/project/nesi03181/phel/USERNAME/level2/mapping/</code> directory and run the following command:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ls<span class="w"> </span>-sh<span class="w"> </span>*.sam
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>1.3G Mbovis_87900.16S_rRNA.bowtie2.sam
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>1.5G Mbovis_87900.genome.bowtie2.sam
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>52M Mbovis_87900.genome.nanopore.sam
+</code></pre></div>
+</details>
+</div>
+<p>These are quite large files - especially in the case of the 16S rRNA mapping file where the mapping success rate was only around 0.4% of the Illumina sequences. Why is this file so far? There are two reasons.</p>
+<div class="admonition info">
+<p class="admonition-title">When mapping is performed, <em>all</em> of the reads in the input file are recorded</p>
+<p>This is a deliberate design feature of the mapping tools as depending on our context we may prefer to have the mapped or unmapped reads. For example, if we are trying to perform a reference-based genome assembly or determine the sequencing coverage of the genome (or a particular region) having the mapped reads is critical.</p>
+<p>However, if we are trying to subtract the host reads from a set of reads, such as when we are trying to find a pathogen, the reads which do not map to the host genome are actually the ones we are interested in examining in further detail.</p>
+</div>
+<p>Although there are only about 8,700 reads actually mapped to the reference sequence in the 16S rRNA file (we'll see how to calculate that number in the next session), the file still contains all 2 million reads from the Illumina library.</p>
+<hr>
+<h2 id="sorting-and-compressing-sam-files">Sorting and compressing <code>sam</code> files<a class="headerlink" href="#sorting-and-compressing-sam-files" title="Permanent link">¶</a></h2>
+<p>The first step of reducing the file size is to efficienctly compress the contents of the sam file. Fortunately there is a built-in solution for this - the sam file specification also has a binary-encoded equivalent which records the exact same information, in a much more efficieny format. This is the Binary Alignment/Map (<code>bam</code>) format.</p>
+<p>When performing this compression from sam to bam we also use this opportunity to sort the mapped reads in terms of their starting position in the reference sequence. This sorting is important as it increases the speed of many of the operations we need to perform using a <code>sam</code> file, particular when producing coverage statistics. Because the sorting and compression can be performed in a single command line operation we tend to do these things together once and never worry about it again.</p>
+<div class="admonition info">
+<p class="admonition-title">We should always sort our sequences!</p>
+<p>In the situations where you need your mapped reads sorted, operations will fail if the reads are not sorted. In situations where you do not need them sorted, operations will succeed.</p>
+<p>It is generally just easier to sort as soon as mapping completes then never worry about it again.</p>
+</div>
+<p>The main tool used for handling sam and bam files is called <code>samtools</code>. Load the module and execute the file below. While it is running, refresh yourself on what the <code>|</code> operator in the command is doing.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>module<span class="w"> </span>purge
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>module<span class="w"> </span>load<span class="w"> </span>SAMtools/1.16.1-GCC-11.3.0
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>samtools<span class="w"> </span>view<span class="w"> </span>-bS<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.sam<span class="w"> </span><span class="p">|</span><span class="w"> </span>samtools<span class="w"> </span>sort<span class="w"> </span>-o<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.bam
+</code></pre></div>
+</div>
+<details class="question">
+<summary>What is the pipe for...</summary>
+<p>This is redirection, taking the output of the first <code>samtools</code> command and passing it as input into the second command.</p>
+<p>The reason we need to redirect the data from one <code>samtools</code> command to another is due to the behaviour of the <code>samtools sort</code> subcommand. If you examine the manual for this command, you will see that while the <em>output</em> of the command can be written in sam or bam format the <em>input</em> must be bam.</p>
+<p>We therefore need to use the <code>samtools view</code> subcommand to first convert the sam file into bam format. Rather than write the results to NeSI's hard drive then perform <code>samtools sort</code> as a second command we can redirect between the commands to save on hard drive space and speed up the operation.</p>
+</details>
+<p>Compare the file sizes between the <code>sam</code> and <code>bam</code> files:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ls<span class="w"> </span>-sh<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.sam<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.bam
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>1.3G Mbovis_87900.16S_rRNA.bowtie2.sam
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>470M Mbovis_87900.16S_rRNA.bowtie2.bam
+</code></pre></div>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Do we need both files...</p>
+<p>There is no point in retaining the original sam file at this point, as the information it contains is more efficiently encoded within the bam file.</p>
+<p>If working with real data, this is the point you should delete your sam file. In this training exercise, it does not matter whether you delete the sam file or not.</p>
+</div>
+<p>By compressing the data of the sam file into the bam file we have already reduced its size to about one third of the original. Not only will this save us space on NeSI, it also makes downloading the data much quicker, and also makes subsequent analyses of the file faster as it requires less time to read the smaller bam file.</p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>Sort and compress any other <code>sam</code> files you have produced during the previous mapping tutorials.</p>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>bowtie2<span class="w"> </span>nanopore<span class="p">;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">do</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span>samtools<span class="w"> </span>view<span class="w"> </span>-bS<span class="w"> </span>Mbovis_87900.genome.<span class="si">${</span><span class="nv">i</span><span class="si">}</span>.sam<span class="w"> </span><span class="p">|</span><span class="w"> </span>samtools<span class="w"> </span>sort<span class="w"> </span>-o<span class="w"> </span>Mbovis_87900.genome.<span class="si">${</span><span class="nv">i</span><span class="si">}</span>.bam
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">done</span>
+</code></pre></div>
+</div>
+</details>
+</div>
+<hr>
+<h2 id="splitting-bam-files-to-separate-mapped-and-unmapped-reads">Splitting <code>bam</code> files to separate mapped and unmapped reads<a class="headerlink" href="#splitting-bam-files-to-separate-mapped-and-unmapped-reads" title="Permanent link">¶</a></h2>
+<p>Most of the time when we are mapping against a reference sequence, we are interested in the sequences which successfully mapped to the target. In these cases, having a bam file which contains all of the unmapped reads is not particularly useful so we will now practice filtering bam files according to the mapping state of the reads in the file.</p>
+<p>This is simple to do in terms of the command which needs to be run, but it the meaning of the command can be a bit confusing. Within the sam and bam file format specification is a numeric flag which may be assign to an unmapped read, denoting its status as such. Because it is a <em>positive</em> marker of unmapped state, if we want to filter for mapped reads we need to filter for sequences which do not have the marker.</p>
+<p>When running the <code>samtools view</code> command there is a pair of optional paramters which allow us to filter reads by their mapping flags. We use the <code>-f</code> to <em>keep</em> reads with the flag(s) we specify, or <code>-F</code> to <em>reject</em> reads with the flag(s) we specify. As the unmapped flag is only applied to reads which fail to map to the reference we use the following logic:</p>
+<ul>
+<li><code>-f 4</code> = Include reads with the unmapped flag = Keep unmapped reads</li>
+<li><code>-F 4</code> = Reject reads with the unmapped flag = Keep mapped reads</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">The value <code>4</code> is the numeric flag for ummapped reads</p>
+</div>
+<p>We will run <code>samtools</code> to filter the <code>Mbovis_87900.16S_rRNA.bowtie2.bam</code> file to only keep mapped reads:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>samtools<span class="w"> </span>view<span class="w"> </span>-h<span class="w"> </span>-F<span class="w"> </span><span class="m">4</span><span class="w"> </span>-b<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.bam<span class="w"> </span>&gt;<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.mapped.bam
+</code></pre></div>
+</div>
+<div class="admonition warning">
+<p>In this command, the difference between keeping mapped or unmapped reads is the case of the <code>-f</code> flag. It is really easy to get confused about these values so be very careful when applying this command.</p>
+</div>
+<p>In this case we are expecting only a handful of reads to have actually mapped to the reference sequence so a good acid test for whether we used the right commnad will be to check the size of the output file. If it is roughly the same size as the input then we have probably kept the unmapped reads. If it is a lot smaller, we have most likely kept only the mapped reads.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ls<span class="w"> </span>-sh<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.bam<span class="w"> </span>Mbovis_87900.16S_rRNA.bowtie2.mapped.bam
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>470M Mbovis_87900.16S_rRNA.bowtie2.bam
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>1.8M Mbovis_87900.16S_rRNA.bowtie2.mapped.bam
+</code></pre></div>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>Write a loop to filter the genome mapping files, creating an output file for both the mapped and unmapped reads for each case.</p>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>bowtie2<span class="w"> </span>nanopore<span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">do</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span>samtools<span class="w"> </span>view<span class="w"> </span>-h<span class="w"> </span>-F<span class="w"> </span><span class="m">4</span><span class="w"> </span>-b<span class="w"> </span>Mbovis_87900.genome.<span class="si">${</span><span class="nv">i</span><span class="si">}</span>.bam<span class="w"> </span>&gt;<span class="w"> </span>Mbovis_87900.genome.<span class="si">${</span><span class="nv">i</span><span class="si">}</span>.mapped.bam
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span>samtools<span class="w"> </span>view<span class="w"> </span>-h<span class="w"> </span>-f<span class="w"> </span><span class="m">4</span><span class="w"> </span>-b<span class="w"> </span>Mbovis_87900.genome.<span class="si">${</span><span class="nv">i</span><span class="si">}</span>.bam<span class="w"> </span>&gt;<span class="w"> </span>Mbovis_87900.genome.<span class="si">${</span><span class="nv">i</span><span class="si">}</span>.unmapped.bam
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">done</span>
+</code></pre></div>
+</div>
+</details>
+</div>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../33_nanopore_mapping/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 3.3 - Mapping Oxford Nanopore sequences to a reference">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                3.3 - Mapping Oxford Nanopore sequences to a reference
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../35_mapping_statistics/" class="md-footer__link md-footer__link--next" aria-label="Next: 3.5 - Summarising coverage information from a mapping file">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                3.5 - Summarising coverage information from a mapping file
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Intermediate Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

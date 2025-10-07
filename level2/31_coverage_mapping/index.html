@@ -1,0 +1,1959 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="MPI, Genomics Aotearoa &amp; NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/hts_workshop_mpi/level2/31_coverage_mapping/">
+      
+      
+        <link rel="prev" href="../25_assembly_polishing/">
+      
+      
+        <link rel="next" href="../32_illumina_mapping/">
+      
+      
+      <link rel="icon" href="../../theme_images/icon_fig.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>3.1 - Overview of mapping sequences to a reference genome - High Throughput Sequencing</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#31-overview-of-mapping-sequences-to-a-reference-genome" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="High Throughput Sequencing" class="md-header__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            High Throughput Sequencing
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.1 - Overview of mapping sequences to a reference genome
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../level1/11_nesi_connection/" class="md-tabs__link">
+          
+  
+  
+  Level1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../11_shell_manipulation/" class="md-tabs__link">
+          
+  
+  
+  Level2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../proficiency/2023_proficiency/" class="md-tabs__link">
+          
+  
+  
+  Proficiency
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../supplementary/common_terms/" class="md-tabs__link">
+          
+  
+  
+  Supplementary
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="High Throughput Sequencing" class="md-nav__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    High Throughput Sequencing
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level1
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Level1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/11_nesi_connection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Connecting to NeSI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/12_shell_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Introducing the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/13_shell_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/21_illumina_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Assesing Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/22_illumina_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Filtering Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/31_nanopore_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Assesing Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/32_nanopore_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Filtering Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/41_blastn_annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Annotating with BLAST
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/42_slurm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Introduction to slurm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/43_blast_interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Interpreting BLAST results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level2
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Level2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_shell_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_shell_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Working with variables and loops
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_shell_redirection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Working with redirection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_nesi_environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.4 - The NeSI computing environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21_assembly_de_novo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Genome Assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22_assembly_spades/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Assembling short-read Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23_assembly_flye/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Assembling Oxford Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24_assembly_evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Evaluating the results of an assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25_assembly_polishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.5 - Polishing of Oxford Nanopore assemblies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    3.1 - Overview of mapping sequences to a reference genome
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.1 - Overview of mapping sequences to a reference genome
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction to mapping
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview-of-the-mapping-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview of the mapping process
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storing-read-mapping-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storing read mapping information
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sorting-mapped-results-for-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sorting mapped results for analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#different-tools-for-the-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Different tools for the job
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obtaining-a-reference-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Obtaining a reference sequence
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32_illumina_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Mapping Illumina sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33_nanopore_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.3 - Mapping Oxford Nanopore sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34_mapping_filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.4 - Filtering and compressing sam files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35_mapping_statistics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.5 - Summarising coverage information from a mapping file
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41_annotation_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Prediction of protein coding sequences
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../42_annotation_prodigal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Prediction with prodigal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43_annotation_augustus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Prediction with AUGUSTUS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44_annotation_protein/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.4 - Protein annotation with BLAST-like methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../45_annotation_kraken2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.5 - Classification of sequences with k-mer composition profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Proficiency
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Proficiency
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 1)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency_alternate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 2)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Supplementary
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Supplementary
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/common_terms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common terms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/fastq_format/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The FASTQ file format
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/slurm_module_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Slurm module guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction to mapping
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview-of-the-mapping-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview of the mapping process
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storing-read-mapping-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storing read mapping information
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sorting-mapped-results-for-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sorting mapped results for analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#different-tools-for-the-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Different tools for the job
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obtaining-a-reference-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Obtaining a reference sequence
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="31-overview-of-mapping-sequences-to-a-reference-genome">3.1 - Overview of mapping sequences to a reference genome<a class="headerlink" href="#31-overview-of-mapping-sequences-to-a-reference-genome" title="Permanent link">¶</a></h1>
+<div class="admonition clock">
+<p class="admonition-title">time</p>
+<ul>
+<li>Teaching: 25 minutes</li>
+</ul>
+</div>
+<div class="admonition circle-info">
+<p class="admonition-title">Objectives and Key points</p>
+<h4 id="objectives">Objectives<a class="headerlink" href="#objectives" title="Permanent link">¶</a></h4>
+<ul>
+<li>Understand the fundamental process of mapping reads to a reference sequence.</li>
+<li>Understand the output files from mapping tools.</li>
+<li>Learn how to import mapping results into GUI programs such as <code>Geneious</code> for further analysis.</li>
+</ul>
+<h4 id="keypoints">Keypoints<a class="headerlink" href="#keypoints" title="Permanent link">¶</a></h4>
+<ul>
+<li>Reads can be mapped to any reference sequence, for example whole genomes or individual genes, to generate a consensus sequence or view the coverage in particular regions.</li>
+<li>Mapping alignments are stored in the <code>sam</code> format.</li>
+<li>Different mapping tools work in different ways and make different assumptions when working with your data.</li>
+<li>Sometimes, a given tool will work better with a given dataset.</li>
+<li>It is recommended to try a few tools when working with new datasets to see which one produces better results.</li>
+</ul>
+</div>
+<hr>
+<h2 id="introduction-to-mapping">Introduction to mapping<a class="headerlink" href="#introduction-to-mapping" title="Permanent link">¶</a></h2>
+<p>Sequencing produces a collection of sequences without genomic context - as the sequencing process reads genomic fragments in a random order we do not know the region of the genome to which each sequence corresponds. Mapping the reads of an experiment to a reference genome or a reference gene is a key step for resolving this issue. After mapping, the reads are assigned to a specific location in the genome/gene and a consensus file can be generated that reconstructs the sequence of that region on the organism that provided the reads.</p>
+<p>During sequencing, errors are introduced, such as incorrect nucleotides being called. Sequencing errors might bias the analysis and can lead to a misinterpretation of the data and erroneous mapping. It is good practice to filter out low quality data from our dataset before mapping, as we learned in the previous session.</p>
+<p>Read mapping is the process of aligning reads to a reference sequence. A mapping tool takes as input a reference genome and a set of reads. Its aim is to align each read in the set of reads on the reference genome, allowing mismatches, indels and clipping of some short fragments on the two ends of the reads.</p>
+<hr>
+<h2 id="overview-of-the-mapping-process">Overview of the mapping process<a class="headerlink" href="#overview-of-the-mapping-process" title="Permanent link">¶</a></h2>
+<p>When mapping sequences, the input consists of a set of reads and a reference genome. when mapping reads to a reference the matches can be a perfect alignment between the read and reference, but often the match will be inexact. This is generally due to sequencing error, or the reference genome and the set of sequences are not genetically identical. This may be due to either individual-specific mutations, or the fact that there is not a closely related reference genome for use in the mapping process.</p>
+<div class="admonition jupyter">
+<p class="admonition-title">Example of how reads can mismatch</p>
+<p></p><center><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../img/level2_31_mapping.png" data-desc-position="bottom"><img alt="Mapping overview" src="../../img/level2_31_mapping.png"></a></center><p></p>
+</div>
+<div class="admonition info">
+<p>The first read is aligned at position 100 and the alignment has two mismatches.</p>
+<p>The second read is aligned at position 114. It is a local alignment with clippings on the left and right.</p>
+<p>The third read is aligned at position 123. It consists of a 2-base insertion and a 1-base deletion.</p>
+</div>
+<p>When working with mapped reads it is our job to examine these areas of mismatch and evaluate whether or not these represent real sequence variation.</p>
+<hr>
+<h2 id="storing-read-mapping-information">Storing read mapping information<a class="headerlink" href="#storing-read-mapping-information" title="Permanent link">¶</a></h2>
+<p>Mapping tools usually produce their output in the Sequence Alignment/Map (<code>sam</code>) format. This file stores the read sequences, a flag on whether they have been aligned to a reference sequence, and if so, the position on the reference sequence at which they have been aligned. You can view this file using any text viewer, although owing to the file size <code>less</code> is generally the best choice.</p>
+<details class="info">
+<summary>Content of a <code>sam</code> file</summary>
+<p>Should you choose to manually inspect a <code>sam</code> file, it is basically a table of the alignment between each read and the reference and consists of the following columns:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">QNAME</td>
+<td style="text-align: left;">Query template (read) name</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">FLAG</td>
+<td style="text-align: left;">Bitwise flag</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">RNAME</td>
+<td style="text-align: left;">References sequence name</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">POS</td>
+<td style="text-align: left;">1- based leftmost mapping position</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">MAPQ</td>
+<td style="text-align: left;">Mapping quality</td>
+</tr>
+<tr>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">CIGAR</td>
+<td style="text-align: left;">CIGAR string</td>
+</tr>
+<tr>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">RNEXT</td>
+<td style="text-align: left;">Ref. name of the mate/next read</td>
+</tr>
+<tr>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">PNEXT</td>
+<td style="text-align: left;">Position of the mate/next read</td>
+</tr>
+<tr>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">TLEN</td>
+<td style="text-align: left;">Observed template length</td>
+</tr>
+<tr>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">SEQ</td>
+<td style="text-align: left;">Segment sequence</td>
+</tr>
+<tr>
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">QUAL</td>
+<td style="text-align: left;">ASCII representation of Phred-scaled base quality</td>
+</tr>
+</tbody>
+</table>
+<p>The full specification for the file format <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">can be found here</a>.</p>
+</details>
+<p>However, it is not usually necessary to inspect the <code>sam</code> file directly - there is a lot of information in here and unless you are looking to extract specific information from the alignment it is just an intermediate file in the workflow. In order to save disk space, and to prepare the file for downstream analysis, <code>sam</code> files are usually sorted and compressed into a format with is not human readable.</p>
+<hr>
+<h2 id="sorting-mapped-results-for-analysis">Sorting mapped results for analysis<a class="headerlink" href="#sorting-mapped-results-for-analysis" title="Permanent link">¶</a></h2>
+<p>Sorting the mapping information is an important prerequisite for performing certain downstream processes. Not every tool we use requires reads to be sorted, but it can be frustrating having to debug the instances where read sorting matters, so we typically just get it done as soon as possible and then we don't have to worry about it again. Reads will initially be mapped in an unsorted order, as they are added to the <code>sam</code> file in more or less the same order as they are encountered in the input fastq files.</p>
+<p>When sorted the reads are ordered by the position of their first mapped nucleotide, as exemplified below:</p>
+<div class="admonition file-code">
+<p class="admonition-title">Unsorted mapping content</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Ref: REFERENCECONTIG
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Map: --------ECONT--
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Map: REFE-----------
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Map: --FERENCECO----
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Map: -----------NTIG
+</code></pre></div>
+</div>
+<div class="admonition file-code">
+<p class="admonition-title">Sorted mapping content</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Ref: REFERENCECONTIG
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Map: REFE-----------
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Map: --FERENCECO----
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Map: --------ECONT--
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Map: -----------NTIG
+</code></pre></div>
+</div>
+<p>The sorted file can be used as input for any downstream processeses in our command line work, or can be imported into GUI programs for a visual analysis. Although we rely on NeSI for performing mapping in these exercises, we will use <code>Geneious</code> for visualising the results.</p>
+<p>There are several ways to import <code>sam</code> and <code>bam</code> files into <code>Geneious</code> either by using the <code>Import Files...</code> option from the <code>File</code> menu, or simply dragging and dropping the files into the <code>Geneious</code> document table.</p>
+<div class="admonition warning">
+<p>It is important that <strong>both</strong> the <code>sam</code> file and the reference sequence against which the reads were mapped are imported.</p>
+<p>If you import the <code>sam</code> without the reference, <code>Geneious</code> will not know the content of the original reference sequence.</p>
+</div>
+<hr>
+<h2 id="different-tools-for-the-job">Different tools for the job<a class="headerlink" href="#different-tools-for-the-job" title="Permanent link">¶</a></h2>
+<p>When it comes to mapping reads to a reference sequence, there is a vast list of tools available with different strengths and weaknesses. As this is a constantly expanding area of the literature we are going to focus on two mapping tools for these exercises but for your specific application they may not be the appropriate choice. If you are in a position where you need to perform reference mapping there are two main questions to consider when deciding which mapping tool to use.</p>
+<div class="admonition question">
+<p class="admonition-title">Are you working with short (Illumina) or long (Nanopore, PacBio) sequencing data?</p>
+<p>The heuristics used for accelerating the mapping process differ between short and long sequences, due to both the differences in length and expected average read quality between the platforms.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Are you mapping DNA or RNA sequence data to your reference?</p>
+<p>Most of the time your reference will be a genome sequence, but if you are working with RNA sequence data from eukaryotic (or some viral) species then some portion of reads will most likely have undergone splicing after transcription.</p>
+<p>The reference genome contains the full gene sequences not just the exonic regions so a mapping tool which is aware of gene splicing and can map around a spliced intron sequences will achieve a higher mapping rate than a mapping tool which only considers direct matches to the reference sequence.</p>
+</div>
+<p>As a starting point, some of the most popular mapping tools and their uses include:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Tool</th>
+<th style="text-align: left;">Reference</th>
+<th style="text-align: left;">Application</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="https://lh3.github.io/minimap2/">minimap2</a></td>
+<td style="text-align: left;"><a href="https://doi.org/10.1093/bioinformatics/bty191">Li, 2018</a></td>
+<td style="text-align: left;">Short and long read mapping<br>Specific mapping models for Nanopore and PacBio sequence profiles<br>Option for splice-aware mapping</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="https://bowtie-bio.sourceforge.net/bowtie2/index.shtml">bowtie2</a></td>
+<td style="text-align: left;"><a href="https://doi.org/10.1038/nmeth.1923">Landmead &amp; Salzberg, 2012</a></td>
+<td style="text-align: left;">Short read mapping<br>DNA mapping applications</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="http://daehwankimlab.github.io/hisat2/manual/">HISAT2</a></td>
+<td style="text-align: left;"><a href="https://doi.org/10.1038/s41587-019-0201-4">Kim <em>et al.</em>, 2019</a></td>
+<td style="text-align: left;">Short read mapping<br>RNA (splice-aware) mapping, haplotype resolution</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="https://bio-bwa.sourceforge.net/bwa.shtml">bwa-mem</a></td>
+<td style="text-align: left;"><a href="https://arxiv.org/abs/1303.3997">Li, 2013</a></td>
+<td style="text-align: left;">Short read mapping<br>DNA mapping applications<br>Long read mapping settings exist, but have been superceded by <code>minimap2</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="obtaining-a-reference-sequence">Obtaining a reference sequence<a class="headerlink" href="#obtaining-a-reference-sequence" title="Permanent link">¶</a></h2>
+<p>In order to perform read mapping we need to have a downloaded copy of the sequence we wish to map against. Generally this will be either a completed or near-complete reference genome of the species/strain of interest, or a closely related organism. In this exercise, however, we are going to use a single gene so that when we later visualise the results in <code>Geneious</code> the display will be easy to navigate.</p>
+<p>Performing the reference download will not be required as you have been provided with a reference sequence for this exercise. Navigate to the <code>/nesi/project/nesi03181/phel/USERNAME/level2/mapping/</code> folder and check the contents of the <code>references/</code> folder to begin.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>/nesi/project/nesi03181/phel/USERNAME/level2/mapping/
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>ls<span class="w"> </span>references/
+</code></pre></div>
+</div>
+<p>There are two sequence files in this directory. The larger of the two is a copy of the representative genome for <em>Mycoplasmopsis bovis</em> 8790 (accession NZ_LAUS00000000) and the smaller file is the 16S rRNA gene sequence extracted from this genome.</p>
+<p>Finding the correct reference sequence is less bioinformatics and more a matter of subject expertise so we are not covering the details of how to perform this work. The commands used to produce these reference sequences are provided below in case this is something you wish to repeat in your own work.</p>
+<details class="info">
+<summary>Downloading the reference sequence</summary>
+<p>If you are interested in how this sequence was obtained, it was downloaded from the NCBI GenBank database using the <code>Entrez Direct</code> toolkit provided by NCBI (<a href="https://www.ncbi.nlm.nih.gov/books/NBK179288/">https://www.ncbi.nlm.nih.gov/books/NBK179288/</a>). Once the genome was obtained the coordinates of the 16S ribosomal RNA sequence were found by browsing the annotation information for the genome (<a href="https://www.ncbi.nlm.nih.gov/nuccore/1632735866?report=genbank">available here</a>) by simply searching the web page for the text '16S ribosomal RNA'.</p>
+<p>The coordinate information for this sequence if given by the line entry <code>rRNA 41621..43134</code> which we can use in combination with <code>seqmagick</code> to extract just the region of interest for our mapping example.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>module<span class="w"> </span>purge
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>module<span class="w"> </span>load<span class="w"> </span>entrez-direct/13.3
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>module<span class="w"> </span>load<span class="w"> </span>seqmagick/0.8.4-gimkl-2020a-Python-3.8.2
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>efetch<span class="w"> </span>-format<span class="w"> </span>fasta<span class="w"> </span>-db<span class="w"> </span>sequences<span class="w"> </span>-id<span class="w"> </span>NZ_LAUS01000004<span class="w"> </span>&gt;<span class="w"> </span>Mbovis_87900.genome.fna
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>seqmagick<span class="w"> </span>convert<span class="w"> </span>--cut<span class="w"> </span><span class="m">41621</span>-43134<span class="w"> </span>Mbovis_87900.genome.fna<span class="w"> </span>Mbovis_87900.16S_rRNA.fna
+</code></pre></div>
+</div>
+</details>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../25_assembly_polishing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2.5 - Polishing of Oxford Nanopore assemblies">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                2.5 - Polishing of Oxford Nanopore assemblies
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../32_illumina_mapping/" class="md-footer__link md-footer__link--next" aria-label="Next: 3.2 - Mapping Illumina sequences to a reference">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                3.2 - Mapping Illumina sequences to a reference
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Intermediate Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

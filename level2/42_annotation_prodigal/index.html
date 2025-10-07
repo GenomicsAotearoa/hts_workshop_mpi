@@ -1,0 +1,1930 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="MPI, Genomics Aotearoa &amp; NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/hts_workshop_mpi/level2/42_annotation_prodigal/">
+      
+      
+        <link rel="prev" href="../41_annotation_overview/">
+      
+      
+        <link rel="next" href="../43_annotation_augustus/">
+      
+      
+      <link rel="icon" href="../../theme_images/icon_fig.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>4.2 - Prediction with prodigal - High Throughput Sequencing</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#42-prediction-with-prodigal" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="High Throughput Sequencing" class="md-header__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            High Throughput Sequencing
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.2 - Prediction with prodigal
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../level1/11_nesi_connection/" class="md-tabs__link">
+          
+  
+  
+  Level1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../11_shell_manipulation/" class="md-tabs__link">
+          
+  
+  
+  Level2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../proficiency/2023_proficiency/" class="md-tabs__link">
+          
+  
+  
+  Proficiency
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../supplementary/common_terms/" class="md-tabs__link">
+          
+  
+  
+  Supplementary
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="High Throughput Sequencing" class="md-nav__button md-logo" aria-label="High Throughput Sequencing" data-md-component="logo">
+      
+  <img src="../../theme_images/icon_fig.png" alt="logo">
+
+    </a>
+    High Throughput Sequencing
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/hts_workshop_mpi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/hts_workshop_mpi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level1
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Level1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/11_nesi_connection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Connecting to NeSI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/12_shell_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Introducing the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/13_shell_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/21_illumina_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Assesing Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/22_illumina_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Filtering Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/31_nanopore_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Assesing Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/32_nanopore_filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Filtering Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/41_blastn_annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Annotating with BLAST
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/42_slurm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Introduction to slurm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level1/43_blast_interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Interpreting BLAST results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Level2
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Level2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_shell_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.1 - Manipulating files in the shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_shell_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.2 - Working with variables and loops
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_shell_redirection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.3 - Working with redirection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_nesi_environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.4 - The NeSI computing environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21_assembly_de_novo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.1 - Genome Assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22_assembly_spades/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.2 - Assembling short-read Illumina data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23_assembly_flye/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Assembling Oxford Nanopore data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24_assembly_evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.3 - Evaluating the results of an assembly
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25_assembly_polishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.5 - Polishing of Oxford Nanopore assemblies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../31_coverage_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.1 - Overview of mapping sequences to a reference genome
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32_illumina_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.2 - Mapping Illumina sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33_nanopore_mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.3 - Mapping Oxford Nanopore sequences to a reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34_mapping_filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.4 - Filtering and compressing sam files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35_mapping_statistics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.5 - Summarising coverage information from a mapping file
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41_annotation_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.1 - Prediction of protein coding sequences
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Prediction with prodigal
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.2 - Prediction with prodigal
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started-and-loading-the-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting started and loading the tool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predicting-protein-coding-regions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predicting protein coding regions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpretting-the-output-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interpretting the output format
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43_annotation_augustus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.3 - Prediction with AUGUSTUS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44_annotation_protein/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.4 - Protein annotation with BLAST-like methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../45_annotation_kraken2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.5 - Classification of sequences with k-mer composition profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Proficiency
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Proficiency
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 1)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proficiency/2023_proficiency_alternate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023 Level 2 proficiency testing (version 2)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Supplementary
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Supplementary
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/common_terms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common terms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/fastq_format/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The FASTQ file format
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/slurm_module_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Slurm module guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keypoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keypoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started-and-loading-the-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting started and loading the tool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predicting-protein-coding-regions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predicting protein coding regions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpretting-the-output-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interpretting the output format
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="42-prediction-with-prodigal">4.2 - Prediction with <code>prodigal</code><a class="headerlink" href="#42-prediction-with-prodigal" title="Permanent link">¶</a></h1>
+<div class="admonition clock">
+<p class="admonition-title">time</p>
+<ul>
+<li>Teaching: 10 minutes</li>
+<li>Exercises: 15 minutes</li>
+</ul>
+</div>
+<div class="admonition circle-info">
+<p class="admonition-title">Objectives and Key points</p>
+<h4 id="objectives">Objectives<a class="headerlink" href="#objectives" title="Permanent link">¶</a></h4>
+<ul>
+<li>Understand how to run <code>prodigal</code> for predicting protein coding regions in prokaryotic genomes</li>
+</ul>
+<h4 id="keypoints">Keypoints<a class="headerlink" href="#keypoints" title="Permanent link">¶</a></h4>
+<ul>
+<li>Selecting the correct prediction mode (genome or metagenome), and translation table is key to getting good outputs.</li>
+<li><code>prodigal</code> reports output in several formats - you do not need all of the output files, but know which ones you want to keep and why.</li>
+</ul>
+</div>
+<hr>
+<h2 id="getting-started-and-loading-the-tool">Getting started and loading the tool<a class="headerlink" href="#getting-started-and-loading-the-tool" title="Permanent link">¶</a></h2>
+<p>We are going to be predicting protein coding sequences in a reference <em>M. bovis</em> genome using the tool <code>prodigal</code> (<a href="https://doi.org/10.1186/1471-2105-11-119">Hyatt <em>et al.</em>, 2010</a>). This is a powerful prediction tool which is quick to run, and flexible enough for most projects.</p>
+<p>Navigate to the <code>/nesi/project/nesi03181/phel/USERNAME/level2/annotation_prodigal/</code> directory and prepare to run <code>prodigal</code>.</p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>Use your knowledge of <code>slurm</code> to find and load the more current version of <code>prodigal</code> available on NeSI. Once loaded, run with the help paramter (<code>-h</code>) to confirm that the module has successfully loaded.</p>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># One of the following:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>module<span class="w"> </span>spider<span class="w"> </span>prodigal
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>module<span class="w"> </span>avail<span class="w"> </span>prodigal
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Load and confirm</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>module<span class="w"> </span>purge
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>module<span class="w"> </span>load<span class="w"> </span>prodigal/2.6.3-GCCcore-7.4.0
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>prodigal<span class="w"> </span>-h
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Usage:  prodigal [-a trans_file] [-c] [-d nuc_file] [-f output_type]
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                [-g tr_table] [-h] [-i input_file] [-m] [-n] [-o output_file]
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                [-p mode] [-q] [-s start_file] [-t training_file] [-v]
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        -a:  Write protein translations to the selected file.
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        -c:  Closed ends.  Do not allow genes to run off edges.
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        -d:  Write nucleotide sequences of genes to the selected file.
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        -f:  Select output format (gbk, gff, or sco).  Default is gbk.
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        -g:  Specify a translation table to use (default 11).
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        -h:  Print help menu and exit.
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        -i:  Specify FASTA/Genbank input file (default reads from stdin).
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        -m:  Treat runs of N as masked sequence; don't build genes across them.
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        -n:  Bypass Shine-Dalgarno trainer and force a full motif scan.
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        -o:  Specify output file (default writes to stdout).
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        -p:  Select procedure (single or meta).  Default is single.
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        -q:  Run quietly (suppress normal stderr output).
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        -s:  Write all potential genes (with scores) to the selected file.
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>        -t:  Write a training file (if none exists); otherwise, read and use
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>            the specified training file.
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        -v:  Print version number and exit.
+</code></pre></div>
+</details>
+</div>
+</details>
+</div>
+<p>There are quite a few options given here, which we can split into input and output parameters.</p>
+<div class="admonition info">
+<p class="admonition-title">Input parameters</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Parameter</th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>-i</code></td>
+<td style="text-align: left;">Specify FASTA/Genbank input file (default reads from stdin).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>-p</code></td>
+<td style="text-align: left;">Select procedure (single or meta).  Default is single.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>-g</code></td>
+<td style="text-align: left;">Specify a translation table to use (default 11).</td>
+</tr>
+</tbody>
+</table>
+<p>The first parameter here should be obvious, so will not be discussed.</p>
+<p>The <code>-p</code> parameter is an important one to pay attention to, as it determines whether or not we are predicting sequences in an single genome (i.e. a genome obtained from a pure culture) or a metagenomic mix of sequences. In <code>single</code> mode prediction goes through a round of training against the input sequences before producing a prediction output tailored to your contigs. The <code>meta</code> mode uses pre-calculated profiles of gene features. Strictly speaking it is possible to run <code>meta</code> mode on an isolate genome, or <code>single</code> mode on a metagenome but the results do differ.</p>
+<p>Selecting the translation table (<code>-g</code>) is something we usually do not need to wory about. <code>prodigal</code> supports numbers 1 through 25 of the <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi">NCBI genetic codes</a>. By default, it will start with code 11 (bacteria, archaea, and plastids) but shift to code 4 if the predictions are too short. This is important to us because genetic code 4 corresponds to the <em>Mycoplasmataceae</em> - the bacterial family that contains the genera <em>Mycoplasma</em> and <em>Ureaplasma</em>, and the family <em>Spiroplasmataceae</em>. These lineages have repurposed <code>UGA</code> from a stop codon to a tryptophan codon.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Output parameters</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Parameter</th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>-a</code></td>
+<td style="text-align: left;">Write protein translations to the selected file.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>-d</code></td>
+<td style="text-align: left;">Write nucleotide sequences of genes to the selected file.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>-o</code></td>
+<td style="text-align: left;">Specify output file (default writes to <code>stdout</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>-f</code></td>
+<td style="text-align: left;">Select output format. Default is gbk.</td>
+</tr>
+</tbody>
+</table>
+<p>Three of these capture the prediction information in commonly used formats. The output of <code>-d</code> and <code>-a</code> are simply fasta format, and the <code>-o</code> (or <code>stdout</code>) output are in GenBank format. This is really the same information reported in multiple different ways, but the different files have different uses so it's recommended to take a few of them.</p>
+<p>At the very least, we should be capturing either <code>-d</code> <strong><em>and</em></strong> <code>-a</code>, or <code>-o</code> to get the full prediction. It is helpful to have both the nucleotide and protein sequence of a coding region, as the different annotation techniques can be applied to each one, and certain methods of phylogenetic analysis favour one sequence type over the other.</p>
+</div>
+<hr>
+<h2 id="predicting-protein-coding-regions">Predicting protein coding regions<a class="headerlink" href="#predicting-protein-coding-regions" title="Permanent link">¶</a></h2>
+<p>One of the nice features of <code>prodigal</code> is that it does not take a lot of resources to run, so we can easily run it without resorting to <code>slurm</code> for a single genome.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>prodigal<span class="w"> </span>-p<span class="w"> </span>single<span class="w"> </span>-g<span class="w"> </span><span class="m">4</span><span class="w"> </span>-i<span class="w"> </span>input/M_bovis.NZ_CP005933.fna<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span>-d<span class="w"> </span>outputs/M_bovis.NZ_CP005933.prod.fna<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>-a<span class="w"> </span>outputs/M_bovis.NZ_CP005933.prod.faa<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>-o<span class="w"> </span>outputs/M_bovis.NZ_CP005933.prod.gbk
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>-------------------------------------
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>PRODIGAL v2.6.3 [February, 2016]         
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Univ of Tenn / Oak Ridge National Lab
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Doug Hyatt, Loren Hauser, et al.     
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>-------------------------------------
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Request:  Single Genome, Phase:  Training
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>Reading in the sequence(s) to train...948516 bp seq created, 29.29 pct GC
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Locating all potential starts and stops...30752 nodes
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>Looking for GC bias in different frames...frame bias scores: 2.38 0.43 0.19
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Building initial set of genes to train from...done!
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>Creating coding model and scoring nodes...done!
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>Examining upstream regions and training starts...done!
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>-------------------------------------
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>Request:  Single Genome, Phase:  Gene Finding
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>Finding genes in sequence #1 (948516 bp)...done!
+</code></pre></div>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Which value of <code>-g</code> are we using?</p>
+<p>As mentioned above, for most cases the standard genetic code is the correct starting place, but we are working with an <em>M. bovis</em> sequence, which uses <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi#SG4">translation table 4</a>.</p>
+</div>
+<p>This will only take a few seconds to complete. Once done, we can quickly see how many protein coding sequences were predicted by counting the number of sequences in either of the output fasta files.</p>
+<hr>
+<h2 id="interpretting-the-output-format">Interpretting the output format<a class="headerlink" href="#interpretting-the-output-format" title="Permanent link">¶</a></h2>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">"&gt;"</span><span class="w"> </span>outputs/M_bovis.NZ_CP005933.prod.fna<span class="w"> </span>outputs/M_bovis.NZ_CP005933.prod.faa
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>outputs/M_bovis.NZ_CP005933.prod.fna:792
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>outputs/M_bovis.NZ_CP005933.prod.faa:792
+</code></pre></div>
+</details>
+</div>
+<p>Since this is a chromosome downloaded from the <a href="https://www.ncbi.nlm.nih.gov/nuccore/NZ_CP005933">NCBI RefSeq database</a> we can look to the official annotation and see how many proteins we should expect to find. A copy of the protein coding sequences from this genome have been provided in your <code>outputs/</code> folder.</p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>Use <code>grep</code> to count the number of protein coding sequences in the official annotation for this <em>M. bovis</em> genome.</p>
+<details class="circle-check">
+<summary>Solution</summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">"&gt;"</span><span class="w"> </span>outputs/M_bovis.canonical.faa
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>765
+</code></pre></div>
+</details>
+<p>This number is slightly fewer than what <code>prodigal</code> predicts for us, but the numbers are very close. We would need to examine the predictions in detail to understand what is causing the difference.</p>
+</div>
+</details>
+</div>
+<p>If we inspect the output of the fasta files, you will notice that there is a lot of metadata stored in each line. For example:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>head<span class="w"> </span>-n1<span class="w"> </span>outputs/M_bovis.NZ_CP005933.prod.faa
+</code></pre></div>
+<details class="success">
+<summary>Output</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>NZ_CP005933.1_1 # 1 # 1401 # 1 # ID=1_1;partial=10;start_type=Edge;rbs_motif=None;rbs_spacer=None;gc_cont=0.293
+</code></pre></div>
+</details>
+</div>
+<p>There is quite a lot to unpack here - some is quite important to know and other parts are just descriptive. We can break down the results like so:</p>
+<div class="admonition file-code">
+<p class="admonition-title">prodigal metadata</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&gt;NZ_CP005933.1_1 # 1 # 1401 # 1 # ID=1_1;partial=10;start_type=Edge;rbs_motif=None;rbs_spacer=None;gc_cont=0.293
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>|              |   |   |      |   |      |
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>|              |   |   |      |   |      Gene completeness
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>|              |   |   |      |   Unique gene ID
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>|              |   |   |      Orientation
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>|              |   |   Stop position
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>|              |   Start position
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>|              Gene suffix
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>Contig name
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Interpreting the prodigal header</p>
+<p><strong>Contig name</strong> and <strong>Gene suffix</strong></p>
+<p>As <code>prodigal</code> is only concerned with <em>predicting</em> sequences, not annotating them, there is no functional information which can be used to guide the name of each prediction. For simplicity, protein predictions are simply named as <code>[CONTIG NAME]_[PREDICTION]</code>. This has some nice implications when we want to study gene synteny but for the most part numbering off the predicitons in the order they are made is the simpliest way to generate names.</p>
+<hr>
+<p><strong>Start</strong>, <strong>Stop</strong> and <strong>Orientation</strong></p>
+<p>The next three numbers provide the nucleotide coordinates of the coding sequence and the orientation (1 for forward, -1 for reverse). Again, these are very useful when tracking down the genomic context of a sequence and can sometimes provide a quick-and-dirty means for spotting rearrangements.</p>
+<hr>
+<p><strong>Unique gene ID</strong></p>
+<p>After these parameters are done, there are a series of keyword-linked pieces of information about the sequence. The unique gene identifier is used to link the entries in the fasta file to the output obtained from the <code>-o</code> (or <code>stdout</code>) channel. Similar to the prediction number, it is simply derived from the order of contigs and sequence of predictions.</p>
+<hr>
+<p><strong>Gene completeness</strong></p>
+<p>The main piece of information we are going to inspect is whether or not the prediction is complete of not. The 'partial' keyword provides a two digit code that reports the status of the prediction, the first digit corresponds to the start of the sequence and the second to the end of the sequence. The values these can take are either 0 (complete) or 1 (incomplete). A fully complete prediction will therefore have a code of <code>00</code>, and a partial predictions can be:</p>
+<ul>
+<li><code>01</code> - Started, but no end found - typically when a prediction runs off the end of a contig</li>
+<li><code>10</code> - No start identified, but a complete end found - often a sequence which occurs at the start of the contig</li>
+<li><code>11</code> - No ends found - likely due to predicting for a very short contig</li>
+</ul>
+<p>You can also inspect the sequences to see if they appear complete. Typically protein predictions begin with a methionine (M) amino acid residue, as this is the translation of the <code>ATG</code> codon. There is no residue which corresponds to stop (as stop is a gap in translation) so <code>prodigal</code> reports the stop position with an asterisk (<code>*</code>).</p>
+</div>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../41_annotation_overview/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4.1 - Prediction of protein coding sequences">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                4.1 - Prediction of protein coding sequences
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../43_annotation_augustus/" class="md-footer__link md-footer__link--next" aria-label="Next: 4.3 - Prediction with AUGUSTUS">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                4.3 - Prediction with AUGUSTUS
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Intermediate Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
