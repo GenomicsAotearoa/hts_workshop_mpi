@@ -22,20 +22,11 @@
 
 Before we can map our sequence data to the reference genome (or gene sequence) obtained in the [previous exercise](./31_coverage_mapping.md#obtaining-a-reference-sequence) we need to perform a step known as *indexing*. How this process works is well beyond the scope of this tutorial, but it is a process of performing a scan of the reference sequence and transforming it into an organised format amenable to the `bowtie2` rapid mapping algorithm.
 
-Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping/` directory and perform the following commands:
+Navigate to the `level2/mapping/` directory and perform the following command:
 
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/mapping/
-    ```
-
-!!! terminal "code"
-
-    ```bash
-    module purge
-    module load Bowtie2/2.4.5-GCC-11.3.0
-
     bowtie2-build references/Mbovis_87900.16S_rRNA.fna references/Mbovis_87900.16S_rRNA
     ```
 

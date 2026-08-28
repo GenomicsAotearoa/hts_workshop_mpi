@@ -57,44 +57,15 @@ As already mentioned, performing `BLAST` for protein sequences is very similar t
 
     Protein `BLAST` searches are significantly slower than nucleotide searches, so we will not be using this resource today as the queue and run times for the jobs we would need to run are not practical for the workshop today. We will instead use a local version of the [UniProt](https://www.uniprot.org/) `SwissProt` database which is much smaller.
 
-Navigate to the `/nesi/project/nesi03181/phel/<username>/level2/annotation_protein/` directory and prepare the following `slurm` script:
-
-!!! file-code "level2_blast.sl"
-
-    ```bash
-    #!/bin/bash -e
-    #SBATCH --account       nesi03181
-    #SBATCH --job-name      level2_blast
-    #SBATCH --time          00:20:00
-    #SBATCH --cpus-per-task 10
-    #SBATCH --mem           20G
-    #SBATCH --error         level2_blast.%j.err
-    #SBATCH --output        level2_blast.%j.out
-    #SBATCH --mail-type     END
-    #SBATCH --mail-user     YOUR_EMAIL
-
-    module purge
-    module load BLAST/2.13.0-GCC-11.3.0
-
-    cd /nesi/project/nesi03181/phel/<username>/level2/annotation_protein/
-
-    blastp -num_threads ${SLURM_CPUS_PER_TASK} -max_target_seqs 10 -evalue 1e-3 -outfmt 6 \
-        -db /nesi/project/nesi03181/phel/databases/swissprot_blastp/uniprot_sprot \
-        -query input/input_seqs.faa -out outputs/blastp.txt
-    ```
-
-Submit this job to `slurm`:
+Navigate to the `level2/annotation_protein/` directory and run the following command:
 
 !!! terminal "code"
 
     ```bash
-    sbatch level2_blast.sl
-    ```
-
-??? success "Output"
-
-    ```
-    Submitted batch job XXXXXXXX
+        blastp -num_threads 4 -max_target_seqs 10 -evalue 1e-3 -outfmt 6 \
+            -db /home/shared/databases/swissprot_blastp/uniprot_sprot \
+            -query input/input_seqs.faa \
+            -out outputs/blastp.txt
     ```
 
 ---
@@ -107,63 +78,15 @@ Given the time required to produce results with the `BLASTp` approach, a lot of 
 
     In previous releases, `diamond` gave faster results at the cost of sensitivity but the more recent release of the tool purports comparable sensitivity with `BLASTp` at a greatly reduced run time. See Figure 1 in the manuscript above for comparisons of sensitivity and speed between more recent releases of `diamond` and `BLASTp`.
 
-??? warning "Producing a `diamond` database"
-
-    Unfortunately, `diamond` requires us to create our own classification database - there is no NCBI-supported release. However, `diamond` has a built-in method to modify an existing `BLAST` database to be compatible with `diamond`.
-
-    You will probably not ever need to perform this operation yourself, but the database we are using today was produced using the following commands:
-
-    !!! terminal "code"
-
-        ```bash
-        module purge
-        module load BLASTDB/2023-10 DIAMOND/2.1.6-GCC-11.3.0
-
-        mkdir /nesi/project/nesi03181/phel/databases/diamond_nr/
-        cd /nesi/project/nesi03181/phel/databases/diamond_nr/
-
-        cp ${BLASTDB}/nr* diamond_nr/
-        diamond prepdb -d diamond_nr/nr
-        ```
-
-With our database in place, the command for running `diamond` is very similar (by design) to `BLASTp`:
+The command for running `diamond` is very similar (by design) to `BLASTp`:
 
 !!! file-code "level2_blast.sl"
 
     ```bash
-    #!/bin/bash -e
-    #SBATCH --account       nesi03181
-    #SBATCH --job-name      level2_diamond
-    #SBATCH --time          00:10:00
-    #SBATCH --cpus-per-task 16
-    #SBATCH --mem           20G
-    #SBATCH --error         level2_diamond.%j.err
-    #SBATCH --output        level2_diamond.%j.out
-    #SBATCH --mail-type     END
-    #SBATCH --mail-user     YOUR_EMAIL
-
-    module purge
-    module load DIAMOND/2.1.6-GCC-11.3.0
-
-    cd /nesi/project/nesi03181/phel/<username>/level2/annotation_protein/
-
-    diamond blastp --threads ${SLURM_CPUS_PER_TASK} --ultra-sensitive --max-target-seqs 10 --evalue 1e-3 --outfmt 6 \
-        --db /nesi/project/nesi03181/phel/databases/swissprot_dmnd/uniprot_sprot.dmnd \
-        --query input/input_seqs.faa --out outputs/diamond.txt
-    ```
-
-Submit this job to `slurm`:
-
-!!! terminal "code"
-
-    ```bash
-    sbatch level2_blast.sl
-    ```
-
-??? success "Output"
-
-    ```
-    Submitted batch job XXXXXXXX
+    diamond blastp --threads 4 --ultra-sensitive --max-target-seqs 10 --evalue 1e-3 --outfmt 6 \
+        --db /home/shared/databases/swissprot_dmnd/uniprot_sprot.dmnd \
+        --query input/input_seqs.faa \
+        --out outputs/diamond.txt
     ```
 
 ---

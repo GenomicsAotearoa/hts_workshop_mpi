@@ -31,7 +31,7 @@ You have been provided with a copy of a reference *Mycoplasmopsis bovis* genome 
 
 !!! question "Exercise"
 
-     Create a new directory and copy in the `assembly_evaluation/` folder and copy in your `SPAdes` and `Flye` fasta and fastg assembly files.
+     Create a new directory and copy in the `assembly_evaluation/` folder and copy in your `SPAdes` and `raven` fasta and assembly graphs.
 
     ??? circle-check "Solution"
  
@@ -40,9 +40,9 @@ You have been provided with a copy of a reference *Mycoplasmopsis bovis* genome 
             ```bash
             mkdir assemblies/
 
-            cp ../assembly_illumina/assembly/contigs.fasta assemblies/
+            cp ../assembly_illumina/assembly/contigs.fasta assemblies/spades.fna
 
-            cp ../assembly_nanopore/assembly/assembly.fasta assemblies/
+            cp ../assembly_nanopore/raven.fna assemblies/
             ```
 
 ??? failure "Help, my assembly failed!"
@@ -56,33 +56,28 @@ Running `QUAST` is quite simple:
 !!! terminal "code"
 
     ```bash
-    module load QUAST/5.2.0-gimkl-2022a
-
-    quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ assemblies/*.fasta
+    quast.py -r reference/Mbovis_87900.genome.fna --gene-finding -o quast/ assemblies/*.fna
     ```
 
 ??? success "Output"
 
     ```
-    Version: 5.2.0
+    Version: 5.3.0
 
     System information:
-      OS: Linux-3.10.0-693.2.2.el7.x86_64-x86_64-with-glibc2.17 (linux_64)
-      Python version: 3.10.5
-      CPUs number: 2
-
-    Started: 2023-09-28 15:02:30
+    OS: Linux-5.14.0-503.40.1.el9_5.x86_64-x86_64-with-glibc2.35 (linux_64)
+    Python version: 3.12.14
+    CPUs number: 32
 
     # Text omitted...
 
-    Finished: 2023-09-28 15:02:40
-    Elapsed time: 0:00:10.422580
-    NOTICEs: 4; WARNINGs: 1; non-fatal ERRORs: 0
+    Elapsed time: 0:00:05.509653
+    NOTICEs: 5; WARNINGs: 3; non-fatal ERRORs: 0
 
     Thank you for using QUAST!
     ```
 
-Open the resulting `quast/report.pdf` file in Jupyter using the file browser. Take a look through the report and see if you can get a feel for how well your assemblies compare to the reference.
+Open the resulting `quast/report.pdf` file in Jupyter using the file browser, or download the `quast/report.html` file to view it locally. Take a look through the report and see if you can get a feel for how well your assemblies compare to the reference.
 
 How do the Illumina and Nanopore assemblies differ, if at all?
 
@@ -94,15 +89,16 @@ We can also visualise the assemblies by looking at how well the loops and fragme
 
 !!! question "Exercise"
 
-    Copy the `.fastg` (`SPAdes`) and `*.gfa` (`Flye`) files from your previous output folders into your current assembly directory, ready for analysis.
+    Copy the `.fastg` (`SPAdes`) and `.gfa` (`raven`) files from your previous output folders into your current assembly directory, ready for analysis.
 
     ??? circle-check "Solution"
  
         !!! terminal "code"
         
             ```bash
-            cp ../assembly_illumina/assembly/assembly_graph.fastg assemblies/
-            cp ../assembly_nanopore/assembly/assembly_graph.gfa assemblies/
+            cp ../assembly_illumina/assembly/assembly_graph.fastg assemblies/spades.fastg
+
+            cp ../assembly_nanopore/raven.gfa assemblies/
             ```
 
 Running the tool is then a matter of:
@@ -110,12 +106,10 @@ Running the tool is then a matter of:
 !!! terminal "code"
 
     ```bash
-    module load Bandage/0.8.1_Centos
-
-    Bandage image assemblies/assembly_graph.fastg spades_bandage.svg
+    Bandage image assemblies/spades.fastg spades_bandage.svg
     ```
 
-You can then open the `assembly_bandage.svg` file in the Jupyter browser. Unfortunately, we cannot filter out the short contigs from this result. However, it should be clear that there is one long contig which has been assembled, and then a large number of short fragments.
+You can then open the `spades_bandage.svg` file in the Jupyter browser. Unfortunately, we cannot filter out the short contigs from this result. However, it should be clear that there is one long contig which has been assembled, and then a large number of short fragments.
 
 !!! question "Exercise"
 
@@ -126,10 +120,16 @@ You can then open the `assembly_bandage.svg` file in the Jupyter browser. Unfort
         !!! terminal "code"
 
             ```bash
-            Bandage image assemblies/assembly_graph.gfa flye_bandage.sv
+            Bandage image assemblies/raven.gfa raven_bandage.svg
             ```
 
         The data have assembled cleanly into a single contig, without bubbles, and there are no short fragments plotted.
+
+!!! info "Assemblies are not always this clean!"
+
+    Although there are slight differences in the quality of these two assemblies, they are still extremely good attempts at recovering the *M. bovis* genome. This will not always be the case! With a different set of input data, significantly worse results can be seen.
+
+    If you look inside the `examples/` directory, there are two examples of alternate forms of this genome produced from slightly different sets of the same input data.
 
 ---
 

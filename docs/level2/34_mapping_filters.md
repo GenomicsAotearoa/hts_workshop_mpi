@@ -22,7 +22,7 @@
 
 ## Why we need to compress and filter `sam` files
 
-Now that we have created some basic mapping data in the `sam` files , let's take a look at the size of these files. Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping/` directory and run the following command:
+Now that we have created some basic mapping data in the `sam` files , let's take a look at the size of these files. Navigate to the `level2/mapping/` directory and run the following command:
 
 !!! terminal "code"
 
@@ -67,10 +67,11 @@ The main tool used for handling sam and bam files is called `samtools`. Load the
 !!! terminal "code"
 
     ```bash
-    module purge
-    module load SAMtools/1.16.1-GCC-11.3.0
+    # Set the output using redirection
+    samtools sort Mbovis_87900.16S_rRNA.bowtie2.sam > Mbovis_87900.16S_rRNA.bowtie2.bam
 
-    samtools view -bS Mbovis_87900.16S_rRNA.bowtie2.sam | samtools sort -o Mbovis_87900.16S_rRNA.bowtie2.bam
+    # Set the output using the output parameter
+    samtools sort -o Mbovis_87900.16S_rRNA.bowtie2.bam Mbovis_87900.16S_rRNA.bowtie2.sam
     ```
 
 ??? question "What is the pipe for..."
@@ -115,7 +116,7 @@ By compressing the data of the sam file into the bam file we have already reduce
             ```bash
             for i in bowtie2 nanopore;
             do
-                samtools view -bS Mbovis_87900.genome.${i}.sam | samtools sort -o Mbovis_87900.genome.${i}.bam
+                samtools sort -o Mbovis_87900.genome.${i}.bam Mbovis_87900.genome.${i}.sam
             done
             ```
 

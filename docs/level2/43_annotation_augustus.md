@@ -28,43 +28,6 @@ A recently published article ([Scalzitti *et al.*, 2020](https://doi.org/10.1186
 
 >**Note:** `AUGUSUTUS` does require training against a closely related model organisms to generate accurate predictions, which we do not have for this workshop. We will instead be performing predictions with a few different models and seeing how the outputs differ.
 
-!!! question "Exercise"
-
-    Find the latest version of `AUGUSTUS` on NeSI and load it.
-
-    ??? circle-check "Solution"
-
-        !!! terminal "code"
-
-            ```bash
-            module spider augustus
-
-            module purge
-            module load AUGUSTUS/3.5.0-gimkl-2022a
-
-            augustus
-            ```
-
-            ??? success "Output"
-
-                ```
-                AUGUSTUS (3.5.0) is a gene prediction tool.
-                Sources and documentation at https://github.com/Gaius-Augustus/Augustus
-
-                usage:
-                augustus [parameters] --species=SPECIES queryfilename
-
-                'queryfilename' is the filename (including relative path) to the file containing the query sequence(s)
-                in fasta format.
-
-                SPECIES is an identifier for the species. Use --species=help to see a list.
-
-                parameters:
-                ...
-
-                For a complete list of parameters, type "augustus --paramlist". A description of the important ones can be found in the file RUNNING-AUGUSTUS.md.
-                ```
-
 ---
 
 ## Predicting protein coding regions
@@ -110,8 +73,6 @@ We will use two different models for an initial round of prediction on the *Haly
         input/NW_020110202.fna \
         > outputs/NW_020110202.aug_hb1.gff
     ```
-
-This will take about 15 minutes to run, so while it is running set up the following exercise as well:
 
 !!! question "Exercise"
 

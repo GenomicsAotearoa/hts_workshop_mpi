@@ -43,68 +43,57 @@ We will be using `kraken2` today, as it is a tool which is used often within our
 
 ## Getting started with `kraken2`
 
-Navigate to `/nesi/project/nesi03181/phel/USERNAME/level2/annotation_kraken2/` and prepare to run `kraken2`.
+Navigate to `level2/annotation_kraken2/` and run `kraken2` with the help paramter (`-h`).
 
-!!! question "Exercise"
+!!! terminal "code"
 
-    Find and load the most current version of `kraken2`. Once loaded, run with the help paramter (`-h`) to confirm that the module has successfully loaded.
+    ```bash
+    kraken2 -h
+    ```
 
-    ??? circle-check "Solution"
+    ??? success "Output"
 
-        !!! terminal "code"
+        ```
+        Usage: kraken2 [options] <filename(s)>
 
-            ```bash
-            module spider kraken2
+        Options:
+        --db NAME               Name for Kraken 2 DB
+                                (default: "/opt/nesi/db/Kraken2/standard-2018-09")
+        --threads NUM           Number of threads (default: 1)
+        --quick                 Quick operation (use first hit or hits)
+        --unclassified-out FILENAME
+                                Print unclassified sequences to filename
+        --classified-out FILENAME
+                                Print classified sequences to filename
+        --output FILENAME       Print output to filename (default: stdout); "-" will
+                                suppress normal output
+        --confidence FLOAT      Confidence score threshold (default: 0.0); must be
+                                in [0, 1].
+        --minimum-base-quality NUM
+                                Minimum base quality used in classification (def: 0,
+                                only effective with FASTQ input).
+        --report FILENAME       Print a report with aggregrate counts/clade to file
+        --use-mpa-style         With --report, format report output like Kraken 1's
+                                kraken-mpa-report
+        --report-zero-counts    With --report, report counts for ALL taxa, even if
+                                counts are zero
+        --report-minimizer-data With --report, report minimizer and distinct minimizer
+                                count information in addition to normal Kraken report
+        --memory-mapping        Avoids loading database into RAM
+        --paired                The filenames provided have paired-end reads
+        --use-names             Print scientific names instead of just taxids
+        --gzip-compressed       Input files are compressed with gzip
+        --bzip2-compressed      Input files are compressed with bzip2
+        --minimum-hit-groups NUM
+                                Minimum number of hit groups (overlapping k-mers
+                                sharing the same minimizer) needed to make a call
+                                (default: 2)
+        --help                  Print this message
+        --version               Print version information
 
-            module purge
-            module load Kraken2/2.1.3-GCC-11.3.0
-
-            kraken2 -h
-            ```
-
-            ??? success "Output"
-
-                ```
-                Usage: kraken2 [options] <filename(s)>
-
-                Options:
-                --db NAME               Name for Kraken 2 DB
-                                        (default: "/opt/nesi/db/Kraken2/standard-2018-09")
-                --threads NUM           Number of threads (default: 1)
-                --quick                 Quick operation (use first hit or hits)
-                --unclassified-out FILENAME
-                                        Print unclassified sequences to filename
-                --classified-out FILENAME
-                                        Print classified sequences to filename
-                --output FILENAME       Print output to filename (default: stdout); "-" will
-                                        suppress normal output
-                --confidence FLOAT      Confidence score threshold (default: 0.0); must be
-                                        in [0, 1].
-                --minimum-base-quality NUM
-                                        Minimum base quality used in classification (def: 0,
-                                        only effective with FASTQ input).
-                --report FILENAME       Print a report with aggregrate counts/clade to file
-                --use-mpa-style         With --report, format report output like Kraken 1's
-                                        kraken-mpa-report
-                --report-zero-counts    With --report, report counts for ALL taxa, even if
-                                        counts are zero
-                --report-minimizer-data With --report, report minimizer and distinct minimizer
-                                        count information in addition to normal Kraken report
-                --memory-mapping        Avoids loading database into RAM
-                --paired                The filenames provided have paired-end reads
-                --use-names             Print scientific names instead of just taxids
-                --gzip-compressed       Input files are compressed with gzip
-                --bzip2-compressed      Input files are compressed with bzip2
-                --minimum-hit-groups NUM
-                                        Minimum number of hit groups (overlapping k-mers
-                                        sharing the same minimizer) needed to make a call
-                                        (default: 2)
-                --help                  Print this message
-                --version               Print version information
-
-                If none of the *-compressed flags are specified, and the filename provided
-                is a regular file, automatic format detection is attempted.
-                ```
+        If none of the *-compressed flags are specified, and the filename provided
+        is a regular file, automatic format detection is attempted.
+        ```
 
 One of the nice perks of working with `kraken2` is that the maintainers of the tool provide pre-computed, up-to-date [databases for classification](https://benlangmead.github.io/aws-indexes/k2). These are released in many different variants - some for use of HPCs and some for local machines, and databases which cover a range of target organisms.
 
@@ -122,62 +111,31 @@ One of the nice perks of working with `kraken2` is that the maintainers of the t
 
     ---
 
-    For training, we are using a reduced version of this database (`PlusPFP-16`) so that our jobs do not need to queue as long, but the same lineages are represented in this smaller database.
+    For training, we are using a reduced version of this database (`PlusPFP-16`) so that our jobs do not need as many resources and do not take too long to run.
 
-This makes it a comprehensive database for most purposes, but if you are tring to annotate insect sequences this is not the right database for you. For training purposes, a copy of this database can be found at `/nesi/project/nesi03181/phel/databases/` and we also have a copy in our diagnostic workspace.
+This makes it a comprehensive database for most purposes, but if you are tring to annotate insect sequences this is not the right database for you.
 
 !!! warning "Make sure you have the right database for your work"
 
     It is critical to know what is in your classification database, as a failure to include the correct reference material in the database will result in sequences being either misclassified, or not classified at all.
 
+    As part of the accredited HTS workflow used by the Virology team we keep an up-to-date copy of this database on NeSI, but this will not be appropriate for all teams to use.
+
 ---
 
 ## Performing basic classification with `kraken2`
 
-To begin, we are going to write a `slurm` script to run `kraken2` with a fairly minimal set in input parameters just to see the tool in action. Although `kraken2` is very fast to run, it requires a lot of memory (RAM) to run so we cannot run it from the command line in most cases.
+To begin, we are going to run `kraken2` with a fairly minimal set in input parameters just to see the tool in action.
 
 Complete the following script, then submit your `slurm` job.
-
-!!! file-code "kraken2_basic.sl"
-
-    ```bash
-    #!/bin/bash -e
-    #SBATCH --account       nesi03181
-    #SBATCH --job-name      kraken2_basic
-    #SBATCH --time          00:01:00
-    #SBATCH --cpus-per-task 16
-    #SBATCH --mem           20G
-    #SBATCH --error         kraken2_basic.%j.err
-    #SBATCH --output        kraken2_basic.%j.out
-
-    module purge
-    module load Kraken2/2.1.3-GCC-11.3.0
-
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/annotation_kraken2/
-
-    PFP_DB="/nesi/project/nesi03181/phel/databases/k2_pluspfp_16gb_20231009"
-    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --use-names \
-        --output outputs/input_seqs.out \
-        input/input_seqs.fna
-    ```
-
-!!! note "No email block in the `slurm` script"
-
-    This job will take less than 30 seconds to complete, so we're not going to bother with the email notifications for job status. The only reason we need to push this job through `slurm` at all is because of the memory required to run the tool.
 
 !!! terminal "code"
 
     ```bash
-    sbatch kraken2_basic.sl
+    kraken2 --db /home/shared/databases/k2_pluspfp/ --threads 4 --use-names \
+        --output outputs/input_seqs.out \
+        input/input_seqs.fna
     ```
-
-    ??? success "Output"
-
-        ```
-        Submitted batch job XXXXXXXX
-        ```
-
-This will not take long to run.
 
 ---
 
@@ -185,7 +143,7 @@ This will not take long to run.
 
 Once the job is complete, use `less` or `head` to take a look at the output file. The output file is a tab-delimited table with the following columns:
 
-!!! file-code "kraken2_basic.sl"
+!!! file-code "input_seqs.out"
 
     |Column|Content|
     |:---:|:---|
@@ -200,7 +158,7 @@ It is also possible to generate a report file that summarises the number of sequ
 !!! terminal "code"
 
     ```bash
-    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --use-names \
+    kraken2 --db /home/shared/databases/k2_pluspfp/ --threads 4 --use-names \
         --output outputs/input_seqs.out \
         --report outputs/input_seqs.report.txt \
         input/input_seqs.fna
@@ -248,40 +206,14 @@ This means that if you want to change your filtering criteria you must perform c
 
 We generally don't need to apply much of a cutoff to `kraken2` - the tool is already good at identifying sequences which can't be reliably classified.
 
-!!! file-code "kraken2_refined.sl"
-
-    ```bash
-    #!/bin/bash -e
-    #SBATCH --account       nesi03181
-    #SBATCH --job-name      kraken2_refined
-    #SBATCH --time          00:01:00
-    #SBATCH --cpus-per-task 16
-    #SBATCH --mem           20G
-    #SBATCH --error         kraken2_refined.%j.err
-    #SBATCH --output        kraken2_refined.%j.out
-
-    module purge
-    module load Kraken2/2.1.3-GCC-11.3.0
-
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/annotation_kraken2/
-
-    PFP_DB="/nesi/project/nesi03181/phel/databases/k2_pluspfp_16gb_20231009"
-    kraken2 --db ${PFP_DB} --threads ${SLURM_CPUS_PER_TASK} --confidence 0.1 --use-names \
-        --output outputs/input_seqs.conf_0.1.out \
-        input/input_seqs.fna
-    ```
-
 !!! terminal "code"
 
     ```bash
-    sbatch kraken2_refined.sl
+    kraken2 --db /home/shared/databases/k2_pluspfp/ --threads 4 --use-names \
+        --confidence 0.01 \
+        --output outputs/input_seqs.conf.out \
+        input/input_seqs.fna
     ```
-
-    ??? success "Output"
-
-        ```
-        Submitted batch job XXXXXXXX
-        ```
 
 ---
 
@@ -340,19 +272,19 @@ If we point this towards the correct column, we can count how many sequences wer
         ```bash
         n=1
         cut -f ${n} outputs/input_seqs.out | sort | uniq -c
-        cut -f ${n} outputs/input_seqs.conf_0.1.out | sort | uniq -c
+        cut -f ${n} outputs/input_seqs.conf_0.01.out | sort | uniq -c
         ```
 
         ??? success "Output"
 
             ```
             # outputs/input_seqs.out
-            5205 C
-             409 U
+            5138 C
+             476 U
 
             # outputs/input_seqs.conf_0.1.out
-              10 C
-            5604 U
+            3748 C
+            1866 U
             ```
 
 As you can see, even a small degree of filtering has a drastic impact on the classification rate. If you are applying a filter value, using a low threshold is recommended to avoid discarding too much usable data.
@@ -373,32 +305,20 @@ If you skim through the results of both output files, you should note the follow
 
     |Lineage|Observations|
     |:---|:---:|
-    |*Solanum lycopersicum*|4,976|
-    |unclassified|409|
-    |*Xylella fastidiosa*|162|
-    |*Homo sapiens*|37|
-    |*Solanum* subgen. *Lycopersicon*|6|
-    |*Solanum pennellii*|2|
-    |*Triticum aestivum*|2|
-    |*Asparagus officinalis*|1|
-    |*Flavobacterium* sp.|1|
-    |*Hordeum vulgare*|1|
-    |*Lolium rigidum*|1|
-    |*Oryza brachyantha*|1|
-    |*Pandoraea thiooxydans*|1|
+    |*Solanum lycopersicum*|4,827|
+    |*Homo sapiens*|36|
+    |*Xylella fastidiosa*|129|
     |Potato virus X|1|
-    |*Setaria viridis*|1|
-    |*Streptomyces cinnabarinus*|1|
 
 ??? file-code "outputs/input_seqs.conf_0.1.out"
 
     |Lineage|Observations|
     |:---|:---:|
-    |unclassified|5,604|
-    |*Homo sapiens*|6|
-    |*Solanum lycopersicum*|2|
+    |*Solanum lycopersicum*|991|
+    |*Homo sapiens*|14|
+    |*Xylella fastidiosa*|78|
     |Potato virus X|1|
-
+    
 What should be apparent here is that while filtering did remove a lot of the noise from our sample (we lost species we know are not truly present) we also lost a signal that **_was_** in the sample.
 
 !!! warning "Recommendation for `kraken2`"

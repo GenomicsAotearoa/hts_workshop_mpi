@@ -22,53 +22,38 @@
 
 We are going to be predicting protein coding sequences in a reference *M. bovis* genome using the tool `prodigal` ([Hyatt *et al.*, 2010](https://doi.org/10.1186/1471-2105-11-119)). This is a powerful prediction tool which is quick to run, and flexible enough for most projects.
 
-Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/annotation_prodigal/` directory and prepare to run `prodigal`.
+Navigate to the `level2/annotation_prodigal/` directory and prepare to run `prodigal` to view the run parameters.
 
-!!! question "Exercise"
+!!! terminal "code"
 
-    Use your knowledge of `slurm` to find and load the more current version of `prodigal` available on NeSI. Once loaded, run with the help paramter (`-h`) to confirm that the module has successfully loaded.
+    ```bash
+    prodigal -h
+    ```
 
-    ??? circle-check "Solution"
+    ??? success "Output"
 
-        !!! terminal "code"
+        ```
+        Usage:  prodigal [-a trans_file] [-c] [-d nuc_file] [-f output_type]
+                        [-g tr_table] [-h] [-i input_file] [-m] [-n] [-o output_file]
+                        [-p mode] [-q] [-s start_file] [-t training_file] [-v]
 
-            ```bash
-            # One of the following:
-            module spider prodigal
-
-            module avail prodigal
-
-            # Load and confirm
-            module purge
-            module load prodigal/2.6.3-GCCcore-7.4.0
-
-            prodigal -h
-            ```
-
-            ??? success "Output"
-
-                ```
-                Usage:  prodigal [-a trans_file] [-c] [-d nuc_file] [-f output_type]
-                                [-g tr_table] [-h] [-i input_file] [-m] [-n] [-o output_file]
-                                [-p mode] [-q] [-s start_file] [-t training_file] [-v]
-
-                        -a:  Write protein translations to the selected file.
-                        -c:  Closed ends.  Do not allow genes to run off edges.
-                        -d:  Write nucleotide sequences of genes to the selected file.
-                        -f:  Select output format (gbk, gff, or sco).  Default is gbk.
-                        -g:  Specify a translation table to use (default 11).
-                        -h:  Print help menu and exit.
-                        -i:  Specify FASTA/Genbank input file (default reads from stdin).
-                        -m:  Treat runs of N as masked sequence; don't build genes across them.
-                        -n:  Bypass Shine-Dalgarno trainer and force a full motif scan.
-                        -o:  Specify output file (default writes to stdout).
-                        -p:  Select procedure (single or meta).  Default is single.
-                        -q:  Run quietly (suppress normal stderr output).
-                        -s:  Write all potential genes (with scores) to the selected file.
-                        -t:  Write a training file (if none exists); otherwise, read and use
-                            the specified training file.
-                        -v:  Print version number and exit.
-                ```
+                -a:  Write protein translations to the selected file.
+                -c:  Closed ends.  Do not allow genes to run off edges.
+                -d:  Write nucleotide sequences of genes to the selected file.
+                -f:  Select output format (gbk, gff, or sco).  Default is gbk.
+                -g:  Specify a translation table to use (default 11).
+                -h:  Print help menu and exit.
+                -i:  Specify FASTA/Genbank input file (default reads from stdin).
+                -m:  Treat runs of N as masked sequence; don't build genes across them.
+                -n:  Bypass Shine-Dalgarno trainer and force a full motif scan.
+                -o:  Specify output file (default writes to stdout).
+                -p:  Select procedure (single or meta).  Default is single.
+                -q:  Run quietly (suppress normal stderr output).
+                -s:  Write all potential genes (with scores) to the selected file.
+                -t:  Write a training file (if none exists); otherwise, read and use
+                    the specified training file.
+                -v:  Print version number and exit.
+        ```
 
 There are quite a few options given here, which we can split into input and output parameters.
 
@@ -102,8 +87,6 @@ There are quite a few options given here, which we can split into input and outp
 ---
 
 ## Predicting protein coding regions
-
-One of the nice features of `prodigal` is that it does not take a lot of resources to run, so we can easily run it without resorting to `slurm` for a single genome.
 
 !!! terminal "code"
 

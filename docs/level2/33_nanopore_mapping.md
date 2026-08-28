@@ -26,14 +26,11 @@ Similar to `bowtie2`, it is possible to create a pre-computed index file for per
 
     Whether or not you need to manually index your reference depends on the situation. The indexing process in `minimap2` is very fast and for quick, one-off applications you can probably skip it. If you are producing an index which is going to be reused many times it might be worth creating a common index file which can be recycled between mapping applications. This might particularly be desirable if you application is for some routine diagnostic purpose, so that you have a single mapping index for all analyses for quality tradking purposes.
 
-To perform mapping, navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping/` directory again, and map the smaller fasta file using `minimap2`:
+To perform mapping, navigate to the `level2/mapping/` directory again, and map the smaller fasta file using `minimap2`:
 
 !!! terminal "code"
 
     ```bash
-    module purge
-    module load minimap2/2.24-GCC-11.3.0
-
     minimap2 -d references/Mbovis_87900.genome.mmi references/Mbovis_87900.genome.fna
     ```
 

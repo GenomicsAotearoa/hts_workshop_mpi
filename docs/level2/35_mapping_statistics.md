@@ -22,16 +22,13 @@
 
 ### Summarising the contents of a `bam` file
 
-This section will start with a new mapping file, although you could apply these commands to anything produced as part of the [filtering exercises](./34_mapping_filters.md) instead. Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping_statistics/` directory and view the contents.
+This section will start with a new mapping file, although you could apply these commands to anything produced as part of the [filtering exercises](./34_mapping_filters.md) instead. Navigate to the `level2/mapping_statistics/` directory and view the contents.
 
 We wil take a look at the high-level summary of the contents of these files with the `samtools flagstat` command:
 
 !!! terminal "code"
 
     ```bash
-    module purge
-    module load SAMtools/1.16.1-GCC-11.3.0
-
     samtools flagstat SRR18260232.raw_reads.bam
     ```
 
@@ -178,6 +175,7 @@ The syntax for performing this kind of depth summary is to add a parameter speci
 
     ```bash
     samtools index SRR18260232.clean_reads.bam
+
     samtools depth -a -r NZ_LAUS01000004.1:94986-96779 SRR18260232.clean_reads.bam  > SRR18260232.clean_reads.tef4.txt
 
     wc -l SRR18260232.clean_reads.txt SRR18260232.clean_reads.tef4.txt
@@ -225,6 +223,7 @@ As you can see, this has cut the mapping space down considerably. It is now of a
 
             ```bash
             samtools index SRR18260232.raw_reads.bam
+
             samtools depth -a -r NZ_LAUS01000004.1:41621-43134 SRR18260232.raw_reads.bam  > SRR18260232.raw_reads.16s_rrna.txt
             ```
 

@@ -10,7 +10,6 @@
     
     * Understand the fundamental process of mapping reads to a reference sequence.
     * Understand the output files from mapping tools.
-    * Learn how to import mapping results into GUI programs such as `Geneious` for further analysis.
     
     #### Keypoints
     
@@ -106,7 +105,7 @@ When sorted the reads are ordered by the position of their first mapped nucleoti
     Map: -----------NTIG
     ```
 
-The sorted file can be used as input for any downstream processeses in our command line work, or can be imported into GUI programs for a visual analysis. Although we rely on NeSI for performing mapping in these exercises, we will use `Geneious` for visualising the results.
+The sorted file can be used as input for any downstream processeses in our command line work, or can be imported into GUI programs for a visual analysis. Although we rely on NeSI for performing mapping in these exercises, we will often pull the data into `Geneious` for visualising the results.
 
 There are several ways to import `sam` and `bam` files into `Geneious` either by using the `Import Files...` option from the `File` menu, or simply dragging and dropping the files into the `Geneious` document table.
 
@@ -147,12 +146,12 @@ As a starting point, some of the most popular mapping tools and their uses inclu
 
 In order to perform read mapping we need to have a downloaded copy of the sequence we wish to map against. Generally this will be either a completed or near-complete reference genome of the species/strain of interest, or a closely related organism. In this exercise, however, we are going to use a single gene so that when we later visualise the results in `Geneious` the display will be easy to navigate.
 
-Performing the reference download will not be required as you have been provided with a reference sequence for this exercise. Navigate to the `/nesi/project/nesi03181/phel/USERNAME/level2/mapping/` folder and check the contents of the `references/` folder to begin.
+Performing the reference download will not be required as you have been provided with a reference sequence for this exercise. Navigate to the `level2/mapping/` folder and check the contents of the `references/` folder to begin.
 
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/mapping/
+    cd level2/mapping/
     ls references/
     ```
 
@@ -169,11 +168,8 @@ Finding the correct reference sequence is less bioinformatics and more a matter 
     !!! terminal "code"
 
         ```bash
-        module purge
-        module load entrez-direct/13.3
-        module load seqmagick/0.8.4-gimkl-2020a-Python-3.8.2
-
         efetch -format fasta -db sequences -id NZ_LAUS01000004 > Mbovis_87900.genome.fna
+
         seqmagick convert --cut 41621-43134 Mbovis_87900.genome.fna Mbovis_87900.16S_rRNA.fna
         ```
 
