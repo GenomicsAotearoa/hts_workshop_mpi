@@ -35,7 +35,7 @@ We'll search for strings inside of our fastq files. Let's first make sure we are
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/shell_data/
+    cd level2/shell_data/
     ```
 
 Suppose we want to see how many reads in our file have really bad segments containing 10 consecutive unknown nucleotides (`N`s).
@@ -65,7 +65,7 @@ Let's search for the string `NNNNNNNNNN` in the `SRR098026.fastq` file:
 
 This command returns a lot of output to the terminal. Every single line in the `SRR098026.fastq` file that contains at least 10 consecutive `N`s is printed to the terminal, regardless of how long or short the file is. We may be interested not only in the actual sequence which contains this string, but in the name (or identifier) of that sequence.
 
-We discussed in levle 1 training that the identifier line immediately precedes the nucleotide sequence for each read in a fastq file and that the quality scores associated with each of these reads is spread over the third and fourth line (see [this description of the fastq format](../supplementary/fastq_format.md) if you are unsure why we are using these numbers).
+We discussed in level 1 training that the identifier line immediately precedes the nucleotide sequence for each read in a fastq file and that the quality scores associated with each of these reads is spread over the third and fourth line (see [this description of the fastq format](../supplementary/fastq_format.md) if you are unsure why we are using these numbers).
 
 We can use the `-B` argument for grep to return a specific number of lines before each match. The `-A` argument returns a specific number of lines after each matching line. Here we want the line *before* and the two lines *after* each matching line, so we add `-B1 -A2` to our grep command:
 
@@ -207,7 +207,7 @@ Navigate to the `shell_data/` folder, and inspect the contents of the file `SRR0
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/shell_data/
+    cd level2/shell_data/
     cat SRR097977.small.fq
     ```
 
