@@ -32,7 +32,7 @@ This is the fundamental idea of variables - we are getting the computer to store
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/shell_data/
+    cd level2/shell_data/
     grep NNNNNNNNNN SRR098026.fastq
     ```
 

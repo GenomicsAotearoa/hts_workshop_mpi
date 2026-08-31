@@ -34,7 +34,7 @@ Navigate to the `redirection/` folder and we'll get started.
 !!! terminal "code"
 
     ```bash
-    cd /nesi/project/nesi03181/phel/USERNAME/level2/redirection/
+    cd level2/redirection/
     ```
 
 The command for redirecting output to a file is <kbd>></kbd>. Let's revisit our example using the `${MOTIF}` variable to represent the sequence motif we want to capture and we'll redirect the output of the search into a new file.
@@ -232,7 +232,7 @@ We will not cover all of the command line tools that exist on NeSI, but here are
 
     This is because `uniq` keeps no record that it has previously seen an `a` value. When it hits the last line of the file and encounters the `a` it only tests if that `a` matches the value of the previous line, which was a `c`. Since they do not match, the `a` is reported. This means that we must sort the information in our text stream before passing it into `uniq` if we want to see only the unique pieces of information.
 
-We are going to write a command that chains together three of the commands above to produce a basic summary of a table of information. In the `redirection/` folder there is a table called `ncbi_viruses.txt` which is a non-exhaustive list of the virus names recorded in the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/) database. It's a big file (22,387 lines) so we're going to build a set of commands to perform a quick summary of some of the information it contains.
+We are going to write a command that chains together three of the commands above to produce a basic summary of a table of information. In the `redirection/` folder there is a table called `ncbi_viruses.txt` which is a non-exhaustive list of the virus names recorded in the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/) database. It's a big file (248,901 lines) so we're going to build a set of commands to perform a quick summary of some of the information it contains.
 
 If you run a quick `less` (remembering <kdb>Q</kdb> to quit) or `head` command you will see that the contents look something like
 
@@ -240,20 +240,20 @@ If you run a quick `less` (remembering <kdb>Q</kdb> to quit) or `head` command y
 
     ```
     taxid   Kingdom Phylum  Class   Order   Family  Genus   Species
-    2716741 Viruses Pisuviricota    Pisoniviricetes Picornavirales  Iflaviridae     Iflavirus       ACT flea iflavirus
-    1244521 Viruses Negarnaviricota Ellioviricetes  Bunyavirales    Hantaviridae    Orthohantavirus ANAJ Hantavirus
-    1482734 Viruses Pisuviricota    Pisoniviricetes Picornavirales  Picornaviridae  Aalivirus       Aalivirus A
-    2320189 Viruses Uroviricota     Caudoviricetes  unclassified    Autographiviridae       Aarhusvirus     Aarhusvirus dagda
+    35239   Viruses Uroviricota     Caudoviricetes  unclassified    unclassified    unclassified    Bacillusphage phiE
+    1865629 Viruses Negarnaviricota Insthoviricetes Articulavirales Orthomyxoviridae        Alphainfluenzavirus     Alphainfluenzavirus influenzae
+    1914506 Viruses Negarnaviricota Insthoviricetes Articulavirales Orthomyxoviridae        Alphainfluenzavirus     Alphainfluenzavirus influenzae
+    1326606 Viruses Artverviricota  Revtraviricetes Ortervirales    Retroviridae    Lentivirus      Lentivirus humimdef1
     ```
 
 The rendering of the contents is a bit uneven, but each text value is separated by a <kdb>Tab</kdb> character so if you copied this data into Excel you would see the values as a table:
 
 |taxid|Kingdom|Phylum|Class|Order|Family|Genus|Species|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|2716741|Viruses|Pisuviricota|Pisoniviricetes|Picornavirales|Iflaviridae|Iflavirus|ACT flea iflavirus|
-|1244521|Viruses|Negarnaviricota|Ellioviricetes|Bunyavirales|Hantaviridae|Orthohantavirus|ANAJ Hantavirus|
-|1482734|Viruses|Pisuviricota|Pisoniviricetes|Picornavirales|Picornaviridae|Aalivirus|Aalivirus A|
-|2320189|Viruses|Uroviricota|Caudoviricetes|unclassified|Autographiviridae|Aarhusvirus|Aarhusvirus dagda|
+|35239|Viruses|Uroviricota|Caudoviricetes|unclassified|unclassified|unclassified|Bacillusphage phiE|
+|1865629|Viruses|Negarnaviricota|Insthoviricetes|Articulavirales|Orthomyxoviridae|Alphainfluenzavirus|Alphainfluenzavirus influenzae|
+|1914506|Viruses|Negarnaviricota|Insthoviricetes|Articulavirales|Orthomyxoviridae|Alphainfluenzavirus|Alphainfluenzavirus influenzae|
+|1326606|Viruses|Artverviricota|Revtraviricetes|Ortervirales|Retroviridae|Lentivirus|Lentivirus humimdef1|
 
 Our aim here is to use the commands mentioned above to perform a quick tally of the genera within the family *Potyviridae*. This will require us to perform the following steps:
 
@@ -291,19 +291,19 @@ From there we can provide `cut` with the parameters we need and then either dire
     grep "Potyviridae" ncbi_viruses.txt | cut -f7 | sort
     ```
 
-??? success "Output (last 10 lines)"
+??? success "Output (first 10 lines)"
 
     ```
-    Roymovirus
-    Rymovirus
-    Rymovirus
-    Rymovirus
-    Tritimovirus
-    Tritimovirus
-    Tritimovirus
-    Tritimovirus
-    Tritimovirus
-    Tritimovirus
+    Arepavirus
+    Arepavirus
+    Arepavirus
+    Arepavirus
+    Bevemovirus
+    Brambyvirus
+    Bymovirus
+    Bymovirus
+    Bymovirus
+    Bymovirus
     ```
 
 And that's most of the command we need. The initial file is filtered for lines that contain the text 'Potyviridae', those lines are passed into the `cut` command which extracts just the information in the genus column. The results are then alphabetically sorted and `uniq` reports the unique names found.
@@ -325,18 +325,20 @@ The only thing we need to do to complete the exercise is to report how many of e
         ??? success "Output"
 
             ```
-            2 Arepavirus
-            1 Bevemovirus
-            1 Brambyvirus
-            7 Bymovirus
-            1 Celavirus
-            9 Ipomovirus
-            14 Macluravirus
-            3 Poacevirus
-            316 Potyvirus
-            2 Roymovirus
-            3 Rymovirus
-            6 Tritimovirus
+             4 Arepavirus
+             1 Bevemovirus
+             1 Brambyvirus
+             7 Bymovirus
+             1 Celavirus
+            34 Ipomovirus
+            23 Macluravirus
+             2 Phragmivirus
+             6 Poacevirus
+           463 Potyvirus
+             4 Roymovirus
+             4 Rymovirus
+             6 Tritimovirus
+            80 unclassified
             ```
 
 ---
