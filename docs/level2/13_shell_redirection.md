@@ -29,12 +29,12 @@ In the previous session we were using the `grep` command allowed us to identify 
 
 We can do this with something called **redirection**. The idea is that we are taking what would ordinarily be printed to the terminal screen and redirecting it to another location. In our case, we want to move the information printed on our terminal into a file so that we can look at it later.
 
-Navigate to the `redirection/` folder and we'll get started.
+Navigate to the `shell_data/` folder and we'll get started.
 
 !!! terminal "code"
 
     ```bash
-    cd level2/redirection/
+    cd level2/shell_data/
     ```
 
 The command for redirecting output to a file is <kbd>></kbd>. Let's revisit our example using the `${MOTIF}` variable to represent the sequence motif we want to capture and we'll redirect the output of the search into a new file.
