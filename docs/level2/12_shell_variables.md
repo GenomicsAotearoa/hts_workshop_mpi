@@ -326,7 +326,7 @@ Let's start writing the loop, going line by line. Once you have entered the firs
         !!! terminal "code"
 
             ```bash
-            for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+            for MOTIF in "NNNNNNNN" "TGTTACAG" "CTCAAACC";
             do
                 echo ${MOTIF}
                 grep -c ${MOTIF} SRR098026.fastq
@@ -365,7 +365,7 @@ Our loop is now functional, but it is quite narrow in scope. We're now going to 
         !!! terminal "code"
 
             ```bash
-            for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+            for MOTIF in "NNNNNNNN" "TGTTACAG" "CTCAAACC";
             do
                 echo ${FILENAME}", nucleotide "${MOTIF}
                 grep -c ${MOTIF} ${FILENAME}
@@ -375,11 +375,11 @@ Our loop is now functional, but it is quite narrow in scope. We're now going to 
         ??? success "Output"
 
             ```
-            SRR098026.fastq, nucleotide NNNNNNNNNN
-            134
-            SRR098026.fastq, nucleotide GCTGGCGNNN
-            1
-            SRR098026.fastq, nucleotide TTTTTTTTTT
+            SRR098026.fastq, nucleotide NNNNNNNN
+            223
+            SRR098026.fastq, nucleotide TGTTACAG
+            0
+            SRR098026.fastq, nucleotide CTCAAACC
             0
             ```
 
@@ -389,14 +389,14 @@ If your code works as expected, you can now change the value of `FILENAME` to an
 
     ```bash
     FILENAME=SRR098026.fastq
-    for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+    for MOTIF in "NNNNNNNN" "TGTTACAG" "CTCAAACC";
     do
         echo ${FILENAME}", nucleotide "${MOTIF}
         grep -c ${MOTIF} ${FILENAME}
     done
 
     FILENAME=SRR097977.fastq
-    for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+    for MOTIF in "NNNNNNNN" "TGTTACAG" "CTCAAACC";
     do
         echo ${FILENAME}", nucleotide "${MOTIF}
         grep -c ${MOTIF} ${FILENAME}
@@ -406,19 +406,18 @@ If your code works as expected, you can now change the value of `FILENAME` to an
 ??? success "Output"
 
     ```
-    SRR098026.fastq, nucleotide NNNNNNNNNN
-    134
-    SRR098026.fastq, nucleotide GCTGGCGNNN
-    1
-    SRR098026.fastq, nucleotide TTTTTTTTTT
+    SRR098026.fastq, nucleotide NNNNNNNN
+    223
+    SRR098026.fastq, nucleotide TGTTACAG
     0
-
-    SRR097977.fastq, nucleotide NNNNNNNNNN
+    SRR098026.fastq, nucleotide CTCAAACC
     0
-    SRR097977.fastq, nucleotide GCTGGCGNNN
+    SRR097977.fastq, nucleotide NNNNNNNN
     0
-    SRR097977.fastq, nucleotide TTTTTTTTTT
-    0
+    SRR097977.fastq, nucleotide TGTTACAG
+    4
+    SRR097977.fastq, nucleotide CTCAAACC
+    3
     ```
 
 This is functional, but still quite messy. As a final exercise, we're going to write what is called a 'nested loop', a `for` loop within a `for` loop. The first (outer) loop will iterate through a set of fastq files and assign them to `FILENAME` and the second (inner) loop will perform the `grep` commands.
@@ -428,10 +427,11 @@ We can make use of a *wildcard* here to automatically pick up the names of all f
 !!! terminal "code"
 
     ```bash
-    for FILENAME in *.fastq;
+    for FILENAME in SRR097977.fastq SRR098026.fastq;
     do
         echo "File: "${FILENAME}
-        for MOTIF in "NNNNNNNNNN" "GCTGGCGNNN" "TTTTTTTTTT";
+
+        for MOTIF in "NNNNNNNN" "TGTTACAG" "CTCAAACC";
         do
             echo "Nucleotide: "${MOTIF}
             grep -c ${MOTIF} ${FILENAME}
@@ -443,18 +443,18 @@ We can make use of a *wildcard* here to automatically pick up the names of all f
 
     ```
     File: SRR097977.fastq
-    Nucleotide: NNNNNNNNNN
+    Nucleotide: NNNNNNNN
     0
-    Nucleotide: GCTGGCGNNN
-    0
-    Nucleotide: TTTTTTTTTT
-    0
+    Nucleotide: TGTTACAG
+    4
+    Nucleotide: CTCAAACC
+    3
     File: SRR098026.fastq
-    Nucleotide: NNNNNNNNNN
-    134
-    Nucleotide: GCTGGCGNNN
-    1
-    Nucleotide: TTTTTTTTTT
+    Nucleotide: NNNNNNNN
+    223
+    Nucleotide: TGTTACAG
+    0
+    Nucleotide: CTCAAACC
     0
     ```
 
