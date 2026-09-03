@@ -5,7 +5,7 @@
 !!! clock "time"
 
     * Teaching: 15 minutes
-    * Exercises: 15 minutes
+    * Exercises: 45 minutes
     
 !!! circle-info "Objectives and Key points"
 
@@ -86,21 +86,21 @@ We can use the `-B` argument for grep to return a specific number of lines befor
 
 !!! question "Exercise"
 
-    1. Search for the sequence `GNATNACCACTTCC` in the `SRR098026.fastq` file. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
+    1. Search for the sequence `GNATNACCACTTCC` in the `SRR098026.fastq` file. Have your search return all matching lines, the name (or identifier) for each sequence that contains a match, and the line number for each line returned.
 
     ??? circle-check "Solution"
  
         !!! terminal "code"
         
             ```bash
-            grep -B1 GNATNACCACTTCC SRR098026.fastq
+            grep -B1 -n GNATNACCACTTCC SRR098026.fastq
             ```
 
         ??? success "Output"
 
             ```
-            @SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
-            GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
+            977-@SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
+            978:GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
             ```
 
     2. Search for the sequence `AAGTT` in both fastq files (use `*.fastq` as your file name). Have your search return all matching lines and the name (or identifier) for each sequence that contains a match.
@@ -349,5 +349,55 @@ If you run any of these, you will probably spot that even though we are specifyi
             ```bash
             sed "s/ length=36//" SRR097977.small.fq
             ```
+??? circle-info "What are some practical uses of this?"
+
+    Sometimes these examples can seem a bit abstract - the suite of tools we practice with are very open-ended in how they can be applied and this can make it hard to see the value in using these tools. Here are two real uses of `sed` in day to day bioinformatics.
+
+    Conversion between DNA and RNA sequence representation.
+
+    !!! terminal "code"
+
+        ```bash
+        # Convert the T to U in DNA -> RNA conversion
+        sed "s/T/U/g" DNA.fna
+
+        # Convert the U to a T in RNA -> DNA conversion
+        sed "s/U/T/g" RNA.fna
+        ```
+
+    Stripping the metadata from a fasta or fastq file to reduce file size and reduce clutter.
+
+    This one is a bit trickier to see as it requires two different aspects of the replacement syntax that we didn't cover. If you look at the `SRR097977.small.fq` file above, you'll note that the sequence names are followed by space-delimited descriptions of the sequence. This is a common feature of the file formats used to represent nucleic acid sequences but not always value when we perform analysis. We can use `sed` to identify all text that follows the first <kbd>Space</kbd> character in the line and replace it with nothing. To do this we need to use a wildcard expression to capture any text that follows the <kbd>Space</kbd>. We get the wildcard with the combination `.*`., so the complete expression to remove is ` .*`. We can simply place no text between the second and third <kbd>/</kbd> to signify replacing with nothing.
+
+    !!! terminal "code"
+
+        ```bash
+        sed "s/ .*//g" SRR097977.small.fq
+        ```
+
+    ??? success "Output"
+   
+        ```
+        @SRR097977.1
+        TBTTCTGCCBTBBTGBBBTTCGCCBCTTGTTBGTGT
+        +SRR097977.1
+        CCCCCCCCCCCCCCC>CCCCC7CCCCCCBCB?5B5<
+        @SRR097977.2
+        GGTTBCTCTTTTBBCCTTGBTGTTTCGBCGCTGTBT
+        +SRR097977.2
+        CC:?:CC:?CCCCC??C?:?C-&:C:,?<&*?+7?<
+        @SRR097977.3
+        TTGTTCGCTTTTGGTBBTTBBTCCCGGBBBTBBTBB
+        +SRR097977.3
+        CCCCCCCCCCCC&9BBCCC,C>CCBB&0?4B9&B<6
+        @SRR097977.4
+        TBTCBCTBBBGBTCBBBTCBTTGBBGCBGTTGCBGC
+        +SRR097977.4
+        CCCCCCC:CCC:CCC:CCC9CC??CCCC?0?*?1--
+        @SRR097977.5
+        TBTCTBTCBBBGCCBGGCBBTGGBBGBCCTBCTCCC
+        +SRR097977.5
+        CCCCCCCCC?C?CC3C?CC5C?C1C<?CC8BB+BB%
+        ```
 
 ---
