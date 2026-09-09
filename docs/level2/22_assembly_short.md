@@ -11,11 +11,11 @@
 
     #### Objectives
     
-    * Perform an assemble of a bacterial genome using the `SPAdes` assembly tool.
+    * Perform an assembly of a bacterial genome using the `SPAdes` assembly tool.
     
     #### Keypoints
     
-    * The `SPAdes` genome assembler is a powerful tool for assemnling genoms and contigs from a wide range of sampel types.
+    * The `SPAdes` genome assembler is a powerful tool for assemnling genoms and contigs from a wide range of sample types.
 
 ---
 
