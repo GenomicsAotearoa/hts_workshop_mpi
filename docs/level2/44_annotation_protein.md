@@ -3,7 +3,7 @@
 !!! clock "time"
 
     * Teaching: 20 minutes
-    * Teaching: 30 minutes
+    * Exercises: 30 minutes
 
 !!! circle-info "Objectives and Key points"
 
