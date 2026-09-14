@@ -3,7 +3,7 @@
 !!! clock "time"
 
     * Teaching: 15 minutes
-    * Teaching: 15 minutes
+    * Exercises: 15 minutes
 
 !!! circle-info "Objectives and Key points"
 
@@ -111,7 +111,7 @@ One of the nice perks of working with `kraken2` is that the maintainers of the t
 
     ---
 
-    For training, we are using a reduced version of this database (`PlusPFP-16`) so that our jobs do not need as many resources and do not take too long to run.
+    For training, we are using a reduced version of this database (`PlusPFP-16`) so that our jobs do not take too long to run.
 
 This makes it a comprehensive database for most purposes, but if you are tring to annotate insect sequences this is not the right database for you.
 
@@ -132,7 +132,8 @@ Complete the following script, then submit your `slurm` job.
 !!! terminal "code"
 
     ```bash
-    kraken2 --db /home/shared/databases/k2_pluspfp/ --threads 4 --use-names \
+    kraken2 --threads 4 --use-names \
+        --db ~/level2/databases/k2_pluspfp/ \
         --output outputs/input_seqs.out \
         input/input_seqs.fna
     ```
@@ -158,7 +159,8 @@ It is also possible to generate a report file that summarises the number of sequ
 !!! terminal "code"
 
     ```bash
-    kraken2 --db /home/shared/databases/k2_pluspfp/ --threads 4 --use-names \
+    kraken2 --threads 4 --use-names \
+        --db ~/level2/databases/k2_pluspfp/ \
         --output outputs/input_seqs.out \
         --report outputs/input_seqs.report.txt \
         input/input_seqs.fna
@@ -209,7 +211,8 @@ We generally don't need to apply much of a cutoff to `kraken2` - the tool is alr
 !!! terminal "code"
 
     ```bash
-    kraken2 --db /home/shared/databases/k2_pluspfp/ --threads 4 --use-names \
+    kraken2 --threads 4 --use-names \
+        --db ~/level2/databases/k2_pluspfp/ \
         --confidence 0.01 \
         --output outputs/input_seqs.conf.out \
         input/input_seqs.fna

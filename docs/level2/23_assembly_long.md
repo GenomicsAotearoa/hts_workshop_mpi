@@ -20,7 +20,7 @@
 
 ---
 
-## Introduction to Flye
+## Introduction to raven
 
 Although the gap is closing rapidly, Oxford Nanopore sequences are fundamentally more error prone than the sequences we obtain through Illumina sequencing and a considerable amount of assembly is spent identifying and correcting errors to produce high-quality contigs from a comparably low-quality set of reads.
 
@@ -32,7 +32,7 @@ The median sequence quality for the Nanopore data produced using the (now retire
 
 Finding consensus regions between pairs of reads, when one of them might differ by up to 10% of it's composition **_just due to sequencing error alone_** makes assembly a complicated process and assembly tools which are aware of the error profiles of our long read data are essential.
 
-??? book-atlas "Why use `raven`?"
+??? book-atlas "Why use raven?"
 
     The complete workflow of `raven` ([Vaser *et al.*, 2021](https://doi.org/10.1038/s43588-021-00073-4)) is quite complicated. For our purposes, the main points of the assembly process to understand are:
 
@@ -51,7 +51,7 @@ To run `raven`, navigate to your `assembly_nanopore/` directory, and run the fol
     raven reads/Mbovis_87900.nanopore.fq.gz > raven.fna
     ```
 
-Unlike `SPAdes`, and many other assembly tools, we do not get much output from this rool. In the way we've run it only two files are craeted, and one of them is the assembled genome. For the purposes of the next exercise, we need to produce one more output file.
+Unlike `SPAdes`, and many other assembly tools, we do not get much output from this tool. In the way we've run it only two files are created, and one of them is the assembled genome. For the purposes of the next exercise, we need to produce one more output file.
 
 !!! question "Exercise"
 

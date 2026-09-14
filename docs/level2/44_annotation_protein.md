@@ -3,7 +3,7 @@
 !!! clock "time"
 
     * Teaching: 20 minutes
-    * Teaching: 30 minutes
+    * Exercises: 30 minutes
 
 !!! circle-info "Objectives and Key points"
 
@@ -63,7 +63,7 @@ Navigate to the `level2/annotation_protein/` directory and run the following com
 
     ```bash
         blastp -num_threads 4 -max_target_seqs 10 -evalue 1e-3 -outfmt 6 \
-            -db /home/shared/databases/swissprot_blastp/uniprot_sprot \
+            -db ~/level2/databases/swissprot_blastp/uniprot_sprot \
             -query input/input_seqs.faa \
             -out outputs/blastp.txt
     ```
@@ -84,7 +84,7 @@ The command for running `diamond` is very similar (by design) to `BLASTp`:
 
     ```bash
     diamond blastp --threads 4 --ultra-sensitive --max-target-seqs 10 --evalue 1e-3 --outfmt 6 \
-        --db /home/shared/databases/swissprot_dmnd/uniprot_sprot.dmnd \
+        --db ~/level2/databases/swissprot_dmnd/uniprot_sprot.dmnd \
         --query input/input_seqs.faa \
         --out outputs/diamond.txt
     ```
@@ -93,7 +93,7 @@ The command for running `diamond` is very similar (by design) to `BLASTp`:
 
 ## Comparing the outputs
 
-In both of the jbos above, we specified the tab-delimited `BLAST6` output format, which is a table of the form;
+In both of the jobs above, we specified the tab-delimited `BLAST6` output format, which is a table of the form;
 
 |Column header|Meaning|
 |:---|:---|
