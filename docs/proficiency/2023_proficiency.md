@@ -1,4 +1,4 @@
-# 2023 Level 2 proficiency testing (version 1)
+# 2023 Level 2 proficiency testing
 
 !!! clock "time"
 
@@ -16,7 +16,7 @@
     !!! terminal "code"
 
         ```bash
-        /nesi/project/nesi03181/phel/proficiency/USERNAME/
+        ~/level2_proficiency/
         ```
 
 !!! warning "Output files"
@@ -35,40 +35,64 @@
 
 ## Exercise 1
 
-Navigate to your instance of the `01_illumina_assembly/` folder. You have been provided with the following files:
+Navigate to your instance of the `01_assembly/` folder. You have been provided with the following files:
 
 !!! terminal "code"
 
     ```
     reads/illumina_R1.fq.gz
     reads/illumina_R2.fq.gz
+    reads/nanopore.fq.gz
     reference/reference.fna
     results/provided_assembly.fna
     ```
 
 !!! question "Part 1"
 
-    You are to produce a `slurm` script that uses an approriate assembly tool to assemble the Illumina MiSeq sequences in the `reads/` folder into a draft genome.
+    Create a draft genome assembly from the Illumina sequences from the `reads/` folder using an appropriate assembly tool.
 
-    >Your script will only need about 10 minutes to complete with 16 CPUs.
+    >This job will take about 10 minutes to complete with 4 CPUs.
 
 !!! question "Part 2"
 
-    Use an appropriate tool to determine assembly statistics for your assembly file and use the file `reference/reference.fna` as your reference genome.
+    Create a draft genome assembly from the Oxford Nanopore sequences from the `reads/` folder using an appropriate assembly tool.
 
-    >If your job does not complete in a reasonable amount of time, you can use the provided `results/provided_assembly.fna` file instead of your own output.
+    >This job will take about 3 minutes to complete.
 
-    Report the folllowing metrics from your assembly:
+!!! question "Part 3"
+
+    Use an appropriate tool to determine assembly statistics for your two assemblies file, using the file `reference/reference.fna` as your reference genome.
+
+    >If your assemblies do not complete in a reasonable amount of time, you can use the `results/provided_illumina.fna` `results/provided_nanopore.fna` file instead of your own output.
+
+    Report the folllowing metrics for each assembly:
 
     1. Number of contigs with length greater than or equal than 50 kbp.
-    1. The N50 value for the assembly.
-    1. Number of indels relative to the reference genome.
+    1. The number of misassemblies, and the misassembled contig length.
+    1. Fraction of the reference genome covered in the assemblies.
+    1. The number of indels in each assembly.
 
 ---
 
 ## Exercise 2
 
-Navigate to your instance of the `02_mapping/` folder. You have been provided with the following files:
+Navigate to your instance of the `02_polishing/` folder. You have been provided with the following file:
+
+!!! terminal "code"
+
+    ```
+    input_sequences.fna
+    ```
+
+!!! question "Question"
+
+    You have been provided with a draft assembly of a prokaryotic genome. Create predictions of the protein coding regions of the assembly using whichever tool you believe is appropriate.
+
+---
+
+## Exercise 3
+
+Navigate to your instance of the `03_mapping/` folder. You have been provided with the following files:
 
 !!! terminal "code"
 
@@ -94,22 +118,6 @@ Navigate to your instance of the `02_mapping/` folder. You have been provided wi
 
 ---
 
-## Exercise 3
-
-Navigate to your instance of the `03_gene_calling/` folder. You have been provided with the following file:
-
-!!! terminal "code"
-
-    ```
-    input_sequences.fna
-    ```
-
-!!! question "Question"
-
-    You have been provided with a draft assembly of a prokaryotic genome. Create predictions of the protein coding regions of the assembly using whichever tool you believe is appropriate.
-
----
-
 ## Exercise 4
 
 Navigate to your instance of the `04_classification_kraken2/` folder. You have been provided with the following files:
@@ -123,14 +131,14 @@ Navigate to your instance of the `04_classification_kraken2/` folder. You have b
 
 !!! question "Part 1"
 
-    Write a `slurm` script to execute a `kraken2` classification of the sequences provided in `inputs/input_sequences.fna`.
+    Run the `kraken2` classification of the sequences provided in `inputs/input_sequences.fna`.
 
     When selecting a database, use the `PlusPFP` database located at:
 
     !!! terminal "code"
 
         ```
-        /nesi/project/nesi03181/phel/databases/k2_pluspfp_16gb_20231009/
+        ~/level2/databases/k2_pluspfp/
         ```
 
     Check your notes carefully to make sure you understand how to direct `kraken2` towards this database.
@@ -151,26 +159,27 @@ Navigate to your instance of the `05_classification_diamond/` folder. You have b
 
     ```
     inputs/input_sequences.faa
+    reference/taxonomy.txt
     results/provided_diamond.txt
     ```
 
 !!! question "Part 1"
 
-    Write a `slurm` script to execute a `diamond` classification of the sequences provided in `inputs/input_sequences.faa`.
+    Run the `diamond` classification tool on the sequences provided in `inputs/input_sequences.faa`.
 
     When selecting a database, use the `uniprot_sprot.dmnd` database located at:
 
     !!! terminal "code"
 
         ```
-        /nesi/project/nesi03181/phel/databases/swissprot_dmnd/uniprot_sprot.dmnd
+        ~/level2/databases/swissprot_dmnd/uniprot_sprot.dmnd
         ```
 
 !!! question "Part 2"
 
-    Examine the outputs of the file `results/provided_diamond.txt`, remembering the [BLAST6 format](https://genomicsaotearoa.github.io/hts_workshop_mpi/level2/44_annotation_protein/#comparing-the-outputs) for column meaning.
+    Examine the outputs of the file `results/provided_diamond.txt`, remembering the [BLAST6 format](https://genomicsaotearoa.github.io/hts_workshop_mpi/level2/44_annotation_protein/#comparing-the-outputs) for column meaning. 
 
-    Based on the top hit results, determine the most likely genus or species of the organism from which these sequences were obtained. Create a text file containing your conclusion.
+    Based on the top hit results, identify which target(s) you believe are most probable for each query sequence. You can find taxonomic information for each target sequence in the `reference/taxonomy.txt` folder. Use the target sequence name to find the most likely genus or species of the organism from which these sequences were obtained. Create a text file containing your conclusion.
 
 ---
 
@@ -182,7 +191,7 @@ When you have completed all of the exercises, and you are happy with your result
 !!! terminal "code"
 
     ```bash
-    history > /nesi/project/nesi03181/phel/proficiency/USERNAME/history_log.txt
+    history > ~/level2_proficiency/history_log.txt
     ```
 
 ---
