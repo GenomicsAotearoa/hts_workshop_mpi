@@ -7,7 +7,7 @@
 !!! circle-info "Key information"
 
     * The aim is to complete each of the exercises before the end of the session.
-    * This testing is open book - you may use any materials from the level 1 or level 2 training and anything online.
+    * This testing is open book - you may use any materials from the level 2 training and anything online.
     * This testing is individual - please do not discuss your solutions with other trainees.
     * The tutors are here to help with significant technical issues such as loss of connection. *We are not here to help you identify tools or how to solve specific questions.*
 
@@ -44,7 +44,8 @@ Navigate to your instance of the `01_assembly/` folder. You have been provided w
     reads/illumina_R2.fq.gz
     reads/nanopore.fq.gz
     reference/reference.fna
-    results/provided_assembly.fna
+    results/provided_illumina.fna
+    results/provided_nanopore.fna
     ```
 
 !!! question "Part 1"
@@ -57,7 +58,7 @@ Navigate to your instance of the `01_assembly/` folder. You have been provided w
 
     Create a draft genome assembly from the Oxford Nanopore sequences from the `reads/` folder using an appropriate assembly tool.
 
-    >This job will take about 3 minutes to complete.
+    >This job will take about 5 minutes to complete.
 
 !!! question "Part 3"
 
@@ -81,13 +82,19 @@ Navigate to your instance of the `02_polishing/` folder. You have been provided 
 !!! terminal "code"
 
     ```
-    input_sequences.fna
+    resources/draft_asm.fna
+    resources/reads.fq.gz
+    reference/reference.fna
     ```
 
-!!! question "Question"
+!!! question "Part 1"
 
-    You have been provided with a draft assembly of a prokaryotic genome. Create predictions of the protein coding regions of the assembly using whichever tool you believe is appropriate.
+    Perform a round of polishing on the `draft_asm.fna` genome file using the reads available.
 
+!!! question "Part 2"
+
+    Use an appropriate tool to determine assembly statistics for the original assembly file and your revised versions using the file `reference/reference.fna` as your reference genome. Provide a quick comment (one sentence) on whether or not polishing improved the assembly based upon the mismatches and indel counts.
+ 
 ---
 
 ## Exercise 3
