@@ -71,7 +71,6 @@ Navigate to your instance of the `01_assembly/` folder. You have been provided w
     1. Number of contigs with length greater than or equal than 50 kbp.
     1. The number of misassemblies, and the misassembled contig length.
     1. Fraction of the reference genome covered in the assemblies.
-    1. The number of indels in each assembly.
 
 ---
 
