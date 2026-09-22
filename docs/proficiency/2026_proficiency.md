@@ -1,4 +1,4 @@
-# 2023 Level 2 proficiency testing
+# 2026 Level 2 proficiency testing
 
 !!! clock "time"
 
@@ -159,7 +159,7 @@ Navigate to your instance of the `05_classification_diamond/` folder. You have b
 
     ```
     inputs/input_sequences.faa
-    reference/taxonomy.txt
+    reference/uniprot_sprot.tax
     results/provided_diamond.txt
     ```
 
