@@ -185,7 +185,11 @@ Navigate to your instance of the `05_classification_diamond/` folder. You have b
 
     Examine the outputs of the file `results/provided_diamond.txt`, remembering the [BLAST6 format](https://genomicsaotearoa.github.io/hts_workshop_mpi/level2/44_annotation_protein/#comparing-the-outputs) for column meaning. 
 
-    Based on the top hit results, identify which target(s) you believe are most probable for each query sequence. You can find taxonomic information for each target sequence in the `reference/taxonomy.txt` folder. Use the target sequence name to find the most likely genus or species of the organism from which these sequences were obtained. Create a text file containing your conclusion.
+    Based on the top hit results, identify which target(s) you believe are most probable for each query sequence. You can find taxonomic information for each target sequence in the `reference/uniprot_sprot.tax` file. Use the target sequence name to find the most likely genus or species of the organism from which these sequences were obtained. Create a text file containing your conclusion.
+
+    !!! info "Selective reporting"
+
+        When looking up classification information in the `uniprot_sprot.tax` file you do not need to report every hit for each query. Use your judgement for which targets are *most likely* for each query, and just report these.
 
 ---
 
