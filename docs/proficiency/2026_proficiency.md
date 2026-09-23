@@ -76,7 +76,7 @@ Navigate to your instance of the `01_assembly/` folder. You have been provided w
 
 ## Exercise 2
 
-Navigate to your instance of the `02_polishing/` folder. You have been provided with the following file:
+Navigate to your instance of the `02_polish/` folder. You have been provided with the following file:
 
 !!! terminal "code"
 
